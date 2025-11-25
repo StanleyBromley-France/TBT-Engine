@@ -7,7 +7,7 @@ namespace Core.Units.Templates
     /// </summary>
     /// <remarks>
     /// Used as a blueprint when creating runtime <see cref="UnitInstance"/> instances
-    /// Stores stable identifiers, display name, and core <see cref="UnitStats"/>
+    /// Stores stable identifiers, display name, core <see cref="UnitStats"/> and a list of <see cref="Abilities.Ability"/>.
     /// </remarks>
     public class UnitTemplate
     {
@@ -17,20 +17,22 @@ namespace Core.Units.Templates
 
         public UnitStats BaseStats { get; set; }
 
-        // TODO: Add List<Ability> Abilities
+        public List<Abilities.Ability> Abilities { get; set; }
 
         public UnitTemplate()
         {
             Id = string.Empty;
             Name = string.Empty;
             BaseStats = new UnitStats();
+            Abilities = new List<Abilities.Ability>();
         }
 
-        public UnitTemplate(string id, string name, UnitStats baseStats)
+        public UnitTemplate(string id, string name, UnitStats baseStats, List<Abilities.Ability> abilities)
         {
             Id = id;
             Name = name;
             BaseStats = baseStats;
+            Abilities = abilities;
         }
     }
 }
