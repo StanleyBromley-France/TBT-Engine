@@ -1,0 +1,42 @@
+﻿namespace Core.Abilities;
+
+using Core.Effects.Templates;
+using Core.Abilities.Targeting;
+/// <summary>
+/// Defines an ability that can be executed by a unit, including its identity,
+/// category, cost, targeting rules, and associated effect templates.
+/// </summary>
+/// <remarks>
+/// Uses <see cref="AbilityCost"/> for resource requirements and
+/// <see cref="TargetingRules"/> to determine valid targets.
+/// Used to apply one or more <see cref="EffectTemplate"/> instances on a target.
+/// </remarks>
+public sealed class Ability
+{
+    public string Id { get; }
+    public string Name { get; }
+    public AbilityCategory Category { get; }
+    public AbilityCost Cost { get; }
+    public TargetingRules Targeting { get; }
+    public IReadOnlyList<EffectTemplate> Effects { get; }
+
+    /// <summary>
+    /// Creates a new ability using the specified identifiers, metadata, cost,
+    /// targeting configuration, and effects.
+    /// </summary>
+    public Ability(
+        string id,
+        string name,
+        AbilityCategory category,
+        AbilityCost cost,
+        TargetingRules targeting,
+        IEnumerable<EffectTemplate> effects)
+    {
+        Id = id;
+        Name = name;
+        Category = category;
+        Cost = cost;
+        Targeting = targeting;
+        Effects = new List<EffectTemplate>(effects);
+    }
+}
