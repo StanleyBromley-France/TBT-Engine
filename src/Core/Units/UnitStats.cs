@@ -19,11 +19,12 @@
         {
         }
 
-        public UnitStats(int maxHp, int movePoints, int armourPoints)
+        public UnitStats(int maxHp, int maxMana, int movePoints, int maxArmourPoints)
         {
             MaxHP = maxHp;
+            MaxManaPoints = maxMana;
             MovePoints = movePoints;
-            ArmourPoints = armourPoints;
+            ArmourPoints = maxArmourPoints;
         }
     }
 

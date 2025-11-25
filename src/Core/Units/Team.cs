@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Identifies which side a unit belongs to in a match
-=    /// </summary>
+    /// </summary>
     public enum Team
     {
         Attacker = 0,
