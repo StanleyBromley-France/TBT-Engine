@@ -2,8 +2,7 @@
 {
     /// <summary>
     /// Identifies which side a unit belongs to in a match
-    /// Used for turn sequencing, targeting rules, and win conditions
-    /// </summary>
+=    /// </summary>
     public enum Team
     {
         Attacker = 0,

@@ -2,14 +2,6 @@
 {
     /// <summary>
     /// Immutable representation of a coordinate on the map grid
-    /// Used by Unit and movement logic to describe locations in the battlefield
-    ///
-    /// Fields:
-    /// - X: Horizontal tile index
-    /// - Y: Vertical tile index
-    ///
-    /// Methods:
-    /// - ToString: Converts position to string
     /// </summary>
     public struct Position
     {
@@ -24,7 +16,6 @@
 
         /// <summary>
         /// Converts position to string
-        /// Used for UI/Logs
         /// </summary>
         public readonly override string ToString()
         {

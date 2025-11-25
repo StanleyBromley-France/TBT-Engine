@@ -1,27 +1,20 @@
-﻿namespace Core.Units
+﻿using Core.Units.Instances;
+
+namespace Core.Units.Templates
 {
     /// <summary>
     /// Defines the static, unchanging data for a unit type
     /// </summary>
     /// <remarks>
-    /// Used as a blueprint when creating runtime <see cref="Unit"/> instances
+    /// Used as a blueprint when creating runtime <see cref="UnitInstance"/> instances
     /// Stores stable identifiers, display name, and core <see cref="UnitStats"/>
     /// </remarks>
     public class UnitTemplate
     {
-        /// <summary>
-        /// Identifier for the template
-        /// </summary>
         public string Id { get; set; }
 
-        /// <summary>
-        /// Human-readable name for UI / logs
-        /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Base stats for units created from this template
-        /// </summary>
         public UnitStats BaseStats { get; set; }
 
         // TODO: Add List<Ability> Abilities
