@@ -1,6 +1,6 @@
 ﻿namespace Core.Effects.Instances;
-using Core;
 using Core.Effects.Templates;
+using Core.Game;
 
 /// <summary>
 /// Represents a single active effect applied from one unit to another,

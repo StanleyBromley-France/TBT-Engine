@@ -1,4 +1,6 @@
-﻿namespace Core.Effects.Templates;
+﻿using Core.Game;
+
+namespace Core.Effects.Templates;
 
 /// <summary>
 /// Serves as the base definition for an effect component, providing
