@@ -4,6 +4,7 @@ namespace Core.Game;
 
 using Units.Instances;
 using Effects.Instances;
+using Map.Grid;
 
 /// <summary>
 /// Represents the complete immutable state of the game at a specific moment in time.
@@ -30,7 +31,6 @@ public sealed class GameState
     public string ActiveUnitId { get; }
     public RngState Rng { get; }
 
-    // unitId → applied effects
     public ImmutableDictionary<string, ImmutableList<EffectInstance>> ActiveEffects { get; }
 
     public string Hash { get; }
@@ -53,7 +53,3 @@ public sealed class GameState
         Hash = hash;
     }
 }
-
-// temp forward declaration
-public sealed class Map { }
-
