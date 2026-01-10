@@ -41,11 +41,29 @@ public sealed class Map
         row >= 0 && row < Height;
 
     /// <summary>
-    /// Retrieves the tile at a given axial coordinate or null if outside.
+    /// Returns true if tile exists at given coord.
+    /// Retrieves the tile at a given axial coordinate or null if outside or doesnt exist and stores it in tile.
+    /// </summary>
+    public bool TryGetTile(HexCoord coord, out Tile tile)
+    {
+        tile = null!;
+
+        // Convert hex coord to offset indices (col, row)
+        var (col, row) = HexCoordConverter.ToOffset(coord);
+
+        // Bounds check against map storage
+        if (!IsInside(col, row))
+            return false;
+
+        tile = Tiles[col, row];
+        return tile != null;
+    }
+
+    /// <summary>
+    /// Retrieves the tile at a given axial coordinate or null if it doesnt exist.
     /// </summary>
     public Tile? GetTile(HexCoord coord)
     {
-        var (col, row) = HexCoordConverter.ToOffset(coord);
-        return IsInside(col, row) ? Tiles[col, row] : null;
+        return TryGetTile(coord, out var tile) ? tile : null;
     }
 }

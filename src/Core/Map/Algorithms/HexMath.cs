@@ -29,6 +29,23 @@ public static class HexMath
     }
 
     /// <summary>
+    /// Produces a sequence of coordinates extending from a starting position
+    /// in a given direction for a specified distance.
+    /// </summary>
+
+    public static IEnumerable<HexCoord> GetCoordsInRay(HexCoord from, HexDirection dir, int distance)
+    {
+        if (distance <= 0)
+            yield break;
+
+        var delta = DirectionVectors[(int)dir];
+
+        for (int i = 1; i <= distance; i++)
+        {
+            yield return new HexCoord(from.Q + delta.Q * i, from.R + delta.R * i);
+        }
+    }
+    /// <summary>
     /// Gets all six neighboring coordinates around a center tile.
     /// </summary>
     public static IEnumerable<HexCoord> GetNeighborCoords(HexCoord center)
@@ -52,7 +69,7 @@ public static class HexMath
     /// <summary>
     /// Produces all axial coordinates within a radius around a center tile.
     /// </summary>
-    public static IEnumerable<HexCoord> GetCoordsInCircle(HexCoord center, int radius)
+    public static IEnumerable<HexCoord> GetCoordsInRadius(HexCoord center, int radius)
     {
         for (int dq = -radius; dq <= radius; dq++)
         {

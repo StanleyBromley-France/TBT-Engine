@@ -166,7 +166,7 @@ namespace Core.Tests.Map
         {
             var center = new HexCoord(0, 0);
 
-            var result = HexMath.GetCoordsInCircle(center, 0).ToArray();
+            var result = HexMath.GetCoordsInRadius(center, 0).ToArray();
 
             Assert.Single(result);
             Assert.Equal(center, result[0]);
@@ -177,7 +177,7 @@ namespace Core.Tests.Map
         {
             var center = new HexCoord(0, 0);
 
-            var result = HexMath.GetCoordsInCircle(center, 1).ToArray();
+            var result = HexMath.GetCoordsInRadius(center, 1).ToArray();
 
             Assert.Equal(7, result.Length); // 1 center + 6 neighbors
 
@@ -193,7 +193,7 @@ namespace Core.Tests.Map
         {
             var center = new HexCoord(0, 0);
 
-            var result = HexMath.GetCoordsInCircle(center, 2).ToArray();
+            var result = HexMath.GetCoordsInRadius(center, 2).ToArray();
 
             // Known formula: 1 + 3r(r + 1) for radius r
             const int expectedCount = 19;
