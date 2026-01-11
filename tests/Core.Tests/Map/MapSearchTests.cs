@@ -2,7 +2,7 @@
 
 using Core.Map.Grid;
 using Core.Map.Algorithms;
-
+using Core.Types;
 public class MapSearchTests
 {
     private static Map CreateMap(int width, int height)

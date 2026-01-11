@@ -1,17 +1,17 @@
 ﻿namespace Core.Tests.Effects;
-using Game;
+using Core.Types;
 public class EffectInstanceTests
 {
     [Fact]
     public void CreateInstance_Initializes_From_Template()
     {
         var template = new TestEffectTemplate(
-            id: "effect-1",
+            id: new EffectTemplateId("test-effect"),
             name: "Test Effect",
             isHarmful: true,
             totalTicks: 3,
             maxStacks: 5,
-            components: new[] { new NoOpEffectComponent("comp-1") });
+            components: new[] { new NoOpEffectComponent(new EffectComponentTemplateId("comp-1")) });
 
         var instance = template.CreateInstance("source-1", "target-1");
 
@@ -50,12 +50,12 @@ public class EffectInstanceTests
     public void IncrementStack_Respects_MaxStacks()
     {
         var template = new TestEffectTemplate(
-            id: "effect-3",
+            id: new EffectTemplateId("effect-3"),
             name: "Stack Effect",
             isHarmful: false,
             totalTicks: 1,
             maxStacks: 2,
-            components: new[] { new NoOpEffectComponent("comp-1") });
+            components: new[] { new NoOpEffectComponent(new EffectComponentTemplateId("comp-1")) });
 
         var instance = template.CreateInstance("source", "target");
 

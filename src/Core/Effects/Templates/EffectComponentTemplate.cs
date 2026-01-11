@@ -2,15 +2,17 @@
 
 namespace Core.Effects.Templates;
 
+using Core.Types;
+
 /// <summary>
 /// Serves as the base definition for an effect component, providing
 /// identifiers and lifecycle behavior hooks for effect instances
 /// </summary>
 public abstract class EffectComponentTemplate
 {
-    public string Id { get; }
+    public EffectComponentTemplateId Id { get; }
 
-    protected EffectComponentTemplate(string id)
+    protected EffectComponentTemplate(EffectComponentTemplateId id)
     {
         Id = id;
     }

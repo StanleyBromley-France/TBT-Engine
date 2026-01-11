@@ -1,6 +1,7 @@
 ﻿using Core.Units;
 using Core.Units.Templates;
 using Core.Units.Instances;
+using Core.Types;
 
 namespace Core.Tests.Units;
 
@@ -15,7 +16,7 @@ public class UnitTests
 
     private static UnitTemplate CreateDefaultTemplate()
         => new UnitTemplate(
-            id: "default",
+            id: new UnitTemplateId("default"),
             name: "Default Unit",
             baseStats: CreateDefaultStats(),
             abilityIds: new[] { "BasicAttack" });
@@ -26,6 +27,7 @@ public class UnitTests
     {
         var template = CreateDefaultTemplate();
         var unit = new UnitInstance(
+            id: new UnitInstanceId(123),
             team: Team.Defender,
             template: template,
             startPosition: new Position(0, 0)
@@ -41,6 +43,7 @@ public class UnitTests
     {
         var template = CreateDefaultTemplate();
         var unit = new UnitInstance(
+            id: new UnitInstanceId(123),
             team: Team.Defender,
             template: template,
             startPosition: new Position(0, 0)
@@ -56,6 +59,7 @@ public class UnitTests
     {
         var template = CreateDefaultTemplate();
         var unit = new UnitInstance(
+            id: new UnitInstanceId(123),
             team: Team.Defender,
             template: template,
             startPosition: new Position(0, 0)

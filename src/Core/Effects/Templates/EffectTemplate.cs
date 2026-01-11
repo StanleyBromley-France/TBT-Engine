@@ -1,6 +1,6 @@
 ﻿namespace Core.Effects.Templates;
 using Core.Effects.Instances;
-
+using Core.Types;
 /// <summary>
 /// Defines the static data and behavior blueprint for an effect, including duration,
 /// stack limits, and its component templates
@@ -12,7 +12,7 @@ using Core.Effects.Instances;
 /// </remarks>
 public abstract class EffectTemplate
 {
-    public string Id { get; }
+    public EffectTemplateId Id { get; }
     public string Name { get; }
     public bool IsHarmful { get; }
     public int TotalTicks { get; }
@@ -24,7 +24,7 @@ public abstract class EffectTemplate
     /// Holds static data for effect instances
     /// </summary>
     protected EffectTemplate(
-        string id,
+        EffectTemplateId id,
         string name,
         bool isHarmful,
         int totalTicks,
@@ -44,7 +44,7 @@ public abstract class EffectTemplate
     /// </summary>
     public virtual EffectInstance CreateInstance(string sourceUnitId, string targetUnitId)
     {
-        var instanceId = Guid.NewGuid().ToString();
+        var instanceId = new EffectInstanceId(Guid.NewGuid().GetHashCode());
         return new EffectInstance(instanceId, this, sourceUnitId, targetUnitId);
     }
 }

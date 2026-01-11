@@ -5,9 +5,9 @@
 /// </summary>
 public readonly struct AbilityId : IEquatable<AbilityId>
 {
-    public readonly int Value;
+    public readonly string Value;
 
-    public AbilityId(int value)
+    public AbilityId(string value)
     {
         Value = value;
     }
@@ -17,9 +17,9 @@ public readonly struct AbilityId : IEquatable<AbilityId>
     public override bool Equals(object? obj) =>
         obj is AbilityId other && Equals(other);
 
-    public override int GetHashCode() => Value;
+    public override int GetHashCode() => Value.GetHashCode();
 
-    public override string ToString() => Value.ToString();
+    public override string ToString() => Value;
 
     public static bool operator ==(AbilityId left, AbilityId right) =>
         left.Equals(right);

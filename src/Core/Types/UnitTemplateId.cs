@@ -5,9 +5,9 @@
 /// </summary>
 public readonly struct UnitTemplateId : IEquatable<UnitTemplateId>
 {
-    public readonly int Value;
+    public readonly string Value;
 
-    public UnitTemplateId(int value)
+    public UnitTemplateId(string value)
     {
         Value = value;
     }
@@ -17,9 +17,9 @@ public readonly struct UnitTemplateId : IEquatable<UnitTemplateId>
     public override bool Equals(object? obj) =>
         obj is UnitTemplateId other && Equals(other);
 
-    public override int GetHashCode() => Value;
+    public override int GetHashCode() => Value.GetHashCode();
 
-    public override string ToString() => Value.ToString();
+    public override string ToString() => Value;
 
     public static bool operator ==(UnitTemplateId left, UnitTemplateId right) =>
         left.Equals(right);

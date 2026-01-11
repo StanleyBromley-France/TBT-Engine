@@ -1,11 +1,12 @@
 ﻿using Core.Effects.Templates;
 using Core.Game;
+using Core.Types;
 
 namespace Core.Tests.Effects;
 
 internal sealed class NoOpEffectComponent : EffectComponentTemplate
 {
-    public NoOpEffectComponent(string id) : base(id)
+    public NoOpEffectComponent(EffectComponentTemplateId id) : base(id)
     {
     }
 

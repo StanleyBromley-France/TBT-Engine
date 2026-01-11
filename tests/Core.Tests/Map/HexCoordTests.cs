@@ -1,6 +1,6 @@
 ﻿namespace Core.Tests.Map;
 
-using Core.Map.Grid;
+using Core.Types;
 
 public class HexCoordTests
 {

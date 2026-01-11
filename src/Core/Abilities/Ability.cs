@@ -2,6 +2,7 @@
 
 using Core.Effects.Templates;
 using Core.Abilities.Targeting;
+using Core.Types;
 /// <summary>
 /// Defines an ability that can be executed by a unit, including its identity,
 /// category, cost, targeting rules, and associated effect templates.
@@ -13,7 +14,7 @@ using Core.Abilities.Targeting;
 /// </remarks>
 public sealed class Ability
 {
-    public string Id { get; }
+    public AbilityId Id { get; }
     public string Name { get; }
     public AbilityCategory Category { get; }
     public AbilityCost Cost { get; }
@@ -25,7 +26,7 @@ public sealed class Ability
     /// targeting configuration, and effects.
     /// </summary>
     public Ability(
-        string id,
+        AbilityId id,
         string name,
         AbilityCategory category,
         AbilityCost cost,

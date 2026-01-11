@@ -1,4 +1,5 @@
-﻿using Core.Units.Instances;
+﻿using Core.Types;
+using Core.Units.Instances;
 
 namespace Core.Units.Templates
 {
@@ -11,7 +12,7 @@ namespace Core.Units.Templates
     /// </remarks>
     public class UnitTemplate
     {
-        public string Id { get; set; }
+        public UnitTemplateId Id { get; set; }
 
         public string Name { get; set; }
 
@@ -19,15 +20,7 @@ namespace Core.Units.Templates
 
         public String[] AbilityIds { get; set; }
 
-        public UnitTemplate()
-        {
-            Id = string.Empty;
-            Name = string.Empty;
-            BaseStats = new UnitStats();
-            AbilityIds = new String[0];
-        }
-
-        public UnitTemplate(string id, string name, UnitStats baseStats, String[] abilityIds)
+        public UnitTemplate(UnitTemplateId id, string name, UnitStats baseStats, String[] abilityIds)
         {
             Id = id;
             Name = name;

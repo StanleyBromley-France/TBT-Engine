@@ -2,6 +2,7 @@
 
 using Core.Map.Algorithms;
 using Core.Map.Grid;
+using Core.Types;
 public class HexMathTests
 {
     [Theory]

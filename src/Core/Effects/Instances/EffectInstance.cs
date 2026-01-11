@@ -1,7 +1,7 @@
 ﻿namespace Core.Effects.Instances;
 using Core.Effects.Templates;
 using Core.Game;
-
+using Core.Types;
 /// <summary>
 /// Represents a single active effect applied from one unit to another,
 /// tracking duration, stack count, and component behaviors
@@ -13,7 +13,7 @@ using Core.Game;
 /// </remarks>
 public sealed class EffectInstance
 {
-    public string InstanceId { get; }
+    public EffectInstanceId Id { get; }
     public EffectTemplate Template { get; }
     public string SourceUnitId { get; }
     public string TargetUnitId { get; }
@@ -27,12 +27,12 @@ public sealed class EffectInstance
     /// Starts with one stack
     /// </summary>
     public EffectInstance(
-        string instanceId,
+        EffectInstanceId id,
         EffectTemplate template,
         string sourceUnitId,
         string targetUnitId)
     {
-        InstanceId = instanceId;
+        Id = id;
         Template = template;
         SourceUnitId = sourceUnitId;
         TargetUnitId = targetUnitId;

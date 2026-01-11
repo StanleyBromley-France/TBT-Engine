@@ -1,11 +1,11 @@
 ﻿using Core.Effects.Templates;
-
+using Core.Types;
 namespace Core.Tests.Effects;
 
 internal sealed class TestEffectTemplate : EffectTemplate
 {
     public TestEffectTemplate(
-        string id,
+        EffectTemplateId id,
         string name,
         bool isHarmful,
         int totalTicks,

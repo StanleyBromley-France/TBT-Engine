@@ -2,6 +2,7 @@
 using Core.Abilities.Targeting;
 using Core.Effects.Templates;
 using Core.Tests.Effects;
+using Core.Types;
 
 namespace Core.Tests.Abilities;
 
@@ -20,17 +21,17 @@ public class AbilityTests
             includeSelf: false);
 
         var effectTemplate = new TestEffectTemplate(
-            id: "e1",
+            id: new EffectTemplateId("e1"),
             name: "E1",
             isHarmful: true,
             totalTicks: 1,
             maxStacks: 1,
-            components: new[] { new NoOpEffectComponent("c1") });
+            components: new[] { new NoOpEffectComponent(new EffectComponentTemplateId("c1")) });
 
         var sourceList = new List<EffectTemplate> { effectTemplate };
 
         var ability = new Ability(
-            id: "a1",
+            id: new AbilityId("a1"),
             name: "Ability 1",
             category: AbilityCategory.MeleeAttack,
             cost: cost,
