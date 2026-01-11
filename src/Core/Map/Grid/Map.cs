@@ -4,6 +4,7 @@ using Algorithms;
 
 /// <summary>
 /// Represents a hex grid composed of tiles stored in offset coordinates.
+/// Map is flat top odd q.
 /// </summary>
 public sealed class Map
 {
