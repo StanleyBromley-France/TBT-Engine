@@ -28,7 +28,7 @@ public class AbilityTests
             maxStacks: 1,
             components: new[] { new NoOpEffectComponent(new EffectComponentTemplateId("c1")) });
 
-        var sourceList = new List<EffectTemplate> { effectTemplate };
+        var sourceList = new List<EffectTemplateId> { effectTemplate.Id };
 
         var ability = new Ability(
             id: new AbilityId("a1"),
@@ -39,6 +39,6 @@ public class AbilityTests
             effects: sourceList);
 
         Assert.Single(ability.Effects);
-        Assert.Same(effectTemplate, ability.Effects[0]);
+        Assert.Equal(effectTemplate.Id, ability.Effects[0]);
     }
 }

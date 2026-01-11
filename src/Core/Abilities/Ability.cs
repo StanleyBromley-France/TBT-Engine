@@ -19,7 +19,7 @@ public sealed class Ability
     public AbilityCategory Category { get; }
     public AbilityCost Cost { get; }
     public TargetingRules Targeting { get; }
-    public IReadOnlyList<EffectTemplate> Effects { get; }
+    public IReadOnlyList<EffectTemplateId> Effects { get; }
 
     /// <summary>
     /// Creates a new ability using the specified identifiers, metadata, cost,
@@ -31,13 +31,13 @@ public sealed class Ability
         AbilityCategory category,
         AbilityCost cost,
         TargetingRules targeting,
-        IEnumerable<EffectTemplate> effects)
+        IEnumerable<EffectTemplateId> effects)
     {
         Id = id;
         Name = name;
         Category = category;
         Cost = cost;
         Targeting = targeting;
-        Effects = new List<EffectTemplate>(effects);
+        Effects = new List<EffectTemplateId>(effects);
     }
 }
