@@ -1,6 +1,7 @@
 ﻿namespace Core.Map.Algorithms;
 
 using Core.Map.Grid;
+using Core.Types;
 
 /// <summary>
 /// Provides common axial-coordinate hex math utilities.

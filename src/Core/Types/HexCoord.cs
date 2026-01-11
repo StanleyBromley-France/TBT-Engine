@@ -1,4 +1,4 @@
-﻿namespace Core.Map.Grid;
+﻿namespace Core.Types;
 
 /// <summary>
 /// Axial hex coordinate (q, r) used to locate tiles on the hex grid.

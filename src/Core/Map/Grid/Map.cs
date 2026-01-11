@@ -1,6 +1,7 @@
 ﻿namespace Core.Map.Grid;
 
 using Algorithms;
+using Core.Types;
 
 /// <summary>
 /// Represents a hex grid composed of tiles stored in offset coordinates.
