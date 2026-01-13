@@ -1,55 +1,86 @@
-﻿using System.Collections.Immutable;
-
-namespace Core.Game;
+﻿namespace Core.Game;
 
 using Domain.Units.Instances;
 using Domain.Effects.Instances;
 using Map.Grid;
+using Core.Domain.Types;
 
 /// <summary>
-/// Represents the complete immutable state of the game at a specific moment in time.
+/// Represents the complete mutable state of the game.
 /// This includes all units, the map, turn information, active effects, and the current RNG state.
-/// Every game update produces a new <see cref="GameState"/>, ensuring pure and deterministic progression.
 /// </summary>
 /// <remarks>
-/// <para>
-/// <see cref="GameState"/> is a value object. It contains no behavior beyond construction and 
-/// should never be mutated after creation. All modifications to the game (movement, ability use, 
-/// effect application, turn progression, etc.) must produce a new <see cref="GameState"/> instance.
-/// </para>
 /// <para>
 /// Because randomness is also stored explicitly through <see cref="RngState"/>, the entire combat 
 /// simulation becomes deterministic and replayable. Given the same initial state and the same 
 /// sequence of actions, the game will produce identical outcomes.
 /// </para>
 /// </remarks>
-public sealed class GameState
+public sealed class GameState : IReadOnlyGameState
 {
-    public Map Map { get; }
-    public ImmutableList<UnitInstance> UnitInstances { get; }
-    public Turn Turn { get; }
-    public string ActiveUnitId { get; }
-    public RngState Rng { get; }
+    public Map Map { get; set; } = null!;
+    public List<UnitInstance> UnitInstances { get; set; } = new();
+    public Dictionary<UnitInstanceId, List<EffectInstance>> ActiveEffects { get; set; } = new();
+    public Turn Turn { get; set; } = null!;
+    public UnitInstanceId ActiveUnitId { get; set; }
+    public RngState Rng { get; set; } = null!;
 
-    public ImmutableDictionary<string, ImmutableList<EffectInstance>> ActiveEffects { get; }
-
-    public string Hash { get; }
-
+    // IReadOnlyGameState projections
+    IReadOnlyList<UnitInstance> IReadOnlyGameState.UnitInstances => UnitInstances;
+    IReadOnlyDictionary<UnitInstanceId, IReadOnlyList<EffectInstance>> IReadOnlyGameState.ActiveEffects =>
+        new ReadOnlyEffectsView(ActiveEffects);
     public GameState(
         Map map,
-        ImmutableList<UnitInstance> unitInstances,
+        List<UnitInstance> unitInstances,
+        Dictionary<UnitInstanceId, List<EffectInstance>> activeEffects,
         Turn turn,
-        string activeUnitId,
-        RngState rng,
-        ImmutableDictionary<string, ImmutableList<EffectInstance>> activeEffects,
-        string hash = "")
+        UnitInstanceId activeUnitId,
+        RngState rng)
     {
-        Map = map;
-        UnitInstances = unitInstances;
-        Turn = turn;
+        Map = map ?? throw new ArgumentNullException(nameof(map));
+        UnitInstances = unitInstances ?? throw new ArgumentNullException(nameof(unitInstances));
+        ActiveEffects = activeEffects ?? throw new ArgumentNullException(nameof(activeEffects));
+        Turn = turn ?? throw new ArgumentNullException(nameof(turn));
         ActiveUnitId = activeUnitId;
-        Rng = rng;
-        ActiveEffects = activeEffects;
-        Hash = hash;
+        Rng = rng ?? throw new ArgumentNullException(nameof(rng));
+    }
+
+    private sealed class ReadOnlyEffectsView : IReadOnlyDictionary<UnitInstanceId, IReadOnlyList<EffectInstance>>
+    {
+        private readonly Dictionary<UnitInstanceId, List<EffectInstance>> _inner;
+
+        public ReadOnlyEffectsView(Dictionary<UnitInstanceId, List<EffectInstance>> inner) => _inner = inner;
+
+        public IEnumerable<UnitInstanceId> Keys => _inner.Keys;
+        public IEnumerable<IReadOnlyList<EffectInstance>> Values => ToValues();
+        public int Count => _inner.Count;
+
+        public IReadOnlyList<EffectInstance> this[UnitInstanceId key] => _inner[key];
+
+        public bool ContainsKey(UnitInstanceId key) => _inner.ContainsKey(key);
+        public bool TryGetValue(UnitInstanceId key, out IReadOnlyList<EffectInstance> value)
+        {
+            if (_inner.TryGetValue(key, out var list))
+            {
+                value = list;
+                return true;
+            }
+            value = null!;
+            return false;
+        }
+
+        public IEnumerator<KeyValuePair<UnitInstanceId, IReadOnlyList<EffectInstance>>> GetEnumerator()
+        {
+            foreach (var kv in _inner)
+                yield return new KeyValuePair<UnitInstanceId, IReadOnlyList<EffectInstance>>(kv.Key, kv.Value);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+
+        private IEnumerable<IReadOnlyList<EffectInstance>> ToValues()
+        {
+            foreach (var kv in _inner)
+                yield return kv.Value;
+        }
     }
 }
