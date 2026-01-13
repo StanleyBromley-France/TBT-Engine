@@ -1,6 +1,6 @@
 ﻿namespace Core.Map.Algorithms;
 
-using Core.Types;
+using Core.Domain.Types;
 using Map.Grid;
 
 /// <summary>

@@ -1,0 +1,18 @@
+﻿using Core.Domain.Effects.Templates;
+using Core.Domain.Types;
+
+namespace Core.Tests.Domain.Effects;
+
+internal sealed class TestEffectTemplate : EffectTemplate
+{
+    public TestEffectTemplate(
+        EffectTemplateId id,
+        string name,
+        bool isHarmful,
+        int totalTicks,
+        int maxStacks,
+        IEnumerable<EffectComponentTemplate> components)
+        : base(id, name, isHarmful, totalTicks, maxStacks, components)
+    {
+    }
+}

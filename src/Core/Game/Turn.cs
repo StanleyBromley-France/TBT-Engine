@@ -1,6 +1,6 @@
 ﻿namespace Core.Game;
 
-using Units;
+using Core.Domain.Units;
 
 /// <summary>
 /// Represents the active team and turn index for the current moment in the match.

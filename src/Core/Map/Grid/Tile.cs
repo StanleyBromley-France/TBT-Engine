@@ -1,6 +1,7 @@
 ﻿namespace Core.Map.Grid;
 
 using Algorithms;
+using Core.Map.Algorithms;
 
 /// <summary>
 /// Represents a single hex tile on the map.

@@ -2,8 +2,8 @@
 
 namespace Core.Game;
 
-using Units.Instances;
-using Effects.Instances;
+using Domain.Units.Instances;
+using Domain.Effects.Instances;
 using Map.Grid;
 
 /// <summary>

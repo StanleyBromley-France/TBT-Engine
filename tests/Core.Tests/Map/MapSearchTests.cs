@@ -1,8 +1,9 @@
 ﻿namespace Core.Tests.Map;
 
-using Core.Map.Grid;
+using Core.Domain.Types;
 using Core.Map.Algorithms;
-using Core.Types;
+using Core.Map.Grid;
+
 public class MapSearchTests
 {
     private static Map CreateMap(int width, int height)

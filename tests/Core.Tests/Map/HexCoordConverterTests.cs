@@ -1,7 +1,8 @@
 ﻿namespace Core.Tests.Map;
 
+using Core.Domain.Types;
 using Core.Map.Algorithms;
-using Core.Types;
+
 public class HexCoordConverterTests
     {
         [Theory]
