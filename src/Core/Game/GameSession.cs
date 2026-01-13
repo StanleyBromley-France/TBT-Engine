@@ -10,10 +10,11 @@ public sealed class GameSession
 {
     public TemplateRegistry Content { get; }
     public GameState State { get; }
-
+    public DeterministicRng Rng { get; }
     public GameSession(TemplateRegistry content, GameState initialState)
     {
         Content = content ?? throw new ArgumentNullException(nameof(content));
         State = initialState ?? throw new ArgumentNullException(nameof(initialState));
+        Rng = new DeterministicRng();
     }
 }
