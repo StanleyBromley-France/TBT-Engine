@@ -1,4 +1,6 @@
-﻿namespace Core.Domain.Units;
+﻿using Core.Domain.Units.Instances.ReadOnly;
+
+namespace Core.Domain.Units.Instances.Mutable;
 
 /// <summary>
 /// UnitDerivedStats represent computed, non-authoritative stat values for a unit.

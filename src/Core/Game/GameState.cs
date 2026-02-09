@@ -4,6 +4,7 @@ using Domain.Units.Instances;
 using Domain.Effects.Instances;
 using Map.Grid;
 using Core.Domain.Types;
+using Core.Domain.Units.Instances.Mutable;
 
 /// <summary>
 /// Represents the complete mutable state of the game.

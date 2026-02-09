@@ -1,6 +1,6 @@
 ﻿using Core.Domain.Types;
 using Core.Domain.Units;
-using Core.Domain.Units.Instances;
+using Core.Domain.Units.Instances.Mutable;
 
 namespace Core.Domain.Units.Templates
 {
@@ -13,13 +13,13 @@ namespace Core.Domain.Units.Templates
     /// </remarks>
     public class UnitTemplate
     {
-        public UnitTemplateId Id { get; set; }
+        public UnitTemplateId Id { get; }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public UnitBaseStats BaseStats { get; set; }
+        public UnitBaseStats BaseStats { get; }
 
-        public AbilityId[] AbilityIds { get; set; }
+        public AbilityId[] AbilityIds { get; }
 
         public UnitTemplate(UnitTemplateId id, string name, UnitBaseStats baseStats, AbilityId[] abilityIds)
         {

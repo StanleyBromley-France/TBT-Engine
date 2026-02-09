@@ -1,4 +1,6 @@
-﻿namespace Core.Domain.Units;
+﻿using Core.Domain.Units.Instances.ReadOnly;
+
+namespace Core.Domain.Units.Instances.Mutable;
 
 /// <summary>
 /// UnitResources represent mutable, runtime-only values for a unit.

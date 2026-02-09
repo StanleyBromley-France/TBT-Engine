@@ -5,12 +5,12 @@
 /// </summary>
 public class UnitBaseStats
 {
-    public int MaxHP { get; private set; }
-    public int MaxManaPoints { get; private set; }
-    public int MovePoints { get; private set; }
-    public int DefaultActionPoints { get; private set; } = 2;
-    public int ArmourPoints { get; private set; }
-    public int MagicResistance { get; private set; }
+    public int MaxHP { get; }
+    public int MaxManaPoints { get; }
+    public int MovePoints { get; }
+    public int DefaultActionPoints { get; } = 2;
+    public int ArmourPoints { get; }
+    public int MagicResistance { get; }
     public UnitBaseStats(int maxHp, int maxMana, int movePoints, int armourPoints, int magicResistance)
     {
         MaxHP = maxHp;

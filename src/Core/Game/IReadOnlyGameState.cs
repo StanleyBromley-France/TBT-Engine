@@ -1,5 +1,6 @@
 ﻿namespace Core.Game;
 
+using Core.Domain.Units.Instances.Mutable;
 using Domain.Effects.Instances;
 using Domain.Types;
 using Domain.Units.Instances;

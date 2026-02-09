@@ -1,7 +1,7 @@
-﻿namespace Core.Domain.Units.Instances;
+﻿namespace Core.Domain.Units.Instances.Mutable;
 
 using Core.Domain.Types;
-using Core.Domain.Units;
+using Core.Domain.Units.Instances.ReadOnly;
 using Core.Domain.Units.Templates;
 
 /// <summary>

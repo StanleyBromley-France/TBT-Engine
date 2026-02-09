@@ -1,4 +1,6 @@
-﻿namespace Core.Domain.Units;
+﻿using Core.Domain.Units.Instances.Mutable;
+
+namespace Core.Domain.Units.Instances.ReadOnly;
 
 /// <summary>
 /// Read-only view of a unit’s <see cref="UnitDerivedStats"/>.
