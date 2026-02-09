@@ -18,7 +18,7 @@ public sealed class Ability
     public AbilityId Id { get; }
     public string Name { get; }
     public AbilityCategory Category { get; }
-    public AbilityCost Cost { get; }
+    public int ManaCost { get; }
     public TargetingRules Targeting { get; }
     public IReadOnlyList<EffectTemplateId> Effects { get; }
 
@@ -30,14 +30,14 @@ public sealed class Ability
         AbilityId id,
         string name,
         AbilityCategory category,
-        AbilityCost cost,
+        int cost,
         TargetingRules targeting,
         IEnumerable<EffectTemplateId> effects)
     {
         Id = id;
         Name = name;
         Category = category;
-        Cost = cost;
+        ManaCost = cost;
         Targeting = targeting;
         Effects = new List<EffectTemplateId>(effects);
     }

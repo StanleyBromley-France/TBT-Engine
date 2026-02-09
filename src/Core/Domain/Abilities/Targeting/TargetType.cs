@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Domain.Abilities.Targeting;
+﻿namespace Core.Domain.Abilities.Targeting;
 
 /// Identifies the kinds of targets an ability can select, such as its user,
 /// allies, enemies, or an area on the map.

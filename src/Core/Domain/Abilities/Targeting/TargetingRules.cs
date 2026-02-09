@@ -1,11 +1,4 @@
-﻿using Core.Domain.Abilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Domain.Abilities.Targeting;
+﻿namespace Core.Domain.Abilities.Targeting;
 
 /// <summary>
 /// Describes how an ability selects valid targets
@@ -21,7 +14,6 @@ public sealed class TargetingRules
     public bool RequiresLineOfSight { get; }
     public IReadOnlyList<TargetType> AllowedTargets { get; }
     public AreaPattern? Pattern { get; }
-    public bool IncludeSelf { get; }
 
     /// <summary>
     /// Initializes targeting rules with distance, visibility, allowed targets,
@@ -38,6 +30,5 @@ public sealed class TargetingRules
         RequiresLineOfSight = requiresLineOfSight;
         AllowedTargets = new List<TargetType>(allowedTargets);
         Pattern = areaPattern;
-        IncludeSelf = includeSelf;
     }
 }

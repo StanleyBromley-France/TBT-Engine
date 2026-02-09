@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Domain.Abilities.Targeting;
+﻿namespace Core.Domain.Abilities.Targeting;
 
 /// <summary>
 /// Defines the parameters of an ability's area of effect,
