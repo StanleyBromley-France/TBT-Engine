@@ -9,7 +9,7 @@ namespace Core.Domain.Units.Templates
     /// </summary>
     /// <remarks>
     /// Used as a blueprint when creating runtime <see cref="UnitInstance"/> instances
-    /// Stores stable identifiers, display name, core <see cref="UnitStats"/> and an array of <see cref="Abilities.Ability"/> Id strings.
+    /// Stores stable identifiers, display name, core <see cref="UnitBaseStats"/> and an array of <see cref="Abilities.Ability"/> Ids.
     /// </remarks>
     public class UnitTemplate
     {
@@ -17,11 +17,11 @@ namespace Core.Domain.Units.Templates
 
         public string Name { get; set; }
 
-        public UnitStats BaseStats { get; set; }
+        public UnitBaseStats BaseStats { get; set; }
 
-        public String[] AbilityIds { get; set; }
+        public AbilityId[] AbilityIds { get; set; }
 
-        public UnitTemplate(UnitTemplateId id, string name, UnitStats baseStats, String[] abilityIds)
+        public UnitTemplate(UnitTemplateId id, string name, UnitBaseStats baseStats, AbilityId[] abilityIds)
         {
             Id = id;
             Name = name;

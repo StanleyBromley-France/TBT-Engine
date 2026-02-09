@@ -5,57 +5,58 @@ using Core.Domain.Units;
 using Core.Domain.Units.Templates;
 
 /// <summary>
-/// Represents a single runtime instance of a unit on the battlefield
+/// Represents a single runtime instance of a unit on the battlefield.
 /// </summary>
 /// <remarks>
 /// <para>
 /// Stores all temporary, changing values associated with a unit during a match
-/// while referencing a <see cref="UnitTemplate"/> for its base data
+/// while referencing a <see cref="UnitTemplate"/> for its base data.
+/// </para>
+/// <para>
+/// This type is exposed publicly only through its read-only interface.
+/// Direct mutation is restricted to GameMutationContext, which operates on the
+/// concrete UnitInstance and its mutable subcomponents.
 /// </para>
 /// </remarks>
-public class UnitInstance
+
+public class UnitInstance : IReadOnlyUnitInstance
 {
-    public UnitInstanceId Id { get; set; }
+    public UnitInstanceId Id { get; }
+    public TeamId Team { get; }
+    public UnitTemplate Template { get; }
 
-    public Team Team { get; set; }
+    public UnitResources Resources { get; }
+    public UnitDerivedStats DerivedStats { get; }
 
-    public UnitTemplate Template { get; set; }
+    public HexCoord Position { get; internal set; }
 
-    public int CurrentHP { get; set; }
+    public bool IsAlive => Resources.HP > 0;
 
-    public int CurrentActionPoints { get; set; }
+    // Interface projection
+    IReadOnlyUnitResources IReadOnlyUnitInstance.Resources => Resources;
+    IReadOnlyUnitDerivedStats IReadOnlyUnitInstance.DerivedStats => DerivedStats;
 
-    public int CurrentManaPoints { get; set; }
-
-    public Position Position { get; set; }
-
-    /// <summary>
-    /// Restores this unit's action points to its default value
-    /// Should be called at the start of a teams turn
-    /// </summary>
-    public void ResetActionPoints()
-    {
-        CurrentActionPoints = Template.BaseStats.DefaultActionPoints;
-    }
-
-    /// <summary>
-    /// Is this unit still alive?
-    /// </summary>
-    public bool IsAlive
-    {
-        get { return CurrentHP > 0; }
-    }
-
-    public UnitInstance(UnitInstanceId id, Team team, UnitTemplate template, Position startPosition)
+    public UnitInstance(
+        UnitInstanceId id,
+        TeamId team,
+        UnitTemplate template,
+        HexCoord position)
     {
         Id = id;
         Team = team;
         Template = template;
-        Position = startPosition;
+        Position = position;
 
-        CurrentHP = template.BaseStats.MaxHP;
-        CurrentActionPoints = template.BaseStats.DefaultActionPoints;
-        CurrentManaPoints = template.BaseStats.MaxManaPoints;
+        Resources = new UnitResources(
+            template.BaseStats.MaxHP,
+            template.BaseStats.MovePoints,
+            template.BaseStats.DefaultActionPoints,
+            template.BaseStats.MaxManaPoints
+        );
+
+        DerivedStats = new UnitDerivedStats(
+            template.BaseStats.MagicResistance,
+            template.BaseStats.ArmourPoints
+        );
     }
 }
-

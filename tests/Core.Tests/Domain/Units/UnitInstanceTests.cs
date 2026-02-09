@@ -7,8 +7,8 @@ namespace Core.Tests.Domain.Units;
 
 public class UnitTests
 {
-    private static UnitStats CreateDefaultStats()
-        => new UnitStats(
+    private static UnitBaseStats CreateDefaultStats()
+        => new UnitBaseStats(
             maxHp: 100,
             movePoints: 3,
             maxMana: 20,
