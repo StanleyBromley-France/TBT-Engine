@@ -15,12 +15,13 @@ using Core.Domain.Effects.Templates;
 /// </remarks>
 public sealed class Ability
 {
+    private readonly EffectTemplateId[] _effects;
     public AbilityId Id { get; }
     public string Name { get; }
     public AbilityCategory Category { get; }
     public int ManaCost { get; }
     public TargetingRules Targeting { get; }
-    public IReadOnlyList<EffectTemplateId> Effects { get; }
+    public IReadOnlyList<EffectTemplateId> Effects => _effects;
 
     /// <summary>
     /// Creates a new ability using the specified identifiers, metadata, cost,
@@ -39,6 +40,6 @@ public sealed class Ability
         Category = category;
         ManaCost = cost;
         Targeting = targeting;
-        Effects = new List<EffectTemplateId>(effects);
+        _effects = effects.ToArray();
     }
 }

@@ -10,9 +10,10 @@
 /// </remarks>
 public sealed class TargetingRules
 {
+    private readonly TargetType[] _allowedTargets;
     public int Range { get; }
     public bool RequiresLineOfSight { get; }
-    public IReadOnlyList<TargetType> AllowedTargets { get; }
+    public IReadOnlyList<TargetType> AllowedTargets => _allowedTargets;
     public AreaPattern? Pattern { get; }
 
     /// <summary>
@@ -23,12 +24,11 @@ public sealed class TargetingRules
         int range,
         bool requiresLineOfSight,
         IEnumerable<TargetType> allowedTargets,
-        AreaPattern? areaPattern = null,
-        bool includeSelf = false)
+        AreaPattern? areaPattern = null)
     {
         Range = range;
         RequiresLineOfSight = requiresLineOfSight;
-        AllowedTargets = new List<TargetType>(allowedTargets);
+        _allowedTargets = allowedTargets.ToArray();
         Pattern = areaPattern;
     }
 }
