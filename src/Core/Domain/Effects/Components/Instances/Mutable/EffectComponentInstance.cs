@@ -5,7 +5,7 @@ using Core.Domain.Effects.Instances;
 
 using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Types;
-using Core.Engine;
+using Core.Engine.Mutation;
 
 /// <summary>
 /// Base class for all runtime effect component instances.

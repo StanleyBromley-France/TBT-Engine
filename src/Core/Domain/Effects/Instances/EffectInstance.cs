@@ -3,7 +3,7 @@
 using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Effects.Templates;
 using Core.Domain.Types;
-using Core.Engine;
+using Core.Engine.Mutation;
 using Core.Game;
 
 /// <summary>
@@ -23,8 +23,8 @@ public sealed class EffectInstance
     public EffectTemplate Template { get; }
     public UnitInstanceId SourceUnitId { get; }
     public UnitInstanceId TargetUnitId { get; }
-    public int RemainingTicks { get; private set; }
-    public int CurrentStacks { get; private set; }
+    public int RemainingTicks { get; set; }
+    public int CurrentStacks { get; set; }
     public IReadOnlyList<EffectComponentInstance> Components => _components;
     /// <summary>
     /// Creates a new effect instance using the given template and unit IDs. 
