@@ -1,15 +1,14 @@
 ﻿namespace Core.Game;
 
-using Core.Domain.Units.Instances.Mutable;
+using Core.Domain.Units.Instances.ReadOnly;
 using Domain.Effects.Instances;
 using Domain.Types;
-using Domain.Units.Instances;
 using Map.Grid;
 
 public interface IReadOnlyGameState
 {
     Map Map { get; }
-    IReadOnlyList<UnitInstance> UnitInstances { get; }
+    IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance> UnitInstances { get; }
     IReadOnlyDictionary<UnitInstanceId, IReadOnlyList<EffectInstance>> ActiveEffects { get; }
     Turn Turn { get; }
     UnitInstanceId ActiveUnitId { get; }

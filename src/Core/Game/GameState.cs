@@ -5,6 +5,7 @@ using Domain.Effects.Instances;
 using Map.Grid;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
+using Core.Domain.Units.Instances.ReadOnly;
 
 /// <summary>
 /// Represents the complete mutable state of the game.
@@ -20,19 +21,21 @@ using Core.Domain.Units.Instances.Mutable;
 public sealed class GameState : IReadOnlyGameState
 {
     public Map Map { get; set; } = null!;
-    public List<UnitInstance> UnitInstances { get; set; } = new();
+    public Dictionary<UnitInstanceId, UnitInstance> UnitInstances { get; set; } = new();
     public Dictionary<UnitInstanceId, List<EffectInstance>> ActiveEffects { get; set; } = new();
     public Turn Turn { get; set; } = null!;
     public UnitInstanceId ActiveUnitId { get; set; }
     public RngState Rng { get; set; } = null!;
 
     // IReadOnlyGameState projections
-    IReadOnlyList<UnitInstance> IReadOnlyGameState.UnitInstances => UnitInstances;
+
+    IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance>IReadOnlyGameState.UnitInstances => 
+        new ReadOnlyUnitsView(UnitInstances);
     IReadOnlyDictionary<UnitInstanceId, IReadOnlyList<EffectInstance>> IReadOnlyGameState.ActiveEffects =>
         new ReadOnlyEffectsView(ActiveEffects);
     public GameState(
         Map map,
-        List<UnitInstance> unitInstances,
+        Dictionary<UnitInstanceId, UnitInstance> unitInstances,
         Dictionary<UnitInstanceId, List<EffectInstance>> activeEffects,
         Turn turn,
         UnitInstanceId activeUnitId,
@@ -83,5 +86,49 @@ public sealed class GameState : IReadOnlyGameState
             foreach (var kv in _inner)
                 yield return kv.Value;
         }
+    }
+
+    private sealed class ReadOnlyUnitsView : IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance>
+    {
+        private readonly Dictionary<UnitInstanceId, UnitInstance> _inner;
+
+        public ReadOnlyUnitsView(Dictionary<UnitInstanceId, UnitInstance> inner) => _inner = inner;
+
+        public IEnumerable<UnitInstanceId> Keys => _inner.Keys;
+
+        public IEnumerable<IReadOnlyUnitInstance> Values
+        {
+            get
+            {
+                foreach (var kv in _inner)
+                    yield return kv.Value;
+            }
+        }
+
+        public int Count => _inner.Count;
+
+        public IReadOnlyUnitInstance this[UnitInstanceId key] => _inner[key];
+
+        public bool ContainsKey(UnitInstanceId key) => _inner.ContainsKey(key);
+
+        public bool TryGetValue(UnitInstanceId key, out IReadOnlyUnitInstance value)
+        {
+            if (_inner.TryGetValue(key, out var unit))
+            {
+                value = unit;
+                return true;
+            }
+
+            value = null!;
+            return false;
+        }
+
+        public IEnumerator<KeyValuePair<UnitInstanceId, IReadOnlyUnitInstance>> GetEnumerator()
+        {
+            foreach (var kv in _inner)
+                yield return new KeyValuePair<UnitInstanceId, IReadOnlyUnitInstance>(kv.Key, kv.Value);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
