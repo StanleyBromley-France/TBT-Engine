@@ -1,4 +1,6 @@
-﻿namespace Core.Game;
+﻿using Core.Game;
+
+namespace Core.Engine.Random;
 
 /// <summary>
 /// Stateless deterministic RNG that derives values from an immutable
