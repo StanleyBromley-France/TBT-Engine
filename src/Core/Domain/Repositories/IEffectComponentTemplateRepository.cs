@@ -2,6 +2,7 @@
 
 using Types;
 using Effects.Templates;
+using Core.Domain.Effects.Components.Templates;
 
 /// <summary>
 /// Provides read-only access to compiled and validated <see cref="EffectComponentTemplate"/> definitions.
