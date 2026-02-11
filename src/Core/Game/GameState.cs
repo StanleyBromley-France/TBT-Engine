@@ -21,9 +21,9 @@ using Core.Domain.Units.Instances.ReadOnly;
 public sealed class GameState : IReadOnlyGameState
 {
     public Map Map { get; set; } = null!;
-    public Dictionary<UnitInstanceId, UnitInstance> UnitInstances { get; set; } = new();
-    public Dictionary<UnitInstanceId, List<EffectInstance>> ActiveEffects { get; set; } = new();
-    public Turn Turn { get; set; } = null!;
+    public Dictionary<UnitInstanceId, UnitInstance> UnitInstances { get; set; }
+    public Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>> ActiveEffects { get; set; }
+    public Turn Turn { get; set; }
     public UnitInstanceId ActiveUnitId { get; set; }
     public RngState Rng { get; set; } = null!;
 
@@ -31,12 +31,14 @@ public sealed class GameState : IReadOnlyGameState
 
     IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance>IReadOnlyGameState.UnitInstances => 
         new ReadOnlyUnitsView(UnitInstances);
-    IReadOnlyDictionary<UnitInstanceId, IReadOnlyList<EffectInstance>> IReadOnlyGameState.ActiveEffects =>
+
+    IReadOnlyDictionary<UnitInstanceId, IReadOnlyDictionary<EffectInstanceId, EffectInstance>> IReadOnlyGameState.ActiveEffects =>
         new ReadOnlyEffectsView(ActiveEffects);
+
     public GameState(
         Map map,
         Dictionary<UnitInstanceId, UnitInstance> unitInstances,
-        Dictionary<UnitInstanceId, List<EffectInstance>> activeEffects,
+        Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>> activeEffects,
         Turn turn,
         UnitInstanceId activeUnitId,
         RngState rng)
@@ -44,50 +46,64 @@ public sealed class GameState : IReadOnlyGameState
         Map = map ?? throw new ArgumentNullException(nameof(map));
         UnitInstances = unitInstances ?? throw new ArgumentNullException(nameof(unitInstances));
         ActiveEffects = activeEffects ?? throw new ArgumentNullException(nameof(activeEffects));
-        Turn = turn ?? throw new ArgumentNullException(nameof(turn));
+        Turn = turn;
         ActiveUnitId = activeUnitId;
         Rng = rng ?? throw new ArgumentNullException(nameof(rng));
     }
 
-    private sealed class ReadOnlyEffectsView : IReadOnlyDictionary<UnitInstanceId, IReadOnlyList<EffectInstance>>
+    private sealed class ReadOnlyEffectsView : IReadOnlyDictionary<UnitInstanceId, IReadOnlyDictionary<EffectInstanceId, EffectInstance>>
     {
-        private readonly Dictionary<UnitInstanceId, List<EffectInstance>> _inner;
+        private readonly Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>> _inner;
 
-        public ReadOnlyEffectsView(Dictionary<UnitInstanceId, List<EffectInstance>> inner) => _inner = inner;
+        public ReadOnlyEffectsView(
+            Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>> inner)
+        {
+            _inner = inner;
+        }
 
         public IEnumerable<UnitInstanceId> Keys => _inner.Keys;
-        public IEnumerable<IReadOnlyList<EffectInstance>> Values => ToValues();
+
+        public IEnumerable<IReadOnlyDictionary<EffectInstanceId, EffectInstance>> Values
+        {
+            get
+            {
+                foreach (var kv in _inner)
+                    yield return kv.Value;
+            }
+        }
+
         public int Count => _inner.Count;
 
-        public IReadOnlyList<EffectInstance> this[UnitInstanceId key] => _inner[key];
+        public IReadOnlyDictionary<EffectInstanceId, EffectInstance> this[UnitInstanceId key]
+            => _inner[key];
 
         public bool ContainsKey(UnitInstanceId key) => _inner.ContainsKey(key);
-        public bool TryGetValue(UnitInstanceId key, out IReadOnlyList<EffectInstance> value)
+
+        public bool TryGetValue(
+            UnitInstanceId key,
+            out IReadOnlyDictionary<EffectInstanceId, EffectInstance> value)
         {
-            if (_inner.TryGetValue(key, out var list))
+            if (_inner.TryGetValue(key, out var dict))
             {
-                value = list;
+                value = dict;
                 return true;
             }
+
             value = null!;
             return false;
         }
 
-        public IEnumerator<KeyValuePair<UnitInstanceId, IReadOnlyList<EffectInstance>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<UnitInstanceId, IReadOnlyDictionary<EffectInstanceId, EffectInstance>>>
+            GetEnumerator()
         {
             foreach (var kv in _inner)
-                yield return new KeyValuePair<UnitInstanceId, IReadOnlyList<EffectInstance>>(kv.Key, kv.Value);
+                yield return new KeyValuePair<UnitInstanceId, IReadOnlyDictionary<EffectInstanceId, EffectInstance>>(
+                    kv.Key,
+                    kv.Value);
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
-
-        private IEnumerable<IReadOnlyList<EffectInstance>> ToValues()
-        {
-            foreach (var kv in _inner)
-                yield return kv.Value;
-        }
     }
-
     private sealed class ReadOnlyUnitsView : IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance>
     {
         private readonly Dictionary<UnitInstanceId, UnitInstance> _inner;
