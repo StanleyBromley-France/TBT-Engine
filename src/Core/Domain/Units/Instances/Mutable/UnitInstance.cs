@@ -26,7 +26,7 @@ public class UnitInstance : IReadOnlyUnitInstance
     public UnitTemplate Template { get; }
 
     public UnitResources Resources { get; }
-    public UnitDerivedStats DerivedStats { get; }
+    public UnitDerivedStats DerivedStats { get; set; }
 
     public HexCoord Position { get; internal set; }
 

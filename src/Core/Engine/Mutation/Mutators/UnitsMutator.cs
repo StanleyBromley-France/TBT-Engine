@@ -2,6 +2,7 @@
 
 using Core.Domain.Types;
 using Core.Engine.Mutation;
+using Core.Domain.Units.Instances.Mutable;
 
 /// <summary>
 /// Mutation-layer API for modifying unit resource values>.
@@ -19,7 +20,6 @@ public sealed class UnitsMutator
     public void ChangeHp(UnitInstanceId unitId, int delta)
     {
         var state = _ctx.GetState();
-
         var unit = state.UnitInstances[unitId];
 
         var before = unit.Resources.HP;
@@ -47,8 +47,16 @@ public sealed class UnitsMutator
         var before = unit.Resources.ActionPoints;
         unit.Resources.ActionPoints += delta;
 
-        // TODO: Record undo step in UndoRecord
     }
 
-    // TODO: Add Effect change Mutator methods
+    public void SetDerivedStats(UnitInstanceId unitId, UnitDerivedStats newStats)
+    {
+        var state = _ctx.GetState();
+        var unit = state.UnitInstances[unitId];
+
+        var before = unit.DerivedStats;
+        unit.DerivedStats = newStats;
+
+        // TODO: Record undo step in UndoRecord
+    }
 }
