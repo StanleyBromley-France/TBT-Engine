@@ -22,7 +22,7 @@ public sealed class EffectInstance
     public EffectInstanceId Id { get; }
     public EffectTemplate Template { get; }
     public UnitInstanceId SourceUnitId { get; }
-    public UnitInstanceId TargetUnitId { get; }
+    public UnitInstanceId[] TargetUnitIds { get; }
     public int RemainingTicks { get; set; }
     public int CurrentStacks { get; set; }
     public IReadOnlyList<EffectComponentInstance> Components => _components;
@@ -34,13 +34,13 @@ public sealed class EffectInstance
         EffectInstanceId id,
         EffectTemplate template,
         UnitInstanceId sourceUnitId,
-        UnitInstanceId targetUnitId,
+        UnitInstanceId[] targetUnitIds,
         IEnumerable<EffectComponentInstance> components)
     {
         Id = id;
         Template = template;
         SourceUnitId = sourceUnitId;
-        TargetUnitId = targetUnitId;
+        TargetUnitIds = targetUnitIds;
 
         RemainingTicks = template.TotalTicks;
         CurrentStacks = 1;

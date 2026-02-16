@@ -28,3 +28,15 @@ public abstract class EffectComponentInstance : IReadOnlyEffectComponentInstance
     public virtual void OnTick(GameMutationContext context, EffectInstance effect) { }
     public virtual void OnExpire(GameMutationContext context, EffectInstance effect) { }
 }
+
+public abstract class EffectComponentInstance<TTemplate> : EffectComponentInstance
+    where TTemplate : EffectComponentTemplate
+{
+    protected TTemplate TemplateTyped { get; }
+
+    protected EffectComponentInstance(EffectComponentInstanceId id, TTemplate template)
+        : base(id, template)
+    {
+        TemplateTyped = template ?? throw new ArgumentNullException(nameof(template));
+    }
+}
