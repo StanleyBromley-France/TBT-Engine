@@ -1,7 +1,7 @@
 ﻿namespace Core.Domain.Effects.Components.Instances.Mutable;
 
 using Core.Domain.Effects.Components.Templates;
-using Core.Domain.Effects.Instances;
+using Core.Domain.Effects.Instances.Mutable;
 using Core.Engine.Mutation;
 
 public sealed class DamageComponentInstance : EffectComponentInstance<DamageComponentTemplate>

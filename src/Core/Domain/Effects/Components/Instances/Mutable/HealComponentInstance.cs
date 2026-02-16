@@ -1,9 +1,9 @@
 ﻿namespace Core.Domain.Effects.Components.Instances.Mutable;
 
 using Core.Domain.Effects.Components.Templates;
-using Core.Domain.Effects.Instances;
 using Core.Engine.Mutation;
 using Core.Domain.Types;
+using Core.Domain.Effects.Instances.Mutable;
 
 public sealed class HealComponentInstance
     : EffectComponentInstance<HealComponentTemplate>

@@ -6,6 +6,7 @@ using Map.Grid;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
 using Core.Domain.Units.Instances.ReadOnly;
+using Core.Domain.Effects.Instances.Mutable;
 
 /// <summary>
 /// Represents the complete mutable state of the game.

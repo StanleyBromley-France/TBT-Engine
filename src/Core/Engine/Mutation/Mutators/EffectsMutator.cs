@@ -1,6 +1,6 @@
 ﻿namespace Core.Engine.Mutation.Mutators;
 
-using Core.Domain.Effects.Instances;
+using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
 

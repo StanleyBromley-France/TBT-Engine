@@ -1,11 +1,11 @@
 ﻿namespace Core.Domain.Effects.Components.Instances.Mutable;
 
 using Core.Domain.Effects.Components.Instances.ReadOnly;
-using Core.Domain.Effects.Instances;
 
 using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
+using Core.Domain.Effects.Instances.Mutable;
 
 /// <summary>
 /// Base class for all runtime effect component instances.

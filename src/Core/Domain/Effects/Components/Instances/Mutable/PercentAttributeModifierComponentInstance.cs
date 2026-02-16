@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Domain.Effects.Components.Instances.Mutable;
 
-namespace Core.Domain.Effects.Components.Instances.Mutable
+using Core.Domain.Effects.Components.Templates;
+using Core.Domain.Types;
+
+public sealed class PercentAttributeModifierComponentInstance
+    : EffectComponentInstance<PercentAttributeModifierComponentTemplate>
 {
-    internal class PercentAttributeModifierComponentInstance
-    {
-    }
+    public PercentAttributeModifierComponentInstance(
+        EffectComponentInstanceId id,
+        PercentAttributeModifierComponentTemplate template)
+        : base(id, template) { }
 }

@@ -1,10 +1,12 @@
-﻿namespace Core.Domain.Effects.Instances;
+﻿namespace Core.Domain.Effects.Instances.Mutable;
 
-using Core.Domain.Effects.Components.Instances.Mutable;
-using Core.Domain.Effects.Templates;
-using Core.Domain.Types;
-using Core.Engine.Mutation;
-using Core.Game;
+using Components.Instances.Mutable;
+using Components.Instances.ReadOnly;
+using Core.Domain.Effects.Instances.Execution;
+using Domain.Types;
+using Effects.Instances.ReadOnly;
+using Effects.Templates;
+using Engine.Mutation;
 
 /// <summary>
 /// Represents a single active effect applied from one unit to another,
@@ -15,43 +17,40 @@ using Core.Game;
 /// Delegates its behavior to the underlying <see cref="EffectComponentInstance"/>s
 /// on initial application and on each tick.
 /// </remarks>
-public sealed class EffectInstance
+public sealed class EffectInstance : IReadOnlyEffectInstance, IEffectInstanceExecution
 {
-    private readonly EffectComponentInstance[] _components;
-
     public EffectInstanceId Id { get; }
     public EffectTemplate Template { get; }
     public UnitInstanceId SourceUnitId { get; }
     public UnitInstanceId[] TargetUnitIds { get; }
     public int RemainingTicks { get; set; }
     public int CurrentStacks { get; set; }
-    public IReadOnlyList<EffectComponentInstance> Components => _components;
-    /// <summary>
-    /// Creates a new effect instance using the given template and unit IDs. 
-    /// Starts with one stack
-    /// </summary>
+    public EffectComponentInstance[] Components { get; }
+
+    IReadOnlyEffectComponentInstance[] IReadOnlyEffectInstance.Components => Components;
+
     public EffectInstance(
         EffectInstanceId id,
         EffectTemplate template,
         UnitInstanceId sourceUnitId,
         UnitInstanceId[] targetUnitIds,
-        IEnumerable<EffectComponentInstance> components)
+        int remainingTicks,
+        int currentStacks,
+        EffectComponentInstance[] components)
     {
         Id = id;
         Template = template;
         SourceUnitId = sourceUnitId;
         TargetUnitIds = targetUnitIds;
-
-        RemainingTicks = template.TotalTicks;
-        CurrentStacks = 1;
-
-        _components = (components ?? throw new ArgumentNullException(nameof(components))).ToArray();
+        RemainingTicks = remainingTicks;
+        CurrentStacks = currentStacks;
+        Components = components;
     }
 
     /// <summary>
     /// Applies all initial component effects when the instance is first used
     /// </summary>
-    public void OnApply(GameMutationContext cxt)
+    void IEffectInstanceExecution.OnApply(GameMutationContext cxt)
     {
         foreach (var component in Components)
         {
@@ -60,15 +59,13 @@ public sealed class EffectInstance
     }
 
     /// <summary>
-    /// Advances the effect by one tick, triggering component tick behaviors
-    /// and reducing remaining duration
+    /// Triggers component tick behaviors.
+    /// Does not reduce tick count, that should be done through Effect mutation TickAll()
     /// </summary>
-    public void OnTick(GameMutationContext cxt)
+    void IEffectInstanceExecution.OnTick(GameMutationContext cxt)
     {
         if (RemainingTicks <= 0)
             return;
-
-        RemainingTicks--;
 
         foreach (var component in Components)
         {
@@ -76,7 +73,7 @@ public sealed class EffectInstance
         }
     }
 
-    public void OnExpire(GameMutationContext cxt)
+    void IEffectInstanceExecution.OnExpire(GameMutationContext cxt)
     {
         foreach (var component in Components)
         {

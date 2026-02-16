@@ -1,7 +1,7 @@
 ﻿namespace Core.Domain.Effects.Templates;
 
 using Core.Domain.Effects.Components.Templates;
-using Core.Domain.Effects.Instances;
+using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
 /// <summary>
 /// Defines the static data and behavior blueprint for an effect, including duration,
