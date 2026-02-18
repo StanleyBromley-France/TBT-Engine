@@ -1,9 +1,9 @@
-﻿namespace Core.Domain.Effects;
+﻿namespace Core.Domain.Effects.Stats;
 
 /// <summary>
 /// Specifies the different unit attributes that effects can modify
 /// </summary>
-public enum UnitAttributeType
+public enum StatType
 {
     MovePoints,
     ArmourPoints,

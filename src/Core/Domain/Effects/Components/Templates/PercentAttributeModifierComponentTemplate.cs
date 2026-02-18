@@ -1,19 +1,20 @@
-﻿using Core.Domain.Types;
+﻿using Core.Domain.Effects.Stats;
+using Core.Domain.Types;
 
 namespace Core.Domain.Effects.Components.Templates;
 
 public sealed class PercentAttributeModifierComponentTemplate : EffectComponentTemplate
 {
-    public UnitAttributeType Attribute { get; }
+    public StatType Stat { get; }
     public int Percent { get; }
 
     public PercentAttributeModifierComponentTemplate(
         EffectComponentTemplateId id,
-        UnitAttributeType attribute,
+        StatType stat,
         int percent)
         : base(id)
     {
-        Attribute = attribute;
+        Stat = stat;
         Percent = percent;
     }
 }
