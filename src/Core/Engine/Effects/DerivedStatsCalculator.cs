@@ -6,9 +6,9 @@ using Core.Domain.Effects.Components.Instances.ReadOnly;
 
 namespace Core.Engine.Effects;
 
-public static class DerivedStatsCalculator
+public class DerivedStatsCalculator
 {
-    public static UnitDerivedStats Compute(IReadOnlyGameState state, UnitInstanceId unitId)
+    public UnitDerivedStats Compute(IReadOnlyGameState state, UnitInstanceId unitId)
     {
         var unit = state.UnitInstances[unitId];
         var baseStats = unit.Template.BaseStats;

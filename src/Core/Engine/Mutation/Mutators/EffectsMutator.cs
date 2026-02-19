@@ -50,21 +50,21 @@ public sealed class EffectsMutator
         // TODO: Record undo step in UndoRecord
     }
 
-    public void TickAll()
+    public void TickAllForUnit(UnitInstanceId target)
     {
         var state = _ctx.GetState();
 
-        foreach (var (target, effectsById) in state.ActiveEffects.ToList())
-        {
-            foreach (var (effectId, effect) in effectsById.ToList())
-            {
-                UpdateTickState(target, effectId);
+        if (!state.ActiveEffects.TryGetValue(target, out var effectsById) || effectsById.Count == 0)
+            return;
 
-                if (effect.IsExpired())
-                    RemoveEffect(target, effectId);
-            }
+        foreach (var (effectId, effect) in effectsById.ToList())
+        {
+            var expired = UpdateTickState(target, effectId);
+            if (expired)
+                RemoveEffect(target, effectId);
         }
     }
+
 
     public void IncreaseStacks(UnitInstanceId target, EffectInstanceId effectId)
     {
@@ -91,7 +91,7 @@ public sealed class EffectsMutator
         // TODO: Record undo step in UndoRecord
     }
 
-    private void UpdateTickState(UnitInstanceId target, EffectInstanceId effectId)
+    private bool UpdateTickState(UnitInstanceId target, EffectInstanceId effectId)
     {
         var state = _ctx.GetState();
         var effect = state.ActiveEffects[target][effectId];
@@ -100,6 +100,8 @@ public sealed class EffectsMutator
         effect.RemainingTicks--;
 
         // TODO: Record undo step in UndoRecord
+
+        return effect.IsExpired();
     }
 
 }
