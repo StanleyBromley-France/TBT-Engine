@@ -19,6 +19,10 @@ namespace Core.Domain.Effects.Stats;
 
 public sealed class DerivedStatsModifierBag : IDerivedStatsModifierSink, IDerivedStatsModifierSource
 {
+
+    private const int MinPercentPoints = -100;
+    private const int MaxPercentPoints = 100;
+
     private struct FlatEntry
     {
         public int Value;
@@ -53,14 +57,16 @@ public sealed class DerivedStatsModifierBag : IDerivedStatsModifierSink, IDerive
             ConsiderFlatMin(_badFlat, stat, delta, effectId);
     }
 
-    public void ConsiderPercent(StatType stat, float percentAdd, EffectInstanceId effectId)
+    public void ConsiderPercent(StatType stat, int percentAdd, EffectInstanceId effectId)
     {
-        if (percentAdd == 0f) return;
+        if (percentAdd == 0) return;
 
-        if (percentAdd > 0f)
-            ConsiderPercentMax(_goodPercent, stat, percentAdd, effectId);
+        float normalisedPercent = NormalisePercent(percentAdd);
+
+        if (normalisedPercent > 0f)
+            ConsiderPercentMax(_goodPercent, stat, normalisedPercent, effectId);
         else
-            ConsiderPercentMin(_badPercent, stat, percentAdd, effectId);
+            ConsiderPercentMin(_badPercent, stat, normalisedPercent, effectId);
     }
 
     // source (calculator calls)
@@ -78,6 +84,16 @@ public sealed class DerivedStatsModifierBag : IDerivedStatsModifierSink, IDerive
         => _badPercent.TryGetValue(stat, out var e) && e.HasValue ? e.Value : 0f;
 
     // internal
+
+    private static float NormalisePercent(int percentPoints)
+    {
+        if (percentPoints < -100 || percentPoints > 100)
+            throw new InvalidOperationException(
+                $"Percent modifier must be between -100 and 100. Value: {percentPoints}");
+
+        return percentPoints / 100f;
+    }
+
 
     private static void ConsiderFlatMax(
         Dictionary<StatType, FlatEntry> dict,

@@ -10,16 +10,46 @@ namespace Core.Domain.Units.Instances.Mutable;
 /// DerivedStats are not mutated directly by gameplay logic and store only
 /// the result of a deterministic recomputation.
 /// 
-/// Exposed publicly only through IReadOnlyUnitResources.
+/// Exposed publicly only through IReadOnlyUnitDerivedStats.
 /// </summary>
 public class UnitDerivedStats : IReadOnlyUnitDerivedStats
 {
+    public int MovePoints { get; set; }
+    public int ArmourPoints { get; set; }
     public int MagicResistance { get; set; }
-    public int Armor { get; set; }
 
-    public UnitDerivedStats(int magicResistance, int armor)
+    public int MaxHP { get; set; }
+    public int MaxManaPoints { get; set; }
+    public int ActionPoints { get; set; }
+
+    public int HealingReceived { get; set; }
+    public int HealingDealt { get; set; }
+    public int DamageTaken { get; set; }
+    public int DamageDealt { get; set; }
+
+    public UnitDerivedStats(
+        int movePoints,
+        int armourPoints,
+        int magicResistance,
+        int maxHp,
+        int maxManaPoints,
+        int actionPoints,
+        int healingReceived,
+        int healingDealt,
+        int damageTaken,
+        int damageDealt)
     {
+        MovePoints = movePoints;
+        ArmourPoints = armourPoints;
         MagicResistance = magicResistance;
-        Armor = armor;
+
+        MaxHP = maxHp;
+        MaxManaPoints = maxManaPoints;
+        ActionPoints = actionPoints;
+
+        HealingReceived = healingReceived;
+        HealingDealt = healingDealt;
+        DamageTaken = damageTaken;
+        DamageDealt = damageDealt;
     }
 }

@@ -14,14 +14,7 @@ public sealed class PercentAttributeModifierComponentInstance : EffectComponentI
 
     public void Contribute(IDerivedStatsModifierSink modifierSink, EffectInstanceId effectId, int stacks)
     {
-        // percent per stack: 0.10f = +10%, -0.10f = -10%
-        float p = TemplateTyped.Percent;
-
-        // multiply per stack
-        var effectiveMultiplier = MathF.Pow(1f + p, stacks);
-
-        // convert multiplier to percent-of-base additive
-        var effectivePercentAdd = effectiveMultiplier - 1f;
+        var effectivePercentAdd = TemplateTyped.Percent * stacks;
 
         modifierSink.ConsiderPercent(
             TemplateTyped.Stat,

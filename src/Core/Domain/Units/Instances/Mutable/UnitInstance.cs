@@ -50,13 +50,22 @@ public class UnitInstance : IReadOnlyUnitInstance
         Resources = new UnitResources(
             template.BaseStats.MaxHP,
             template.BaseStats.MovePoints,
-            template.BaseStats.DefaultActionPoints,
+            template.BaseStats.ActionPoints,
             template.BaseStats.MaxManaPoints
         );
 
         DerivedStats = new UnitDerivedStats(
+            template.BaseStats.MovePoints,
+            template.BaseStats.ArmourPoints,
             template.BaseStats.MagicResistance,
-            template.BaseStats.ArmourPoints
+            template.BaseStats.MaxHP,
+            template.BaseStats.MaxManaPoints,
+            template.BaseStats.ActionPoints,
+            template.BaseStats.HealingReceived,
+            template.BaseStats.HealingDealt,
+            template.BaseStats.DamageTaken,
+            template.BaseStats.DamageDealt
         );
+
     }
 }

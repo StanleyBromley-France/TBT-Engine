@@ -7,9 +7,16 @@ namespace Core.Domain.Units.Instances.ReadOnly;
 /// Exposes computed stat values without allowing mutation
 /// outside of GameMutationContext.
 /// </summary>
-
 public interface IReadOnlyUnitDerivedStats
 {
+    int MovePoints { get; }
+    int ArmourPoints { get; }
     int MagicResistance { get; }
-    int Armor { get; }
+    int MaxHP { get; }
+    int MaxManaPoints { get; }
+    int ActionPoints { get; }
+    int HealingReceived { get; }
+    int HealingDealt { get; }
+    int DamageTaken { get; }
+    int DamageDealt { get; }
 }
