@@ -36,6 +36,7 @@ public sealed class EffectManager
 
             if (existing is not null)
             {
+                // make new effect, set to same stacks as old, then increase stacks. this ensures resolved damage will update
                 context.Effects.IncreaseStacks(targetId, existing.Id);
                 context.Effects.ResetTicksToMax(targetId, existing.Id);
             }
@@ -43,9 +44,12 @@ public sealed class EffectManager
             {
                 // TODO: Create EffectInstance and EffectInstanceId Factories
 
+                // create instance per target id
                 //var instance = CreateNewInstance();
 
                 //context.Effects.AddEffect(targetId, instance);
+
+                // apply initial effect
             }
         }
 
