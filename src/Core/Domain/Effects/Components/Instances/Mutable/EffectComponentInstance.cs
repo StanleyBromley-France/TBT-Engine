@@ -5,7 +5,7 @@ using Core.Domain.Effects.Components.Instances.ReadOnly;
 using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
-using Core.Domain.Effects.Instances.Mutable;
+using Core.Domain.Effects.Instances.ReadOnly;
 
 /// <summary>
 /// Base class for all runtime effect component instances.
@@ -24,9 +24,9 @@ public abstract class EffectComponentInstance : IReadOnlyEffectComponentInstance
         Template = template ?? throw new ArgumentNullException(nameof(template));
     }
 
-    public virtual void OnApply(GameMutationContext context, EffectInstance effect) { }
-    public virtual void OnTick(GameMutationContext context, EffectInstance effect) { }
-    public virtual void OnExpire(GameMutationContext context, EffectInstance effect) { }
+    public virtual void OnApply(GameMutationContext context, IReadOnlyEffectInstance effect) { }
+    public virtual void OnTick(GameMutationContext context, IReadOnlyEffectInstance effect) { }
+    public virtual void OnExpire(GameMutationContext context, IReadOnlyEffectInstance effect) { }
 }
 
 public abstract class EffectComponentInstance<TTemplate> : EffectComponentInstance

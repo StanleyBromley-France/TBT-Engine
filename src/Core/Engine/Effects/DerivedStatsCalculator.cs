@@ -33,34 +33,31 @@ public class DerivedStatsCalculator
             }
         }
 
-        // 2) compute normal stats
+        // 2) compute stats
         var movePoints = ApplyStat(baseStats.MovePoints, StatType.MovePoints, bag);
-        var armourPoints = ApplyStat(baseStats.ArmourPoints, StatType.ArmourPoints, bag);
-        var magicResistance = ApplyStat(baseStats.MagicResistance, StatType.MagicResistance, bag);
 
         var maxHp = ApplyStat(baseStats.MaxHP, StatType.MaxHP, bag);
         var maxManaPoints = ApplyStat(baseStats.MaxManaPoints, StatType.MaxManaPoints, bag);
 
         var actionPoints = ApplyStat(baseStats.ActionPoints, StatType.ActionPoints, bag);
 
-        // 3) compute percentage-effectiveness stats (base = 100)
-        var healingReceived = ApplyEffectivenessStat(StatType.HealingReceived, bag);
-        var healingDealt = ApplyEffectivenessStat(StatType.HealingDealt, bag);
-        var damageTaken = ApplyEffectivenessStat(StatType.DamageTaken, bag);
-        var damageDealt = ApplyEffectivenessStat(StatType.DamageDealt, bag);
+        var physicalDamageReceived = ApplyStat(baseStats.PhysicalDamageReceived, StatType.PhysicalDamageReceived, bag);
+        var magicDamageReceived = ApplyStat(baseStats.MagicDamageReceived, StatType.MagicDamageReceived, bag);
+        var healingReceived = ApplyStat(baseStats.HealingReceived, StatType.HealingReceived, bag);
+        var healingDealt = ApplyStat(baseStats.HealingDealt, StatType.HealingDealt, bag);
+        var damageDealt = ApplyStat(baseStats.DamageDealt, StatType.DamageDealt, bag);
 
         return new UnitDerivedStats(
             movePoints,
-            armourPoints,
-            magicResistance,
+            physicalDamageReceived,
+            magicDamageReceived,
             maxHp,
             maxManaPoints,
             actionPoints,
             healingReceived,
             healingDealt,
-            damageTaken,
             damageDealt
-            );
+        );
     }
 
     private static int ApplyStat(int baseValue, StatType stat, IDerivedStatsModifierSource bag)
@@ -78,15 +75,6 @@ public class DerivedStatsCalculator
         value += (int)MathF.Round(baseValue * goodPct);
         value += (int)MathF.Round(baseValue * badPct);
 
-        return value;
-    }
-
-    private static int ApplyEffectivenessStat(StatType stat, IDerivedStatsModifierSource bag)
-    {
-        // base effectiveness = 100%
-        var value = ApplyStat(100, stat, bag);
-
-        // recommended safety clamp
         if (value < 0) value = 0;
 
         return value;

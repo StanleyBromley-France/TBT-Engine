@@ -2,11 +2,11 @@
 
 namespace Core.Domain.Units.Instances.Mutable;
 
-/// <summary>
+/// <summary> /// 
 /// UnitDerivedStats represent computed, non-authoritative stat values for a unit.
 /// These values are derived from UnitTemplate.BaseStats and the unit’s active
 /// EffectInstances in GameState.
-///
+/// 
 /// DerivedStats are not mutated directly by gameplay logic and store only
 /// the result of a deterministic recomputation.
 /// 
@@ -14,42 +14,47 @@ namespace Core.Domain.Units.Instances.Mutable;
 /// </summary>
 public class UnitDerivedStats : IReadOnlyUnitDerivedStats
 {
-    public int MovePoints { get; set; }
-    public int ArmourPoints { get; set; }
-    public int MagicResistance { get; set; }
-
+    // Core resources
     public int MaxHP { get; set; }
     public int MaxManaPoints { get; set; }
+    public int MovePoints { get; set; }
     public int ActionPoints { get; set; }
 
-    public int HealingReceived { get; set; }
-    public int HealingDealt { get; set; }
-    public int DamageTaken { get; set; }
+    // Percentage modifiers (100 = normal effectiveness)
+
+    // Outgoing
     public int DamageDealt { get; set; }
+    public int HealingDealt { get; set; }
+
+    // Incoming
+    public int HealingReceived { get; set; }
+
+    // Damage-type specific
+    public int PhysicalDamageReceived { get; set; }
+    public int MagicDamageReceived { get; set; }
 
     public UnitDerivedStats(
         int movePoints,
-        int armourPoints,
-        int magicResistance,
+        int physicalDamageModifier,
+        int magicDamageModifier,
         int maxHp,
         int maxManaPoints,
         int actionPoints,
         int healingReceived,
         int healingDealt,
-        int damageTaken,
         int damageDealt)
     {
-        MovePoints = movePoints;
-        ArmourPoints = armourPoints;
-        MagicResistance = magicResistance;
-
         MaxHP = maxHp;
         MaxManaPoints = maxManaPoints;
+
+        MovePoints = movePoints;
         ActionPoints = actionPoints;
 
-        HealingReceived = healingReceived;
-        HealingDealt = healingDealt;
-        DamageTaken = damageTaken;
         DamageDealt = damageDealt;
+        HealingDealt = healingDealt;
+        HealingReceived = healingReceived;
+
+        PhysicalDamageReceived = physicalDamageModifier;
+        MagicDamageReceived = magicDamageModifier;
     }
 }

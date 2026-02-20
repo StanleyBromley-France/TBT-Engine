@@ -56,14 +56,13 @@ public class UnitInstance : IReadOnlyUnitInstance
 
         DerivedStats = new UnitDerivedStats(
             template.BaseStats.MovePoints,
-            template.BaseStats.ArmourPoints,
-            template.BaseStats.MagicResistance,
+            template.BaseStats.PhysicalDamageReceived,
+            template.BaseStats.MagicDamageReceived,
             template.BaseStats.MaxHP,
             template.BaseStats.MaxManaPoints,
             template.BaseStats.ActionPoints,
             template.BaseStats.HealingReceived,
             template.BaseStats.HealingDealt,
-            template.BaseStats.DamageTaken,
             template.BaseStats.DamageDealt
         );
 

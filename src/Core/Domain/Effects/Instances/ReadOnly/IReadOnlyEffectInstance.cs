@@ -9,7 +9,7 @@ public interface IReadOnlyEffectInstance
     EffectInstanceId Id { get; }
     EffectTemplate Template { get; }
     UnitInstanceId SourceUnitId { get; }
-    UnitInstanceId[] TargetUnitIds { get; }
+    UnitInstanceId TargetUnitId { get; }
     int RemainingTicks { get; }
     int CurrentStacks { get; }
     IReadOnlyEffectComponentInstance[] Components { get; }

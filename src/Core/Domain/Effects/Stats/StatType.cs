@@ -1,19 +1,27 @@
 ﻿namespace Core.Domain.Effects.Stats;
 
 /// <summary>
-/// Specifies the different unit attributes that effects can modify
+/// Specifies the different unit attributes that effects can modify.
 /// </summary>
 public enum StatType
 {
-    MovePoints,
-    ArmourPoints,
-    MagicResistance,
+    // Core resources
     MaxHP,
     MaxManaPoints,
-    ActionPoints,
-    HealingReceived,
-    HealingDealt,
-    DamageTaken,
-    DamageDealt
-}
 
+    MovePoints,
+    ActionPoints,
+
+    // Percentage modifiers (100 = normal effectiveness)
+
+    // Outgoing
+    DamageDealt,
+    HealingDealt,
+
+    // Incoming
+    HealingReceived,
+
+    // Damage-type specific
+    PhysicalDamageReceived,
+    MagicDamageReceived
+}

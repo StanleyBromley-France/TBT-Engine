@@ -3,25 +3,30 @@
 using Core.Domain.Effects.Components.Templates;
 using Core.Engine.Mutation;
 using Core.Domain.Types;
-using Core.Domain.Effects.Instances.Mutable;
+using Core.Domain.Effects.Instances.ReadOnly;
+using Core.Game;
 
 public sealed class DamageOverTimeComponentInstance : EffectComponentInstance<DamageOverTimeComponentTemplate>
 {
+    private readonly int _resolvedDamagePerTick;
+
     public DamageOverTimeComponentInstance(
         EffectComponentInstanceId id,
-        DamageOverTimeComponentTemplate template)
-        : base(id, template) { }
+        DamageOverTimeComponentTemplate template,
+        int resolvedDamagePerTick)
+        : base(id, template) 
+    {
+        _resolvedDamagePerTick = resolvedDamagePerTick;
+    }
 
-    public override void OnTick(GameMutationContext context, EffectInstance effect)
+    public override void OnTick(GameMutationContext context, IReadOnlyEffectInstance effect)
     {
         if (context is null) throw new ArgumentNullException(nameof(context));
         if (effect is null) throw new ArgumentNullException(nameof(effect));
 
         // tick damage is multiplied per stack
-        var stacks = Math.Max(1, effect.CurrentStacks);
-        var damage = TemplateTyped.DamagePerTick * stacks;
+        var damage = _resolvedDamagePerTick * effect.CurrentStacks;
 
-        foreach (var target in effect.TargetUnitIds)
-            context.Units.ChangeHp(target, -damage);
+        context.Units.ChangeHp(effect.TargetUnitId, -damage);
     }
 }
