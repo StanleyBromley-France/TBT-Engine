@@ -1,18 +1,18 @@
 ﻿using Core.Domain.Types;
 
 namespace Core.Domain.Effects.Components.Templates;
-public sealed class DamageOverTimeComponentTemplate : EffectComponentTemplate
+public sealed class DamageOverTimeComponentTemplate : EffectComponentTemplate, IDamageComponent
 {
-    public int DamagePerTick { get; }
+    public int DamageAmount { get; }
     public DamageType DamageType { get; }
 
     public DamageOverTimeComponentTemplate(
         EffectComponentTemplateId id,
-        int damagePerTick,
+        int damage,
         DamageType damageType)
         : base(id)
     {
-        DamagePerTick = damagePerTick;
+        DamageAmount = damage;
         DamageType = damageType;
     }
 }

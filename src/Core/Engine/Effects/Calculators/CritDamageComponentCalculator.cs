@@ -1,5 +1,4 @@
-﻿// Core.Engine.Effects.Calculators/CritDamageCalculator.cs
-namespace Core.Engine.Effects.Calculators;
+﻿namespace Core.Engine.Effects.Calculators;
 
 using Core.Domain.Effects;
 using Core.Domain.Effects.Components.Templates;
@@ -16,18 +15,19 @@ public sealed class CritDamageComponentCalculator : IDamageComponentCalculator
         GameMutationContext context,
         IReadOnlyGameState state,
         IReadOnlyEffectInstance effect,
-        DamageComponentTemplate componentTemplate)
+        IDamageComponent damageTemplate)
     {
         if (context is null) throw new ArgumentNullException(nameof(context));
         if (state is null) throw new ArgumentNullException(nameof(state));
         if (effect is null) throw new ArgumentNullException(nameof(effect));
-        if (componentTemplate is null) throw new ArgumentNullException(nameof(componentTemplate));
+        if (damageTemplate is null) throw new ArgumentNullException(nameof(damageTemplate));
 
-        float multiplier = ComputeResistanceMultiplier(state, effect, componentTemplate.DamageType);
+        float multiplier = ComputeResistanceMultiplier(state, effect, damageTemplate.DamageType);
 
-        multiplier *= ComputeCritMultiplier(context, componentTemplate);
+        if(damageTemplate is ICrittableComponentTemplate crittableTemplate)
+            multiplier *= ComputeCritMultiplier(context, crittableTemplate);
 
-        var final = componentTemplate.Damage * multiplier;
+        var final = damageTemplate.DamageAmount * multiplier;
         var rounded = (int)MathF.Round(final);
         return rounded < 0 ? 0 : rounded;
     }

@@ -11,5 +11,5 @@ public interface IDamageComponentCalculator
         GameMutationContext context,
         IReadOnlyGameState state,
         IReadOnlyEffectInstance effect,
-        DamageComponentTemplate componentTemplate);
+        IDamageComponent componentTemplate);
 }

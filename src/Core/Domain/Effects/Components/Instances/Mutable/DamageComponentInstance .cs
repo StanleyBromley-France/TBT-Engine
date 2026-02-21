@@ -4,10 +4,10 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Engine.Mutation;
 
-public sealed class DamageComponentInstance : EffectComponentInstance<DamageComponentTemplate>
+public sealed class DamageComponentInstance : EffectComponentInstance<InstantDamageComponentTemplate>
 {
     private readonly int _resolvedDamage;
-    public DamageComponentInstance(Types.EffectComponentInstanceId id, DamageComponentTemplate template, int resolvedDamage)
+    public DamageComponentInstance(Types.EffectComponentInstanceId id, InstantDamageComponentTemplate template, int resolvedDamage)
         : base(id, template) 
     {
         _resolvedDamage = resolvedDamage;

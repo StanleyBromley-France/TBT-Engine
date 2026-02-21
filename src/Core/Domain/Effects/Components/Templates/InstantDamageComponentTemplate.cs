@@ -1,15 +1,15 @@
 ﻿using Core.Domain.Types;
 
 namespace Core.Domain.Effects.Components.Templates;
-public sealed class DamageComponentTemplate : EffectComponentTemplate, ICrittableComponentTemplate
+public sealed class InstantDamageComponentTemplate : EffectComponentTemplate, IDamageComponent, ICrittableComponentTemplate
 {
-    public int Damage { get; }
+    public int DamageAmount { get; }
     public DamageType DamageType { get; }
 
     public int CritChance { get; }
     public float CritMultiplier { get; }
 
-    public DamageComponentTemplate(
+    public InstantDamageComponentTemplate(
         EffectComponentTemplateId id,
         int damage,
         DamageType damageType,
@@ -17,7 +17,7 @@ public sealed class DamageComponentTemplate : EffectComponentTemplate, ICrittabl
         float critMultiplier)
         : base(id)
     {
-        Damage = damage;
+        DamageAmount = damage;
         DamageType = damageType;
         CritChance = critChance;
         CritMultiplier = critMultiplier;
