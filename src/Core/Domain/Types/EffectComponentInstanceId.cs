@@ -5,9 +5,9 @@
 /// </summary>
 public readonly struct EffectComponentInstanceId : IEquatable<EffectComponentInstanceId>
 {
-    public readonly string Value;
+    public readonly int Value;
 
-    public EffectComponentInstanceId(string value)
+    public EffectComponentInstanceId(int value)
     {
         Value = value;
     }
@@ -17,7 +17,7 @@ public readonly struct EffectComponentInstanceId : IEquatable<EffectComponentIns
     public override bool Equals(object? obj) =>
         obj is EffectComponentInstanceId other && Equals(other);
 
-    public override int GetHashCode() => Value.GetHashCode();
+    public override int GetHashCode() => Value;
 
     public override string ToString() => Value.ToString();
 

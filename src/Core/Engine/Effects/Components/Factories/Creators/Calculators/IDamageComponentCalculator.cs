@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Effects.Components.Calculators;
+﻿namespace Core.Engine.Effects.Components.Factories.Creators.Calculators;
 
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Domain.Effects.Components.Templates;

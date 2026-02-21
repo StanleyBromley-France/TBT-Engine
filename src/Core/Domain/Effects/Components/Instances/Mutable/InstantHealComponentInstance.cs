@@ -5,12 +5,12 @@ using Core.Engine.Mutation;
 using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
 
-public sealed class HealComponentInstance
+public sealed class InstantHealComponentInstance
     : EffectComponentInstance<InstantHealComponentTemplate>
 {
     private readonly int _resolvedHeal;
 
-    public HealComponentInstance(
+    public InstantHealComponentInstance(
         EffectComponentInstanceId id,
         InstantHealComponentTemplate template,
         int resolvedHeal)
