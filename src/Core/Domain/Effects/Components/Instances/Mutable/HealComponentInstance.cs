@@ -6,13 +6,13 @@ using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
 
 public sealed class HealComponentInstance
-    : EffectComponentInstance<HealComponentTemplate>
+    : EffectComponentInstance<InstantHealComponentTemplate>
 {
     private readonly int _resolvedHeal;
 
     public HealComponentInstance(
         EffectComponentInstanceId id,
-        HealComponentTemplate template,
+        InstantHealComponentTemplate template,
         int resolvedHeal)
         : base(id, template) 
     {

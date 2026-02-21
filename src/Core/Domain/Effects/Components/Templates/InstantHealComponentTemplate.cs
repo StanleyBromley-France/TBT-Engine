@@ -2,11 +2,11 @@
 
 namespace Core.Domain.Effects.Components.Templates;
 
-public sealed class HealOverTimeComponentTemplate : EffectComponentTemplate, IHealComponent
+public sealed class InstantHealComponentTemplate : EffectComponentTemplate, IHealComponent
 {
     public int HealAmount { get; }
 
-    public HealOverTimeComponentTemplate(
+    public InstantHealComponentTemplate(
         EffectComponentTemplateId id,
         int heal)
         : base(id)
