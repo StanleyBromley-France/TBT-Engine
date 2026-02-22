@@ -4,7 +4,7 @@ using Core.Engine.Effects.Components.Factories;
 using Domain.Effects.Components.Instances.Mutable;
 using Domain.Effects.Components.Templates;
 
-internal class DamageOverTimeCreator : ComponentInstanceCreatorBase<DamageOverTimeComponentTemplate>
+internal sealed class DamageOverTimeCreator : ComponentInstanceCreatorBase<DamageOverTimeComponentTemplate>
 {
     private readonly IEffectComponentInstanceIdFactory _ids;
 

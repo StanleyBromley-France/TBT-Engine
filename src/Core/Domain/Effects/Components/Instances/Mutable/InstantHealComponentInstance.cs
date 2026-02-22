@@ -5,25 +5,28 @@ using Core.Engine.Mutation;
 using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
 
-public sealed class InstantHealComponentInstance
-    : EffectComponentInstance<InstantHealComponentTemplate>
+public sealed class InstantHealComponentInstance : EffectComponentInstance<InstantHealComponentTemplate>, IResolvableHpDeltaComponent
 {
-    private readonly int _resolvedHeal;
+    private int? _resolvedHeal;
+    int? IResolvableHpDeltaComponent.ResolvedHpDelta
+    {
+        get => _resolvedHeal;
+        set => _resolvedHeal = value;
+    }
 
     public InstantHealComponentInstance(
         EffectComponentInstanceId id,
-        InstantHealComponentTemplate template,
-        int resolvedHeal)
-        : base(id, template) 
-    {
-        _resolvedHeal = resolvedHeal;
-    }
+        InstantHealComponentTemplate template)
+        : base(id, template) {}
 
     public override void OnApply(GameMutationContext context, IReadOnlyEffectInstance effect)
     {
         if (context is null) throw new ArgumentNullException(nameof(context));
         if (effect is null) throw new ArgumentNullException(nameof(effect));
 
-        context.Units.ChangeHp(effect.TargetUnitId, _resolvedHeal);
+        if (!_resolvedHeal.HasValue)
+            throw new InvalidOperationException("Heal was not resolved before applying.");
+
+        context.Units.ChangeHp(effect.TargetUnitId, _resolvedHeal.Value);
     }
 }

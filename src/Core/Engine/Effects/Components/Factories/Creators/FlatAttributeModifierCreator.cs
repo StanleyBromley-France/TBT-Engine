@@ -4,7 +4,7 @@ using Core.Engine.Effects.Components.Factories;
 using Domain.Effects.Components.Instances.Mutable;
 using Domain.Effects.Components.Templates;
 
-public sealed class FlatAttributeModifierCreator : ComponentInstanceCreatorBase<FlatAttributeModifierComponentTemplate>
+internal sealed class FlatAttributeModifierCreator : ComponentInstanceCreatorBase<FlatAttributeModifierComponentTemplate>
 {
     private readonly IEffectComponentInstanceIdFactory _ids;
 

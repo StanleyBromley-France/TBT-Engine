@@ -6,9 +6,14 @@ using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
 
 public sealed class HealOverTimeComponentInstance
-    : EffectComponentInstance<HealOverTimeComponentTemplate>
+    : EffectComponentInstance<HealOverTimeComponentTemplate>, IResolvableHpDeltaComponent
 {
-    private readonly int _resolvedHealPerTick;
+    private int? _resolvedHealPerTick;
+    int? IResolvableHpDeltaComponent.ResolvedHpDelta
+    {
+        get => _resolvedHealPerTick;
+        set => _resolvedHealPerTick = value;
+    }
 
     public HealOverTimeComponentInstance(
         EffectComponentInstanceId id,
@@ -20,7 +25,10 @@ public sealed class HealOverTimeComponentInstance
         if (context is null) throw new ArgumentNullException(nameof(context));
         if (effect is null) throw new ArgumentNullException(nameof(effect));
 
-        var heal = _resolvedHealPerTick * effect.CurrentStacks;
+        if (!_resolvedHealPerTick.HasValue)
+            throw new InvalidOperationException("Heal per tick was not resolved before ticking.");
+
+        var heal = _resolvedHealPerTick.Value * effect.CurrentStacks;
 
         context.Units.ChangeHp(effect.TargetUnitId, +heal);
     }
