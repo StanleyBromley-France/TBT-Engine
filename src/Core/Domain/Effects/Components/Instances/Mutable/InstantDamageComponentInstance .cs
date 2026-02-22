@@ -1,11 +1,12 @@
 ﻿namespace Core.Domain.Effects.Components.Instances.Mutable;
 
+using Core.Domain.Effects.Components.Instances.ReadOnly;
 using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Engine.Mutation;
 using Types;
 
-public sealed class InstantDamageComponentInstance : EffectComponentInstance<InstantDamageComponentTemplate>, IResolvableHpDeltaComponent
+public sealed class InstantDamageComponentInstance : EffectComponentInstance<InstantDamageComponentTemplate>, IReadOnlyResolvableHpDeltaComponent
 {
     private int? _resolvedDamage;
 
@@ -14,6 +15,9 @@ public sealed class InstantDamageComponentInstance : EffectComponentInstance<Ins
         get => _resolvedDamage;
         set => _resolvedDamage = value;
     }
+
+    HpType IReadOnlyResolvableHpDeltaComponent.HpType => HpType.Damage;
+
     public InstantDamageComponentInstance(
         EffectComponentInstanceId id, 
         InstantDamageComponentTemplate template)

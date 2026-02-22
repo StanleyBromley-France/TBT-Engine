@@ -4,9 +4,10 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Engine.Mutation;
 using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
+using Core.Domain.Effects.Components.Instances.ReadOnly;
 
 public sealed class HealOverTimeComponentInstance
-    : EffectComponentInstance<HealOverTimeComponentTemplate>, IResolvableHpDeltaComponent
+    : EffectComponentInstance<HealOverTimeComponentTemplate>, IReadOnlyResolvableHpDeltaComponent
 {
     private int? _resolvedHealPerTick;
     int? IResolvableHpDeltaComponent.ResolvedHpDelta
@@ -14,6 +15,8 @@ public sealed class HealOverTimeComponentInstance
         get => _resolvedHealPerTick;
         set => _resolvedHealPerTick = value;
     }
+
+    HpType IReadOnlyResolvableHpDeltaComponent.HpType => HpType.Heal;
 
     public HealOverTimeComponentInstance(
         EffectComponentInstanceId id,

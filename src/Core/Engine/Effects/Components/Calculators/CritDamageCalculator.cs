@@ -9,7 +9,7 @@ using Core.Game;
 /// <summary>
 /// Calculates resolved damage for damage component including resistance modifiers with critical hits.
 /// </summary>
-public sealed class CritDamageComponentCalculator : IDamageComponentCalculator
+public sealed class CritDamageCalculator : IDamageCalculator
 {
     public int Compute(
         GameMutationContext context,

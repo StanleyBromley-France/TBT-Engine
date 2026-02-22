@@ -7,7 +7,7 @@ using Core.Domain.Types;
 public interface IReadOnlyEffectInstance
 {
     EffectInstanceId Id { get; }
-    EffectTemplate Template { get; }
+    Templates.EffectTemplate Template { get; }
     UnitInstanceId SourceUnitId { get; }
     UnitInstanceId TargetUnitId { get; }
     int RemainingTicks { get; }

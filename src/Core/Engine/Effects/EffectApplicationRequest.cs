@@ -1,20 +1,19 @@
 ﻿namespace Core.Engine.Effects;
 
-using Core.Domain.Effects.Templates;
 using Core.Domain.Types;
 
 public sealed class EffectApplicationRequest
 {
-    public EffectTemplate Template { get; }
+    public EffectTemplateId TemplateId { get; }
     public UnitInstanceId SourceUnitId { get; }
     public UnitInstanceId[] TargetUnitIds { get; }
 
     public EffectApplicationRequest(
-        EffectTemplate template,
+        EffectTemplateId templateId,
         UnitInstanceId sourceUnitId,
         UnitInstanceId[] targetUnitIds)
     {
-        Template = template ?? throw new ArgumentNullException(nameof(template));
+        TemplateId = templateId;
         SourceUnitId = sourceUnitId;
         TargetUnitIds = targetUnitIds ?? throw new ArgumentNullException(nameof(targetUnitIds));
         if (TargetUnitIds.Length == 0)

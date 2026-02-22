@@ -1,6 +1,6 @@
 ﻿namespace Core.Domain.Effects.Components.Instances.Mutable;
 
-public interface IResolvableHpDeltaComponent 
+public interface IResolvableHpDeltaComponent
 {
     int? ResolvedHpDelta { get; set; }
 }

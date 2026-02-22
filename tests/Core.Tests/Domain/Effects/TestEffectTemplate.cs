@@ -4,10 +4,10 @@ using Core.Domain.Types;
 
 namespace Core.Tests.Domain.Effects;
 
-internal sealed class TestEffectTemplate : EffectTemplate
+internal sealed class TestEffectTemplate : Core.Domain.Effects.Templates.EffectTemplate
 {
     public TestEffectTemplate(
-        EffectTemplateId id,
+        Core.Domain.Types.EffectTemplateId id,
         string name,
         bool isHarmful,
         int totalTicks,

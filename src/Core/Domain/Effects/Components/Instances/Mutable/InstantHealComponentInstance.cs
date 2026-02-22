@@ -4,8 +4,9 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Engine.Mutation;
 using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
+using Core.Domain.Effects.Components.Instances.ReadOnly;
 
-public sealed class InstantHealComponentInstance : EffectComponentInstance<InstantHealComponentTemplate>, IResolvableHpDeltaComponent
+public sealed class InstantHealComponentInstance : EffectComponentInstance<InstantHealComponentTemplate>, IReadOnlyResolvableHpDeltaComponent
 {
     private int? _resolvedHeal;
     int? IResolvableHpDeltaComponent.ResolvedHpDelta
@@ -13,6 +14,8 @@ public sealed class InstantHealComponentInstance : EffectComponentInstance<Insta
         get => _resolvedHeal;
         set => _resolvedHeal = value;
     }
+
+    HpType IReadOnlyResolvableHpDeltaComponent.HpType => HpType.Heal;
 
     public InstantHealComponentInstance(
         EffectComponentInstanceId id,

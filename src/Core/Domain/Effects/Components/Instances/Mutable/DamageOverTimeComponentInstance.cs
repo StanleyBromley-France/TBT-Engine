@@ -4,8 +4,9 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Engine.Mutation;
 using Core.Domain.Types;
 using Core.Domain.Effects.Instances.ReadOnly;
+using Core.Domain.Effects.Components.Instances.ReadOnly;
 
-public sealed class DamageOverTimeComponentInstance : EffectComponentInstance<DamageOverTimeComponentTemplate>, IResolvableHpDeltaComponent
+public sealed class DamageOverTimeComponentInstance : EffectComponentInstance<DamageOverTimeComponentTemplate>, IReadOnlyResolvableHpDeltaComponent
 {
     private int? _resolvedDamagePerTick;
 
@@ -14,6 +15,9 @@ public sealed class DamageOverTimeComponentInstance : EffectComponentInstance<Da
         get => _resolvedDamagePerTick;
         set => _resolvedDamagePerTick = value;
     }
+
+    HpType IReadOnlyResolvableHpDeltaComponent.HpType => HpType.Damage;
+
     public DamageOverTimeComponentInstance(
         EffectComponentInstanceId id,
         DamageOverTimeComponentTemplate template)

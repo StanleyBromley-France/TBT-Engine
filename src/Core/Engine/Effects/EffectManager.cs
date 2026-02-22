@@ -1,18 +1,31 @@
 ﻿namespace Core.Engine.Effects;
 
+using Core.Domain.Effects.Components.Instances;
+using Core.Domain.Effects.Components.Instances.ReadOnly;
+using Core.Domain.Effects.Components.Templates;
+using Core.Domain.Effects.Instances.Execution;
 using Core.Domain.Effects.Instances.ReadOnly;
-using Core.Domain.Effects.Templates;
 using Core.Domain.Types;
+using Core.Engine.Effects.Components.Calculators;
+using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Mutation.Mutators;
 using Core.Game;
-public sealed class EffectManager
-{
-    private readonly DerivedStatsCalculator _derivedStats;
+using System.ComponentModel;
 
-    public EffectManager(DerivedStatsCalculator derivedStats)
+internal sealed class EffectManager
+{
+    private readonly EffectInstanceFactory _effectFactory;
+    private readonly DerivedStatsCalculator _derivedStats;
+    private readonly IDamageCalculator _damageCalculator;
+    private readonly IHealCalculator _healCalculator;
+
+    public EffectManager(EffectInstanceFactory effectFactory, DerivedStatsCalculator derivedStats, IDamageCalculator damageCalculator, IHealCalculator healCalculator)
     {
         _derivedStats = derivedStats ?? throw new ArgumentNullException(nameof(derivedStats));
+        _effectFactory = effectFactory ?? throw new ArgumentNullException(nameof(effectFactory));
+        _healCalculator = healCalculator ?? throw new ArgumentNullException(nameof(healCalculator));
+        _damageCalculator = damageCalculator ?? throw new ArgumentNullException(nameof(damageCalculator));
     }
 
     public void ApplyOrStackEffect(GameMutationContext context, IReadOnlyGameState state, EffectApplicationRequest request)
@@ -30,26 +43,24 @@ public sealed class EffectManager
 
             var existing = TryFindExistingInstanceOnUnit(
                 state,
-                request.Template,
+                request.TemplateId,
                 request.SourceUnitId,
                 targetId);
 
             if (existing is not null)
             {
-                // make new effect, set to same stacks as old, then increase stacks. this ensures resolved damage will update
                 context.Effects.IncreaseStacks(targetId, existing.Id);
                 context.Effects.ResetTicksToMax(targetId, existing.Id);
+
+                ResolveHpDeltaComponents(context, state, existing, targetId);
             }
             else
             {
-                // TODO: Create EffectInstance and EffectInstanceId Factories
+                var instance = _effectFactory.Create(context, request.TemplateId, request.SourceUnitId, targetId);
 
-                // create instance per target id
-                //var instance = CreateNewInstance();
+                ResolveHpDeltaComponents(context, state, instance, targetId);
 
-                //context.Effects.AddEffect(targetId, instance);
-
-                // apply initial effect
+                ((IEffectInstanceExecution)instance).OnApply(context);
             }
         }
 
@@ -85,7 +96,7 @@ public sealed class EffectManager
 
     private static IReadOnlyEffectInstance? TryFindExistingInstanceOnUnit(
         IReadOnlyGameState state,
-        EffectTemplate template,
+        EffectTemplateId templateId,
         UnitInstanceId sourceUnitId,
         UnitInstanceId targetUnitId)
     {
@@ -94,7 +105,7 @@ public sealed class EffectManager
 
         foreach (var effect in effectsById.Values)
         {
-            if (effect.Template.Id != template.Id) continue;
+            if (effect.Template.Id != templateId) continue;
             if (effect.SourceUnitId != sourceUnitId) continue;
 
             // match found
@@ -113,6 +124,33 @@ public sealed class EffectManager
         {
             var computed = _derivedStats.Compute(state, unitId);
             unitMutator.SetDerivedStats(unitId, computed);
+        }
+    }
+
+    private void ResolveHpDeltaComponents(
+    GameMutationContext context,
+    IReadOnlyGameState state,
+    IReadOnlyEffectInstance instance,
+    UnitInstanceId target)
+    {
+        foreach (var component in instance.Components)
+        {
+            if (component is not IReadOnlyResolvableHpDeltaComponent resolvableComponent)
+                continue;
+
+            int resolveValue = resolvableComponent.HpType switch
+            {
+                HpType.Heal when component.Template is IHealComponent healT =>
+                        _healCalculator.Compute(context, state, instance, healT),
+
+                HpType.Damage when component.Template is IDamageComponent dmgT =>
+                    _damageCalculator.Compute(context, state, instance, dmgT),
+
+                _ => throw new InvalidOperationException(
+                    $"Template {component.Template.GetType().Name} doesn't match HpType {resolvableComponent.HpType}.")
+            };
+
+            context.Effects.UpdateHpDelta(target, instance.Id, component.Id, resolveValue);
         }
     }
 }

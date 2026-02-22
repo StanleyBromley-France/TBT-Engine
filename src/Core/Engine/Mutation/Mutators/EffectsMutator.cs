@@ -1,8 +1,10 @@
 ﻿namespace Core.Engine.Mutation.Mutators;
 
+using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
+using System.Linq;
 
 
 /// <summary>
@@ -104,4 +106,28 @@ public sealed class EffectsMutator
         return effect.IsExpired();
     }
 
+    public void UpdateHpDelta(
+        UnitInstanceId target,
+        EffectInstanceId effectId,
+        EffectComponentInstanceId componentId,
+        int resolved)
+    {
+        var state = _ctx.GetState();
+
+        var component = state.ActiveEffects[target][effectId]
+            .Components
+            .Single(c => c.Id == componentId);
+
+        if (component is IResolvableHpDeltaComponent resolvable)
+        {
+            resolvable.ResolvedHpDelta = resolved;
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Component '{componentId}' does not implement {nameof(IResolvableHpDeltaComponent)}.");
+        
+        // TODO: Convert effect instance components to dict?
+        // TODO: Record undo step in UndoRecord
+    }
 }

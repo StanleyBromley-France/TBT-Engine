@@ -13,14 +13,14 @@ using Engine.Mutation;
 /// tracking duration, stack count, and component behaviors
 /// </summary>
 /// <remarks>
-/// Created from an <see cref="EffectTemplate"/> and applied to a target unit.
+/// Created from an <see cref="Templates.EffectTemplate"/> and applied to a target unit.
 /// Delegates its behavior to the underlying <see cref="EffectComponentInstance"/>s
 /// on initial application and on each tick.
 /// </remarks>
 public sealed class EffectInstance : IReadOnlyEffectInstance, IEffectInstanceExecution
 {
     public EffectInstanceId Id { get; }
-    public EffectTemplate Template { get; }
+    public Templates.EffectTemplate Template { get; }
     public UnitInstanceId SourceUnitId { get; }
     public UnitInstanceId TargetUnitId { get; }
     public int RemainingTicks { get; set; }
@@ -31,7 +31,7 @@ public sealed class EffectInstance : IReadOnlyEffectInstance, IEffectInstanceExe
 
     public EffectInstance(
         EffectInstanceId id,
-        EffectTemplate template,
+        Templates.EffectTemplate template,
         UnitInstanceId sourceUnitId,
         UnitInstanceId targetUnitId,
         EffectComponentInstance[] components)

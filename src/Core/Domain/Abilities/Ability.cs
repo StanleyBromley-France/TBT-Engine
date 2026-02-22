@@ -11,17 +11,17 @@ using Core.Domain.Effects.Templates;
 /// <remarks>
 /// Uses <see cref="AbilityCost"/> for resource requirements and
 /// <see cref="TargetingRules"/> to determine valid targets.
-/// Used to apply one or more <see cref="EffectTemplate"/> instances on a target.
+/// Used to apply one or more <see cref="Effects.Templates.EffectTemplate"/> instances on a target.
 /// </remarks>
 public sealed class Ability
 {
-    private readonly EffectTemplateId _effect;
+    private readonly Types.EffectTemplateId _effect;
     public AbilityId Id { get; }
     public string Name { get; }
     public AbilityCategory Category { get; }
     public int ManaCost { get; }
     public TargetingRules Targeting { get; }
-    public EffectTemplateId Effect => _effect;
+    public Types.EffectTemplateId Effect => _effect;
 
     /// <summary>
     /// Creates a new ability using the specified identifiers, metadata, cost,
@@ -33,7 +33,7 @@ public sealed class Ability
         AbilityCategory category,
         int cost,
         TargetingRules targeting,
-        EffectTemplateId effect)
+        Types.EffectTemplateId effect)
     {
         Id = id;
         Name = name;

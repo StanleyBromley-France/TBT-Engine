@@ -6,6 +6,8 @@ using Domain.Repositories;
 using Engine.Effects.Components.Factories;
 using Domain.Effects.Instances.Mutable;
 using Domain.Types;
+using Core.Engine.Mutation;
+using Core.Domain.Effects.Instances.ReadOnly;
 
 internal sealed class EffectInstanceFactory : IEffectInstanceFactory
 {
@@ -23,7 +25,8 @@ internal sealed class EffectInstanceFactory : IEffectInstanceFactory
         _templates = templates ?? throw new ArgumentNullException(nameof(templates));
     }
 
-    public EffectInstance Create(
+    public IReadOnlyEffectInstance Create(
+        GameMutationContext context,
         EffectTemplateId templateId,
         UnitInstanceId sourceUnitId,
         UnitInstanceId targetUnitId)
@@ -40,12 +43,16 @@ internal sealed class EffectInstanceFactory : IEffectInstanceFactory
             components.Add(component);
         }
 
-        return new EffectInstance(
+        var effect = new EffectInstance(
             effectId,
             template,
             sourceUnitId,
             targetUnitId,
             [.. components]
             );
+
+        context.Effects.AddEffect(targetUnitId, effect);
+
+        return effect;
     }
 }
