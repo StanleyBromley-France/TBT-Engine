@@ -1,11 +1,9 @@
-﻿using Core.Domain.Effects.Components.Instances.Mutable;
-using Core.Domain.Effects.Components.Templates;
-using Core.Domain.Effects.Instances.Mutable;
+﻿namespace Core.Engine.Effects.Components.Factories;
 
-namespace Core.Engine.Effects.Components.Factories;
-
-using Core.Engine.Effects.Components.Factories.Registry;
-public sealed class EffectComponentInstanceFactory
+using Domain.Effects.Components.Instances.Mutable;
+using Domain.Effects.Components.Templates;
+using Effects.Components.Factories.Registry;
+public sealed class EffectComponentInstanceFactory : IEffectComponentInstanceFactory
 {
     private readonly IComponentInstanceCreatorRegistry _registry;
 
@@ -16,8 +14,7 @@ public sealed class EffectComponentInstanceFactory
     }
 
     public EffectComponentInstance Create(
-        EffectComponentTemplate componentTemplate,
-        EffectInstance effect)
+        EffectComponentTemplate componentTemplate)
     {
         if (componentTemplate is null) throw new ArgumentNullException(nameof(componentTemplate));
 

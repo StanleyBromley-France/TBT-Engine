@@ -34,16 +34,14 @@ public sealed class EffectInstance : IReadOnlyEffectInstance, IEffectInstanceExe
         EffectTemplate template,
         UnitInstanceId sourceUnitId,
         UnitInstanceId targetUnitId,
-        int remainingTicks,
-        int currentStacks,
         EffectComponentInstance[] components)
     {
         Id = id;
         Template = template;
         SourceUnitId = sourceUnitId;
         TargetUnitId = targetUnitId;
-        RemainingTicks = remainingTicks;
-        CurrentStacks = currentStacks;
+        RemainingTicks = Template.TotalTicks;
+        CurrentStacks = 1;
         Components = components;
     }
 

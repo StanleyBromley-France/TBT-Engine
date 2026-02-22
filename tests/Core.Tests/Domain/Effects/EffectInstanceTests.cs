@@ -19,7 +19,7 @@ public class EffectInstanceTests
         Assert.Equal("source-1", instance.SourceUnitId);
         Assert.Equal("target-1", instance.TargetUnitId);
         Assert.Equal(3, instance.RemainingTicks);
-        Assert.Same(template.Components, instance.Components);
+        Assert.Same(template.ComponentTemplateIds, instance.Components);
     }
 
     //[Fact]

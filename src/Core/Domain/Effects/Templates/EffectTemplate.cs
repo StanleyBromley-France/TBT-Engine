@@ -20,7 +20,7 @@ public class EffectTemplate
     public bool IsHarmful { get; }
     public int TotalTicks { get; }
     public int MaxStacks { get; }
-    public IReadOnlyList<EffectComponentTemplateId> Components => _components;
+    public IReadOnlyList<EffectComponentTemplateId> ComponentTemplateIds => _components;
 
     /// <summary>
     /// Creates a template with a configuration and components
