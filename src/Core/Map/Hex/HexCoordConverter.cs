@@ -1,4 +1,4 @@
-﻿namespace Core.Map.Algorithms;
+﻿namespace Core.Map.Hex;
 
 using Core.Domain.Types;
 using Grid;

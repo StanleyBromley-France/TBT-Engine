@@ -1,4 +1,4 @@
-﻿namespace Core.Map.Grid;
+﻿namespace Core.Map.Hex;
 
 public enum HexDirection
 {

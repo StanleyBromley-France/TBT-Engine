@@ -1,12 +1,11 @@
 ﻿namespace Core.Map.Grid;
 
-using Algorithms;
-using Core.Map.Algorithms;
+using Core.Map.Terrain;
 
 /// <summary>
 /// Represents a single hex tile on the map.
 /// </summary>
-public sealed class Tile
+public sealed class Tile : IReadOnlyTile
 {
     /// <summary>
     /// Type of terrain this tile contains.

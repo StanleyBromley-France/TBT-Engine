@@ -1,6 +1,7 @@
-﻿namespace Core.Map.Algorithms;
+﻿namespace Core.Map.Search;
 
 using Core.Domain.Types;
+using Core.Map.Hex;
 using Map.Grid;
 
 /// <summary>
@@ -14,17 +15,16 @@ public static class MapSearch
     /// <summary>
     /// Returns all neighboring coordinates around a center tile that exist within the map.
     /// </summary>
-    public static IEnumerable<HexCoord> GetNeighbourCoords(Map map, HexCoord center)
+    public static IEnumerable<HexCoord> GetNeighbourCoords(IReadOnlyMap map, HexCoord center)
     {
         foreach (var neighbour in HexMath.GetNeighborCoords(center))
             if (map.TryGetTile(neighbour, out _))
                 yield return neighbour;
     }
-
     /// <summary>
     /// Returns all coordinates within a radius of a center tile that exist within the map.
     /// </summary>
-    public static IEnumerable<HexCoord> GetCoordsInRadius(Map map, HexCoord center, int radius)
+    public static IEnumerable<HexCoord> GetCoordsInRadius(IReadOnlyMap map, HexCoord center, int radius)
     {
         foreach (var neighbour in HexMath.GetCoordsInRadius(center, radius))
             if (map.TryGetTile(neighbour, out _))
@@ -35,7 +35,7 @@ public static class MapSearch
     /// Returns a ray of coordinates starting from a tile in a given direction,
     /// stopping when the ray leaves the map or the maximum distance is reached.
     /// </summary>
-    public static IEnumerable<HexCoord> GetCoordsInRay(Map map, HexCoord start, HexDirection direction, int distance)
+    public static IEnumerable<HexCoord> GetCoordsInRay(IReadOnlyMap map, HexCoord start, HexDirection direction, int distance)
     {
         foreach (var neighbour in HexMath.GetCoordsInRay(start, direction, distance))
             if (map.TryGetTile(neighbour, out _))
@@ -47,7 +47,7 @@ public static class MapSearch
     /// <summary>
     /// Returns all neighboring tiles around a center tile that exist within the map.
     /// </summary>
-    public static IEnumerable<Tile> GetNeighbourTiles(Map map, HexCoord center)
+    public static IEnumerable<IReadOnlyTile> GetNeighbourTiles(IReadOnlyMap map, HexCoord center)
     {
         foreach (var neighbour in HexMath.GetNeighborCoords(center))
             if (map.TryGetTile(neighbour, out var tile))
@@ -57,7 +57,7 @@ public static class MapSearch
     /// <summary>
     /// Returns all tiles within a radius of a center tile that exist within the map.
     /// </summary>
-    public static IEnumerable<Tile> GetTilesInRadius(Map map, HexCoord center, int radius)
+    public static IEnumerable<IReadOnlyTile> GetTilesInRadius(IReadOnlyMap map, HexCoord center, int radius)
     {
         foreach (var neighbour in HexMath.GetCoordsInRadius(center, radius))
             if (map.TryGetTile(neighbour, out var tile))
@@ -68,7 +68,7 @@ public static class MapSearch
     /// Returns a ray of tiles starting from a tile in a given direction,
     /// stopping when the ray leaves the map or the maximum distance is reached.
     /// </summary>
-    public static IEnumerable<Tile> GetTilesInRay(Map map, HexCoord start, HexDirection direction, int distance)
+    public static IEnumerable<IReadOnlyTile> GetTilesInRay(IReadOnlyMap map, HexCoord start, HexDirection direction, int distance)
     {
         foreach (var neighbour in HexMath.GetCoordsInRay(start, direction, distance))
             if (map.TryGetTile(neighbour, out var tile))

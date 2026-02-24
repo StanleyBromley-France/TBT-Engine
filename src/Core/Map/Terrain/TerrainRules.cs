@@ -1,6 +1,4 @@
-﻿namespace Core.Map.Algorithms;
-
-using Grid;
+﻿namespace Core.Map.Terrain;
 
 /// <summary>
 /// Provides rules derived from terrain types.
@@ -11,7 +9,6 @@ public static class TerrainRules
         terrain switch
         {
             TerrainType.Plain => true,
-            TerrainType.Forest => true,
             TerrainType.Mountain => false,
             TerrainType.Water => false,
             _ => false

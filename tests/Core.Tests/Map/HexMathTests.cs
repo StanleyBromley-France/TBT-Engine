@@ -1,8 +1,7 @@
 ﻿namespace Core.Tests.Map;
 
 using Core.Domain.Types;
-using Core.Map.Algorithms;
-using Core.Map.Grid;
+using Core.Map.Hex;
 
 public class HexMathTests
 {

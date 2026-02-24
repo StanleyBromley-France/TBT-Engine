@@ -1,42 +1,32 @@
 ﻿namespace Core.Map.Grid;
 
-using Algorithms;
 using Core.Domain.Types;
-using Core.Map.Algorithms;
+using Core.Map.Hex;
+using Core.Map.Terrain;
 
-/// <summary>
+/// <summary> 
 /// Represents a hex grid composed of tiles stored in offset coordinates.
 /// Map is flat top odd q.
 /// </summary>
-public sealed class Map
+public sealed class Map : IReadOnlyMap
 {
     public int Width { get; }
     public int Height { get; }
 
-    /// <summary>
-    /// Two-dimensional array of tiles in offset (col, row) coordinates.
-    /// </summary>
-    public Tile[,] Tiles { get; }
+    private readonly Tile[,] _tiles;
 
-    public Map(int width, int height)
+    public Map(Tile[,] tiles)
     {
-        Width = width;
-        Height = height;
-        Tiles = new Tile[width, height];
+        if (tiles == null) throw new ArgumentNullException(nameof(tiles));
 
-        for (int col = 0; col < width; col++)
-        {
-            for (int row = 0; row < height; row++)
-            {
-                Tiles[col, row] = new Tile
-                {
-                    Terrain = TerrainType.Plain
-                };
-            }
-        }
+        Width = tiles.GetLength(0);
+        Height = tiles.GetLength(1);
+
+        _tiles = tiles;
     }
 
-    /// <summary>
+
+    /// <summary> 
     /// Returns true if the given offset coordinate lies inside the map.
     /// </summary>
     public bool IsInside(int col, int row) =>
@@ -47,26 +37,23 @@ public sealed class Map
     /// Returns true if tile exists at given coord.
     /// Retrieves the tile at a given axial coordinate or null if outside or doesnt exist and stores it in tile.
     /// </summary>
-    public bool TryGetTile(HexCoord coord, out Tile tile)
+    public bool TryGetTile(HexCoord coord, out IReadOnlyTile tile)
     {
-        tile = null!;
-
-        // Convert hex coord to offset indices (col, row)
         var (col, row) = HexCoordConverter.ToOffset(coord);
 
-        // Bounds check against map storage
         if (!IsInside(col, row))
+        {
+            tile = default!;
             return false;
+        }
 
-        tile = Tiles[col, row];
-        return tile != null;
+        tile = _tiles[col, row];
+        return true;
     }
 
     /// <summary>
     /// Retrieves the tile at a given axial coordinate or null if it doesnt exist.
     /// </summary>
-    public Tile? GetTile(HexCoord coord)
-    {
-        return TryGetTile(coord, out var tile) ? tile : null;
-    }
+    public IReadOnlyTile? GetTile(HexCoord coord) =>
+        TryGetTile(coord, out var tile) ? tile : null;
 }

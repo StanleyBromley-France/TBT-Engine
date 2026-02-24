@@ -1,9 +1,8 @@
-﻿namespace Core.Map.Grid;
+﻿namespace Core.Map.Terrain;
 
 public enum TerrainType
 {
     Plain,
-    Forest,
     Mountain,
     Water
 }
