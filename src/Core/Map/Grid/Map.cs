@@ -1,7 +1,7 @@
 ﻿namespace Core.Map.Grid;
 
 using Core.Domain.Types;
-using Core.Map.Hex;
+using Core.Map.Search;
 using Core.Map.Terrain;
 
 /// <summary> 

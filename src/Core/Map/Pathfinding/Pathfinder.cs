@@ -1,6 +1,7 @@
 ﻿namespace Core.Map.Pathfinding;
 
 using Core.Map.Search;
+using Core.Map.Terrain;
 using Domain.Types;
 using Map.Grid;
 
@@ -48,6 +49,42 @@ public sealed class Pathfinder : IPathfinder
 
         var reachable = GetReachable(map, start, maxMoves);
         return reachable.TryGetValue(destination, out var cost) && cost <= maxMoves;
+    }
+
+    public bool HasLineOfSight(IReadOnlyMap map, HexCoord from, HexCoord to)
+    {
+        if (map == null)
+            throw new ArgumentNullException(nameof(map));
+
+        if (!map.TryGetTile(from, out _))
+            return false;
+
+        if (!map.TryGetTile(to, out var toTile))
+            return false;
+
+        // If the target itself is a mountain, treat as not visible
+        if (toTile.Terrain == TerrainType.Mountain)
+            return false;
+
+        if (from.Equals(to))
+            return true;
+
+        foreach (var coord in MapSearch.GetCoordsInLine(map, from, to))
+        {
+            if (coord.Equals(from))
+                continue;
+
+            if (!map.TryGetTile(coord, out var tile))
+                return false;
+
+            if (coord.Equals(to))
+                return true;
+
+            if (tile.Terrain == TerrainType.Mountain)
+                return false;
+        }
+
+        return false;
     }
 
     // Runs a BFS flood-fill from the start coordinate.

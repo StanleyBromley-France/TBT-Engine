@@ -2,7 +2,7 @@
 
 using Core.Domain.Types;
 using Core.Map.Grid;
-using Core.Map.Hex;
+using Core.Map.Search;
 using Core.Map.Terrain;
 
 public class MapTests

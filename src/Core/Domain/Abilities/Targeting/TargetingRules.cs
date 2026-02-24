@@ -10,12 +10,11 @@
 /// </remarks>
 public sealed class TargetingRules
 {
-    private readonly TargetType[] _allowedTargets;
     public int Range { get; }
     public bool RequiresLineOfSight { get; }
-    public IReadOnlyList<TargetType> AllowedTargets => _allowedTargets;
-    public AreaPattern? Pattern { get; }
-
+    public TargetType AllowedTarget { get; }
+    public int MinTargets { get; }
+    public int MaxTargets { get; }
     /// <summary>
     /// Initializes targeting rules with distance, visibility, allowed targets,
     /// optional area targeting, and self-targeting behavior.
@@ -23,12 +22,14 @@ public sealed class TargetingRules
     public TargetingRules(
         int range,
         bool requiresLineOfSight,
-        IEnumerable<TargetType> allowedTargets,
-        AreaPattern? areaPattern = null)
+        TargetType allowedTarget,
+        int minTargets,
+        int maxTargets)
     {
         Range = range;
         RequiresLineOfSight = requiresLineOfSight;
-        _allowedTargets = allowedTargets.ToArray();
-        Pattern = areaPattern;
+        AllowedTarget = allowedTarget;
+        MinTargets = minTargets;
+        MaxTargets = maxTargets;
     }
 }

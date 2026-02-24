@@ -7,6 +7,5 @@ public enum TargetType
 {
     Self,
     Ally,
-    Enemy,
-    Area
+    Enemy
 }

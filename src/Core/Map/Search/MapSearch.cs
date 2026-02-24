@@ -1,7 +1,6 @@
 ﻿namespace Core.Map.Search;
 
 using Core.Domain.Types;
-using Core.Map.Hex;
 using Map.Grid;
 
 /// <summary>
@@ -10,7 +9,7 @@ using Map.Grid;
 /// that exist within a specific map.
 /// </summary>
 
-public static class MapSearch
+public static partial class MapSearch
 {
     /// <summary>
     /// Returns all neighboring coordinates around a center tile that exist within the map.
@@ -73,6 +72,15 @@ public static class MapSearch
         foreach (var neighbour in HexMath.GetCoordsInRay(start, direction, distance))
             if (map.TryGetTile(neighbour, out var tile))
                 yield return tile;
+            else
+                yield break;
+    }
+
+    public static IEnumerable<HexCoord> GetCoordsInLine(IReadOnlyMap map, HexCoord from, HexCoord to)
+    {
+        foreach (var coord in HexMath.GetCoordsInLine(from, to))
+            if (map.TryGetTile(coord, out _))
+                yield return coord;
             else
                 yield break;
     }
