@@ -13,8 +13,7 @@ public sealed class TargetingRules
     public int Range { get; }
     public bool RequiresLineOfSight { get; }
     public TargetType AllowedTarget { get; }
-    public int MinTargets { get; }
-    public int MaxTargets { get; }
+    public int Radius { get; }
     /// <summary>
     /// Initializes targeting rules with distance, visibility, allowed targets,
     /// optional area targeting, and self-targeting behavior.
@@ -23,13 +22,11 @@ public sealed class TargetingRules
         int range,
         bool requiresLineOfSight,
         TargetType allowedTarget,
-        int minTargets,
-        int maxTargets)
+        int radius)
     {
         Range = range;
         RequiresLineOfSight = requiresLineOfSight;
         AllowedTarget = allowedTarget;
-        MinTargets = minTargets;
-        MaxTargets = maxTargets;
+        Radius = radius;
     }
 }

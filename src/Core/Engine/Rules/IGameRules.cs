@@ -8,7 +8,7 @@ public interface IGameRules
 {
     void ApplyAction(GameMutationContext context, ActionChoice action);
 
-    IReadOnlyList<ActionChoice> GetLegalActions(IReadOnlyGameState state);
+    IEnumerable<ActionChoice> GetLegalActions(IReadOnlyGameState state);
 
     bool IsActionLegal(IReadOnlyGameState state, ActionChoice action);
 
