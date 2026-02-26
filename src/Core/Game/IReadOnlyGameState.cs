@@ -9,8 +9,9 @@ public interface IReadOnlyGameState
 {
     Map Map { get; }
     IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance> UnitInstances { get; }
+    IReadOnlyCollection<HexCoord> OccupiedHexes { get; }
     IReadOnlyDictionary<UnitInstanceId, IReadOnlyDictionary<EffectInstanceId, IReadOnlyEffectInstance>> ActiveEffects { get; }
     Turn Turn { get; }
-    UnitInstanceId ActiveUnitId { get; }
     RngState Rng { get; }
+    ActivationPhase Phase { get; }
 }

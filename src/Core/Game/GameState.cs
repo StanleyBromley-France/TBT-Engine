@@ -25,13 +25,15 @@ public sealed class GameState : IReadOnlyGameState
 {
     public Map Map { get; set; } = null!;
     public Dictionary<UnitInstanceId, UnitInstance> UnitInstances { get; set; }
+    public HashSet<HexCoord> OccupiedHexes { get; } = new();
     public Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>> ActiveEffects { get; set; }
     public Turn Turn { get; set; }
-    public UnitInstanceId ActiveUnitId { get; set; }
+    public ActivationPhase Phase { get; set; }
+
     public RngState Rng { get; set; } = null!;
 
     // IReadOnlyGameState projections
-
+    IReadOnlyCollection<HexCoord> IReadOnlyGameState.OccupiedHexes => OccupiedHexes;
     IReadOnlyDictionary<UnitInstanceId, IReadOnlyUnitInstance>IReadOnlyGameState.UnitInstances => 
         new ReadOnlyUnitsView(UnitInstances);
 
@@ -43,15 +45,21 @@ public sealed class GameState : IReadOnlyGameState
         Dictionary<UnitInstanceId, UnitInstance> unitInstances,
         Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>> activeEffects,
         Turn turn,
-        UnitInstanceId activeUnitId,
+        ActivationPhase phase,
         RngState rng)
     {
         Map = map ?? throw new ArgumentNullException(nameof(map));
         UnitInstances = unitInstances ?? throw new ArgumentNullException(nameof(unitInstances));
         ActiveEffects = activeEffects ?? throw new ArgumentNullException(nameof(activeEffects));
         Turn = turn;
-        ActiveUnitId = activeUnitId;
+        Phase = phase ?? throw new ArgumentNullException(nameof(phase));
         Rng = rng ?? throw new ArgumentNullException(nameof(rng));
+
+        foreach (var unit in UnitInstances.Values)
+        {
+            if (unit.IsAlive)
+                OccupiedHexes.Add(unit.Position);
+        }
     }
 
     private sealed class ReadOnlyEffectsView

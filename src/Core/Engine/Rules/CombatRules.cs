@@ -36,11 +36,37 @@ public sealed class CombatRules : IGameRules
 
         return action switch
         {
+            ChangeActiveUnitAction change => IsChangeActiveUnitLegal(state, unit, change),
             MoveAction move => IsMoveLegal(state, unit, move),
             UseAbilityAction use => IsUseAbilityLegal(state, unit, use),
             EndTurnAction end => IsEndTurnLegal(state, unit, end),
             _ => false
         };
+    }
+
+    private bool IsChangeActiveUnitLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, ChangeActiveUnitAction action)
+    {
+        // Must be issued by the currently active unit (keeps ActionChoice.UnitId meaningful)
+        if (unit.Id != state.Phase.ActiveUnitId)
+            return false;
+
+        // Cant switch away once player has started using this active unit
+        if (state.Phase.CommittedThisPhase.Contains(unit.Id))
+            return false;
+
+        // New active must exist
+        if (!state.UnitInstances.TryGetValue(action.NewActiveUnitId, out var next))
+            return false;
+
+        // Must be same team and alive
+        if (!next.IsAlive) return false;
+        if (next.Team != state.Turn.TeamToAct) return false;
+
+        // Cant switch to already-committed units
+        if (state.Phase.CommittedThisPhase.Contains(next.Id))
+            return false;
+
+        return true;
     }
 
     private bool IsEndTurnLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, EndTurnAction action)
@@ -51,12 +77,7 @@ public sealed class CombatRules : IGameRules
 
     private bool IsMoveLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, MoveAction action)
     {
-        var occupied = new HashSet<HexCoord>(
-        state.UnitInstances.Values
-        .Where(u => u.IsAlive)
-        .Select(u => u.Position));
-
-        if (occupied.Contains(action.Target)) return false;
+        if (state.OccupiedHexes.Contains(action.Target)) return false;
 
         return _pathfinder.IsMoveValid(state.Map, unit.Position, action.Target, unit.DerivedStats.MovePoints);
     }
@@ -108,26 +129,48 @@ public sealed class CombatRules : IGameRules
     {
         if (state == null) throw new ArgumentNullException(nameof(state));
 
-        foreach (var unit in state.UnitInstances.Values)
+        foreach (var change in GenerateSwitchUnitActions(state))
+            yield return change;
+
+        if (!state.UnitInstances.TryGetValue(state.Phase.ActiveUnitId, out var unit))
+            yield break;
+
+        // Only generate actions for the active unit
+        if (unit.Team != state.Turn.TeamToAct || !unit.IsAlive)
+            yield break;
+
+        var end = new EndTurnAction(unit.Id);
+        if (IsActionLegal(state, end)) yield return end;
+
+        foreach (var move in GenerateMoveActions(state, unit))
+            if (IsActionLegal(state, move)) yield return move;
+
+        foreach (var use in GenerateAbilityActions(state, unit))
+            yield return use;
+    }
+
+    private IEnumerable<ActionChoice> GenerateSwitchUnitActions(IReadOnlyGameState state)
+    {
+        var activeId = state.Phase.ActiveUnitId;
+
+        // Active unit must exist (if state can ever be inconsistent)
+        if (!state.UnitInstances.TryGetValue(activeId, out var active))
+            yield break;
+
+        // Only switch before the active unit commits
+        if (state.Phase.CommittedThisPhase.Contains(activeId))
+            yield break;
+
+        foreach (var u in state.UnitInstances.Values)
         {
-            if (unit.Team != state.Turn.TeamToAct)
-                continue;
+            if (!u.IsAlive) continue;
+            if (u.Team != state.Turn.TeamToAct) continue;
+            if (u.Id == activeId) continue;
 
-            if (!unit.IsAlive)
-                continue;
+            var action = new ChangeActiveUnitAction(activeId, u.Id);
 
-            var end = new EndTurnAction(unit.Id);
-            if (IsActionLegal(state, end))
-                yield return end;
-
-            foreach (var move in GenerateMoveActions(state, unit))
-            {
-                if (IsActionLegal(state, move))
-                    yield return move;
-            }
-
-            foreach (var use in GenerateAbilityActions(state, unit))
-                yield return use;
+            if (IsActionLegal(state, action))
+                yield return action;
         }
     }
 

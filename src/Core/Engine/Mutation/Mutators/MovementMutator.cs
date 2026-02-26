@@ -26,6 +26,10 @@ public sealed class MovementMutator
         var unit = state.UnitInstances[unitId];
 
         var before = unit.Position;
+
+        state.OccupiedHexes.Remove(before);
+        state.OccupiedHexes.Add(newPos);
+
         unit.Position = newPos;
 
         // TODO: Record undo step in UndoRecord

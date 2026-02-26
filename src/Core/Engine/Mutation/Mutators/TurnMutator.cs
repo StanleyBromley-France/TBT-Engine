@@ -28,12 +28,36 @@ public sealed class TurnMutator
         // TODO: Record undo step in UndoRecord
     }
 
-    public void SetActiveUnit(UnitInstanceId unitId)
+    public void ChangeActiveUnit(UnitInstanceId newActiveUnitId)
     {
         var state = _ctx.GetState();
 
-        var before = state.ActiveUnitId;
-        state.ActiveUnitId = unitId;
+        var before = state.Phase.ActiveUnitId;
+        state.Phase.ActiveUnitId = newActiveUnitId;
+
+        // TODO: Record undo step in UndoRecord
+    }
+
+    public void CommitUnit(UnitInstanceId unitId)
+    {
+        var state = _ctx.GetState();
+
+        if (state.Phase.CommittedThisPhase.Contains(unitId))
+            return;
+
+        state.Phase.CommittedThisPhase.Add(unitId);
+
+        // TODO: Record undo step in UndoRecord
+    }
+
+    public void ResetActivationPhase(UnitInstanceId newActiveUnitId)
+    {
+        var state = _ctx.GetState();
+
+        var beforeCommitted = state.Phase.CommittedThisPhase.ToList();
+        var beforeActive = state.Phase.ActiveUnitId;
+
+        state.Phase.Reset(newActiveUnitId);
 
         // TODO: Record undo step in UndoRecord
     }
