@@ -2,6 +2,7 @@
 
 using Core.Engine.Mutation.Mutators;
 using Core.Engine.Random;
+using Core.Engine.Undo;
 using Core.Game;
 //using Core.Undo;
 
@@ -17,6 +18,7 @@ public sealed class GameMutationContext : IGameMutationAccess
 
     private readonly GameSession _session;
     private readonly DeterministicRng _rngService;
+    private readonly UndoRecord _undoRecord;
 
     public UnitsMutator Units { get; }
     public MovementMutator Movement { get; }
@@ -24,10 +26,11 @@ public sealed class GameMutationContext : IGameMutationAccess
     public EffectsMutator Effects { get; }
     public RngMutator Rng { get; }
 
-    public GameMutationContext(GameSession session, DeterministicRng rng)
+    public GameMutationContext(GameSession session, DeterministicRng rng, UndoRecord undoRecord)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _rngService = rng ?? throw new ArgumentNullException(nameof(rng));
+        _undoRecord = undoRecord;
 
         Units = new UnitsMutator(this);
         Movement = new MovementMutator(this);

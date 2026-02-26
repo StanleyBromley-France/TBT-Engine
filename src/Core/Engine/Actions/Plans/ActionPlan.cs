@@ -44,7 +44,7 @@ public sealed class UseAbilityPlan : ActionPlan
         : base(actorUnitId)
     {
         BaseTarget = baseTarget;
-        TargetUnitIds = new ReadOnlyCollection<UnitInstanceId>(new List<UnitInstanceId>(targetUnitIds));
+        TargetUnitIds = targetUnitIds;
         EffectTemplateId = effectTemplateId;
         ManaCost = manaCost;
     }
