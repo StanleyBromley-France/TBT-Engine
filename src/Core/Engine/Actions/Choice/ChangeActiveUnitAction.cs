@@ -1,6 +1,6 @@
 ﻿using Core.Domain.Types;
 
-namespace Core.Engine.Actions;
+namespace Core.Engine.Actions.Choice;
 
 public sealed class ChangeActiveUnitAction : ActionChoice
 {

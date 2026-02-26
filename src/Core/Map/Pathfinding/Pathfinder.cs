@@ -51,6 +51,23 @@ public sealed class Pathfinder : IPathfinder
         return reachable.TryGetValue(destination, out var cost) && cost <= maxMoves;
     }
 
+    public int? GetMoveCost(IReadOnlyMap map,HexCoord start,HexCoord destination)
+    {
+        // Staying in place
+        if (start.Equals(destination))
+            return CanStartOn(map, start) ? 0 : null;
+
+        if (!CanStartOn(map, start))
+            return null;
+
+        var reachable = RunBreadthFirstSearch(map, start, 99);
+
+        if (reachable.TryGetValue(destination, out var cost))
+            return cost;
+
+        return null; // unreachable
+    }
+
     public bool HasLineOfSight(IReadOnlyMap map, HexCoord from, HexCoord to)
     {
         if (map == null)

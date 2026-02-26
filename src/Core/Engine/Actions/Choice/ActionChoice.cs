@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Actions;
+﻿namespace Core.Engine.Actions.Choice;
 
 using Core.Domain.Types;
 

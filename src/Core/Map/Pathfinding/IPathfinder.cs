@@ -7,6 +7,6 @@ public interface IPathfinder
 {
     IReadOnlyDictionary<HexCoord, int> GetReachable(IReadOnlyMap map, HexCoord start, int maxMoves);
     bool IsMoveValid(IReadOnlyMap map, HexCoord start, HexCoord destination, int maxMoves);
-
+    public int? GetMoveCost(IReadOnlyMap map, HexCoord start, HexCoord destination);
     bool HasLineOfSight(IReadOnlyMap map, HexCoord from, HexCoord to);
 }

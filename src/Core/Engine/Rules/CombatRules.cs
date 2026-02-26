@@ -5,10 +5,12 @@ using Core.Domain.Abilities.Targeting;
 using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.ReadOnly;
-using Core.Engine.Actions;
+using Core.Engine.Actions.Choice;
+using Core.Engine.Actions.Plans;
 using Core.Engine.Mutation;
 using Core.Game;
 using Core.Map.Pathfinding;
+using Core.Map.Search;
 
 public sealed class CombatRules : IGameRules
 {
@@ -106,7 +108,6 @@ public sealed class CombatRules : IGameRules
 
         // if (!_rangeService.IsInRange(unit.Position, target.Position, action.Ability.Targeting.Range)) return false;
         
-
         return true;
     }
 
@@ -122,8 +123,89 @@ public sealed class CombatRules : IGameRules
     }
 
     // Not implemented yet
-    public void ApplyAction(GameMutationContext context, ActionChoice action)
-        => throw new NotImplementedException();
+    public ActionPlan BuildPlan(IReadOnlyGameState state, ActionChoice action)
+    {
+        if (state is null) throw new ArgumentNullException(nameof(state));
+        if (action is null) throw new ArgumentNullException(nameof(action));
+
+        if (!IsActionLegal(state, action))
+            throw new InvalidOperationException("Action is illegal for the current game state.");
+
+        switch (action)
+        {
+            case MoveAction move:
+                {
+                    // Resolve movement cost 
+                    int cost = _pathfinder.GetMoveCost(state.Map, state.UnitInstances[move.UnitId].Position, move.Target)!.Value;
+                    return new MovePlan(move.UnitId, move.Target, cost);
+                }
+
+            case UseAbilityAction abilityAction:
+                {
+                    var ability = _abilityRepository.Get(abilityAction.AbilityId);
+
+                    var resolvedTargets = ResolveAbilityTargets(state, abilityAction, ability);
+
+                    int manaCost = ability.ManaCost;
+
+                    return new UseAbilityPlan(
+                        actorUnitId: abilityAction.UnitId,
+                        baseTarget: abilityAction.Target,
+                        targetUnitIds: resolvedTargets,
+                        effectTemplateId: ability.Effect,
+                        manaCost: manaCost);
+                }
+            case ChangeActiveUnitAction change:
+                return new ChangeActiveUnitPlan(change.UnitId, change.NewActiveUnitId);
+
+            case EndTurnAction end:
+                return new EndTurnPlan(end.UnitId);
+
+            default:
+                throw new InvalidOperationException($"Unknown action type: {action.GetType().Name}");
+        }
+    }
+
+    private IReadOnlyList<UnitInstanceId> ResolveAbilityTargets(IReadOnlyGameState state, UseAbilityAction abilityAction, Ability ability)
+    {
+        // if radius is 0 no searching required
+        if (ability.Targeting.Radius == 0)
+            return [abilityAction.Target];
+
+        var caster = state.UnitInstances[abilityAction.UnitId];
+        var baseTarget = state.UnitInstances[abilityAction.Target];
+
+        // AoE origin: around the chosen base target unit
+        var coords = MapSearch.GetCoordsInRadius(
+            state.Map,
+            baseTarget.Position,
+            ability.Targeting.Radius);
+
+        var coordSet = new HashSet<HexCoord>(coords);
+
+        var result = new List<UnitInstanceId>();
+
+        foreach (var candidate in state.UnitInstances.Values)
+        {
+            if (!candidate.IsAlive)
+                continue;
+
+            if (!coordSet.Contains(candidate.Position))
+                continue;
+
+            // Respect allowed target type (Self/Ally/Enemy)
+            if (!MatchesTargetType(caster, candidate, ability.Targeting.AllowedTarget))
+                continue;
+
+            if (ability.Targeting.RequiresLineOfSight &&
+                !_pathfinder.HasLineOfSight(state.Map, caster.Position, candidate.Position))
+                continue;
+
+            result.Add(candidate.Id);
+        }
+
+        return result;
+    }
 
     public IEnumerable<ActionChoice> GetLegalActions(IReadOnlyGameState state)
     {
