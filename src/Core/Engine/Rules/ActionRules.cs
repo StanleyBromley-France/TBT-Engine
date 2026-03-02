@@ -8,12 +8,12 @@ using Core.Engine.Actions.Choice;
 using Core.Game;
 using Core.Map.Pathfinding;
 
-public sealed class CombatRules : IGameRules
+public sealed class ActionRules : IActionRules
 {
     private readonly IPathfinder _pathfinder;
     private readonly IAbilityRepository _abilityRepository;
 
-    public CombatRules(IPathfinder pathfinder, IAbilityRepository abilityRepository)
+    public ActionRules(IPathfinder pathfinder, IAbilityRepository abilityRepository)
     {
         _pathfinder = pathfinder;
         _abilityRepository = abilityRepository;
