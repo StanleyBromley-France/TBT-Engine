@@ -12,8 +12,8 @@ public interface IReadOnlyUnitDerivedStats
     // Core stats
     int MaxHP { get; }
     int MaxManaPoints { get; }
-    int MovePoints { get; }
-    int ActionPoints { get; }
+    int MaxMovePoints { get; }
+    int MaxActionPoints { get; }
 
     // Percentage modifiers (100 = normal effectiveness)
 

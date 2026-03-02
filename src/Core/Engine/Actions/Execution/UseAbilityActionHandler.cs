@@ -46,7 +46,7 @@ public sealed class UseAbilityActionHandler : IActionHandler<UseAbilityAction>
             targetUnitIds: targets);
 
         _effectManager.ApplyOrStackEffect(ctx, state, request);
-
+        ctx.Units.ChangeActionPoints(action.UnitId, -1);
         ctx.Turn.CommitUnit(action.UnitId);
     }
 

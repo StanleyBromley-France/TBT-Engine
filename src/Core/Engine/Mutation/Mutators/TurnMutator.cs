@@ -50,7 +50,7 @@ public sealed class TurnMutator
         // TODO: Record undo step in UndoRecord
     }
 
-    public void ResetActivationPhase(UnitInstanceId newActiveUnitId)
+    public void ResetActivationPhaseAndSetNew(UnitInstanceId newActiveUnitId)
     {
         var state = _ctx.GetState();
 

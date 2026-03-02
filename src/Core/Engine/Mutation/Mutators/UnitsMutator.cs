@@ -49,6 +49,43 @@ public sealed class UnitsMutator
 
     }
 
+    public void ChangeMovePoints(UnitInstanceId unitId, int delta)
+    {
+        var state = _ctx.GetState();
+        var unit = state.UnitInstances[unitId];
+
+        var before = unit.Resources.MovePoints;
+        unit.Resources.MovePoints += delta;
+
+        // TODO: Record undo step in UndoRecord
+    }
+
+    public void ResetActionPoints(UnitInstanceId unitId)
+    {
+        var state = _ctx.GetState();
+        var unit = state.UnitInstances[unitId];
+
+        var before = unit.Resources.ActionPoints;
+        var max = unit.DerivedStats.MaxActionPoints;
+
+        unit.Resources.ActionPoints = max;
+
+        // TODO: Record undo step in UndoRecord
+    }
+
+    public void ResetMovePoints(UnitInstanceId unitId)
+    {
+        var state = _ctx.GetState();
+        var unit = state.UnitInstances[unitId];
+
+        var before = unit.Resources.MovePoints;
+        var max = unit.DerivedStats.MaxMovePoints;
+
+        unit.Resources.MovePoints = max;
+
+        // TODO: Record undo step in UndoRecord
+    }
+
     public void SetDerivedStats(UnitInstanceId unitId, UnitDerivedStats newStats)
     {
         var state = _ctx.GetState();

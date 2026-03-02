@@ -17,8 +17,8 @@ public class UnitDerivedStats : IReadOnlyUnitDerivedStats
     // Core resources
     public int MaxHP { get; set; }
     public int MaxManaPoints { get; set; }
-    public int MovePoints { get; set; }
-    public int ActionPoints { get; set; }
+    public int MaxMovePoints { get; set; }
+    public int MaxActionPoints { get; set; }
 
     // Percentage modifiers (100 = normal effectiveness)
 
@@ -47,8 +47,8 @@ public class UnitDerivedStats : IReadOnlyUnitDerivedStats
         MaxHP = maxHp;
         MaxManaPoints = maxManaPoints;
 
-        MovePoints = movePoints;
-        ActionPoints = actionPoints;
+        MaxMovePoints = movePoints;
+        MaxActionPoints = actionPoints;
 
         DamageDealt = damageDealt;
         HealingDealt = healingDealt;

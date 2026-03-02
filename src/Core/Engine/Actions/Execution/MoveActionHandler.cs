@@ -21,11 +21,11 @@ public sealed class MoveActionHandler : IActionHandler<MoveAction>
     {
         var unit = state.UnitInstances[action.UnitId];
 
-        var cost = _pathfinder
-            .GetMoveCost(state.Map, unit.Position, action.Target)!.Value;
+        var cost = _pathfinder.GetMoveCost(state.Map, unit.Position, action.TargetHex)!.Value;
 
-        ctx.Movement.MoveUnit(action.UnitId, action.Target);
-        ctx.Units.ChangeActionPoints(action.UnitId, -cost);
+        ctx.Movement.MoveUnit(action.UnitId, action.TargetHex);
+        ctx.Units.ChangeMovePoints(action.UnitId, -cost);
+        ctx.Units.ChangeActionPoints(action.UnitId, -1);
         ctx.Turn.CommitUnit(action.UnitId);
     }
 }
