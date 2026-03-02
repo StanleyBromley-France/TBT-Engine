@@ -1,16 +1,12 @@
 ﻿namespace Core.Engine.Rules;
 
-using Core.Domain.Abilities;
 using Core.Domain.Abilities.Targeting;
 using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.ReadOnly;
 using Core.Engine.Actions.Choice;
-using Core.Engine.Actions.Plans;
-using Core.Engine.Mutation;
 using Core.Game;
 using Core.Map.Pathfinding;
-using Core.Map.Search;
 
 public sealed class CombatRules : IGameRules
 {
@@ -41,39 +37,65 @@ public sealed class CombatRules : IGameRules
             ChangeActiveUnitAction change => IsChangeActiveUnitLegal(state, unit, change),
             MoveAction move => IsMoveLegal(state, unit, move),
             UseAbilityAction use => IsUseAbilityLegal(state, unit, use),
-            EndTurnAction end => IsEndTurnLegal(state, unit, end),
+            SkipActiveUnit end => IsSkipActiveUnitLegal(state, unit, end),
             _ => false
         };
     }
 
     private bool IsChangeActiveUnitLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, ChangeActiveUnitAction action)
     {
-        // Must be issued by the currently active unit (keeps ActionChoice.UnitId meaningful)
+        // Must be issued by the currently active unit
         if (unit.Id != state.Phase.ActiveUnitId)
             return false;
 
-        // Cant switch away once player has started using this active unit
-        if (state.Phase.CommittedThisPhase.Contains(unit.Id))
+        // If the current unit is committed (i.e., has acted), it can only be switched away
+        // once it has no AP remaining.
+        if (state.Phase.CommittedThisPhase.Contains(unit.Id) &&
+            unit.Resources.ActionPoints != 0)
+        {
             return false;
+        }
 
         // New active must exist
         if (!state.UnitInstances.TryGetValue(action.NewActiveUnitId, out var next))
             return false;
 
         // Must be same team and alive
-        if (!next.IsAlive) return false;
-        if (next.Team != state.Turn.TeamToAct) return false;
+        if (!next.IsAlive)
+            return false;
 
-        // Cant switch to already-committed units
+        if (next.Team != state.Turn.TeamToAct)
+            return false;
+
+        // Cannot switch to a committed unit (committed + not selected => no longer playable)
         if (state.Phase.CommittedThisPhase.Contains(next.Id))
+            return false;
+
+        // Disallow switching to the same unit
+        if (next.Id == unit.Id)
             return false;
 
         return true;
     }
 
-    private bool IsEndTurnLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, EndTurnAction action)
+    private bool IsSkipActiveUnitLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, SkipActiveUnit action)
     {
-        // At the moment, end turn is always legal
+        // Must be the currently active unit
+        if (unit.Id != state.Phase.ActiveUnitId)
+            return false;
+
+        // Must belong to the acting team
+        if (unit.Team != state.Turn.TeamToAct)
+            return false;
+
+        // Must be alive
+        if (!unit.IsAlive)
+            return false;
+
+        // No point skipping if no AP remaining
+        if (unit.Resources.ActionPoints <= 0)
+            return false;
+
         return true;
     }
 
@@ -81,7 +103,7 @@ public sealed class CombatRules : IGameRules
     {
         if (state.OccupiedHexes.Contains(action.Target)) return false;
 
-        return _pathfinder.IsMoveValid(state.Map, unit.Position, action.Target, unit.DerivedStats.MovePoints);
+        return _pathfinder.IsMoveValid(state.Map, unit.Position, action.Target, unit.DerivedStats.MaxMovePoints);
     }
 
     private bool IsUseAbilityLegal(IReadOnlyGameState state, IReadOnlyUnitInstance unit, UseAbilityAction action)
@@ -122,91 +144,6 @@ public sealed class CombatRules : IGameRules
         };
     }
 
-    // Not implemented yet
-    public ActionPlan BuildPlan(IReadOnlyGameState state, ActionChoice action)
-    {
-        if (state is null) throw new ArgumentNullException(nameof(state));
-        if (action is null) throw new ArgumentNullException(nameof(action));
-
-        if (!IsActionLegal(state, action))
-            throw new InvalidOperationException("Action is illegal for the current game state.");
-
-        switch (action)
-        {
-            case MoveAction move:
-                {
-                    // Resolve movement cost 
-                    int cost = _pathfinder.GetMoveCost(state.Map, state.UnitInstances[move.UnitId].Position, move.Target)!.Value;
-                    return new MovePlan(move.UnitId, move.Target, cost);
-                }
-
-            case UseAbilityAction abilityAction:
-                {
-                    var ability = _abilityRepository.Get(abilityAction.AbilityId);
-
-                    var resolvedTargets = ResolveAbilityTargets(state, abilityAction, ability);
-
-                    int manaCost = ability.ManaCost;
-
-                    return new UseAbilityPlan(
-                        actorUnitId: abilityAction.UnitId,
-                        baseTarget: abilityAction.Target,
-                        targetUnitIds: resolvedTargets,
-                        effectTemplateId: ability.Effect,
-                        manaCost: manaCost);
-                }
-            case ChangeActiveUnitAction change:
-                return new ChangeActiveUnitPlan(change.UnitId, change.NewActiveUnitId);
-
-            case EndTurnAction end:
-                return new EndTurnPlan(end.UnitId);
-
-            default:
-                throw new InvalidOperationException($"Unknown action type: {action.GetType().Name}");
-        }
-    }
-
-    private IReadOnlyList<UnitInstanceId> ResolveAbilityTargets(IReadOnlyGameState state, UseAbilityAction abilityAction, Ability ability)
-    {
-        // if radius is 0 no searching required
-        if (ability.Targeting.Radius == 0)
-            return [abilityAction.Target];
-
-        var caster = state.UnitInstances[abilityAction.UnitId];
-        var baseTarget = state.UnitInstances[abilityAction.Target];
-
-        // AoE origin: around the chosen base target unit
-        var coords = MapSearch.GetCoordsInRadius(
-            state.Map,
-            baseTarget.Position,
-            ability.Targeting.Radius);
-
-        var coordSet = new HashSet<HexCoord>(coords);
-
-        var result = new List<UnitInstanceId>();
-
-        foreach (var candidate in state.UnitInstances.Values)
-        {
-            if (!candidate.IsAlive)
-                continue;
-
-            if (!coordSet.Contains(candidate.Position))
-                continue;
-
-            // Respect allowed target type (Self/Ally/Enemy)
-            if (!MatchesTargetType(caster, candidate, ability.Targeting.AllowedTarget))
-                continue;
-
-            if (ability.Targeting.RequiresLineOfSight &&
-                !_pathfinder.HasLineOfSight(state.Map, caster.Position, candidate.Position))
-                continue;
-
-            result.Add(candidate.Id);
-        }
-
-        return result;
-    }
-
     public IEnumerable<ActionChoice> GetLegalActions(IReadOnlyGameState state)
     {
         if (state == null) throw new ArgumentNullException(nameof(state));
@@ -221,7 +158,7 @@ public sealed class CombatRules : IGameRules
         if (unit.Team != state.Turn.TeamToAct || !unit.IsAlive)
             yield break;
 
-        var end = new EndTurnAction(unit.Id);
+        var end = new SkipActiveUnit(unit.Id);
         if (IsActionLegal(state, end)) yield return end;
 
         foreach (var move in GenerateMoveActions(state, unit))
@@ -258,7 +195,7 @@ public sealed class CombatRules : IGameRules
 
     private IEnumerable<ActionChoice> GenerateMoveActions(IReadOnlyGameState state, IReadOnlyUnitInstance unit)
     {
-        var reachable = _pathfinder.GetReachable(state.Map, unit.Position, unit.DerivedStats.MovePoints);
+        var reachable = _pathfinder.GetReachable(state.Map, unit.Position, unit.DerivedStats.MaxMovePoints);
 
         foreach (var kvp in reachable)
         {

@@ -2,9 +2,9 @@
 
 using Core.Domain.Types;
 
-public sealed class EndTurnAction : ActionChoice
+public sealed class SkipActiveUnit : ActionChoice
 {
-    public EndTurnAction(UnitInstanceId unitId)
+    public SkipActiveUnit(UnitInstanceId unitId)
         : base(unitId)
     {
     }
