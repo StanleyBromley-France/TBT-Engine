@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Undo.Steps;
+﻿namespace Core.Engine.Undo.Steps.Effects;
 
 using Core.Domain.Types;
 using Core.Engine.Undo;
@@ -17,7 +17,12 @@ public sealed class AddEffectUndo : IUndoStep
 
     public void Undo(GameState state)
     {
-        if (state.ActiveEffects.TryGetValue(TargetUnitId, out var effects))
-            effects.Remove(EffectId);
+        if (!state.ActiveEffects.TryGetValue(TargetUnitId, out var effects))
+            return;
+
+        effects.Remove(EffectId);
+
+        if (effects.Count == 0)
+            state.ActiveEffects.Remove(TargetUnitId);
     }
 }

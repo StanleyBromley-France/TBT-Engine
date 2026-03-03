@@ -1,0 +1,29 @@
+﻿namespace Core.Engine.Undo.Steps.Turn;
+
+using System;
+using System.Collections.Generic;
+using Core.Domain.Types;
+using Core.Game;
+
+public sealed class ActivationPhaseResetUndo : IUndoStep
+{
+    public UnitInstanceId OldActiveUnitId { get; }
+    public IReadOnlyList<UnitInstanceId> OldCommittedUnits { get; }
+
+    public ActivationPhaseResetUndo(
+        UnitInstanceId oldActiveUnitId,
+        IReadOnlyList<UnitInstanceId> oldCommittedUnits)
+    {
+        OldActiveUnitId = oldActiveUnitId;
+        OldCommittedUnits = oldCommittedUnits ?? throw new ArgumentNullException(nameof(oldCommittedUnits));
+    }
+
+    public void Undo(GameState state)
+    {
+        state.Phase.ActiveUnitId = OldActiveUnitId;
+
+        state.Phase.CommittedThisPhase.Clear();
+        foreach (var id in OldCommittedUnits)
+            state.Phase.CommittedThisPhase.Add(id);
+    }
+}

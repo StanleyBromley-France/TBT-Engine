@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Undo.Steps;
+﻿namespace Core.Engine.Undo.Steps.Turn;
 
 using Core.Domain.Types;
 using Core.Engine.Undo;

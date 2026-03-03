@@ -2,6 +2,7 @@
 
 using Core.Domain.Types;
 using Core.Engine.Mutation;
+using Core.Engine.Undo.Steps.Turn;
 
 /// <summary>
 /// Mutation-layer API for modifying turn-related state>.
@@ -25,7 +26,7 @@ public sealed class TurnMutator
         var before = state.Turn;
         state.Turn = newTurn;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new TurnChangeUndo(before));
     }
 
     public void ChangeActiveUnit(UnitInstanceId newActiveUnitId)
@@ -35,7 +36,7 @@ public sealed class TurnMutator
         var before = state.Phase.ActiveUnitId;
         state.Phase.ActiveUnitId = newActiveUnitId;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new ActiveUnitChangeUndo(before));
     }
 
     public void CommitUnit(UnitInstanceId unitId)
@@ -47,7 +48,7 @@ public sealed class TurnMutator
 
         state.Phase.CommittedThisPhase.Add(unitId);
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new PhaseCommitUnitUndo(unitId));
     }
 
     public void ResetActivationPhaseAndSetNew(UnitInstanceId newActiveUnitId)
@@ -59,6 +60,6 @@ public sealed class TurnMutator
 
         state.Phase.Reset(newActiveUnitId);
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new ActivationPhaseResetUndo(beforeActive, beforeCommitted));
     }
 }

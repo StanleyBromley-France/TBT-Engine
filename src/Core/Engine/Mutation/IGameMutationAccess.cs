@@ -1,8 +1,8 @@
 ﻿namespace Core.Engine.Mutation;
 
 using Core.Engine.Random;
+using Core.Engine.Undo;
 using Core.Game;
-//using Core.Undo;
 
 /// <summary>
 /// Internal mutation-layer access contract that exposes controlled
@@ -21,8 +21,7 @@ using Core.Game;
 /// </remarks>
 internal interface IGameMutationAccess
 {
-    // TODO: Add Undo reference
-
     GameState GetState();
+    UndoRecord GetUndo();
     DeterministicRng GetRngService();
 }

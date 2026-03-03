@@ -1,15 +1,15 @@
-﻿namespace Core.Engine.Undo.Steps;
+﻿namespace Core.Engine.Undo.Steps.Move;
 
 using Core.Domain.Types;
 using Core.Engine.Undo;
 using Core.Game;
 
-public sealed class MoveUndo : IUndoStep
+public sealed class UnitPositionChangeUndo : IUndoStep
 {
     public UnitInstanceId UnitId { get; }
     public HexCoord OldPosition { get; }
 
-    public MoveUndo(UnitInstanceId unitId, HexCoord oldPosition)
+    public UnitPositionChangeUndo(UnitInstanceId unitId, HexCoord oldPosition)
     {
         UnitId = unitId;
         OldPosition = oldPosition;

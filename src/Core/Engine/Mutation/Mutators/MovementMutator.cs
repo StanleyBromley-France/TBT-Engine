@@ -2,6 +2,7 @@
 
 using Core.Domain.Types;
 using Core.Engine.Mutation;
+using Core.Engine.Undo.Steps.Move;
 
 /// <summary>
 /// Mutation-layer API for updating unit positional state.
@@ -32,6 +33,6 @@ public sealed class MovementMutator
 
         unit.Position = newPos;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new UnitPositionChangeUndo(unitId, before));
     }
 }

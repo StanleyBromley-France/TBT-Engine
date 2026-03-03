@@ -3,6 +3,7 @@
 using Core.Domain.Types;
 using Core.Engine.Mutation;
 using Core.Domain.Units.Instances.Mutable;
+using Core.Engine.Undo.Steps.Units;
 
 /// <summary>
 /// Mutation-layer API for modifying unit resource values>.
@@ -25,7 +26,7 @@ public sealed class UnitsMutator
         var before = unit.Resources.HP;
         unit.Resources.HP += delta;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new HpChangeUndo(unitId, before));
     }
 
     public void ChangeMana(UnitInstanceId unitId, int delta)
@@ -36,7 +37,7 @@ public sealed class UnitsMutator
         var before = unit.Resources.Mana;
         unit.Resources.Mana += delta;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new ManaChangeUndo(unitId, before));
     }
 
     public void ChangeActionPoints(UnitInstanceId unitId, int delta)
@@ -47,6 +48,7 @@ public sealed class UnitsMutator
         var before = unit.Resources.ActionPoints;
         unit.Resources.ActionPoints += delta;
 
+        _ctx.GetUndo().AddStep(new ActionPointsChangeUndo(unitId, before));
     }
 
     public void ChangeMovePoints(UnitInstanceId unitId, int delta)
@@ -57,7 +59,7 @@ public sealed class UnitsMutator
         var before = unit.Resources.MovePoints;
         unit.Resources.MovePoints += delta;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new MovePointsChangeUndo(unitId, before));
     }
 
     public void ResetActionPoints(UnitInstanceId unitId)
@@ -70,7 +72,7 @@ public sealed class UnitsMutator
 
         unit.Resources.ActionPoints = max;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new ActionPointsChangeUndo(unitId, before));
     }
 
     public void ResetMovePoints(UnitInstanceId unitId)
@@ -83,7 +85,7 @@ public sealed class UnitsMutator
 
         unit.Resources.MovePoints = max;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new MovePointsChangeUndo(unitId, before));
     }
 
     public void SetDerivedStats(UnitInstanceId unitId, UnitDerivedStats newStats)
@@ -94,6 +96,6 @@ public sealed class UnitsMutator
         var before = unit.DerivedStats;
         unit.DerivedStats = newStats;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new DerivedStatsChangeUndo(unitId, before));
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace Core.Engine.Mutation.Mutators;
 
+using Core.Engine.Undo.Steps;
+using Core.Engine.Undo.Steps.Rng;
 using Random;
 
 /// <summary>
@@ -54,7 +56,7 @@ public sealed class RngMutator
 
         state.Rng = nextState;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new RngStateChangeUndo(before));
 
         return raw;
     }

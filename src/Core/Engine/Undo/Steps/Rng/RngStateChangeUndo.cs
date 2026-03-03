@@ -1,13 +1,13 @@
-﻿namespace Core.Engine.Undo.Steps;
+﻿namespace Core.Engine.Undo.Steps.Rng;
 
 using Core.Engine.Undo;
 using Core.Game;
 
-public sealed class RngUndo : IUndoStep
+public sealed class RngStateChangeUndo : IUndoStep
 {
     public RngState OldStateSnapshot { get; }
 
-    public RngUndo(RngState oldStateSnapshot)
+    public RngStateChangeUndo(RngState oldStateSnapshot)
     {
         OldStateSnapshot = oldStateSnapshot;
     }

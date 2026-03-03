@@ -1,15 +1,15 @@
-﻿namespace Core.Engine.Undo.Steps;
+﻿namespace Core.Engine.Undo.Steps.Units;
 
 using Core.Domain.Types;
 using Core.Engine.Undo;
 using Core.Game;
 
-public sealed class ActionPointsUndo : IUndoStep
+public sealed class ActionPointsChangeUndo : IUndoStep
 {
     public UnitInstanceId UnitId { get; }
     public int OldActionPoints { get; }
 
-    public ActionPointsUndo(UnitInstanceId unitId, int oldActionPoints)
+    public ActionPointsChangeUndo(UnitInstanceId unitId, int oldActionPoints)
     {
         UnitId = unitId;
         OldActionPoints = oldActionPoints;

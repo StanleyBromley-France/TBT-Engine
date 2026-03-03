@@ -4,6 +4,7 @@ using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
+using Core.Engine.Undo.Steps.Effects;
 using System.Linq;
 
 
@@ -33,9 +34,8 @@ public sealed class EffectsMutator
 
         effectsById.Add(effect.Id, effect);
 
-        // TODO: record undo (remove this effect)
+        _ctx.GetUndo().AddStep(new AddEffectUndo(target, effect.Id));
     }
-
 
     public void RemoveEffect(UnitInstanceId target, EffectInstanceId effectId)
     {
@@ -49,7 +49,7 @@ public sealed class EffectsMutator
         if (targetUnitEffects.Count == 0)
             state.ActiveEffects.Remove(target);
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new RemoveEffectUndo(target, removedEffect));
     }
 
     public void TickAllForUnit(UnitInstanceId target)
@@ -79,7 +79,7 @@ public sealed class EffectsMutator
         if (effect.Template.MaxStacks > 0 && effect.CurrentStacks > effect.Template.MaxStacks)
             effect.CurrentStacks = effect.Template.MaxStacks;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new EffectStackChangeUndo(target, effectId, beforeStacks));
     }
 
     public void ResetTicksToMax(UnitInstanceId target, EffectInstanceId effectId)
@@ -90,7 +90,7 @@ public sealed class EffectsMutator
         var beforeTicks = effect.RemainingTicks;
         effect.RemainingTicks = effect.Template.TotalTicks;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new EffectTickStateUndo(target, effectId, beforeTicks));
     }
 
     private bool UpdateTickState(UnitInstanceId target, EffectInstanceId effectId)
@@ -101,7 +101,7 @@ public sealed class EffectsMutator
         var beforeTicks = effect.RemainingTicks;
         effect.RemainingTicks--;
 
-        // TODO: Record undo step in UndoRecord
+        _ctx.GetUndo().AddStep(new EffectTickStateUndo(target, effectId, beforeTicks));
 
         return effect.IsExpired();
     }
@@ -118,16 +118,18 @@ public sealed class EffectsMutator
             .Components
             .Single(c => c.Id == componentId);
 
-        if (component is IResolvableHpDeltaComponent resolvable)
+        if (component is not IResolvableHpDeltaComponent resolvable)
         {
-            resolvable.ResolvedHpDelta = resolved;
-            return;
+            throw new InvalidOperationException(
+                $"Component '{componentId}' does not implement {nameof(IResolvableHpDeltaComponent)}.");
         }
 
-        throw new InvalidOperationException(
-            $"Component '{componentId}' does not implement {nameof(IResolvableHpDeltaComponent)}.");
-        
+        var beforeResolved = resolvable.ResolvedHpDelta;
+        resolvable.ResolvedHpDelta = resolved;
+
+        _ctx.GetUndo().AddStep(
+            new EffectResolvedHpDeltaUndo(target, effectId, componentId, beforeResolved));
+
         // TODO: Convert effect instance components to dict?
-        // TODO: Record undo step in UndoRecord
     }
 }

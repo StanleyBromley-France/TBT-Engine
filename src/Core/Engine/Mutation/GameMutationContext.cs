@@ -4,7 +4,6 @@ using Core.Engine.Mutation.Mutators;
 using Core.Engine.Random;
 using Core.Engine.Undo;
 using Core.Game;
-//using Core.Undo;
 
 /// <summary>
 /// Per-operation mutation gateway.
@@ -14,8 +13,6 @@ using Core.Game;
 /// </summary>
 public sealed class GameMutationContext : IGameMutationAccess
 {
-    // TODO: Add Undo reference
-
     private readonly GameSession _session;
     private readonly DeterministicRng _rngService;
     private readonly UndoRecord _undoRecord;
@@ -40,5 +37,6 @@ public sealed class GameMutationContext : IGameMutationAccess
     }
 
     GameState IGameMutationAccess.GetState() => _session.State;
+    UndoRecord IGameMutationAccess.GetUndo() => _undoRecord;
     DeterministicRng IGameMutationAccess.GetRngService() => _rngService;
 }
