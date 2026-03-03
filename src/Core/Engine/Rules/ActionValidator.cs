@@ -32,7 +32,7 @@ internal sealed class ActionValidator : IActionValidator
             ChangeActiveUnitAction change => IsChangeActiveUnitLegal(state, issuer, change),
             MoveAction move => IsMoveLegal(state, issuer, move),
             UseAbilityAction use => IsUseAbilityLegal(state, issuer, use),
-            SkipActiveUnit skip => IsSkipActiveUnitLegal(issuer),
+            SkipActiveUnitAction skip => IsSkipActiveUnitLegal(issuer),
             _ => false
         };
     }

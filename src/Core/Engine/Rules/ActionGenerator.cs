@@ -37,7 +37,7 @@ internal class ActionGenerator : IActionGenerator
         if (unit.Team != state.Turn.TeamToAct || !unit.IsAlive)
             yield break;
 
-        var end = new SkipActiveUnit(unit.Id);
+        var end = new SkipActiveUnitAction(unit.Id);
         if (_validator.IsActionLegal(state, end)) yield return end;
 
         foreach (var move in GenerateMoveActions(state, unit))

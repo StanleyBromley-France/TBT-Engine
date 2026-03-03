@@ -4,12 +4,12 @@ using Core.Engine.Actions.Choice;
 using Core.Game;
 using Core.Engine.Mutation;
 
-public sealed class EndTurnActionHandler : IActionHandler<SkipActiveUnit>
+public sealed class SkipActiveUnitHandler : IActionHandler<SkipActiveUnitAction>
 {
     public void Execute(
         IReadOnlyGameState state,
         GameMutationContext ctx,
-        SkipActiveUnit action)
+        SkipActiveUnitAction action)
     {
         var unit = state.UnitInstances[action.UnitId];
 
