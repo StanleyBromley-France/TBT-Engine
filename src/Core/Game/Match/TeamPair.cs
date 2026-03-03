@@ -4,22 +4,25 @@ using Core.Domain.Types;
 
 public sealed class TeamPair
 {
-    public TeamId TeamA { get; }
-    public TeamId TeamB { get; }
+    public TeamId Attacker { get; }
+    public TeamId Defender { get; }
 
-    public TeamPair(TeamId teamA, TeamId teamB)
+    public TeamPair(TeamId attacker, TeamId defender)
     {
-        if (teamA.Equals(teamB))
+        if (attacker.Equals(defender))
             throw new ArgumentException("Teams must be different.");
 
-        TeamA = teamA;
-        TeamB = teamB;
+        Attacker = attacker;
+        Defender = defender;
     }
+
+    public bool IsAttacker(TeamId team) => team.Equals(Attacker);
+    public bool IsDefender(TeamId team) => team.Equals(Defender);
 
     public TeamId GetOpposingTeam(TeamId team)
     {
-        if (team.Equals(TeamA)) return TeamB;
-        if (team.Equals(TeamB)) return TeamA;
+        if (team.Equals(Attacker)) return Defender;
+        if (team.Equals(Defender)) return Attacker;
 
         throw new InvalidOperationException("Unknown team.");
     }

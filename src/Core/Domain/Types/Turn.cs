@@ -6,14 +6,12 @@
 /// </summary>
 public readonly struct Turn
 {
-    public int TurnNumber { get; }
+    public int AttackerTurnsTaken { get; }
     public TeamId TeamToAct { get; }
 
-    public Turn(int turnNumber, TeamId teamToAct)
+    public Turn(int attackerTurnsTaken, TeamId teamToAct)
     {
-        TurnNumber = turnNumber;
+        AttackerTurnsTaken = attackerTurnsTaken;
         TeamToAct = teamToAct;
     }
-
-    public override string ToString() => $"Turn {TurnNumber} ({TeamToAct})";
 }

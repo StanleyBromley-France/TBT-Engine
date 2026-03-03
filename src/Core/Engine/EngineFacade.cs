@@ -9,6 +9,7 @@ using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Engine.Rules;
 using Core.Engine.Undo;
+using Core.Engine.Victory;
 using Core.Game;
 
 /// <summary>
@@ -29,19 +30,21 @@ public sealed class EngineFacade
     private readonly IActionDispatcher _dispatcher;
     private readonly DeterministicRng _rngService;
     private readonly EffectManager _effectManager;
-
+    private readonly IGameOverEvaluator _gameOver;
     internal EngineFacade(
         GameSession session,
         IActionRules rules,
         IActionDispatcher dispatcher,
         DeterministicRng rngService,
-        EffectManager effectManager)
+        EffectManager effectManager,
+        IGameOverEvaluator gameOver)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _rules = rules ?? throw new ArgumentNullException(nameof(rules));
         _dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
         _rngService = rngService ?? throw new ArgumentNullException(nameof(rngService));
         _effectManager = effectManager ?? throw new ArgumentNullException(nameof(effectManager));
+        _gameOver = gameOver ?? throw new ArgumentNullException(nameof(_gameOver));
     }
 
     public TemplateRegistry GetContent() => _session.Content;
@@ -75,6 +78,11 @@ public sealed class EngineFacade
         ResolvePostAction(ctx, state);
 
         Commit(undo);
+
+        // Game-over is evaluated after the operation is fully applied.
+        var outcome = _gameOver.Evaluate(_session);
+        if (outcome.Type != GameOutcomeType.Ongoing)
+            _session.SetGameOutcome(outcome);
     }
 
     // Post apply action resolution
@@ -86,8 +94,6 @@ public sealed class EngineFacade
             AdvanceTurn(ctx, state);
             ResolveStartOfTurn(ctx, state);
         }
-
-        // TODO: Add Win con
     }
 
     private static bool ShouldAdvanceTurn(IReadOnlyGameState state)
@@ -110,8 +116,17 @@ public sealed class EngineFacade
 
     private void AdvanceTurn(GameMutationContext ctx, IReadOnlyGameState state)
     {
-        var newTeam = _session.Teams.GetOpposingTeam(state.Turn.TeamToAct);
-        var newTurn = new Domain.Types.Turn(turnNumber: state.Turn.TurnNumber + 1, newTeam);
+        var currentTeam = state.Turn.TeamToAct;
+        var nextTeam = _session.Teams.GetOpposingTeam(currentTeam);
+
+        var attackerTurnsTaken = state.Turn.AttackerTurnsTaken;
+        if (_session.Teams.IsAttacker(currentTeam))
+            attackerTurnsTaken++;
+
+        var newTurn = new Domain.Types.Turn(
+            attackerTurnsTaken: attackerTurnsTaken,
+            teamToAct: nextTeam);
+
         ctx.Turn.SetTurn(newTurn);
     }
 
