@@ -28,8 +28,18 @@ public sealed class MapSearchTests
         var center = new HexCoord(2, 2);
 
         var result = MapSearch.GetNeighbourCoords(map, center).ToList();
+        var expected = new HashSet<HexCoord>
+        {
+            new(3, 2),  // East
+            new(3, 1),  // NorthEast
+            new(2, 1),  // NorthWest
+            new(1, 2),  // West
+            new(1, 3),  // SouthWest
+            new(2, 3)   // SouthEast
+        };
 
         Assert.Equal(6, result.Count);
+        Assert.Equal(expected, result.ToHashSet());
         Assert.All(result, c => Assert.True(map.TryGetTile(c, out _)));
     }
 
@@ -94,6 +104,27 @@ public sealed class MapSearchTests
     }
 
     [Fact]
+    public void GetCoordsInRadius_Radius1_Returns_Exact_Hex_Set()
+    {
+        var map = CreateMap(7, 7);
+        var center = new HexCoord(3, 3);
+
+        var result = MapSearch.GetCoordsInRadius(map, center, 1).ToHashSet();
+        var expected = new HashSet<HexCoord>
+        {
+            new(3, 3),
+            new(4, 3),
+            new(4, 2),
+            new(3, 2),
+            new(2, 3),
+            new(2, 4),
+            new(3, 4)
+        };
+
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
     public void GetCoordsInRadius_EdgeRadius_ClipsToMap()
     {
         var map = CreateMap(5, 5);
@@ -116,6 +147,7 @@ public sealed class MapSearchTests
             .ToList();
 
         Assert.Equal(3, result.Count);
+        Assert.Equal(new[] { new HexCoord(3, 2), new HexCoord(4, 2), new HexCoord(5, 2) }, result);
     }
 
     [Fact]
@@ -137,14 +169,8 @@ public sealed class MapSearchTests
     {
         var tiles = CreateTileArray(10, 10);
         var start = new HexCoord(2, 2);
-
-        // Determine step1/step2 without HexMath by using MapSearch itself
-        var mapForCalc = new Map(tiles);
-        var firstTwo = MapSearch.GetCoordsInRay(mapForCalc, start, HexDirection.East, 2).ToList();
-        Assert.Equal(2, firstTwo.Count);
-
-        var step1 = firstTwo[0];
-        var step2 = firstTwo[1];
+        var step1 = new HexCoord(3, 2); // first step East from (2,2)
+        var step2 = new HexCoord(4, 2); // second step East from (2,2)
 
         // Create hole at step2
         var (col, row) = HexCoordConverter.ToOffset(step2);
