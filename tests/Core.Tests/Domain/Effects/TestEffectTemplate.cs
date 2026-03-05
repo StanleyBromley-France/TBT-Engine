@@ -4,16 +4,7 @@ using Core.Domain.Types;
 
 namespace Core.Tests.Domain.Effects;
 
-internal sealed class TestEffectTemplate : Core.Domain.Effects.Templates.EffectTemplate
+internal sealed class TestEffectTemplate 
 {
-    public TestEffectTemplate(
-        Core.Domain.Types.EffectTemplateId id,
-        string name,
-        bool isHarmful,
-        int totalTicks,
-        int maxStacks,
-        IEnumerable<EffectComponentTemplate> components)
-        : base(id, name, isHarmful, totalTicks, maxStacks, components)
-    {
-    }
+
 }

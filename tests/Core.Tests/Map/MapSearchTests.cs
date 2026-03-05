@@ -3,13 +3,23 @@
 using Core.Domain.Types;
 using Core.Map.Grid;
 using Core.Map.Search;
+using Core.Map.Terrain;
 
-public class MapSearchTests
+public sealed class MapSearchTests
 {
-    private static Map CreateMap(int width, int height)
+    private static Tile[,] CreateTileArray(int width, int height)
     {
-        return new Map(width, height);
+        var tiles = new Tile[width, height];
+
+        for (var col = 0; col < width; col++)
+            for (var row = 0; row < height; row++)
+                tiles[col, row] = new Tile();
+
+        return tiles;
     }
+
+    private static Map CreateMap(int width, int height)
+        => new(CreateTileArray(width, height));
 
     [Fact]
     public void GetNeighbourCoords_Interior_ReturnsSix()
@@ -20,7 +30,7 @@ public class MapSearchTests
         var result = MapSearch.GetNeighbourCoords(map, center).ToList();
 
         Assert.Equal(6, result.Count);
-        Assert.All(result, c => Assert.NotNull(map.GetTile(c)));
+        Assert.All(result, c => Assert.True(map.TryGetTile(c, out _)));
     }
 
     [Fact]
@@ -33,25 +43,31 @@ public class MapSearchTests
 
         Assert.True(result.Count > 0);
         Assert.True(result.Count < 6);
-        Assert.All(result, c => Assert.NotNull(map.GetTile(c)));
+        Assert.All(result, c => Assert.True(map.TryGetTile(c, out _)));
     }
 
     [Fact]
     public void GetNeighbourCoords_Excludes_Hole()
     {
-        var map = new Map(5, 5);
+        var tiles = CreateTileArray(5, 5);
         var center = new HexCoord(2, 2);
 
-        var east = HexMath.GetCoordInDirection(center, HexDirection.East);
+        var mapForNeighbourCalc = new Map(tiles);
+
+        var east = MapSearch
+            .GetNeighbourCoords(mapForNeighbourCalc, center)
+            .First();
+
         var (col, row) = HexCoordConverter.ToOffset(east);
-        map.Tiles[col, row] = null!;
+        tiles[col, row] = null!;
+
+        var map = new Map(tiles);
 
         var neighbours = MapSearch.GetNeighbourCoords(map, center).ToList();
 
         Assert.DoesNotContain(east, neighbours);
-        Assert.All(neighbours, c => Assert.NotNull(map.GetTile(c)));
+        Assert.All(neighbours, c => Assert.True(map.TryGetTile(c, out _)));
     }
-
 
     [Fact]
     public void GetCoordsInRadius_ZeroRadius_ReturnsCenter()
@@ -70,7 +86,7 @@ public class MapSearchTests
     {
         var map = CreateMap(7, 7);
         var center = new HexCoord(3, 3);
-        int radius = 2;
+        const int radius = 2;
 
         var result = MapSearch.GetCoordsInRadius(map, center, radius).ToList();
 
@@ -86,7 +102,7 @@ public class MapSearchTests
         var result = MapSearch.GetCoordsInRadius(map, edge, 3).ToList();
 
         Assert.NotEmpty(result);
-        Assert.All(result, c => Assert.NotNull(map.GetTile(c)));
+        Assert.All(result, c => Assert.True(map.TryGetTile(c, out _)));
     }
 
     [Fact]
@@ -113,26 +129,35 @@ public class MapSearchTests
             .ToList();
 
         Assert.True(result.Count < 10);
-        Assert.All(result, c => Assert.NotNull(map.GetTile(c)));
+        Assert.All(result, c => Assert.True(map.TryGetTile(c, out _)));
     }
 
     [Fact]
     public void GetCoordsInRay_Stops_When_Hitting_Hole()
     {
-        var map = new Map(10, 10);
+        var tiles = CreateTileArray(10, 10);
         var start = new HexCoord(2, 2);
 
-        var step2 = HexMath.GetCoordInDirection(start, HexDirection.East, 2);
+        // Determine step1/step2 without HexMath by using MapSearch itself
+        var mapForCalc = new Map(tiles);
+        var firstTwo = MapSearch.GetCoordsInRay(mapForCalc, start, HexDirection.East, 2).ToList();
+        Assert.Equal(2, firstTwo.Count);
+
+        var step1 = firstTwo[0];
+        var step2 = firstTwo[1];
+
+        // Create hole at step2
         var (col, row) = HexCoordConverter.ToOffset(step2);
-        map.Tiles[col, row] = null!;
+        tiles[col, row] = null!;
+
+        var map = new Map(tiles);
 
         var ray = MapSearch.GetCoordsInRay(map, start, HexDirection.East, 5).ToList();
 
-        Assert.Contains(HexMath.GetCoordInDirection(start, HexDirection.East, 1), ray);
+        Assert.Contains(step1, ray);
         Assert.DoesNotContain(step2, ray);
-        Assert.True(ray.Count <= 1);
+        Assert.Single(ray);
     }
-
 
     [Fact]
     public void GetTilesInRay_StopsAtMapEdge()
@@ -147,6 +172,4 @@ public class MapSearchTests
         Assert.NotEmpty(tiles);
         Assert.All(tiles, t => Assert.NotNull(t));
     }
-
 }
-

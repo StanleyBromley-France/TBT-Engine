@@ -10,9 +10,9 @@ internal sealed class NoOpEffectComponent : EffectComponentTemplate
     {
     }
 
-    public override GameState ApplyInitial(GameState state, string sourceUnitId, string targetUnitId)
+    public GameState ApplyInitial(GameState state, string sourceUnitId, string targetUnitId)
         => state;
 
-    public override GameState Tick(GameState state, string sourceUnitId, string targetUnitId)
+    public GameState Tick(GameState state, string sourceUnitId, string targetUnitId)
         => state;
 }

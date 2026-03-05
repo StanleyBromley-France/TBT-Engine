@@ -5,30 +5,49 @@ using Core.Map.Grid;
 using Core.Map.Search;
 using Core.Map.Terrain;
 
-public class MapTests
+public sealed class MapTests
 {
-    [Fact]
-    public void Constructor_Initializes_Tiles_With_Plain_Terrain()
+    private static Tile[,] CreateTileArray(int width, int height)
     {
-        var map = new Map(3, 2);
+        var tiles = new Tile[width, height];
+        for (var col = 0; col < width; col++)
+            for (var row = 0; row < height; row++)
+                tiles[col, row] = new Tile(); // assumes default terrain is Plain
+        return tiles;
+    }
+
+    [Fact]
+    public void Constructor_Initializes_Width_Height_From_Array()
+    {
+        var tiles = CreateTileArray(3, 2);
+
+        var map = new Map(tiles);
 
         Assert.Equal(3, map.Width);
         Assert.Equal(2, map.Height);
+    }
 
-        for (int col = 0; col < map.Width; col++)
-        {
-            for (int row = 0; row < map.Height; row++)
-            {
-                Assert.NotNull(map.Tiles[col, row]);
-                Assert.Equal(TerrainType.Plain, map.Tiles[col, row].Terrain);
-            }
-        }
+    [Fact]
+    public void Constructor_Uses_Provided_Tiles()
+    {
+        var tiles = CreateTileArray(3, 2);
+
+        // spot-check: ensure we can retrieve a known tile instance through axial coord mapping
+        var (col, row) = (1, 0);
+        var expected = tiles[col, row];
+        var coord = HexCoordConverter.FromOffset(col, row);
+
+        var map = new Map(tiles);
+
+        var actual = map.GetTile(coord);
+
+        Assert.Same(expected, actual);
     }
 
     [Fact]
     public void IsInside_True_For_Bounds_False_Otherwise()
     {
-        var map = new Map(3, 2);
+        var map = new Map(CreateTileArray(3, 2));
 
         Assert.True(map.IsInside(0, 0));
         Assert.True(map.IsInside(2, 1));
@@ -42,25 +61,25 @@ public class MapTests
     [Fact]
     public void GetTile_Returns_Tile_For_Valid_Axial_Coord()
     {
-        var map = new Map(5, 5);
-        var axial = new HexCoord(2, 1);
+        var tiles = CreateTileArray(5, 5);
+        var map = new Map(tiles);
 
+        var axial = new HexCoord(2, 1);
         var (col, row) = HexCoordConverter.ToOffset(axial);
 
-        // Ensure this axial actually maps inside the map
         Assert.True(map.IsInside(col, row));
 
         var tileFromMap = map.GetTile(axial);
 
         Assert.NotNull(tileFromMap);
-        Assert.Same(map.Tiles[col, row], tileFromMap);
+        Assert.Same(tiles[col, row], tileFromMap);
     }
 
     [Fact]
     public void GetTile_Returns_Null_For_Out_Of_Bounds_Axial_Coord()
     {
-        var map = new Map(3, 3);
-        var axialOutside = new HexCoord(5, 0); // col = 5, clearly outside width 3
+        var map = new Map(CreateTileArray(3, 3));
+        var axialOutside = new HexCoord(5, 0);
 
         var tile = map.GetTile(axialOutside);
 
@@ -70,46 +89,49 @@ public class MapTests
     [Fact]
     public void GetTile_Returns_Null_For_Hole_InsideBounds()
     {
-        var map = new Map(3, 3);
+        var tiles = CreateTileArray(3, 3);
 
         var (col, row) = (1, 1);
-        map.Tiles[col, row] = null!;
+        tiles[col, row] = null!; // create hole before constructing map
+
+        var map = new Map(tiles);
         var hole = HexCoordConverter.FromOffset(col, row);
 
         Assert.Null(map.GetTile(hole));
     }
 
-
     [Fact]
     public void TryGetTile_Returns_False_And_Null_For_OutOfBounds()
     {
-        var map = new Map(2, 2);
+        var map = new Map(CreateTileArray(2, 2));
 
-        var result = map.TryGetTile(new HexCoord(10, 10), out var tile);
+        var ok = map.TryGetTile(new HexCoord(10, 10), out var tile);
 
-        Assert.False(result);
+        Assert.False(ok);
         Assert.Null(tile);
     }
 
     [Fact]
     public void TryGetTile_Returns_True_And_Tile_For_Valid_Coord()
     {
-        var map = new Map(3, 3);
+        var map = new Map(CreateTileArray(3, 3));
         var coord = new HexCoord(1, 1);
 
-        var result = map.TryGetTile(coord, out var tile);
+        var ok = map.TryGetTile(coord, out var tile);
 
-        Assert.True(result);
+        Assert.True(ok);
         Assert.NotNull(tile);
     }
 
     [Fact]
     public void TryGetTile_Returns_False_For_Hole_InsideBounds()
     {
-        var map = new Map(3, 3);
+        var tiles = CreateTileArray(3, 3);
 
         var (col, row) = (1, 1);
-        map.Tiles[col, row] = null!;
+        tiles[col, row] = null!;
+
+        var map = new Map(tiles);
         var hole = HexCoordConverter.FromOffset(col, row);
 
         var ok = map.TryGetTile(hole, out var tile);
@@ -117,6 +139,4 @@ public class MapTests
         Assert.False(ok);
         Assert.Null(tile);
     }
-
 }
-
