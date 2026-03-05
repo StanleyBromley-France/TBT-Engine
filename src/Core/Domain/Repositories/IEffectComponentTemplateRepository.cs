@@ -1,7 +1,6 @@
 ﻿namespace Core.Domain.Repositories;
 
 using Types;
-using Effects.Templates;
 using Core.Domain.Effects.Components.Templates;
 
 /// <summary>
