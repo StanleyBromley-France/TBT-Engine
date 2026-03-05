@@ -17,13 +17,13 @@ public sealed class GameMutationContext : IGameMutationAccess
     private readonly DeterministicRng _rngService;
     private readonly UndoRecord _undoRecord;
 
-    public UnitsMutator Units { get; }
-    public MovementMutator Movement { get; }
-    public TurnMutator Turn { get; }
-    public EffectsMutator Effects { get; }
-    public RngMutator Rng { get; }
+    public IUnitsMutator Units { get; }
+    public IMovementMutator Movement { get; }
+    public ITurnMutator Turn { get; }
+    public IEffectsMutator Effects { get; }
+    public IRngMutator Rng { get; }
 
-    public GameMutationContext(GameSession session, DeterministicRng rng, UndoRecord undoRecord)
+    internal GameMutationContext(GameSession session, DeterministicRng rng, UndoRecord undoRecord)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _rngService = rng ?? throw new ArgumentNullException(nameof(rng));
@@ -34,6 +34,27 @@ public sealed class GameMutationContext : IGameMutationAccess
         Turn = new TurnMutator(this);
         Effects = new EffectsMutator(this);
         Rng = new RngMutator(this);
+    }
+
+    internal GameMutationContext(
+    GameSession session,
+    DeterministicRng rng,
+    UndoRecord undoRecord,
+    IUnitsMutator units,
+    IMovementMutator movement,
+    ITurnMutator turn,
+    IEffectsMutator effects,
+    IRngMutator rngMutator)
+    {
+        _session = session ?? throw new ArgumentNullException(nameof(session));
+        _rngService = rng ?? throw new ArgumentNullException(nameof(rng));
+        _undoRecord = undoRecord;
+
+        Units = units ?? throw new ArgumentNullException(nameof(units));
+        Movement = movement ?? throw new ArgumentNullException(nameof(movement));
+        Turn = turn ?? throw new ArgumentNullException(nameof(turn));
+        Effects = effects ?? throw new ArgumentNullException(nameof(effects));
+        Rng = rngMutator ?? throw new ArgumentNullException(nameof(rngMutator));
     }
 
     GameState IGameMutationAccess.GetState() => _session.State;

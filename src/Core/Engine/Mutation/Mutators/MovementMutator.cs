@@ -4,17 +4,7 @@ using Core.Domain.Types;
 using Core.Engine.Mutation;
 using Core.Engine.Undo.Steps.Move;
 
-/// <summary>
-/// Mutation-layer API for updating unit positional state.
-/// </summary>
-/// <remarks>
-/// Responsible for relocating a unit to a new <see cref="HexCoord"/> by
-/// mutating the corresponding entry in <see cref="Core.Game.GameState.UnitInstances"/>.
-/// <para></para>
-/// All movement operations must pass through this mutator to ensure
-/// centralized state control and future undo support.
-/// </remarks>
-public sealed class MovementMutator
+public sealed class MovementMutator : IMovementMutator
 {
     private readonly IGameMutationAccess _ctx;
 

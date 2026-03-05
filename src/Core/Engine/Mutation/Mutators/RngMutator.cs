@@ -1,25 +1,9 @@
 ﻿namespace Core.Engine.Mutation.Mutators;
 
-using Core.Engine.Undo.Steps;
 using Core.Engine.Undo.Steps.Rng;
 using Random;
 
-/// <summary>
-/// Mutation-layer API for managing random number genaration using RngState.
-/// </summary>
-/// <remarks>
-/// <para>
-/// Wraps <see cref="DeterministicRng"/> and ensures that all RNG state changes
-/// are applied through <see cref="GameMutationContext"/>.
-/// </para>
-/// <para>
-/// Each roll advances the stored RNG state inside <see cref="Core.Game.GameState"/>,
-/// guaranteeing deterministic and replayable outcomes.
-/// </para>
-/// Intended to be used exclusively by engine rules and effects through
-/// the mutation pipeline.
-/// </remarks>
-public sealed class RngMutator
+public sealed class RngMutator : IRngMutator
 {
     private readonly IGameMutationAccess _ctx;
     private readonly DeterministicRng _rng;

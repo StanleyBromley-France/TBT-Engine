@@ -116,7 +116,7 @@ internal sealed class EffectManager
     }
 
     private void RecomputeAndWriteDerivedStats(
-        UnitsMutator unitMutator,
+        IUnitsMutator unitMutator,
         IReadOnlyGameState state,
         HashSet<UnitInstanceId> unitIds)
     {

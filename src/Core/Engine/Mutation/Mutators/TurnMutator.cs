@@ -4,15 +4,7 @@ using Core.Domain.Types;
 using Core.Engine.Mutation;
 using Core.Engine.Undo.Steps.Turn;
 
-/// <summary>
-/// Mutation-layer API for modifying turn-related state>.
-/// </summary>
-/// <remarks>
-/// Responsible for updating the current <see cref="Turn"/> value and the
-/// active <see cref="UnitInstanceId"/>. All turn state transitions must pass
-/// through this mutator to ensure centralized control and future undo support.
-/// </remarks>
-public sealed class TurnMutator
+public sealed class TurnMutator : ITurnMutator
 {
     private readonly IGameMutationAccess _ctx;
 

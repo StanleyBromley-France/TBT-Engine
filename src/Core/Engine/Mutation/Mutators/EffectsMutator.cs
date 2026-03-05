@@ -7,16 +7,7 @@ using Core.Engine.Mutation;
 using Core.Engine.Undo.Steps.Effects;
 using System.Linq;
 
-
-/// <summary>
-/// Mutation-layer API for managing active effect instances on units.
-/// </summary>
-/// <remarks>
-/// Reads and mutates <see cref="Game.GameState.ActiveEffects"/>, storing effects per target unit
-/// keyed by <see cref="EffectInstanceId"/>. Supports adding/removing effects, ticking all
-/// active effects each turn, and updating effect runtime state such as stacks and remaining ticks.
-/// </remarks>
-public sealed class EffectsMutator
+public sealed class EffectsMutator : IEffectsMutator
 {
     private readonly IGameMutationAccess _ctx;
 

@@ -5,14 +5,7 @@ using Core.Engine.Mutation;
 using Core.Domain.Units.Instances.Mutable;
 using Core.Engine.Undo.Steps.Units;
 
-/// <summary>
-/// Mutation-layer API for modifying unit resource values>.
-/// </summary>
-/// <remarks>
-/// Provides controlled mutation of unit resource fields such as HP, Mana,
-/// and Action Points by updating entries in <see cref="Game.GameState.UnitInstances"/>.
-/// </remarks>
-public sealed class UnitsMutator
+public sealed class UnitsMutator : IUnitsMutator
 {
     private readonly IGameMutationAccess _ctx;
 
