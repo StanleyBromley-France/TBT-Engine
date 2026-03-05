@@ -55,6 +55,7 @@ public class EngineFacadeApplyActionTests
     [Fact]
     public void ApplyAction_Dispatches_And_Commits_Undo_Without_Turn_Advance_When_Units_Remain_Uncommitted()
     {
+        // Arrange: active team still has another uncommitted ally
         var active = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var allyUncommitted = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
@@ -75,8 +76,10 @@ public class EngineFacadeApplyActionTests
             effectSpy,
             gameOverSpy);
 
+        // Act: dispatch commits only the acting unit
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
 
+        // Assert: operation committed, but no turn advance/start-of-turn resolution happened
         Assert.Equal(1, dispatcherSpy.CallCount);
         Assert.Single(session.Undo.Records);
         Assert.True(session.State.Phase.HasCommitted(active.Id));
@@ -89,6 +92,7 @@ public class EngineFacadeApplyActionTests
     [Fact]
     public void ApplyAction_Advances_Turn_Resets_Next_Team_And_Updates_Outcome()
     {
+        // Arrange: only one attacker is alive, so committing it should end team turn
         var attacker = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var defender = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
         defender.Resources.ActionPoints = 0;
@@ -113,8 +117,10 @@ public class EngineFacadeApplyActionTests
             effectSpy,
             gameOverSpy);
 
+        // Act: commit attacker, triggering turn advance and start-of-turn reset for defender
         facade.ApplyAction(new SkipActiveUnitAction(attacker.Id));
 
+        // Assert: turn switched, defender reset, effect tick executed, and outcome applied
         Assert.Equal(1, dispatcherSpy.CallCount);
         Assert.Equal(new TeamId(2), session.State.Turn.TeamToAct);
         Assert.Equal(3, session.State.Turn.AttackerTurnsTaken);

@@ -19,6 +19,7 @@ public class EngineFacadeUndoTests
     [Fact]
     public void UndoLastAction_Rewinds_State_And_Recomputes_Outcome()
     {
+        // Arrange: action both mutates state (mana/commit) and crosses outcome threshold
         var active = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10);
         var allyUncommitted = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
@@ -42,6 +43,7 @@ public class EngineFacadeUndoTests
             new EffectManagerSpy(),
             gameOver);
 
+        // Act: apply once to enter victory state, then undo
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
         Assert.Equal(9, active.Resources.Mana);
         Assert.True(state.Phase.HasCommitted(active.Id));
@@ -49,6 +51,7 @@ public class EngineFacadeUndoTests
 
         facade.UndoLastAction();
 
+        // Assert: state and outcome both return to pre-action values
         Assert.Equal(10, active.Resources.Mana);
         Assert.False(state.Phase.HasCommitted(active.Id));
         Assert.Empty(session.Undo.Records);
@@ -58,6 +61,7 @@ public class EngineFacadeUndoTests
     [Fact]
     public void UndoTo_Rewinds_All_Actions_Back_To_Marker_And_Recomputes_Outcome()
     {
+        // Arrange: two actions after marker push mana below threshold
         var active = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10);
         var allyUncommitted = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
@@ -81,6 +85,7 @@ public class EngineFacadeUndoTests
             new EffectManagerSpy(),
             gameOver);
 
+        // Act: create marker, execute actions, then undo back to marker
         var marker = facade.MarkUndo();
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
@@ -90,6 +95,7 @@ public class EngineFacadeUndoTests
 
         facade.UndoTo(marker);
 
+        // Assert: action effects and outcome are fully rewound
         Assert.Equal(10, active.Resources.Mana);
         Assert.False(state.Phase.HasCommitted(active.Id));
         Assert.Empty(session.Undo.Records);
@@ -99,6 +105,7 @@ public class EngineFacadeUndoTests
     [Fact]
     public void UndoLastAction_After_Mixed_Action_Sequence_Restores_Initial_State()
     {
+        // Arrange: mixed action sequence with movement, active-unit switches, ability cost, and commits
         var unitA = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10);
         var unitB = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0), mana: 8);
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(3, 0), mana: 7);
@@ -143,6 +150,7 @@ public class EngineFacadeUndoTests
 
         var initial = Snapshot.From(session);
 
+        // Act: run a long mixed sequence then undo all recorded operations
         facade.ApplyAction(new ChangeActiveUnitAction(unitA.Id, unitB.Id));
         facade.ApplyAction(new MoveAction(unitB.Id, new HexCoord(2, 0)));
         facade.ApplyAction(new UseAbilityAction(unitB.Id, new AbilityId("test-ability"), enemy.Id));
@@ -154,6 +162,7 @@ public class EngineFacadeUndoTests
         while (session.Undo.CanUndo)
             facade.UndoLastAction();
 
+        // Assert: full tracked state snapshot matches original
         var final = Snapshot.From(session);
         Assert.Equal(initial.TeamToAct, final.TeamToAct);
         Assert.Equal(initial.AttackerTurnsTaken, final.AttackerTurnsTaken);
