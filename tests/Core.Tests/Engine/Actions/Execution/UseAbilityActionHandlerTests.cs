@@ -6,6 +6,8 @@ using Core.Engine.Actions.Choice;
 using Core.Engine.Actions.Execution;
 using Core.Engine.Effects;
 using Core.Engine.Mutation;
+using Core.Engine.Random;
+using Core.Engine.Undo;
 using Core.Game;
 using Core.Map.Grid;
 using Core.Map.Pathfinding;
@@ -16,7 +18,7 @@ namespace Core.Tests.Engine.Actions.Execution;
 public class UseAbilityActionHandlerTests
 {
     [Fact]
-    public void Execute_SingleTarget_Applies_Effect_And_Consumes_Resources()
+    public void Execute_SingleTarget_Applies_Effect_And_Consumes_Resources_And_Undo_Restores()
     {
         // Arrange: single-target enemy ability
         var ability = EngineTestFactory.CreateAbility(
@@ -35,7 +37,8 @@ public class UseAbilityActionHandlerTests
         // Arrange: repositories/services/handler
         var abilities = new AbilityRepository(new[] { new KeyValuePair<AbilityId, Ability>(ability.Id, ability) });
         var session = EngineTestFactory.CreateSession(state, abilities);
-        var context = EngineTestFactory.CreateContext(session);
+        var undo = new UndoRecord();
+        var context = new GameMutationContext(session, new DeterministicRng(), undo);
         var effectManager = new SpyEffectManager();
         var handler = new UseAbilityActionHandler(abilities, new StubPathfinder(), effectManager);
 
@@ -52,6 +55,12 @@ public class UseAbilityActionHandlerTests
         Assert.Equal(caster.Id, effectManager.LastRequest.SourceUnitId);
         Assert.Single(effectManager.LastRequest.TargetUnitIds);
         Assert.Equal(target.Id, effectManager.LastRequest.TargetUnitIds[0]);
+
+        // Assert: undo restores resources and commit state
+        undo.UndoAll(state);
+        Assert.Equal(10, caster.Resources.Mana);
+        Assert.Equal(2, caster.Resources.ActionPoints);
+        Assert.False(state.Phase.HasCommitted(caster.Id));
     }
 
     [Theory]
