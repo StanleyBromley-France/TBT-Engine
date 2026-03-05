@@ -15,8 +15,8 @@ using System.ComponentModel;
 
 internal sealed class EffectManager
 {
-    private readonly EffectInstanceFactory _effectFactory;
-    private readonly DerivedStatsCalculator _derivedStats;
+    private readonly IEffectInstanceFactory _effectFactory;
+    private readonly IDerivedStatsCalculator _derivedStats;
     private readonly IDamageCalculator _damageCalculator;
     private readonly IHealCalculator _healCalculator;
 

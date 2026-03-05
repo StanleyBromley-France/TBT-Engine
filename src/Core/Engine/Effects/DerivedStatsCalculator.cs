@@ -6,7 +6,7 @@ using Core.Domain.Effects.Components.Instances.ReadOnly;
 
 namespace Core.Engine.Effects;
 
-public class DerivedStatsCalculator
+public class DerivedStatsCalculator : IDerivedStatsCalculator
 {
     public UnitDerivedStats Compute(IReadOnlyGameState state, UnitInstanceId unitId)
     {
