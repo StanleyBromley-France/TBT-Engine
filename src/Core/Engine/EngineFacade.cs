@@ -54,6 +54,8 @@ public sealed class EngineFacade
     public IEnumerable<ActionChoice> GetLegalActions()
         => _rules.Generator.GetLegalActions(_session.State);
 
+    public UndoMarker MarkUndo() => _session.Undo.Mark();
+
     /// <summary>
     /// Applies exactly one player decision (ActionChoice).
     /// This method is the primary undo boundary: one UndoRecord per call.
@@ -83,6 +85,18 @@ public sealed class EngineFacade
         var outcome = _gameOver.Evaluate(_session);
         if (outcome.Type != GameOutcomeType.Ongoing)
             _session.SetGameOutcome(outcome);
+    }
+
+    public void UndoLastAction()
+    {
+        _session.Undo.UndoLast(_session.State);
+        RecomputeOutcome();
+    }
+
+    public void UndoTo(UndoMarker marker)
+    {
+        _session.Undo.UndoTo(_session.State, marker);
+        RecomputeOutcome();
     }
 
     // Post apply action resolution
@@ -178,5 +192,10 @@ public sealed class EngineFacade
     private void Commit(UndoRecord undo)
     {
         _session.Undo.Commit(undo);
+    }
+
+    private void RecomputeOutcome()
+    {
+        _session.SetGameOutcome(_gameOver.Evaluate(_session));
     }
 }
