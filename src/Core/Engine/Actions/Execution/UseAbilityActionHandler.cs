@@ -16,12 +16,12 @@ public sealed class UseAbilityActionHandler : IActionHandler<UseAbilityAction>
 {
     private readonly IAbilityRepository _abilityRepository;
     private readonly IPathfinder _pathfinder;
-    private readonly EffectManager _effectManager;
+    private readonly IEffectManager _effectManager;
 
     internal UseAbilityActionHandler(
         IAbilityRepository abilityRepository,
         IPathfinder pathfinder,
-        EffectManager effectManager)
+        IEffectManager effectManager)
     {
         _abilityRepository = abilityRepository;
         _pathfinder = pathfinder;

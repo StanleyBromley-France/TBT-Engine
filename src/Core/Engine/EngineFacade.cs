@@ -29,14 +29,14 @@ public sealed class EngineFacade
     private readonly IActionRules _rules;
     private readonly IActionDispatcher _dispatcher;
     private readonly DeterministicRng _rngService;
-    private readonly EffectManager _effectManager;
+    private readonly IEffectManager _effectManager;
     private readonly IGameOverEvaluator _gameOver;
     internal EngineFacade(
         GameSession session,
         IActionRules rules,
         IActionDispatcher dispatcher,
         DeterministicRng rngService,
-        EffectManager effectManager,
+        IEffectManager effectManager,
         IGameOverEvaluator gameOver)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));

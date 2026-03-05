@@ -62,7 +62,7 @@ public static class EngineCompositionRoot
     // Effects
     // -------------------------
 
-    private static EffectManager BuildEffectManager(GameSession session)
+    private static IEffectManager BuildEffectManager(GameSession session)
     {
         var effectComponentIdFactory = new EffectComponentInstanceIdFactory();
 
@@ -136,7 +136,7 @@ public static class EngineCompositionRoot
     private static ActionDispatcher BuildDispatcher(
         Pathfinder pathfinder,
         IAbilityRepository abilities,
-        EffectManager effectManager)
+        IEffectManager effectManager)
     {
         var dispatcher = new ActionDispatcher();
 
@@ -149,7 +149,7 @@ public static class EngineCompositionRoot
         ActionDispatcher dispatcher,
         Pathfinder pathfinder,
         IAbilityRepository abilities,
-        EffectManager effectManager)
+        IEffectManager effectManager)
     {
         dispatcher.Register<ChangeActiveUnitAction>(BuildChangeActiveUnitHandler());
         dispatcher.Register<MoveAction>(BuildMoveHandler(pathfinder));
@@ -169,7 +169,7 @@ public static class EngineCompositionRoot
     private static UseAbilityActionHandler BuildUseAbilityHandler(
         IAbilityRepository abilities,
         Pathfinder pathfinder,
-        EffectManager effectManager)
+        IEffectManager effectManager)
         => new(abilities, pathfinder, effectManager);
 
     // -------------------------

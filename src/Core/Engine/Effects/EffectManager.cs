@@ -11,16 +11,15 @@ using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Mutation.Mutators;
 using Core.Game;
-using System.ComponentModel;
 
-internal sealed class EffectManager
+internal sealed class EffectManager : IEffectManager
 {
     private readonly IEffectInstanceFactory _effectFactory;
     private readonly IDerivedStatsCalculator _derivedStats;
     private readonly IDamageCalculator _damageCalculator;
     private readonly IHealCalculator _healCalculator;
 
-    public EffectManager(EffectInstanceFactory effectFactory, DerivedStatsCalculator derivedStats, IDamageCalculator damageCalculator, IHealCalculator healCalculator)
+    public EffectManager(IEffectInstanceFactory effectFactory, IDerivedStatsCalculator derivedStats, IDamageCalculator damageCalculator, IHealCalculator healCalculator)
     {
         _derivedStats = derivedStats ?? throw new ArgumentNullException(nameof(derivedStats));
         _effectFactory = effectFactory ?? throw new ArgumentNullException(nameof(effectFactory));
