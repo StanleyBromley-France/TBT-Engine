@@ -47,7 +47,15 @@ public sealed class Map : IReadOnlyMap
             return false;
         }
 
-        tile = _tiles[col, row];
+        var t = _tiles[col, row];
+
+        if (t == null)
+        {
+            tile = default!;
+            return false;
+        }
+
+        tile = t;
         return true;
     }
 
