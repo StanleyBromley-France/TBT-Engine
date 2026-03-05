@@ -6,6 +6,7 @@ using Domain.Units.Instances.ReadOnly;
 using Actions.Choice;
 using Game;
 using Map.Pathfinding;
+using Map.Search;
 using Core.Domain.Types;
 
 internal sealed class ActionValidator : IActionValidator
@@ -89,7 +90,8 @@ internal sealed class ActionValidator : IActionValidator
             !_pathfinder.HasLineOfSight(state.Map, issuer.Position, target.Position))
             return false;
 
-        // if (!_rangeService.IsInRange(unit.Position, target.Position, action.Ability.Targeting.Range)) return false;
+        if (MapSearch.GetDistance(issuer.Position, target.Position) > ability.Targeting.Range)
+            return false;
 
         return true;
     }
@@ -169,4 +171,5 @@ internal sealed class ActionValidator : IActionValidator
         unit = found;
         return true;
     }
+
 }

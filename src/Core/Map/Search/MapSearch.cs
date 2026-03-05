@@ -11,6 +11,9 @@ using Map.Grid;
 
 public static partial class MapSearch
 {
+    public static int GetDistance(HexCoord a, HexCoord b) =>
+        HexMath.GetDistance(a, b);
+
     /// <summary>
     /// Returns all neighboring coordinates around a center tile that exist within the map.
     /// </summary>
