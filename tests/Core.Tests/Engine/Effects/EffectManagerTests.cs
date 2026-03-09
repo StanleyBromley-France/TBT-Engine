@@ -149,6 +149,50 @@ public class EffectManagerTests
     }
 
     [Fact]
+    public void TickAll_Applies_Heal_And_Damage_Over_Time_Before_Decrementing_Ticks()
+    {
+        // Arrange: DoT + HoT are resolved on apply and then executed on each tick
+        var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0), hp: 10);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
+
+        var templateId = new EffectTemplateId("dot-hot");
+        var effectTemplate = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1);
+        var hotTemplate = new HealOverTimeComponentTemplate(new EffectComponentTemplateId("hot"), heal: 1);
+        var dotTemplate = new DamageOverTimeComponentTemplate(new EffectComponentTemplateId("dot"), damage: 1, DamageType.Physical);
+        var hot = new HealOverTimeComponentInstance(new EffectComponentInstanceId(500), hotTemplate);
+        var dot = new DamageOverTimeComponentInstance(new EffectComponentInstanceId(501), dotTemplate);
+
+        var effectId = new EffectInstanceId(502);
+        var factory = new FakeEffectFactory((ctx, src, tgt) =>
+            new EffectInstance(effectId, effectTemplate, src, tgt, new EffectComponentInstance[] { hot, dot }));
+
+        var manager = new EffectManager(
+            factory,
+            new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
+            new FakeDamageCalculator(5),
+            new FakeHealCalculator(2));
+
+        var request = new EffectApplicationRequest(templateId, source.Id, new[] { target.Id });
+
+        // Act / Assert: apply resolves values but does not tick HoT/DoT yet
+        manager.ApplyOrStackEffect(context, state, request);
+        Assert.Equal(10, target.Resources.HP);
+
+        // First tick applies +2 heal and -5 damage, then decrements to 1 remaining tick
+        manager.TickAll(context, state);
+        Assert.True(target.Resources.HP == 7);
+        Assert.Equal(1, state.ActiveEffects[target.Id][effectId].RemainingTicks);
+
+        // Second tick applies again and expires/removes effect
+        manager.TickAll(context, state);
+        Assert.Equal(4, target.Resources.HP);
+        Assert.False(state.ActiveEffects.ContainsKey(target.Id));
+    }
+
+    [Fact]
     public void ApplyOrStackEffect_Throws_When_Resolvable_Component_HpType_Does_Not_Match_Template_Interface()
     {
         // Arrange: build a malformed component where resolved HP type disagrees with the template contract

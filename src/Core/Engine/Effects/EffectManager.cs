@@ -82,6 +82,20 @@ internal sealed class EffectManager : IEffectManager
             // if target id is here, it will have at least one effect instance attached to it
             affected.Add(targetId);
 
+            if (state.ActiveEffects.TryGetValue(targetId, out var effectsById))
+            {
+                foreach (var effect in effectsById.Values.ToList())
+                {
+                    if (effect is not IEffectInstanceExecution executable)
+                    {
+                        throw new InvalidOperationException(
+                            $"Effect instance '{effect.Id}' does not implement {nameof(IEffectInstanceExecution)}.");
+                    }
+
+                    executable.OnTick(context);
+                }
+            }
+
             // decrement remaining ticks
             // removing of effects is handled by this method
             context.Effects.TickAllForUnit(targetId);
