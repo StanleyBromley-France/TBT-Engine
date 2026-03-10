@@ -1,5 +1,5 @@
 using Core.Domain.Types;
-using Core.Game;
+using Core.Game.State;
 
 namespace Core.Tests.Game;
 

@@ -1,8 +1,8 @@
 ﻿namespace Core.Engine.Actions.Execution;
 
 using Core.Engine.Actions.Choice;
-using Core.Game;
 using Core.Engine.Mutation;
+using Core.Game.State.ReadOnly;
 
 public sealed class SkipActiveUnitHandler : IActionHandler<SkipActiveUnitAction>
 {

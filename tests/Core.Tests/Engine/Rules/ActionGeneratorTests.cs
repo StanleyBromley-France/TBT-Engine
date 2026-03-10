@@ -4,7 +4,7 @@ using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Engine.Actions.Choice;
 using Core.Engine.Rules;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 using Core.Map.Grid;
 using Core.Map.Pathfinding;
 using Core.Tests.Engine.TestSupport;

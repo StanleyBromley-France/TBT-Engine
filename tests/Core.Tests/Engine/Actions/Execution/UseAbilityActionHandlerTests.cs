@@ -8,10 +8,10 @@ using Core.Engine.Effects;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
-using Core.Game;
 using Core.Map.Grid;
 using Core.Map.Pathfinding;
 using Core.Tests.Engine.TestSupport;
+using Core.Game.State.ReadOnly;
 
 namespace Core.Tests.Engine.Actions.Execution;
 

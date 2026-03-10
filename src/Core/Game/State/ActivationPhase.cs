@@ -1,4 +1,4 @@
-﻿namespace Core.Game;
+﻿namespace Core.Game.State;
 
 using Core.Domain.Types;
 

@@ -2,7 +2,7 @@
 
 using Core.Engine.Actions.Choice;
 using Core.Engine.Mutation;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 
 public sealed class ActionDispatcher : IActionDispatcher
 {

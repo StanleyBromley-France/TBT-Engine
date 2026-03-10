@@ -6,6 +6,7 @@ using Domain.Units.Instances.ReadOnly;
 using Actions.Choice;
 using Game;
 using Map.Pathfinding;
+using Core.Game.State.ReadOnly;
 
 internal class ActionGenerator : IActionGenerator
 {

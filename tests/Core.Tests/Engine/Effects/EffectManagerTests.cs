@@ -16,8 +16,8 @@ using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
-using Core.Game;
 using Core.Tests.Engine.TestSupport;
+using Core.Game.State.ReadOnly;
 
 namespace Core.Tests.Engine.Effects;
 

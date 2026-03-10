@@ -1,7 +1,7 @@
 ﻿namespace Core.Engine.Turn;
 
-using Core.Game;
 using Core.Engine.Actions.Choice;
+using Core.Game.State.ReadOnly;
 
 public interface ITurnPolicy
 {

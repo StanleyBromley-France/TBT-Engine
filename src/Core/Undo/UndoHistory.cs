@@ -1,6 +1,6 @@
 ﻿namespace Core.Undo;
 
-using Core.Game;
+using Core.Game.State;
 
 public sealed class UndoHistory
 {

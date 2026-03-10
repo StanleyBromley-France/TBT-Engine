@@ -12,7 +12,7 @@ using Core.Engine.Effects.Factories;
 using Core.Engine.Random;
 using Core.Engine.Rules;
 using Core.Engine.Victory;
-using Core.Game;
+using Core.Game.Session;
 using Core.Map.Pathfinding;
 
 public static class EngineCompositionRoot

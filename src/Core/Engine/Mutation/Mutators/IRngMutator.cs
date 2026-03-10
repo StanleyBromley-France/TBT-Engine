@@ -9,7 +9,7 @@
 /// are applied through <see cref="GameMutationContext"/>.
 /// </para>
 /// <para>
-/// Each roll advances the stored RNG state inside <see cref="Core.Game.GameState"/>,
+/// Each roll advances the stored RNG state inside <see cref="Game.State.GameState"/>,
 /// guaranteeing deterministic and replayable outcomes.
 /// </para>
 /// Intended to be used exclusively by engine rules and effects through

@@ -11,9 +11,10 @@ using Core.Domain.Units.Templates;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
-using Core.Game;
 using Core.Game.Match;
 using Core.Map.Grid;
+using Core.Game.State;
+using Core.Game.Session;
 
 namespace Core.Tests.Engine.TestSupport;
 

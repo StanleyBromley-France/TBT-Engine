@@ -4,6 +4,7 @@ using Domain.Effects.Components.Templates;
 using Domain.Effects.Instances.ReadOnly;
 using Mutation;
 using Game;
+using Core.Game.State.ReadOnly;
 
 public class HealCalculator : IHealCalculator
 {

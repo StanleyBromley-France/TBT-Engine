@@ -2,7 +2,8 @@
 
 using Core.Engine.Mutation.Mutators;
 using Core.Engine.Random;
-using Core.Game;
+using Core.Game.Session;
+using Core.Game.State;
 using Core.Undo;
 
 /// <summary>

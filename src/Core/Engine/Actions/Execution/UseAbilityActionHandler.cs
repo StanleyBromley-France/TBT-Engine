@@ -6,7 +6,7 @@ using Core.Domain.Units.Instances.ReadOnly;
 using Core.Engine.Actions.Choice;
 using Core.Engine.Effects;
 using Core.Engine.Mutation;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 using Core.Map.Pathfinding;
 using Core.Map.Search;
 

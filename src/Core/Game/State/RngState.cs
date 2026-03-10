@@ -1,4 +1,4 @@
-﻿namespace Core.Game;
+﻿namespace Core.Game.State;
 
 /// <summary>
 /// Holds the deterministic random number generator state used by the simulation.

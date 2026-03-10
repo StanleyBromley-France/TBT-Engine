@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Core.Domain.Types;
-using Core.Game;
+using Core.Game.State;
 using Core.Undo.Steps;
 
 public sealed class ActivationPhaseResetUndo : IUndoStep

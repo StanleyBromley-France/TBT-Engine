@@ -1,6 +1,6 @@
 ﻿using Core.Engine.Actions.Choice;
 using Core.Engine.Mutation;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 using Core.Map.Pathfinding;
 
 namespace Core.Engine.Actions.Execution;

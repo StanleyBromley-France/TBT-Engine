@@ -1,6 +1,6 @@
 ﻿namespace Core.Undo.Steps;
 
-using Core.Game;
+using Core.Game.State;
 
 public interface IUndoStep
 {

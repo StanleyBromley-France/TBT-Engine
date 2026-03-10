@@ -1,5 +1,5 @@
 using Core.Engine.Random;
-using Core.Game;
+using Core.Game.State;
 
 namespace Core.Tests.Engine.Random;
 

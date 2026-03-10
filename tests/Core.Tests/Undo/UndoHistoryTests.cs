@@ -2,9 +2,9 @@ using Core.Domain.Abilities;
 using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Undo.Steps;
-using Core.Game;
 using Core.Tests.Engine.TestSupport;
 using Core.Undo;
+using Core.Game.State;
 
 namespace Core.Tests.Undo;
 

@@ -1,7 +1,8 @@
-﻿namespace Core.Game;
+﻿namespace Core.Game.Session;
 
 using Core.Domain.Repositories;
 using Core.Game.Match;
+using Core.Game.State;
 using Core.Undo;
 
 /// <summary>

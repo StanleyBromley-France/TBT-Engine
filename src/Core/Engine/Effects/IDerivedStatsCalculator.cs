@@ -2,7 +2,7 @@
 
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 
 /// <summary>
 /// Computes derived stats for a unit based on base stats and active effects.

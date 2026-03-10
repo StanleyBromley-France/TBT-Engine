@@ -1,7 +1,7 @@
 ﻿namespace Core.Engine.Mutation;
 
 using Core.Engine.Random;
-using Core.Game;
+using Core.Game.State;
 using Core.Undo;
 
 /// <summary>

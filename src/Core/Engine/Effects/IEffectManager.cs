@@ -1,7 +1,7 @@
 namespace Core.Engine.Effects;
 
 using Core.Engine.Mutation;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 
 public interface IEffectManager
 {

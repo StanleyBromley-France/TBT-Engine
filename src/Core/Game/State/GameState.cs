@@ -1,4 +1,4 @@
-﻿namespace Core.Game;
+﻿namespace Core.Game.State;
 
 using Domain.Units.Instances;
 using Domain.Effects.Instances;
@@ -8,6 +8,7 @@ using Core.Domain.Units.Instances.Mutable;
 using Core.Domain.Units.Instances.ReadOnly;
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Effects.Instances.ReadOnly;
+using Core.Game.State.ReadOnly;
 
 
 /// <summary>

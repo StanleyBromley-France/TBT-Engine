@@ -10,8 +10,8 @@ using Core.Engine.Effects;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
-using Core.Game;
 using Core.Tests.Engine.TestSupport;
+using Core.Game.State;
 
 namespace Core.Tests.Domain.Effects;
 

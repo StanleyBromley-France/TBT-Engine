@@ -2,7 +2,7 @@
 
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
-using Core.Game;
+using Core.Game.State;
 using Core.Undo.Steps;
 
 public sealed class RemoveEffectUndo : IUndoStep

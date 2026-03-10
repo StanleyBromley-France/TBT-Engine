@@ -3,7 +3,7 @@
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Domain.Effects.Components.Templates;
 using Core.Engine.Mutation;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 
 public interface IDamageCalculator
 {

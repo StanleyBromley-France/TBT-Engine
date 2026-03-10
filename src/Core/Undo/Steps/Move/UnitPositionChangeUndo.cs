@@ -1,7 +1,7 @@
 ﻿namespace Core.Undo.Steps.Move;
 
 using Core.Domain.Types;
-using Core.Game;
+using Core.Game.State;
 using Core.Undo.Steps;
 
 public sealed class UnitPositionChangeUndo : IUndoStep

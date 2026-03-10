@@ -4,7 +4,7 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
-using Core.Game;
+using Core.Game.State.ReadOnly;
 
 /// <summary>
 /// Calculates resolved damage for damage component including resistance modifiers with critical hits.

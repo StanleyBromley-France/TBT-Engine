@@ -1,7 +1,8 @@
-﻿namespace Core.Game;
+﻿namespace Core.Game.State.ReadOnly;
 
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Domain.Units.Instances.ReadOnly;
+using Core.Game.State;
 using Domain.Types;
 using Map.Grid;
 

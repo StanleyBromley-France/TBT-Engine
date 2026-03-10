@@ -1,7 +1,7 @@
 ﻿namespace Core.Engine.Victory;
 
-using Core.Game;
 using Core.Game.Match;
+using Core.Game.Session;
 
 public sealed class CompositeGameOverEvaluator : IGameOverEvaluator
 {

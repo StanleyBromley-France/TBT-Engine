@@ -1,8 +1,8 @@
 ﻿using Core.Domain.Types;
 using Core.Domain.Effects.Stats;
-using Core.Game;
 using Core.Domain.Units.Instances.Mutable;
 using Core.Domain.Effects.Components.Instances.ReadOnly;
+using Core.Game.State.ReadOnly;
 
 namespace Core.Engine.Effects;
 

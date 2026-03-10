@@ -8,6 +8,7 @@ using Game;
 using Map.Pathfinding;
 using Map.Search;
 using Core.Domain.Types;
+using Core.Game.State.ReadOnly;
 
 internal sealed class ActionValidator : IActionValidator
 {

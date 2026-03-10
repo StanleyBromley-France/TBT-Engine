@@ -1,6 +1,6 @@
 ﻿namespace Core.Undo;
 
-using Core.Game;
+using Core.Game.State;
 using Core.Undo.Steps;
 
 public sealed class UndoRecord

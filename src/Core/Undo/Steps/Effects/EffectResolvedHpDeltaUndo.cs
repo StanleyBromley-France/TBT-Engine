@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Types;
-using Core.Game;
+using Core.Game.State;
 using Core.Undo.Steps;
 
 public sealed class EffectResolvedHpDeltaUndo : IUndoStep

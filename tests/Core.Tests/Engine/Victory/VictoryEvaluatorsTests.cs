@@ -9,9 +9,10 @@ using Core.Domain.Units;
 using Core.Domain.Units.Templates;
 using Core.Undo;
 using Core.Engine.Victory;
-using Core.Game;
 using Core.Game.Match;
 using Core.Map.Grid;
+using Core.Game.Session;
+using Core.Game.State;
 
 namespace Core.Tests.Engine.Victory;
 

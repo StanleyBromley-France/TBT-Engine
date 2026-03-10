@@ -2,7 +2,7 @@
 
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
-using Core.Game;
+using Core.Game.State;
 using Core.Undo.Steps;
 
 public sealed class DerivedStatsChangeUndo : IUndoStep
