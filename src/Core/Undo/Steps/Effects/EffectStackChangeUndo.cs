@@ -1,28 +1,28 @@
-﻿namespace Core.Engine.Undo.Steps.Effects;
+﻿namespace Core.Undo.Steps.Effects;
 
 using Core.Domain.Types;
-using Core.Engine.Undo;
 using Core.Game;
+using Core.Undo.Steps;
 
-public sealed class EffectTickStateUndo : IUndoStep
+public sealed class EffectStackChangeUndo : IUndoStep
 {
     public UnitInstanceId TargetUnitId { get; }
     public EffectInstanceId EffectId { get; }
-    public int OldRemainingTicks { get; }
+    public int OldStacks { get; }
 
-    public EffectTickStateUndo(
+    public EffectStackChangeUndo(
         UnitInstanceId targetUnitId,
         EffectInstanceId effectId,
-        int oldRemainingTicks)
+        int oldStacks)
     {
         TargetUnitId = targetUnitId;
         EffectId = effectId;
-        OldRemainingTicks = oldRemainingTicks;
+        OldStacks = oldStacks;
     }
 
     public void Undo(GameState state)
     {
         var effect = state.ActiveEffects[TargetUnitId][EffectId];
-        effect.RemainingTicks = OldRemainingTicks;
+        effect.CurrentStacks = OldStacks;
     }
 }

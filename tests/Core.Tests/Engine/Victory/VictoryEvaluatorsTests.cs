@@ -7,7 +7,7 @@ using Core.Domain.Effects.Templates;
 using Core.Domain.Repositories;
 using Core.Domain.Units;
 using Core.Domain.Units.Templates;
-using Core.Engine.Undo;
+using Core.Undo;
 using Core.Engine.Victory;
 using Core.Game;
 using Core.Game.Match;

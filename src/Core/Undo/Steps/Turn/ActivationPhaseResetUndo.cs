@@ -1,9 +1,10 @@
-﻿namespace Core.Engine.Undo.Steps.Turn;
+﻿namespace Core.Undo.Steps.Turn;
 
 using System;
 using System.Collections.Generic;
 using Core.Domain.Types;
 using Core.Game;
+using Core.Undo.Steps;
 
 public sealed class ActivationPhaseResetUndo : IUndoStep
 {

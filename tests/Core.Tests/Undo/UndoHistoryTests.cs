@@ -1,12 +1,12 @@
 using Core.Domain.Abilities;
 using Core.Domain.Repositories;
 using Core.Domain.Types;
-using Core.Engine.Undo;
-using Core.Engine.Undo.Steps;
+using Core.Undo.Steps;
 using Core.Game;
 using Core.Tests.Engine.TestSupport;
+using Core.Undo;
 
-namespace Core.Tests.Engine.Undo;
+namespace Core.Tests.Undo;
 
 public class UndoHistoryTests
 {

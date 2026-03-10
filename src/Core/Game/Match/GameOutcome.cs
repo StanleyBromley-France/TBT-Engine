@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Victory;
+﻿namespace Core.Game.Match;
 
 using Core.Domain.Types;
 

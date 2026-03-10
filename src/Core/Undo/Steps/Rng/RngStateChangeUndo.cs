@@ -1,7 +1,7 @@
-﻿namespace Core.Engine.Undo.Steps.Rng;
+﻿namespace Core.Undo.Steps.Rng;
 
-using Core.Engine.Undo;
 using Core.Game;
+using Core.Undo.Steps;
 
 public sealed class RngStateChangeUndo : IUndoStep
 {

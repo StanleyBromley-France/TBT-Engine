@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Undo;
+﻿namespace Core.Undo.Steps;
 
 using Core.Game;
 

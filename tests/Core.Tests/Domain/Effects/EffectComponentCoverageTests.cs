@@ -9,7 +9,7 @@ using Core.Domain.Units.Instances.Mutable;
 using Core.Engine.Effects;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
-using Core.Engine.Undo;
+using Core.Undo;
 using Core.Game;
 using Core.Tests.Engine.TestSupport;
 

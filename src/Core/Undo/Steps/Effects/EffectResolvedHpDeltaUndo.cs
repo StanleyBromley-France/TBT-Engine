@@ -1,10 +1,11 @@
-﻿namespace Core.Engine.Undo.Steps.Effects;
+﻿namespace Core.Undo.Steps.Effects;
 
 using System;
 using System.Linq;
 using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Types;
 using Core.Game;
+using Core.Undo.Steps;
 
 public sealed class EffectResolvedHpDeltaUndo : IUndoStep
 {

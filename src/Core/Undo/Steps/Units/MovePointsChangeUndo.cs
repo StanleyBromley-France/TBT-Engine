@@ -1,7 +1,8 @@
-﻿namespace Core.Engine.Undo.Steps.Units;
+﻿namespace Core.Undo.Steps.Units;
 
 using Core.Domain.Types;
 using Core.Game;
+using Core.Undo.Steps;
 
 public sealed class MovePointsChangeUndo : IUndoStep
 {

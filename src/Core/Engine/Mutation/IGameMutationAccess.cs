@@ -1,8 +1,8 @@
 ﻿namespace Core.Engine.Mutation;
 
 using Core.Engine.Random;
-using Core.Engine.Undo;
 using Core.Game;
+using Core.Undo;
 
 /// <summary>
 /// Internal mutation-layer access contract that exposes controlled

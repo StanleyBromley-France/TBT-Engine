@@ -1,6 +1,7 @@
-﻿namespace Core.Engine.Undo;
+﻿namespace Core.Undo;
 
 using Core.Game;
+using Core.Undo.Steps;
 
 public sealed class UndoRecord
 {

@@ -10,6 +10,7 @@ using Core.Engine.Random;
 using Core.Engine.Rules;
 using Core.Engine.Victory;
 using Core.Game;
+using Core.Game.Match;
 using Core.Tests.Engine.TestSupport;
 
 namespace Core.Tests.Engine;

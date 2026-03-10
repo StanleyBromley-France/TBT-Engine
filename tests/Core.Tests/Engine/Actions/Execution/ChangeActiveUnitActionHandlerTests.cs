@@ -4,7 +4,7 @@ using Core.Domain.Types;
 using Core.Engine.Actions.Choice;
 using Core.Engine.Actions.Execution;
 using Core.Engine.Random;
-using Core.Engine.Undo;
+using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 
 namespace Core.Tests.Engine.Actions.Execution;

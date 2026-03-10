@@ -1,6 +1,6 @@
 ﻿namespace Core.Engine.Mutation.Mutators;
 
-using Core.Engine.Undo.Steps.Rng;
+using Core.Undo.Steps.Rng;
 using Random;
 
 public sealed class RngMutator : IRngMutator

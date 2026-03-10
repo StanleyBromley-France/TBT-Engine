@@ -4,7 +4,7 @@ using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
 using Core.Engine.Mutation;
-using Core.Engine.Undo.Steps.Effects;
+using Core.Undo.Steps.Effects;
 using System.Linq;
 
 public sealed class EffectsMutator : IEffectsMutator

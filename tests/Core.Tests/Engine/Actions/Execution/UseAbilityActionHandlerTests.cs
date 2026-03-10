@@ -7,7 +7,7 @@ using Core.Engine.Actions.Execution;
 using Core.Engine.Effects;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
-using Core.Engine.Undo;
+using Core.Undo;
 using Core.Game;
 using Core.Map.Grid;
 using Core.Map.Pathfinding;

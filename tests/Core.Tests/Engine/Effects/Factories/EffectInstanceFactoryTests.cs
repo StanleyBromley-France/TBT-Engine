@@ -10,9 +10,9 @@ using Core.Engine.Effects.Components.Factories;
 using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
-using Core.Engine.Undo;
-using Core.Engine.Undo.Steps.Effects;
+using Core.Undo;
 using Core.Tests.Engine.TestSupport;
+using Core.Undo.Steps.Effects;
 
 namespace Core.Tests.Engine.Effects.Factories;
 

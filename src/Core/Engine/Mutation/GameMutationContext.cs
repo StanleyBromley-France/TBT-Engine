@@ -2,8 +2,8 @@
 
 using Core.Engine.Mutation.Mutators;
 using Core.Engine.Random;
-using Core.Engine.Undo;
 using Core.Game;
+using Core.Undo;
 
 /// <summary>
 /// Per-operation mutation gateway.

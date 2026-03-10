@@ -1,8 +1,9 @@
-﻿namespace Core.Engine.Undo.Steps.Effects;
+﻿namespace Core.Undo.Steps.Effects;
 
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Domain.Types;
 using Core.Game;
+using Core.Undo.Steps;
 
 public sealed class RemoveEffectUndo : IUndoStep
 {
