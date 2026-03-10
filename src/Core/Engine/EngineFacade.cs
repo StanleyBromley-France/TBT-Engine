@@ -101,6 +101,19 @@ public sealed class EngineFacade
         RecomputeOutcome();
     }
 
+    public EngineFacade CreateSandbox()
+    {
+        var sandboxSession = _session.CreateSandbox();
+
+        return new EngineFacade(
+            session: sandboxSession,
+            rules: _rules,
+            dispatcher: _dispatcher,
+            rngService: _rngService,
+            effectManager: _effectManager,
+            gameOver: _gameOver);
+    }
+
     // Post apply action resolution
 
     private void ResolvePostAction(GameMutationContext ctx, IReadOnlyGameState state)
