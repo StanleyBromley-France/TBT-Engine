@@ -51,4 +51,15 @@ public sealed class ActivationPhase
         CommittedThisPhase.Clear();
         ActiveUnitId = newActiveUnitId;
     }
+
+    public ActivationPhase DeepCloneForSimulation()
+    {
+        var clone = new ActivationPhase(ActiveUnitId);
+        foreach (var unitId in CommittedThisPhase)
+        {
+            clone.CommittedThisPhase.Add(unitId);
+        }
+
+        return clone;
+    }
 }

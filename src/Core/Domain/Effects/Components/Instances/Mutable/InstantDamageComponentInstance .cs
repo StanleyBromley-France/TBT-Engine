@@ -35,4 +35,11 @@ public sealed class InstantDamageComponentInstance : EffectComponentInstance<Ins
 
         context.Units.ChangeHp(effect.TargetUnitId, -_resolvedDamage.Value);
     }
+
+    public override EffectComponentInstance DeepCloneForSimulation()
+    {
+        var clone = new InstantDamageComponentInstance(Id, TemplateTyped);
+        ((IResolvableHpDeltaComponent)clone).ResolvedHpDelta = _resolvedDamage;
+        return clone;
+    }
 }

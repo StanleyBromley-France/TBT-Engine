@@ -24,6 +24,8 @@ public abstract class EffectComponentInstance : IReadOnlyEffectComponentInstance
         Template = template ?? throw new ArgumentNullException(nameof(template));
     }
 
+    public abstract EffectComponentInstance DeepCloneForSimulation();
+
     public virtual void OnApply(GameMutationContext context, IReadOnlyEffectInstance effect) { }
     public virtual void OnTick(GameMutationContext context, IReadOnlyEffectInstance effect) { }
     public virtual void OnExpire(GameMutationContext context, IReadOnlyEffectInstance effect) { }

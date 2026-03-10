@@ -57,4 +57,18 @@ public class UnitDerivedStats : IReadOnlyUnitDerivedStats
         PhysicalDamageReceived = physicalDamageModifier;
         MagicDamageReceived = magicDamageModifier;
     }
+
+    public UnitDerivedStats DeepCloneForSimulation()
+    {
+        return new UnitDerivedStats(
+            movePoints: MaxMovePoints,
+            physicalDamageModifier: PhysicalDamageReceived,
+            magicDamageModifier: MagicDamageReceived,
+            maxHp: MaxHP,
+            maxManaPoints: MaxManaPoints,
+            actionPoints: MaxActionPoints,
+            healingReceived: HealingReceived,
+            healingDealt: HealingDealt,
+            damageDealt: DamageDealt);
+    }
 }

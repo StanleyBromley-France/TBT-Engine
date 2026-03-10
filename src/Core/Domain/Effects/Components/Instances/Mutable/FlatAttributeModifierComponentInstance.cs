@@ -22,4 +22,9 @@ public sealed class FlatAttributeModifierComponentInstance : EffectComponentInst
             delta,
             effectId);
     }
+
+    public override EffectComponentInstance DeepCloneForSimulation()
+    {
+        return new FlatAttributeModifierComponentInstance(Id, TemplateTyped);
+    }
 }

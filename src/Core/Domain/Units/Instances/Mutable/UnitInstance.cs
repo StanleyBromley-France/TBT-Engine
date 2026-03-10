@@ -67,4 +67,17 @@ public class UnitInstance : IReadOnlyUnitInstance
         );
 
     }
+
+    public UnitInstance DeepCloneForSimulation()
+    {
+        var clone = new UnitInstance(Id, Team, Template, Position);
+
+        clone.Resources.HP = Resources.HP;
+        clone.Resources.MovePoints = Resources.MovePoints;
+        clone.Resources.ActionPoints = Resources.ActionPoints;
+        clone.Resources.Mana = Resources.Mana;
+        clone.DerivedStats = DerivedStats.DeepCloneForSimulation();
+
+        return clone;
+    }
 }

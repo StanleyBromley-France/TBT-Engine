@@ -23,5 +23,7 @@ public sealed class RngState
     }
 
     public RngState Advance(int steps = 1) => new RngState(Seed, Position + steps);
+
+    public RngState DeepCloneForSimulation() => new(Seed, Position);
 }
 

@@ -1,7 +1,5 @@
 ﻿namespace Core.Game.State;
 
-using Domain.Units.Instances;
-using Domain.Effects.Instances;
 using Map.Grid;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
@@ -61,6 +59,39 @@ public sealed class GameState : IReadOnlyGameState
             if (unit.IsAlive)
                 OccupiedHexes.Add(unit.Position);
         }
+    }
+
+    /// <summary>
+    /// Deep-clones mutable state for isolated simulation.
+    /// Immutable template/content references inside runtime entities are shared.
+    /// </summary>
+    public GameState DeepCloneForSimulation()
+    {
+        var clonedUnits = new Dictionary<UnitInstanceId, UnitInstance>(UnitInstances.Count);
+        foreach (var (unitId, unit) in UnitInstances)
+        {
+            clonedUnits[unitId] = unit.DeepCloneForSimulation();
+        }
+
+        var clonedEffects = new Dictionary<UnitInstanceId, Dictionary<EffectInstanceId, EffectInstance>>(ActiveEffects.Count);
+        foreach (var (unitId, effectsById) in ActiveEffects)
+        {
+            var clonedById = new Dictionary<EffectInstanceId, EffectInstance>(effectsById.Count);
+            foreach (var (effectId, effect) in effectsById)
+            {
+                clonedById[effectId] = effect.DeepCloneForSimulation();
+            }
+
+            clonedEffects[unitId] = clonedById;
+        }
+
+        return new GameState(
+            map: Map.DeepCloneForSimulation(),
+            unitInstances: clonedUnits,
+            activeEffects: clonedEffects,
+            turn: Turn,
+            phase: Phase.DeepCloneForSimulation(),
+            rng: Rng.DeepCloneForSimulation());
     }
 
     private sealed class ReadOnlyEffectsView

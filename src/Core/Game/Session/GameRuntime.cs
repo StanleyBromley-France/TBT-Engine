@@ -29,4 +29,16 @@ public sealed class GameRuntime
 
         Outcome = outcome;
     }
+
+    /// <summary>
+    /// Deep-clones mutable runtime simulation data for sandbox use.
+    /// Undo history always starts empty in the sandbox.
+    /// </summary>
+    public GameRuntime DeepCloneForSimulation()
+    {
+        return new GameRuntime(
+            state: State.DeepCloneForSimulation(),
+            undo: new UndoHistory(),
+            outcome: Outcome);
+    }
 }

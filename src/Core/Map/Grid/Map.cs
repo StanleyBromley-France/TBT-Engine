@@ -64,4 +64,26 @@ public sealed class Map : IReadOnlyMap
     /// </summary>
     public IReadOnlyTile? GetTile(HexCoord coord) =>
         TryGetTile(coord, out var tile) ? tile : null;
+
+    public Map DeepCloneForSimulation()
+    {
+        var clonedTiles = new Tile[Width, Height];
+
+        for (var col = 0; col < Width; col++)
+        {
+            for (var row = 0; row < Height; row++)
+            {
+                var tile = _tiles[col, row];
+                if (tile != null)
+                {
+                    clonedTiles[col, row] = new Tile
+                    {
+                        Terrain = tile.Terrain
+                    };
+                }
+            }
+        }
+
+        return new Map(clonedTiles);
+    }
 }

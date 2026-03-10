@@ -305,5 +305,10 @@ public class EffectManagerTests
         {
             _hpType = hpType;
         }
+
+        public override EffectComponentInstance DeepCloneForSimulation()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

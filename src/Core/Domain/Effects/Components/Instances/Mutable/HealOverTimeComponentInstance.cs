@@ -35,4 +35,11 @@ public sealed class HealOverTimeComponentInstance
 
         context.Units.ChangeHp(effect.TargetUnitId, +heal);
     }
+
+    public override EffectComponentInstance DeepCloneForSimulation()
+    {
+        var clone = new HealOverTimeComponentInstance(Id, TemplateTyped);
+        ((IResolvableHpDeltaComponent)clone).ResolvedHpDelta = _resolvedHealPerTick;
+        return clone;
+    }
 }

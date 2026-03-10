@@ -32,4 +32,11 @@ public sealed class InstantHealComponentInstance : EffectComponentInstance<Insta
 
         context.Units.ChangeHp(effect.TargetUnitId, _resolvedHeal.Value);
     }
+
+    public override EffectComponentInstance DeepCloneForSimulation()
+    {
+        var clone = new InstantHealComponentInstance(Id, TemplateTyped);
+        ((IResolvableHpDeltaComponent)clone).ResolvedHpDelta = _resolvedHeal;
+        return clone;
+    }
 }

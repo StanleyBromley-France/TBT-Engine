@@ -21,5 +21,10 @@ public sealed class PercentAttributeModifierComponentInstance : EffectComponentI
             effectivePercentAdd,
             effectId);
     }
+
+    public override EffectComponentInstance DeepCloneForSimulation()
+    {
+        return new PercentAttributeModifierComponentInstance(Id, TemplateTyped);
+    }
 }
 

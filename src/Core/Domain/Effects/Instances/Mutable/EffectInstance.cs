@@ -7,6 +7,7 @@ using Domain.Types;
 using Effects.Instances.ReadOnly;
 using Effects.Templates;
 using Engine.Mutation;
+using System.Linq;
 
 /// <summary>
 /// Represents a single active effect applied from one unit to another,
@@ -82,6 +83,25 @@ public sealed class EffectInstance : IReadOnlyEffectInstance, IEffectInstanceExe
     public bool IsExpired()
     {
         return RemainingTicks <= 0;
+    }
+
+    public EffectInstance DeepCloneForSimulation()
+    {
+        var clonedComponents = Components
+            .Select(component => component.DeepCloneForSimulation())
+            .ToArray();
+
+        var clone = new EffectInstance(
+            Id,
+            Template,
+            SourceUnitId,
+            TargetUnitId,
+            clonedComponents);
+
+        clone.RemainingTicks = RemainingTicks;
+        clone.CurrentStacks = CurrentStacks;
+
+        return clone;
     }
 }
 

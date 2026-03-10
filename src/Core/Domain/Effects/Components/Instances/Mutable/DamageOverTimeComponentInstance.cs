@@ -38,4 +38,11 @@ public sealed class DamageOverTimeComponentInstance : EffectComponentInstance<Da
 
         context.Units.ChangeHp(effect.TargetUnitId, -damage);
     }
+
+    public override EffectComponentInstance DeepCloneForSimulation()
+    {
+        var clone = new DamageOverTimeComponentInstance(Id, TemplateTyped);
+        ((IResolvableHpDeltaComponent)clone).ResolvedHpDelta = _resolvedDamagePerTick;
+        return clone;
+    }
 }

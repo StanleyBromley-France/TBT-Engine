@@ -14,4 +14,13 @@ public sealed class GameSession
         Context = context ?? throw new ArgumentNullException(nameof(context));
         Runtime = runtime ?? throw new ArgumentNullException(nameof(runtime));
     }
+
+    /// <summary>
+    /// Creates an isolated simulation session that shares immutable match context
+    /// but deep-clones mutable runtime state.
+    /// </summary>
+    public GameSession CreateSandbox()
+    {
+        return new GameSession(Context, Runtime.DeepCloneForSimulation());
+    }
 }
