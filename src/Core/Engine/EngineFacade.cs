@@ -101,6 +101,11 @@ public sealed class EngineFacade
         RecomputeOutcome();
     }
 
+    public bool IsGameOver()
+    {
+        return _session.Runtime.Outcome.Type == GameOutcomeType.Victory || _session.Runtime.Outcome.Type == GameOutcomeType.Draw;
+    }
+
     public EngineFacade CreateSandbox()
     {
         var sandboxSession = _session.CreateSandbox();
