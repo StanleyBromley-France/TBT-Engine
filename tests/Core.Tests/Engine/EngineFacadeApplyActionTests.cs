@@ -49,7 +49,7 @@ public class EngineFacadeApplyActionTests
 
         Assert.Throws<InvalidOperationException>(() => facade.ApplyAction(new SkipActiveUnitAction(unit.Id)));
         Assert.Equal(0, dispatcherSpy.CallCount);
-        Assert.Empty(session.Undo.Records);
+        Assert.Empty(session.Runtime.Undo.Records);
         Assert.Equal(0, gameOverSpy.CallCount);
         Assert.Equal(0, effectSpy.TickAllCount);
     }
@@ -83,12 +83,12 @@ public class EngineFacadeApplyActionTests
 
         // Assert: operation committed, but no turn advance/start-of-turn resolution happened
         Assert.Equal(1, dispatcherSpy.CallCount);
-        Assert.Single(session.Undo.Records);
-        Assert.True(session.State.Phase.HasCommitted(active.Id));
-        Assert.Equal(new TeamId(1), session.State.Turn.TeamToAct);
+        Assert.Single(session.Runtime.Undo.Records);
+        Assert.True(session.Runtime.State.Phase.HasCommitted(active.Id));
+        Assert.Equal(new TeamId(1), session.Runtime.State.Turn.TeamToAct);
         Assert.Equal(0, effectSpy.TickAllCount);
         Assert.Equal(1, gameOverSpy.CallCount);
-        Assert.Equal(GameOutcomeType.Ongoing, session.Outcome.Type);
+        Assert.Equal(GameOutcomeType.Ongoing, session.Runtime.Outcome.Type);
     }
 
     [Fact]
@@ -124,14 +124,14 @@ public class EngineFacadeApplyActionTests
 
         // Assert: turn switched, defender reset, effect tick executed, and outcome applied
         Assert.Equal(1, dispatcherSpy.CallCount);
-        Assert.Equal(new TeamId(2), session.State.Turn.TeamToAct);
-        Assert.Equal(3, session.State.Turn.AttackerTurnsTaken);
-        Assert.Equal(defender.Id, session.State.Phase.ActiveUnitId);
+        Assert.Equal(new TeamId(2), session.Runtime.State.Turn.TeamToAct);
+        Assert.Equal(3, session.Runtime.State.Turn.AttackerTurnsTaken);
+        Assert.Equal(defender.Id, session.Runtime.State.Phase.ActiveUnitId);
         Assert.Equal(defender.DerivedStats.MaxActionPoints, defender.Resources.ActionPoints);
         Assert.Equal(defender.DerivedStats.MaxMovePoints, defender.Resources.MovePoints);
         Assert.Equal(1, effectSpy.TickAllCount);
-        Assert.Equal(GameOutcomeType.Victory, session.Outcome.Type);
-        Assert.Equal(new TeamId(2), session.Outcome.WinningTeam);
+        Assert.Equal(GameOutcomeType.Victory, session.Runtime.Outcome.Type);
+        Assert.Equal(new TeamId(2), session.Runtime.Outcome.WinningTeam);
     }
 
     private static EngineFacade CreateFacade(

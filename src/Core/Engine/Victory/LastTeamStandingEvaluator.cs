@@ -10,7 +10,7 @@ public sealed class LastTeamStandingEvaluator : IGameOverEvaluator
         if (session == null)
             throw new ArgumentNullException(nameof(session));
 
-        var state = session.State;
+        var state = session.Runtime.State;
 
         var aliveTeams = state.UnitInstances.Values
             .Where(u => u.IsAlive)

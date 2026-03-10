@@ -49,14 +49,14 @@ public sealed class EngineFacade
         _gameOver = gameOver ?? throw new ArgumentNullException(nameof(_gameOver));
     }
 
-    public TemplateRegistry GetContent() => _session.Content;
+    public TemplateRegistry GetContent() => _session.Context.Content;
 
-    public IReadOnlyGameState GetState() => _session.State;
+    public IReadOnlyGameState GetState() => _session.Runtime.State;
 
     public IEnumerable<ActionChoice> GetLegalActions()
-        => _rules.Generator.GetLegalActions(_session.State);
+        => _rules.Generator.GetLegalActions(_session.Runtime.State);
 
-    public UndoMarker MarkUndo() => _session.Undo.Mark();
+    public UndoMarker MarkUndo() => _session.Runtime.Undo.Mark();
 
     /// <summary>
     /// Applies exactly one player decision (ActionChoice).
@@ -69,7 +69,7 @@ public sealed class EngineFacade
         if (action is null)
             throw new ArgumentNullException(nameof(action));
 
-        var state = _session.State;
+        var state = _session.Runtime.State;
 
         if (!_rules.Validator.IsActionLegal(state, action))
             throw new InvalidOperationException("Illegal action.");
@@ -86,18 +86,18 @@ public sealed class EngineFacade
         // Game-over is evaluated after the operation is fully applied.
         var outcome = _gameOver.Evaluate(_session);
         if (outcome.Type != GameOutcomeType.Ongoing)
-            _session.SetGameOutcome(outcome);
+            _session.Runtime.SetGameOutcome(outcome);
     }
 
     public void UndoLastAction()
     {
-        _session.Undo.UndoLast(_session.State);
+        _session.Runtime.Undo.UndoLast(_session.Runtime.State);
         RecomputeOutcome();
     }
 
     public void UndoTo(UndoMarker marker)
     {
-        _session.Undo.UndoTo(_session.State, marker);
+        _session.Runtime.Undo.UndoTo(_session.Runtime.State, marker);
         RecomputeOutcome();
     }
 
@@ -133,10 +133,10 @@ public sealed class EngineFacade
     private void AdvanceTurn(GameMutationContext ctx, IReadOnlyGameState state)
     {
         var currentTeam = state.Turn.TeamToAct;
-        var nextTeam = _session.Teams.GetOpposingTeam(currentTeam);
+        var nextTeam = _session.Context.Teams.GetOpposingTeam(currentTeam);
 
         var attackerTurnsTaken = state.Turn.AttackerTurnsTaken;
-        if (_session.Teams.IsAttacker(currentTeam))
+        if (_session.Context.Teams.IsAttacker(currentTeam))
             attackerTurnsTaken++;
 
         var newTurn = new Domain.Types.Turn(
@@ -193,11 +193,11 @@ public sealed class EngineFacade
 
     private void Commit(UndoRecord undo)
     {
-        _session.Undo.Commit(undo);
+        _session.Runtime.Undo.Commit(undo);
     }
 
     private void RecomputeOutcome()
     {
-        _session.SetGameOutcome(_gameOver.Evaluate(_session));
+        _session.Runtime.SetGameOutcome(_gameOver.Evaluate(_session));
     }
 }

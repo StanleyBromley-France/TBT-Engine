@@ -58,7 +58,7 @@ public sealed class GameMutationContext : IGameMutationAccess
         Rng = rngMutator ?? throw new ArgumentNullException(nameof(rngMutator));
     }
 
-    GameState IGameMutationAccess.GetState() => _session.State;
+    GameState IGameMutationAccess.GetState() => _session.Runtime.State;
     UndoRecord IGameMutationAccess.GetUndo() => _undoRecord;
     DeterministicRng IGameMutationAccess.GetRngService() => _rngService;
 }

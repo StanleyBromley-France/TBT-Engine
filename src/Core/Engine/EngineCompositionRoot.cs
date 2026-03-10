@@ -24,7 +24,7 @@ public static class EngineCompositionRoot
         var pathfinder = BuildPathfinder();
 
         // Content
-        var abilities = session.Content.Abilities;
+        var abilities = session.Context.Content.Abilities;
 
         // Effects
         var effectManager = BuildEffectManager(session);
@@ -73,7 +73,7 @@ public static class EngineCompositionRoot
         var effectFactory = new EffectInstanceFactory(
             effectIdFactory,
             effectComponentFactory,
-            session.Content);
+            session.Context.Content);
 
         var derivedStatsCalculator = BuildDerivedStatsCalculator();
         var damageCalculator = BuildDamageCalculator();

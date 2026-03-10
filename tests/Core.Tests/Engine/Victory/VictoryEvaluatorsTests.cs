@@ -184,11 +184,18 @@ public class VictoryEvaluatorsTests
             effects: new EffectTemplateRepository(new Dictionary<EffectTemplateId, EffectTemplate>()),
             effectComponents: new EffectComponentTemplateRepository(new Dictionary<EffectComponentTemplateId, EffectComponentTemplate>()));
 
-        return new GameSession(
+        var context = new GameContext(
             content: registry,
-            initialState: state,
-            teams: new TeamPair(new TeamId(1), new TeamId(2)),
-            history: new UndoHistory());
+            teams: new TeamPair(new TeamId(1), new TeamId(2)));
+
+        var runtime = new GameRuntime(
+            state: state,
+            undo: new UndoHistory(),
+            outcome: GameOutcome.Ongoing());
+
+        return new GameSession(
+            context: context,
+            runtime: runtime);
     }
 
     private static Core.Map.Grid.Map CreateMap(int width, int height)

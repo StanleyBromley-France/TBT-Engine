@@ -87,13 +87,21 @@ internal static class EngineTestFactory
             units: new UnitTemplateRepository(new Dictionary<UnitTemplateId, UnitTemplate>()),
             abilities: abilities,
             effects: new EffectTemplateRepository(new Dictionary<EffectTemplateId, EffectTemplate>()),
-            effectComponents: new EffectComponentTemplateRepository(new Dictionary<EffectComponentTemplateId, EffectComponentTemplate>()));
+            effectComponents: new EffectComponentTemplateRepository(
+                new Dictionary<EffectComponentTemplateId, EffectComponentTemplate>()));
+
+        var context = new GameContext(
+            content: registry,
+            teams: new TeamPair(new TeamId(1), new TeamId(2)));
+
+        var runtime = new GameRuntime(
+            state: state,
+            undo: new UndoHistory(),
+            outcome: GameOutcome.Ongoing());
 
         return new GameSession(
-            content: registry,
-            initialState: state,
-            teams: new TeamPair(new TeamId(1), new TeamId(2)),
-            history: new UndoHistory());
+            context: context,
+            runtime: runtime);
     }
 
     public static GameMutationContext CreateContext(GameSession session)

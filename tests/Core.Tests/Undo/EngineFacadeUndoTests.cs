@@ -49,15 +49,15 @@ public class EngineFacadeUndoTests
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
         Assert.Equal(9, active.Resources.Mana);
         Assert.True(state.Phase.HasCommitted(active.Id));
-        Assert.Equal(GameOutcomeType.Victory, session.Outcome.Type);
+        Assert.Equal(GameOutcomeType.Victory, session.Runtime.Outcome.Type);
 
         facade.UndoLastAction();
 
         // Assert: state and outcome both return to pre-action values
         Assert.Equal(10, active.Resources.Mana);
         Assert.False(state.Phase.HasCommitted(active.Id));
-        Assert.Empty(session.Undo.Records);
-        Assert.Equal(GameOutcomeType.Ongoing, session.Outcome.Type);
+        Assert.Empty(session.Runtime.Undo.Records);
+        Assert.Equal(GameOutcomeType.Ongoing, session.Runtime.Outcome.Type);
     }
 
     [Fact]
@@ -92,16 +92,16 @@ public class EngineFacadeUndoTests
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
         facade.ApplyAction(new SkipActiveUnitAction(active.Id));
         Assert.Equal(8, active.Resources.Mana);
-        Assert.Equal(2, session.Undo.Records.Count);
-        Assert.Equal(GameOutcomeType.Victory, session.Outcome.Type);
+        Assert.Equal(2, session.Runtime.Undo.Records.Count);
+        Assert.Equal(GameOutcomeType.Victory, session.Runtime.Outcome.Type);
 
         facade.UndoTo(marker);
 
         // Assert: action effects and outcome are fully rewound
         Assert.Equal(10, active.Resources.Mana);
         Assert.False(state.Phase.HasCommitted(active.Id));
-        Assert.Empty(session.Undo.Records);
-        Assert.Equal(GameOutcomeType.Ongoing, session.Outcome.Type);
+        Assert.Empty(session.Runtime.Undo.Records);
+        Assert.Equal(GameOutcomeType.Ongoing, session.Runtime.Outcome.Type);
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public class EngineFacadeUndoTests
         facade.ApplyAction(new MoveAction(unitA.Id, new HexCoord(0, 1)));
         facade.ApplyAction(new SkipActiveUnitAction(unitA.Id));
 
-        while (session.Undo.CanUndo)
+        while (session.Runtime.Undo.CanUndo)
             facade.UndoLastAction();
 
         // Assert: full tracked state snapshot matches original
@@ -172,7 +172,7 @@ public class EngineFacadeUndoTests
         Assert.Equal(initial.CommittedUnits, final.CommittedUnits);
         Assert.Equal(initial.Units, final.Units);
         Assert.Equal(initial.OccupiedHexes, final.OccupiedHexes);
-        Assert.Equal(GameOutcomeType.Ongoing, session.Outcome.Type);
+        Assert.Equal(GameOutcomeType.Ongoing, session.Runtime.Outcome.Type);
     }
 
     private sealed class StubActionRules : IActionRules
@@ -257,7 +257,7 @@ public class EngineFacadeUndoTests
 
         public GameOutcome Evaluate(GameSession session)
         {
-            var mana = session.State.UnitInstances[_unitId].Resources.Mana;
+            var mana = session.Runtime.State.UnitInstances[_unitId].Resources.Mana;
             return mana <= _thresholdInclusive ? GameOutcome.Victory(_winningTeam) : GameOutcome.Ongoing();
         }
     }
@@ -272,7 +272,7 @@ public class EngineFacadeUndoTests
     {
         public static Snapshot From(GameSession session)
         {
-            var state = session.State;
+            var state = session.Runtime.State;
             var units = state.UnitInstances.Values
                 .OrderBy(u => u.Id.Value)
                 .Select(u => new UnitSnapshot(

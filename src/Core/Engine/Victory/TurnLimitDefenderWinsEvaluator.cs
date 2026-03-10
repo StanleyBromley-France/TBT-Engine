@@ -20,11 +20,11 @@ public sealed class TurnLimitDefenderWinsEvaluator : IGameOverEvaluator
         if (session == null)
             throw new ArgumentNullException(nameof(session));
 
-        var state = session.State;
+        var state = session.Runtime.State;
 
         if (state.Turn.AttackerTurnsTaken > MaxTurns)
         {
-            var defendingTeam = session.Teams.GetOpposingTeam(state.Turn.TeamToAct);
+            var defendingTeam = session.Context.Teams.GetOpposingTeam(state.Turn.TeamToAct);
             return GameOutcome.Victory(defendingTeam);
         }
 
