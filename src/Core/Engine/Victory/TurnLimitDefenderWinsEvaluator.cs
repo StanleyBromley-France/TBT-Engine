@@ -24,8 +24,7 @@ public sealed class TurnLimitDefenderWinsEvaluator : IGameOverEvaluator
 
         if (state.Turn.AttackerTurnsTaken > MaxTurns)
         {
-            var defendingTeam = session.Context.Teams.GetOpposingTeam(state.Turn.TeamToAct);
-            return GameOutcome.Victory(defendingTeam);
+            return GameOutcome.Victory(session.Context.Teams.Defender);
         }
 
         return GameOutcome.Ongoing();

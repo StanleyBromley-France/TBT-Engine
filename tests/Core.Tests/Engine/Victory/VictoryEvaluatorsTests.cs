@@ -81,13 +81,15 @@ public class VictoryEvaluatorsTests
         Assert.Equal(GameOutcomeType.Ongoing, result.Type);
     }
 
-    [Fact]
-    public void TurnLimitDefenderWins_Returns_Defender_After_Limit()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void TurnLimitDefenderWins_Returns_Defender_After_Limit(int teamToAct)
     {
         var session = CreateSession(
             units: new[] { CreateUnit(id: 1, team: 1, hp: 10) },
             attackerTurnsTaken: 4,
-            teamToAct: 1);
+            teamToAct: teamToAct);
         var evaluator = new TurnLimitDefenderWinsEvaluator(maxTurns: 3);
 
         var result = evaluator.Evaluate(session);
