@@ -65,13 +65,21 @@ internal sealed class ActionValidator : IActionValidator
 
     private bool IsMoveLegal(IReadOnlyGameState state, IReadOnlyUnitInstance issuer, MoveAction action)
     {
+        // Issuer must have action points
+        if (issuer.Resources.ActionPoints <= 0)
+            return false;
+
         if (state.OccupiedHexes.Contains(action.TargetHex)) return false;
 
-        return _pathfinder.IsMoveValid(state.Map, issuer.Position, action.TargetHex, issuer.DerivedStats.MaxMovePoints);
+        return _pathfinder.IsMoveValid(state.Map, issuer.Position, action.TargetHex, issuer.Resources.MovePoints);
     }
 
     private bool IsUseAbilityLegal(IReadOnlyGameState state, IReadOnlyUnitInstance issuer, UseAbilityAction action)
     {
+        // Issuer must have action points
+        if (issuer.Resources.ActionPoints <= 0)
+            return false;
+
         // Issuer must have the ability
         if (!issuer.Template.AbilityIds.Contains(action.AbilityId))
             return false;

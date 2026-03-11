@@ -81,6 +81,58 @@ public class ActionValidatorTests
         Assert.False(legal);
     }
 
+    [Fact]
+    public void Move_IsIllegal_When_ActiveUnit_Has_No_ActionPoints()
+    {
+        var mover = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        mover.Resources.ActionPoints = 0;
+        var enemy = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
+        var state = EngineTestFactory.CreateState(new[] { mover, enemy }, teamToAct: 1, activeUnitId: mover.Id);
+
+        var validator = new ActionValidator(
+            new StubPathfinder { HasLineOfSightResult = true },
+            new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+
+        var legal = validator.IsActionLegal(state, new MoveAction(mover.Id, new HexCoord(1, 0)));
+
+        Assert.False(legal);
+    }
+
+    [Fact]
+    public void Skip_IsIllegal_When_ActiveUnit_Has_No_ActionPoints()
+    {
+        var active = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        active.Resources.ActionPoints = 0;
+        var enemy = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
+        var state = EngineTestFactory.CreateState(new[] { active, enemy }, teamToAct: 1, activeUnitId: active.Id);
+
+        var validator = new ActionValidator(
+            new StubPathfinder { HasLineOfSightResult = true },
+            new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+
+        var legal = validator.IsActionLegal(state, new SkipActiveUnitAction(active.Id));
+
+        Assert.False(legal);
+    }
+
+    [Fact]
+    public void UseAbility_IsIllegal_When_ActiveUnit_Has_No_ActionPoints()
+    {
+        var ability = EngineTestFactory.CreateAbility("blast", manaCost: 1, targetType: TargetType.Enemy, range: 3);
+        var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
+        caster.Resources.ActionPoints = 0;
+        var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1, activeUnitId: caster.Id);
+
+        var validator = new ActionValidator(
+            new StubPathfinder { HasLineOfSightResult = true },
+            new AbilityRepository(new[] { new KeyValuePair<AbilityId, Ability>(ability.Id, ability) }));
+
+        var legal = validator.IsActionLegal(state, new UseAbilityAction(caster.Id, ability.Id, target.Id));
+
+        Assert.False(legal);
+    }
+
     private sealed class StubPathfinder : IPathfinder
     {
         public bool HasLineOfSightResult { get; init; } = true;

@@ -17,9 +17,17 @@ public sealed class UnitsMutator : IUnitsMutator
         var unit = state.UnitInstances[unitId];
 
         var before = unit.Resources.HP;
+        var wasAlive = unit.IsAlive;
         unit.Resources.HP += delta;
+        var isAlive = unit.IsAlive;
 
-        _ctx.GetUndo().AddStep(new HpChangeUndo(unitId, before));
+        // Keep occupancy in sync when HP change crosses alive/dead boundary.
+        if (wasAlive && !isAlive)
+            state.OccupiedHexes.Remove(unit.Position);
+        else if (!wasAlive && isAlive)
+            state.OccupiedHexes.Add(unit.Position);
+
+        _ctx.GetUndo().AddStep(new HpChangeUndo(unitId, before, wasAlive));
     }
 
     public void ChangeMana(UnitInstanceId unitId, int delta)

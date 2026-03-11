@@ -134,6 +134,44 @@ public class EngineFacadeApplyActionTests
         Assert.Equal(new TeamId(2), session.Runtime.Outcome.WinningTeam);
     }
 
+    [Fact]
+    public void ApplyAction_When_NextTeam_Has_No_Living_Units_Does_Not_Advance_Turn_And_Sets_Outcome()
+    {
+        // Arrange: attacker team ends its phase while defender team is already wiped.
+        var attacker = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var defenderDead = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0), hp: 0);
+
+        var state = EngineTestFactory.CreateState(
+            new[] { attacker, defenderDead },
+            teamToAct: 1,
+            activeUnitId: attacker.Id,
+            attackerTurnsTaken: 2);
+        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+
+        var dispatcherSpy = new DispatcherSpy((s, ctx, action) => ctx.Turn.CommitUnit(action.UnitId));
+        var gameOverSpy = new FixedGameOverEvaluator(GameOutcome.Victory(new TeamId(1)));
+        var effectSpy = new EffectManagerSpy();
+        var facade = new EngineFacade(
+            session,
+            new StubActionRules(new FixedActionValidator(true), new EmptyActionGenerator()),
+            dispatcherSpy,
+            new DeterministicRng(),
+            effectSpy,
+            gameOverSpy);
+
+        // Act
+        facade.ApplyAction(new SkipActiveUnitAction(attacker.Id));
+
+        // Assert: no turn switch/start-of-turn work; outcome is set.
+        Assert.Equal(1, dispatcherSpy.CallCount);
+        Assert.Equal(new TeamId(1), session.Runtime.State.Turn.TeamToAct);
+        Assert.Equal(2, session.Runtime.State.Turn.AttackerTurnsTaken);
+        Assert.Equal(attacker.Id, session.Runtime.State.Phase.ActiveUnitId);
+        Assert.Equal(0, effectSpy.TickAllCount);
+        Assert.Equal(GameOutcomeType.Victory, session.Runtime.Outcome.Type);
+        Assert.Equal(new TeamId(1), session.Runtime.Outcome.WinningTeam);
+    }
+
     private static EngineFacade CreateFacade(
         GameSession session,
         bool isActionLegal,

@@ -83,10 +83,8 @@ public sealed class EngineFacade
 
         Commit(undo);
 
-        // Game-over is evaluated after the operation is fully applied.
-        var outcome = _gameOver.Evaluate(_session);
-        if (outcome.Type != GameOutcomeType.Ongoing)
-            _session.Runtime.SetGameOutcome(outcome);
+        // Keep outcome evaluation at operation boundary for non-advance paths.
+        TrySetGameOver();
     }
 
     public void UndoLastAction()
@@ -123,11 +121,21 @@ public sealed class EngineFacade
 
     private void ResolvePostAction(GameMutationContext ctx, IReadOnlyGameState state)
     {
-        if (ShouldAdvanceTurn(state))
+        if (!ShouldAdvanceTurn(state))
+            return;
+
+        var currentTeam = state.Turn.TeamToAct;
+        var nextTeam = _session.Context.Teams.GetOpposingTeam(currentTeam);
+
+        // If the next team has no living units, end the game without switching turn ownership.
+        if (!TeamHasLivingUnits(state, nextTeam))
         {
-            AdvanceTurn(ctx, state);
-            ResolveStartOfTurn(ctx, state);
+            TrySetGameOver();
+            return;
         }
+
+        AdvanceTurn(ctx, state);
+        ResolveStartOfTurn(ctx, state);
     }
 
     private static bool ShouldAdvanceTurn(IReadOnlyGameState state)
@@ -168,6 +176,13 @@ public sealed class EngineFacade
     {
         _effectManager.TickAll(ctx, state);
 
+        // Tick effects may have killed all units on the acting team.
+        if (!TeamHasLivingUnits(state, state.Turn.TeamToAct))
+        {
+            TrySetGameOver();
+            return;
+        }
+
         foreach (var u in state.UnitInstances.Values)
         {
             if (!u.IsAlive) continue;
@@ -199,6 +214,18 @@ public sealed class EngineFacade
             "Game-over should have been resolved before start-of-turn.");
     }
 
+    private static bool TeamHasLivingUnits(IReadOnlyGameState state, TeamId team)
+    {
+        foreach (var u in state.UnitInstances.Values)
+        {
+            if (!u.IsAlive) continue;
+            if (u.Team != team) continue;
+            return true;
+        }
+
+        return false;
+    }
+
     // Simple Helpers
 
     private GameMutationContext CreateContext(UndoRecord undo)
@@ -217,5 +244,15 @@ public sealed class EngineFacade
     private void RecomputeOutcome()
     {
         _session.Runtime.SetGameOutcome(_gameOver.Evaluate(_session));
+    }
+
+    private bool TrySetGameOver()
+    {
+        var outcome = _gameOver.Evaluate(_session);
+        if (outcome.Type == GameOutcomeType.Ongoing)
+            return false;
+
+        _session.Runtime.SetGameOutcome(outcome);
+        return true;
     }
 }
