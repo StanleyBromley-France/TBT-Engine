@@ -2,6 +2,7 @@ namespace Agents.Mcts.Simulation;
 
 using Core.Engine;
 using Core.Engine.Actions.Choice;
+using Core.Game.Match;
 using Core.Game.State.ReadOnly;
 using Core.Undo;
 
@@ -15,6 +16,8 @@ public sealed class SimulationFacade : ISimulationFacade
     }
 
     public IReadOnlyGameState GetState() => _engine.GetState();
+
+    public GameOutcome GetOutcome() => _engine.GetOutcome();
 
     public IReadOnlyList<ActionChoice> GetLegalActions() => _engine.GetLegalActions().ToList();
 

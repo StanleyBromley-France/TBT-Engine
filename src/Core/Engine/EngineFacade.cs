@@ -53,6 +53,8 @@ public sealed class EngineFacade
 
     public IReadOnlyGameState GetState() => _session.Runtime.State;
 
+    public GameOutcome GetOutcome() => _session.Runtime.Outcome;
+
     public IEnumerable<ActionChoice> GetLegalActions()
         => _rules.Generator.GetLegalActions(_session.Runtime.State);
 
