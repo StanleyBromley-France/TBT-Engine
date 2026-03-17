@@ -147,7 +147,6 @@ public sealed class MaterialStateEvaluatorTests
         return EngineTestFactory.CreateState(
             new[] { attacker, defender },
             teamToAct: 1,
-            activeUnitId: attacker.Id,
             attackerTurnsTaken: attackerTurnsTaken);
     }
 }

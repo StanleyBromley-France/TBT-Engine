@@ -277,17 +277,13 @@ public sealed class MctsSearch : IMctsSearch
     {
         // Tie-break equal-valued actions toward game-progressing choices.
         // Ability use is preferred first because it is usually the highest-impact
-        // committing action. Movement comes next because it at least improves
-        // board position. Skip is preferred over ChangeActive because it commits
-        // phase progress, while ChangeActive is the least committal option and
-        // is most likely to cause unproductive oscillation when scores are equal.
+        // committing action.
         return action switch
         {
             UseAbilityAction => 0,
             MoveAction => 1,
             SkipActiveUnitAction => 2,
-            ChangeActiveUnitAction => 3,
-            _ => 4
+            _ => 3
         };
     }
 }

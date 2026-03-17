@@ -80,7 +80,7 @@ public class GameSessionSandboxTests
                 u => u.Id,
                 _ => new Dictionary<EffectInstanceId, EffectInstance>()),
             turn: new Turn(attackerTurnsTaken: 4, teamToAct: new TeamId(2)),
-            phase: new ActivationPhase(defender1.Id),
+            phase: new ActivationPhase(),
             rng: new RngState(seed: 777, position: 42));
 
         state.Phase.MarkCommitted(attacker1.Id);
@@ -255,7 +255,6 @@ public class GameSessionSandboxTests
 
         // Assert activation phase is detached but value-equivalent.
         Assert.NotSame(liveState.Phase, sandboxState.Phase);
-        Assert.Equal(liveState.Phase.ActiveUnitId, sandboxState.Phase.ActiveUnitId);
         Assert.Equal(liveState.Phase.CurrentlyCommiting, sandboxState.Phase.CurrentlyCommiting);
         Assert.NotSame(liveState.Phase.CommittedThisPhase, sandboxState.Phase.CommittedThisPhase);
         Assert.True(liveState.Phase.CommittedThisPhase.SetEquals(sandboxState.Phase.CommittedThisPhase));
@@ -371,7 +370,6 @@ public class GameSessionSandboxTests
         // Mutate sandbox turn/rng/phase/occupied-hex state.
         sandboxState.Turn = new Turn(99, new TeamId(1));
         sandboxState.Rng = new RngState(1, 2);
-        sandboxState.Phase.ActiveUnitId = new UnitInstanceId(6);
         sandboxState.Phase.SetCurrentlyCommiting(new UnitInstanceId(124));
         sandboxState.Phase.MarkCommitted(new UnitInstanceId(123));
         sandboxState.OccupiedHexes.Add(new HexCoord(4, 4));

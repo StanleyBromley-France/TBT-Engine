@@ -64,7 +64,6 @@ internal static class EngineTestFactory
     public static GameState CreateState(
         IEnumerable<UnitInstance> units,
         int teamToAct,
-        UnitInstanceId activeUnitId,
         int attackerTurnsTaken = 0)
     {
         var unitList = units.ToList();
@@ -75,7 +74,7 @@ internal static class EngineTestFactory
                 u => u.Id,
                 _ => new Dictionary<EffectInstanceId, EffectInstance>()),
             turn: new Turn(attackerTurnsTaken, new TeamId(teamToAct)),
-            phase: new ActivationPhase(activeUnitId),
+            phase: new ActivationPhase(),
             rng: new RngState(seed: 123, position: 0));
     }
 

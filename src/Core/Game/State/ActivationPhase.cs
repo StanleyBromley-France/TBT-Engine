@@ -12,11 +12,6 @@ using Core.Domain.Types;
 public sealed class ActivationPhase
 {
     /// <summary>
-    /// The currently selected/active unit (for UI and action routing).
-    /// </summary>
-    public UnitInstanceId ActiveUnitId { get; set; }
-
-    /// <summary>
     /// Units that have taken at least one committing action
     /// and finished acting for this phase by reaching 0 action points.
     /// </summary>
@@ -27,11 +22,6 @@ public sealed class ActivationPhase
     /// Empty when no unit is mid-activation.
     /// </summary>
     public UnitInstanceId? CurrentlyCommiting { get; set; }
-
-    public ActivationPhase(UnitInstanceId initialActiveUnitId)
-    {
-        ActiveUnitId = initialActiveUnitId;
-    }
 
     /// <summary>
     /// Marks a unit as having committed this phase.
@@ -67,16 +57,15 @@ public sealed class ActivationPhase
     /// <summary>
     /// Clears phase progress (used when switching teams).
     /// </summary>
-    public void Reset(UnitInstanceId newActiveUnitId)
+    public void Reset()
     {
         CommittedThisPhase.Clear();
         CurrentlyCommiting = null;
-        ActiveUnitId = newActiveUnitId;
     }
 
     public ActivationPhase DeepCloneForSimulation()
     {
-        var clone = new ActivationPhase(ActiveUnitId);
+        var clone = new ActivationPhase();
         foreach (var unitId in CommittedThisPhase)
         {
             clone.CommittedThisPhase.Add(unitId);

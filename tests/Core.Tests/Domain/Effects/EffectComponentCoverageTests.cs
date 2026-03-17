@@ -186,7 +186,7 @@ public class EffectComponentCoverageTests
     private static (UnitInstance unit, GameState state) CreateSingleUnitState(int hp = 10)
     {
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), hp: hp);
-        var state = EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1, activeUnitId: unit.Id);
+        var state = EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1);
         return (unit, state);
     }
 

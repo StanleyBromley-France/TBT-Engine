@@ -29,7 +29,7 @@ public class EffectManagerTests
         // Arrange: create source/target units and wire deterministic calculators so HP and derived stat outcomes are predictable
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0), hp: 10);
-        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var undo = new UndoRecord();
         var context = new GameMutationContext(session, new DeterministicRng(), undo);
@@ -74,7 +74,7 @@ public class EffectManagerTests
         // Arrange: seed an existing effect instance on the target so manager should stack/refresh instead of creating a new one
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var undo = new UndoRecord();
         var context = new GameMutationContext(session, new DeterministicRng(), undo);
@@ -119,7 +119,7 @@ public class EffectManagerTests
         // Arrange: place one effect at 1 remaining tick so a single TickAll call should expire and remove it
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
@@ -154,7 +154,7 @@ public class EffectManagerTests
         // Arrange: DoT + HoT are resolved on apply and then executed on each tick
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0), hp: 10);
-        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
@@ -198,7 +198,7 @@ public class EffectManagerTests
         // Arrange: build a malformed component where resolved HP type disagrees with the template contract
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 

@@ -24,7 +24,7 @@ public class EffectInstanceFactoryTests
         // Arrange: build a minimal match state and deterministic factory dependencies so the created effect ID is known
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1, activeUnitId: source.Id);
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var undo = new UndoRecord();
         var context = new GameMutationContext(session, new DeterministicRng(), undo);

@@ -22,7 +22,7 @@ public class EngineFacadeApplyActionTests
     public void ApplyAction_Throws_When_Action_Is_Null()
     {
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
-        var state = EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1, activeUnitId: unit.Id);
+        var state = EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var facade = CreateFacade(session, isActionLegal: true, dispatcher: (_, _, _) => { }, gameOverResult: GameOutcome.Ongoing());
 
@@ -33,7 +33,7 @@ public class EngineFacadeApplyActionTests
     public void ApplyAction_Throws_For_Illegal_Action_Without_Dispatch_Or_Undo_Commit()
     {
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
-        var state = EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1, activeUnitId: unit.Id);
+        var state = EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
         var dispatcherSpy = new DispatcherSpy();
@@ -63,8 +63,7 @@ public class EngineFacadeApplyActionTests
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
         var state = EngineTestFactory.CreateState(
             new[] { active, allyUncommitted, enemy },
-            teamToAct: 1,
-            activeUnitId: active.Id);
+            teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
         var dispatcherSpy = new DispatcherSpy((s, ctx, action) => ctx.Turn.CommitUnit(action.UnitId));
@@ -103,7 +102,6 @@ public class EngineFacadeApplyActionTests
         var state = EngineTestFactory.CreateState(
             new[] { attacker, defender },
             teamToAct: 1,
-            activeUnitId: attacker.Id,
             attackerTurnsTaken: 2);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
@@ -126,7 +124,6 @@ public class EngineFacadeApplyActionTests
         Assert.Equal(1, dispatcherSpy.CallCount);
         Assert.Equal(new TeamId(2), session.Runtime.State.Turn.TeamToAct);
         Assert.Equal(3, session.Runtime.State.Turn.AttackerTurnsTaken);
-        Assert.Equal(defender.Id, session.Runtime.State.Phase.ActiveUnitId);
         Assert.Equal(defender.DerivedStats.MaxActionPoints, defender.Resources.ActionPoints);
         Assert.Equal(defender.DerivedStats.MaxMovePoints, defender.Resources.MovePoints);
         Assert.Equal(1, effectSpy.TickAllCount);
@@ -144,7 +141,6 @@ public class EngineFacadeApplyActionTests
         var state = EngineTestFactory.CreateState(
             new[] { attacker, defenderDead },
             teamToAct: 1,
-            activeUnitId: attacker.Id,
             attackerTurnsTaken: 2);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
@@ -166,7 +162,6 @@ public class EngineFacadeApplyActionTests
         Assert.Equal(1, dispatcherSpy.CallCount);
         Assert.Equal(new TeamId(1), session.Runtime.State.Turn.TeamToAct);
         Assert.Equal(2, session.Runtime.State.Turn.AttackerTurnsTaken);
-        Assert.Equal(attacker.Id, session.Runtime.State.Phase.ActiveUnitId);
         Assert.Equal(0, effectSpy.TickAllCount);
         Assert.Equal(GameOutcomeType.Victory, session.Runtime.Outcome.Type);
         Assert.Equal(new TeamId(1), session.Runtime.Outcome.WinningTeam);

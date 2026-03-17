@@ -32,7 +32,7 @@ public class UseAbilityActionHandlerTests
         // Arrange: unit instances and state
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(1, 1), mana: 10, abilityIds: ability.Id);
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(2, 1));
-        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1);
 
         // Arrange: repositories/services/handler
         var abilities = new AbilityRepository(new[] { new KeyValuePair<AbilityId, Ability>(ability.Id, ability) });
@@ -89,8 +89,7 @@ public class UseAbilityActionHandlerTests
 
         var state = EngineTestFactory.CreateState(
             new[] { caster, selectedEnemy, blockedEnemy, allyInRadius },
-            teamToAct: 1,
-            activeUnitId: caster.Id);
+            teamToAct: 1);
 
         // Arrange: pathfinder blocks LOS only to blockedEnemy
         var abilities = new AbilityRepository(new[] { new KeyValuePair<AbilityId, Ability>(ability.Id, ability) });
@@ -128,8 +127,7 @@ public class UseAbilityActionHandlerTests
 
         var state = EngineTestFactory.CreateState(
             new[] { caster, selectedEnemy, nearbyEnemy, farEnemy },
-            teamToAct: 1,
-            activeUnitId: caster.Id);
+            teamToAct: 1);
 
         var abilities = new AbilityRepository(new[] { new KeyValuePair<AbilityId, Ability>(ability.Id, ability) });
         var session = EngineTestFactory.CreateSession(state, abilities);

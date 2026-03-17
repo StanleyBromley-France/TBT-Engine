@@ -28,16 +28,35 @@ internal class ActionGenerator : IActionGenerator
     {
         if (state == null) throw new ArgumentNullException(nameof(state));
 
-        foreach (var change in GenerateSwitchUnitActions(state))
-            yield return change;
+        // Actions will only be generated for CurrentlyCommiting if it has value
+        if (state.Phase.CurrentlyCommiting.HasValue)
+        {
+            if (!state.UnitInstances.TryGetValue(state.Phase.CurrentlyCommiting.Value, out var unit))
+                yield break;
 
-        if (!state.UnitInstances.TryGetValue(state.Phase.ActiveUnitId, out var unit))
+            if (!unit.IsAlive || unit.Team != state.Turn.TeamToAct || state.Phase.HasCommitted(unit.Id))
+                yield break;
+
+            foreach (var action in GenerateActionsForUnit(state, unit))
+                yield return action;
+
             yield break;
+        }
 
-        // Only generate actions for the active unit
-        if (unit.Team != state.Turn.TeamToAct || !unit.IsAlive)
-            yield break;
+        // Otherwise actions are generated for every unit instance thats alive, on team, and not commited 
+        foreach (var unit in state.UnitInstances.Values)
+        {
+            if (!unit.IsAlive) continue;
+            if (unit.Team != state.Turn.TeamToAct) continue;
+            if (state.Phase.HasCommitted(unit.Id)) continue;
 
+            foreach (var action in GenerateActionsForUnit(state, unit))
+                yield return action;
+        }
+    }
+
+    private IEnumerable<ActionChoice> GenerateActionsForUnit(IReadOnlyGameState state, IReadOnlyUnitInstance unit)
+    {
         var end = new SkipActiveUnitAction(unit.Id);
         if (_validator.IsActionLegal(state, end)) yield return end;
 
@@ -46,20 +65,6 @@ internal class ActionGenerator : IActionGenerator
 
         foreach (var use in GenerateAbilityActions(state, unit))
             yield return use;
-    }
-
-    private IEnumerable<ActionChoice> GenerateSwitchUnitActions(IReadOnlyGameState state)
-    {
-        foreach (var u in state.UnitInstances.Values)
-        {
-            if (!u.IsAlive) continue;
-            if (u.Team != state.Turn.TeamToAct) continue;
-
-            var action = new ChangeActiveUnitAction(state.Phase.ActiveUnitId, u.Id);
-
-            if (_validator.IsActionLegal(state, action))
-                yield return action;
-        }
     }
 
     private IEnumerable<ActionChoice> GenerateMoveActions(IReadOnlyGameState state, IReadOnlyUnitInstance unit)

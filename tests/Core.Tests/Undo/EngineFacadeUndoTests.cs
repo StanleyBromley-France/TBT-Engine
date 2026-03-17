@@ -27,8 +27,7 @@ public class EngineFacadeUndoTests
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
         var state = EngineTestFactory.CreateState(
             new[] { active, allyUncommitted, enemy },
-            teamToAct: 1,
-            activeUnitId: active.Id);
+            teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
         var dispatcher = new DispatcherSpy((s, ctx, action) =>
@@ -69,8 +68,7 @@ public class EngineFacadeUndoTests
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
         var state = EngineTestFactory.CreateState(
             new[] { active, allyUncommitted, enemy },
-            teamToAct: 1,
-            activeUnitId: active.Id);
+            teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
         var dispatcher = new DispatcherSpy((s, ctx, action) =>
@@ -107,14 +105,13 @@ public class EngineFacadeUndoTests
     [Fact]
     public void UndoLastAction_After_Mixed_Action_Sequence_Restores_Initial_State()
     {
-        // Arrange: mixed action sequence with movement, active-unit switches, ability cost, and commits
+        // Arrange: mixed action sequence with movement, ability cost, and commits
         var unitA = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10);
         var unitB = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0), mana: 8);
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(3, 0), mana: 7);
         var state = EngineTestFactory.CreateState(
             new[] { unitA, unitB, enemy },
-            teamToAct: 1,
-            activeUnitId: unitA.Id);
+            teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
         var facade = new EngineFacade(
@@ -124,9 +121,6 @@ public class EngineFacadeUndoTests
             {
                 switch (action)
                 {
-                    case ChangeActiveUnitAction change:
-                        ctx.Turn.ChangeActiveUnit(change.NewActiveUnitId);
-                        break;
                     case MoveAction move:
                         ctx.Movement.MoveUnit(move.UnitId, move.TargetHex);
                         ctx.Units.ChangeMovePoints(move.UnitId, -1);
@@ -153,11 +147,8 @@ public class EngineFacadeUndoTests
         var initial = Snapshot.From(session);
 
         // Act: run a long mixed sequence then undo all recorded operations
-        facade.ApplyAction(new ChangeActiveUnitAction(unitA.Id, unitB.Id));
         facade.ApplyAction(new MoveAction(unitB.Id, new HexCoord(2, 0)));
         facade.ApplyAction(new UseAbilityAction(unitB.Id, new AbilityId("test-ability"), enemy.Id));
-        facade.ApplyAction(new SkipActiveUnitAction(unitB.Id));
-        facade.ApplyAction(new ChangeActiveUnitAction(unitB.Id, unitA.Id));
         facade.ApplyAction(new MoveAction(unitA.Id, new HexCoord(0, 1)));
         facade.ApplyAction(new SkipActiveUnitAction(unitA.Id));
 
@@ -168,7 +159,6 @@ public class EngineFacadeUndoTests
         var final = Snapshot.From(session);
         Assert.Equal(initial.TeamToAct, final.TeamToAct);
         Assert.Equal(initial.AttackerTurnsTaken, final.AttackerTurnsTaken);
-        Assert.Equal(initial.ActiveUnitId, final.ActiveUnitId);
         Assert.Equal(initial.CommittedUnits, final.CommittedUnits);
         Assert.Equal(initial.Units, final.Units);
         Assert.Equal(initial.OccupiedHexes, final.OccupiedHexes);
@@ -265,7 +255,6 @@ public class EngineFacadeUndoTests
     private sealed record Snapshot(
         TeamId TeamToAct,
         int AttackerTurnsTaken,
-        UnitInstanceId ActiveUnitId,
         UnitInstanceId[] CommittedUnits,
         UnitSnapshot[] Units,
         HexCoord[] OccupiedHexes)
@@ -287,7 +276,6 @@ public class EngineFacadeUndoTests
             return new Snapshot(
                 state.Turn.TeamToAct,
                 state.Turn.AttackerTurnsTaken,
-                state.Phase.ActiveUnitId,
                 state.Phase.CommittedThisPhase.OrderBy(id => id.Value).ToArray(),
                 units,
                 state.OccupiedHexes.OrderBy(h => h.Q).ThenBy(h => h.R).ToArray());

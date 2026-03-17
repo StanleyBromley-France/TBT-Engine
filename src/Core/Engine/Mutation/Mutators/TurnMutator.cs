@@ -21,16 +21,6 @@ public sealed class TurnMutator : ITurnMutator
         _ctx.GetUndo().AddStep(new TurnChangeUndo(before));
     }
 
-    public void ChangeActiveUnit(UnitInstanceId newActiveUnitId)
-    {
-        var state = _ctx.GetState();
-
-        var before = state.Phase.ActiveUnitId;
-        state.Phase.ActiveUnitId = newActiveUnitId;
-
-        _ctx.GetUndo().AddStep(new ActiveUnitChangeUndo(before));
-    }
-
     public void CommitUnit(UnitInstanceId unitId)
     {
         var state = _ctx.GetState();
@@ -69,16 +59,15 @@ public sealed class TurnMutator : ITurnMutator
         _ctx.GetUndo().AddStep(new CurrentCommitingChangeUndo(before));
     }
 
-    public void ResetActivationPhaseAndSetNew(UnitInstanceId newActiveUnitId)
+    public void ResetActivationPhase()
     {
         var state = _ctx.GetState();
 
         var beforeCommitted = state.Phase.CommittedThisPhase.ToList();
-        var beforeActive = state.Phase.ActiveUnitId;
         var beforeCurrentlyCommiting = state.Phase.CurrentlyCommiting;
 
-        state.Phase.Reset(newActiveUnitId);
+        state.Phase.Reset();
 
-        _ctx.GetUndo().AddStep(new ActivationPhaseResetUndo(beforeActive, beforeCurrentlyCommiting, beforeCommitted));
+        _ctx.GetUndo().AddStep(new ActivationPhaseResetUndo(beforeCurrentlyCommiting, beforeCommitted));
     }
 }

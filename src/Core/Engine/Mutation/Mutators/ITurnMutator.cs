@@ -7,14 +7,12 @@ using Core.Domain.Types;
 /// </summary>
 /// <remarks>
 /// Responsible for updating the current <see cref="Turn"/> value and the
-/// active <see cref="UnitInstanceId"/>. All turn state transitions must pass
+/// activation-phase progress. All turn state transitions must pass
 /// through this mutator to ensure centralized control and future undo support.
 /// </remarks>
 public interface ITurnMutator
 {
     void SetTurn(Turn newTurn);
-
-    void ChangeActiveUnit(UnitInstanceId newActiveUnitId);
 
     void CommitUnit(UnitInstanceId unitId);
 
@@ -22,5 +20,5 @@ public interface ITurnMutator
 
     void ClearCurrentlyCommiting();
 
-    void ResetActivationPhaseAndSetNew(UnitInstanceId newActiveUnitId);
+    void ResetActivationPhase();
 }

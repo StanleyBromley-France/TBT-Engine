@@ -151,14 +151,10 @@ public static class EngineCompositionRoot
         IAbilityRepository abilities,
         IEffectManager effectManager)
     {
-        dispatcher.Register<ChangeActiveUnitAction>(BuildChangeActiveUnitHandler());
         dispatcher.Register<MoveAction>(BuildMoveHandler(pathfinder));
         dispatcher.Register<SkipActiveUnitAction>(BuildSkipActiveUnitHandler());
         dispatcher.Register<UseAbilityAction>(BuildUseAbilityHandler(abilities, pathfinder, effectManager));
     }
-
-    private static ChangeActiveUnitActionHandler BuildChangeActiveUnitHandler()
-        => new();
 
     private static MoveActionHandler BuildMoveHandler(Pathfinder pathfinder)
         => new(pathfinder);

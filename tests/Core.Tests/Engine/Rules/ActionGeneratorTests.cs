@@ -20,7 +20,7 @@ public class ActionGeneratorTests
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         var ally = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(1, -1));
-        var state = EngineTestFactory.CreateState(new[] { caster, ally, enemy }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, ally, enemy }, teamToAct: 1);
 
         var generator = new ActionGenerator(
             new StubPathfinder(),
@@ -41,7 +41,7 @@ public class ActionGeneratorTests
         var ability = EngineTestFactory.CreateAbility("test", manaCost: 50, targetType: TargetType.Enemy, range: 5);
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         var enemy = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { caster, enemy }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, enemy }, teamToAct: 1);
 
         var generator = new ActionGenerator(
             new StubPathfinder(),

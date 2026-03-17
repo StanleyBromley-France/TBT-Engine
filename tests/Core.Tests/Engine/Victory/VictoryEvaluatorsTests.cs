@@ -177,7 +177,7 @@ public class VictoryEvaluatorsTests
                 u => u.Id,
                 _ => new Dictionary<EffectInstanceId, EffectInstance>()),
             turn: new Turn(attackerTurnsTaken, new TeamId(teamToAct)),
-            phase: new ActivationPhase(unitList.Count > 0 ? unitList[0].Id : new UnitInstanceId(-1)),
+            phase: new ActivationPhase(),
             rng: new RngState(seed: 123, position: 0));
 
         var registry = new TemplateRegistry(

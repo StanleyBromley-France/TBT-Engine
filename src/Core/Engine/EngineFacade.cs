@@ -194,26 +194,7 @@ public sealed class EngineFacade
             ctx.Units.ResetActionPoints(u.Id);
         }
 
-        var unitId = FindNewActiveUnit(state);
-
-        ctx.Turn.ResetActivationPhaseAndSetNew(unitId);
-    }
-
-    private static UnitInstanceId FindNewActiveUnit(IReadOnlyGameState state)
-    {
-        var team = state.Turn.TeamToAct;
-
-        foreach (var u in state.UnitInstances.Values)
-        {
-            if (!u.IsAlive) continue;
-            if (u.Team != team) continue;
-
-            return u.Id;
-        }
-
-        throw new InvalidOperationException(
-            $"No eligible active unit found for team {team}. " +
-            "Game-over should have been resolved before start-of-turn.");
+        ctx.Turn.ResetActivationPhase();
     }
 
     private static bool TeamHasLivingUnits(IReadOnlyGameState state, TeamId team)

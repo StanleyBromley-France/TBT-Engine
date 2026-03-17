@@ -15,7 +15,7 @@ public class UnitsMutatorTests
     {
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), hp: 1);
         var ally = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { unit, ally }, teamToAct: 1, activeUnitId: ally.Id);
+        var state = EngineTestFactory.CreateState(new[] { unit, ally }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var undo = new UndoRecord();
         var context = new GameMutationContext(session, new DeterministicRng(), undo);
@@ -39,7 +39,7 @@ public class UnitsMutatorTests
     {
         var deadUnit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), hp: 0);
         var aliveUnit = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0), hp: 10);
-        var state = EngineTestFactory.CreateState(new[] { deadUnit, aliveUnit }, teamToAct: 1, activeUnitId: aliveUnit.Id);
+        var state = EngineTestFactory.CreateState(new[] { deadUnit, aliveUnit }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var undo = new UndoRecord();
         var context = new GameMutationContext(session, new DeterministicRng(), undo);

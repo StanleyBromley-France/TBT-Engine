@@ -113,7 +113,7 @@ public class UndoHistoryTests
     private static GameState CreateState()
     {
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
-        return EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1, activeUnitId: unit.Id);
+        return EngineTestFactory.CreateState(new[] { unit }, teamToAct: 1);
     }
 
     private sealed class TrackingStep : IUndoStep

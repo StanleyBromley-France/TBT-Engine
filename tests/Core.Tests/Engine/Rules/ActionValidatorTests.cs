@@ -19,7 +19,7 @@ public class ActionValidatorTests
         var ability = EngineTestFactory.CreateAbility("shot", manaCost: 1, targetType: TargetType.Enemy, range: 1);
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
-        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
@@ -36,7 +36,7 @@ public class ActionValidatorTests
         var ability = EngineTestFactory.CreateAbility("stab", manaCost: 1, targetType: TargetType.Enemy, range: 2);
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
@@ -53,7 +53,7 @@ public class ActionValidatorTests
         var ability = EngineTestFactory.CreateAbility("beam", manaCost: 1, targetType: TargetType.Enemy, range: 3, requiresLos: true);
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = false },
@@ -70,7 +70,7 @@ public class ActionValidatorTests
         var ability = EngineTestFactory.CreateAbility("enemy-only", manaCost: 1, targetType: TargetType.Enemy, range: 3);
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         var ally = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { caster, ally }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, ally }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
@@ -87,7 +87,7 @@ public class ActionValidatorTests
         var mover = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         mover.Resources.ActionPoints = 0;
         var enemy = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
-        var state = EngineTestFactory.CreateState(new[] { mover, enemy }, teamToAct: 1, activeUnitId: mover.Id);
+        var state = EngineTestFactory.CreateState(new[] { mover, enemy }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
@@ -104,7 +104,7 @@ public class ActionValidatorTests
         var active = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         active.Resources.ActionPoints = 0;
         var enemy = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
-        var state = EngineTestFactory.CreateState(new[] { active, enemy }, teamToAct: 1, activeUnitId: active.Id);
+        var state = EngineTestFactory.CreateState(new[] { active, enemy }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
@@ -122,7 +122,7 @@ public class ActionValidatorTests
         var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), mana: 10, abilityIds: ability.Id);
         caster.Resources.ActionPoints = 0;
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
-        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1, activeUnitId: caster.Id);
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
@@ -134,38 +134,21 @@ public class ActionValidatorTests
     }
 
     [Fact]
-    public void ChangeActiveUnit_IsIllegal_When_Issuer_Is_CurrentlyCommiting()
+    public void Move_IsIllegal_When_Another_Unit_Is_CurrentlyCommiting()
     {
         var unitA = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var unitB = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
         var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(3, 0));
-        var state = EngineTestFactory.CreateState(new[] { unitA, unitB, enemy }, teamToAct: 1, activeUnitId: unitA.Id);
+        var state = EngineTestFactory.CreateState(new[] { unitA, unitB, enemy }, teamToAct: 1);
         state.Phase.SetCurrentlyCommiting(unitA.Id);
 
         var validator = new ActionValidator(
             new StubPathfinder { HasLineOfSightResult = true },
             new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
 
-        var legal = validator.IsActionLegal(state, new ChangeActiveUnitAction(unitA.Id, unitB.Id));
+        var legal = validator.IsActionLegal(state, new MoveAction(unitB.Id, new HexCoord(2, 0)));
 
         Assert.False(legal);
-    }
-
-    [Fact]
-    public void ChangeActiveUnit_IsLegal_When_Issuer_Is_Not_CurrentlyCommiting_And_Target_Uncommitted()
-    {
-        var unitA = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
-        var unitB = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
-        var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(3, 0));
-        var state = EngineTestFactory.CreateState(new[] { unitA, unitB, enemy }, teamToAct: 1, activeUnitId: unitA.Id);
-
-        var validator = new ActionValidator(
-            new StubPathfinder { HasLineOfSightResult = true },
-            new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-
-        var legal = validator.IsActionLegal(state, new ChangeActiveUnitAction(unitA.Id, unitB.Id));
-
-        Assert.True(legal);
     }
 
     private sealed class StubPathfinder : IPathfinder

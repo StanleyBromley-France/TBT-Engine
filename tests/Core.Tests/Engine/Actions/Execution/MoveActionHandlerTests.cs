@@ -20,7 +20,7 @@ public class MoveActionHandlerTests
         // Arrange: units, state, and handler with fixed move cost
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var enemy = EngineTestFactory.CreateUnit(2, 2, new HexCoord(3, 0));
-        var state = EngineTestFactory.CreateState(new[] { unit, enemy }, teamToAct: 1, activeUnitId: unit.Id);
+        var state = EngineTestFactory.CreateState(new[] { unit, enemy }, teamToAct: 1);
         var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
         var undo = new UndoRecord();
         var ctx = new Core.Engine.Mutation.GameMutationContext(session, new DeterministicRng(), undo);

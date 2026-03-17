@@ -31,30 +31,11 @@ internal sealed class ActionValidator : IActionValidator
 
         return action switch
         {
-            ChangeActiveUnitAction change => IsChangeActiveUnitLegal(state, issuer, change),
             MoveAction move => IsMoveLegal(state, issuer, move),
             UseAbilityAction use => IsUseAbilityLegal(state, issuer, use),
             SkipActiveUnitAction skip => IsSkipActiveUnitLegal(issuer),
             _ => false
         };
-    }
-
-    private static bool IsChangeActiveUnitLegal(IReadOnlyGameState state, IReadOnlyUnitInstance issuer, ChangeActiveUnitAction action)
-    {
-        // A unit that is mid-activation must keep acting until its AP reaches 0.
-        if (state.Phase.IsCurrentlyCommiting(issuer.Id))
-        {
-            return false;
-        }
-
-        if (!IsValidAlly(state, issuer, action.NewActiveUnitId, out var next))
-            return false;
-
-        // Cannot switch to a unit that has already finished acting this phase.
-        if (state.Phase.CommittedThisPhase.Contains(next.Id))
-            return false;
-
-        return true;
     }
 
     private static bool IsSkipActiveUnitLegal(IReadOnlyUnitInstance unit)
@@ -117,8 +98,15 @@ internal sealed class ActionValidator : IActionValidator
         if (found.Team != state.Turn.TeamToAct)
             return false;
 
-        if (found.Id != state.Phase.ActiveUnitId)
+        if (state.Phase.CurrentlyCommiting.HasValue)
+        {
+            if (found.Id != state.Phase.CurrentlyCommiting.Value)
+                return false;
+        }
+        else if (state.Phase.HasCommitted(found.Id))
+        {
             return false;
+        }
 
         issuer = found;
         return true;
