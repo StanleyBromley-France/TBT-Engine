@@ -85,6 +85,7 @@ public class GameSessionSandboxTests
 
         state.Phase.MarkCommitted(attacker1.Id);
         state.Phase.MarkCommitted(defender2.Id);
+        state.Phase.SetCurrentlyCommiting(defender1.Id);
 
         AddMidGameEffects(state, attacker1.Id, attacker2.Id, defender1.Id, defender2.Id, defender3.Id);
 
@@ -255,6 +256,7 @@ public class GameSessionSandboxTests
         // Assert activation phase is detached but value-equivalent.
         Assert.NotSame(liveState.Phase, sandboxState.Phase);
         Assert.Equal(liveState.Phase.ActiveUnitId, sandboxState.Phase.ActiveUnitId);
+        Assert.Equal(liveState.Phase.CurrentlyCommiting, sandboxState.Phase.CurrentlyCommiting);
         Assert.NotSame(liveState.Phase.CommittedThisPhase, sandboxState.Phase.CommittedThisPhase);
         Assert.True(liveState.Phase.CommittedThisPhase.SetEquals(sandboxState.Phase.CommittedThisPhase));
 
@@ -370,6 +372,7 @@ public class GameSessionSandboxTests
         sandboxState.Turn = new Turn(99, new TeamId(1));
         sandboxState.Rng = new RngState(1, 2);
         sandboxState.Phase.ActiveUnitId = new UnitInstanceId(6);
+        sandboxState.Phase.SetCurrentlyCommiting(new UnitInstanceId(124));
         sandboxState.Phase.MarkCommitted(new UnitInstanceId(123));
         sandboxState.OccupiedHexes.Add(new HexCoord(4, 4));
 
@@ -378,6 +381,7 @@ public class GameSessionSandboxTests
         Assert.Equal(new TeamId(2), liveState.Turn.TeamToAct);
         Assert.Equal(777, liveState.Rng.Seed);
         Assert.Equal(42, liveState.Rng.Position);
+        Assert.Equal(new UnitInstanceId(4), liveState.Phase.CurrentlyCommiting);
         Assert.False(liveState.Phase.HasCommitted(new UnitInstanceId(123)));
         Assert.DoesNotContain(new HexCoord(4, 4), liveState.OccupiedHexes);
 

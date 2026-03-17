@@ -15,7 +15,7 @@ namespace Core.Tests.Engine.Actions.Execution;
 public class MoveActionHandlerTests
 {
     [Fact]
-    public void Execute_Moves_Unit_Spends_Resources_Commits_And_Undo_Restores()
+    public void Execute_Moves_Unit_Spends_Resources_And_Undo_Restores()
     {
         // Arrange: units, state, and handler with fixed move cost
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
@@ -30,11 +30,12 @@ public class MoveActionHandlerTests
         // Act: execute move
         handler.Execute(state, ctx, new MoveAction(unit.Id, target));
 
-        // Assert: position/resources/commit/occupied hexes updated
+        // Assert: position/resources/occupied hexes updated
         Assert.Equal(target, unit.Position);
         Assert.Equal(1, unit.Resources.MovePoints);
         Assert.Equal(1, unit.Resources.ActionPoints);
-        Assert.True(state.Phase.HasCommitted(unit.Id));
+        Assert.False(state.Phase.HasCommitted(unit.Id));
+        Assert.Null(state.Phase.CurrentlyCommiting);
         Assert.Contains(target, state.OccupiedHexes);
         Assert.DoesNotContain(new HexCoord(0, 0), state.OccupiedHexes);
 
@@ -45,6 +46,7 @@ public class MoveActionHandlerTests
         Assert.Equal(3, unit.Resources.MovePoints);
         Assert.Equal(2, unit.Resources.ActionPoints);
         Assert.False(state.Phase.HasCommitted(unit.Id));
+        Assert.Null(state.Phase.CurrentlyCommiting);
         Assert.Contains(new HexCoord(0, 0), state.OccupiedHexes);
         Assert.DoesNotContain(target, state.OccupiedHexes);
     }

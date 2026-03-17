@@ -41,8 +41,8 @@ internal sealed class ActionValidator : IActionValidator
 
     private static bool IsChangeActiveUnitLegal(IReadOnlyGameState state, IReadOnlyUnitInstance issuer, ChangeActiveUnitAction action)
     {
-        // If the issuer is committed, it can only be switched away once AP is 0
-        if (state.Phase.CommittedThisPhase.Contains(issuer.Id) && issuer.Resources.ActionPoints != 0)
+        // A unit that is mid-activation must keep acting until its AP reaches 0.
+        if (state.Phase.IsCurrentlyCommiting(issuer.Id))
         {
             return false;
         }
@@ -50,7 +50,7 @@ internal sealed class ActionValidator : IActionValidator
         if (!IsValidAlly(state, issuer, action.NewActiveUnitId, out var next))
             return false;
 
-        // Cannot switch to a committed unit (committed + not selected = no longer playable)
+        // Cannot switch to a unit that has already finished acting this phase.
         if (state.Phase.CommittedThisPhase.Contains(next.Id))
             return false;
 

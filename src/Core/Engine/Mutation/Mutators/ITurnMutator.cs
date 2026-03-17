@@ -18,5 +18,9 @@ public interface ITurnMutator
 
     void CommitUnit(UnitInstanceId unitId);
 
+    void SetCurrentlyCommiting(UnitInstanceId unitId);
+
+    void ClearCurrentlyCommiting();
+
     void ResetActivationPhaseAndSetNew(UnitInstanceId newActiveUnitId);
 }

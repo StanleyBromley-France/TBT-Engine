@@ -47,7 +47,6 @@ public sealed class UseAbilityActionHandler : IActionHandler<UseAbilityAction>
 
         _effectManager.ApplyOrStackEffect(ctx, state, request);
         ctx.Units.ChangeActionPoints(action.UnitId, -1);
-        ctx.Turn.CommitUnit(action.UnitId);
     }
 
     private UnitInstanceId[] ResolveTargets(IReadOnlyGameState state, UseAbilityAction abilityAction, Ability ability)

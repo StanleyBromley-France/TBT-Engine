@@ -7,7 +7,7 @@ using Core.Domain.Types;
 /// 
 /// A phase represents the period where one team is acting.
 /// Units may act in any order, but each alive unit on the active team
-/// must commit at least one action before the turn can end.
+/// must fully spend its action points before the turn can end.
 /// </summary>
 public sealed class ActivationPhase
 {
@@ -18,9 +18,15 @@ public sealed class ActivationPhase
 
     /// <summary>
     /// Units that have taken at least one committing action
-    /// (Move, UseAbility, etc.) during this phase.
+    /// and finished acting for this phase by reaching 0 action points.
     /// </summary>
     public HashSet<UnitInstanceId> CommittedThisPhase { get; } = new();
+
+    /// <summary>
+    /// The unit currently spending action points this phase.
+    /// Empty when no unit is mid-activation.
+    /// </summary>
+    public UnitInstanceId? CurrentlyCommiting { get; set; }
 
     public ActivationPhase(UnitInstanceId initialActiveUnitId)
     {
@@ -35,6 +41,16 @@ public sealed class ActivationPhase
         CommittedThisPhase.Add(unitId);
     }
 
+    public void SetCurrentlyCommiting(UnitInstanceId unitId)
+    {
+        CurrentlyCommiting = unitId;
+    }
+
+    public void ClearCurrentlyCommiting()
+    {
+        CurrentlyCommiting = null;
+    }
+
     /// <summary>
     /// Returns true if the unit has already committed this phase.
     /// </summary>
@@ -43,12 +59,18 @@ public sealed class ActivationPhase
         return CommittedThisPhase.Contains(unitId);
     }
 
+    public bool IsCurrentlyCommiting(UnitInstanceId unitId)
+    {
+        return CurrentlyCommiting.HasValue && CurrentlyCommiting.Value == unitId;
+    }
+
     /// <summary>
     /// Clears phase progress (used when switching teams).
     /// </summary>
     public void Reset(UnitInstanceId newActiveUnitId)
     {
         CommittedThisPhase.Clear();
+        CurrentlyCommiting = null;
         ActiveUnitId = newActiveUnitId;
     }
 
@@ -59,6 +81,8 @@ public sealed class ActivationPhase
         {
             clone.CommittedThisPhase.Add(unitId);
         }
+
+        clone.CurrentlyCommiting = CurrentlyCommiting;
 
         return clone;
     }

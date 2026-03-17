@@ -26,6 +26,5 @@ public sealed class MoveActionHandler : IActionHandler<MoveAction>
         ctx.Movement.MoveUnit(action.UnitId, action.TargetHex);
         ctx.Units.ChangeMovePoints(action.UnitId, -cost);
         ctx.Units.ChangeActionPoints(action.UnitId, -1);
-        ctx.Turn.CommitUnit(action.UnitId);
     }
 }

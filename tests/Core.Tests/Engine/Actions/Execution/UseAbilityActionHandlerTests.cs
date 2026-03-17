@@ -45,10 +45,11 @@ public class UseAbilityActionHandlerTests
         // Act: cast directly on one target
         handler.Execute(state, context, new UseAbilityAction(caster.Id, ability.Id, target.Id));
 
-        // Assert: resources spent, caster committed, and correct effect request dispatched
+        // Assert: resources spent and correct effect request dispatched
         Assert.Equal(7, caster.Resources.Mana);
         Assert.Equal(1, caster.Resources.ActionPoints);
-        Assert.True(state.Phase.HasCommitted(caster.Id));
+        Assert.False(state.Phase.HasCommitted(caster.Id));
+        Assert.Null(state.Phase.CurrentlyCommiting);
         Assert.Equal(1, effectManager.CallCount);
         Assert.NotNull(effectManager.LastRequest);
         Assert.Equal(ability.Effect, effectManager.LastRequest!.TemplateId);
@@ -61,6 +62,7 @@ public class UseAbilityActionHandlerTests
         Assert.Equal(10, caster.Resources.Mana);
         Assert.Equal(2, caster.Resources.ActionPoints);
         Assert.False(state.Phase.HasCommitted(caster.Id));
+        Assert.Null(state.Phase.CurrentlyCommiting);
     }
 
     [Theory]

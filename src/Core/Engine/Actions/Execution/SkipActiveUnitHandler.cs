@@ -16,9 +16,5 @@ public sealed class SkipActiveUnitHandler : IActionHandler<SkipActiveUnitAction>
         // Set AP to 0
         if (unit.Resources.ActionPoints != 0)
             ctx.Units.ChangeActionPoints(unit.Id, -unit.Resources.ActionPoints);
-
-        // Commit if not already committed
-        if (!state.Phase.CommittedThisPhase.Contains(unit.Id))
-            ctx.Turn.CommitUnit(unit.Id);
     }
 }

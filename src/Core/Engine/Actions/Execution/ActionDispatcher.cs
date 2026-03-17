@@ -25,6 +25,21 @@ public sealed class ActionDispatcher : IActionDispatcher
             throw new InvalidOperationException(
                 $"No handler registered for {action.GetType().Name}");
 
+        var beforeActionPoints = state.UnitInstances[action.UnitId].Resources.ActionPoints;
+
         executor(state, ctx, action);
+
+        var afterActionPoints = state.UnitInstances[action.UnitId].Resources.ActionPoints;
+        if (afterActionPoints == beforeActionPoints)
+            return;
+
+        if (!state.Phase.IsCurrentlyCommiting(action.UnitId))
+            ctx.Turn.SetCurrentlyCommiting(action.UnitId);
+
+        if (afterActionPoints == 0)
+        {
+            ctx.Turn.CommitUnit(action.UnitId);
+            ctx.Turn.ClearCurrentlyCommiting();
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Core.Tests.Game;
 public class ActivationPhaseTests
 {
     [Fact]
-    public void Constructor_Sets_ActiveUnit_And_Empty_CommitSet()
+    public void Constructor_Sets_ActiveUnit_And_Empty_PhaseState()
     {
         var activeUnit = new UnitInstanceId(5);
 
@@ -14,6 +14,7 @@ public class ActivationPhaseTests
 
         Assert.Equal(activeUnit, phase.ActiveUnitId);
         Assert.Empty(phase.CommittedThisPhase);
+        Assert.Null(phase.CurrentlyCommiting);
     }
 
     [Fact]
@@ -28,15 +29,17 @@ public class ActivationPhaseTests
     }
 
     [Fact]
-    public void Reset_Clears_Committed_And_Sets_New_ActiveUnit()
+    public void Reset_Clears_PhaseState_And_Sets_New_ActiveUnit()
     {
         var phase = new ActivationPhase(new UnitInstanceId(1));
         phase.MarkCommitted(new UnitInstanceId(1));
         phase.MarkCommitted(new UnitInstanceId(2));
+        phase.SetCurrentlyCommiting(new UnitInstanceId(2));
 
         phase.Reset(new UnitInstanceId(3));
 
         Assert.Equal(new UnitInstanceId(3), phase.ActiveUnitId);
         Assert.Empty(phase.CommittedThisPhase);
+        Assert.Null(phase.CurrentlyCommiting);
     }
 }

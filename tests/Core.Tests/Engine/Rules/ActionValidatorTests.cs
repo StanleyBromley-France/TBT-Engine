@@ -133,6 +133,41 @@ public class ActionValidatorTests
         Assert.False(legal);
     }
 
+    [Fact]
+    public void ChangeActiveUnit_IsIllegal_When_Issuer_Is_CurrentlyCommiting()
+    {
+        var unitA = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var unitB = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
+        var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(3, 0));
+        var state = EngineTestFactory.CreateState(new[] { unitA, unitB, enemy }, teamToAct: 1, activeUnitId: unitA.Id);
+        state.Phase.SetCurrentlyCommiting(unitA.Id);
+
+        var validator = new ActionValidator(
+            new StubPathfinder { HasLineOfSightResult = true },
+            new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+
+        var legal = validator.IsActionLegal(state, new ChangeActiveUnitAction(unitA.Id, unitB.Id));
+
+        Assert.False(legal);
+    }
+
+    [Fact]
+    public void ChangeActiveUnit_IsLegal_When_Issuer_Is_Not_CurrentlyCommiting_And_Target_Uncommitted()
+    {
+        var unitA = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var unitB = EngineTestFactory.CreateUnit(2, 1, new HexCoord(1, 0));
+        var enemy = EngineTestFactory.CreateUnit(3, 2, new HexCoord(3, 0));
+        var state = EngineTestFactory.CreateState(new[] { unitA, unitB, enemy }, teamToAct: 1, activeUnitId: unitA.Id);
+
+        var validator = new ActionValidator(
+            new StubPathfinder { HasLineOfSightResult = true },
+            new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+
+        var legal = validator.IsActionLegal(state, new ChangeActiveUnitAction(unitA.Id, unitB.Id));
+
+        Assert.True(legal);
+    }
+
     private sealed class StubPathfinder : IPathfinder
     {
         public bool HasLineOfSightResult { get; init; } = true;
