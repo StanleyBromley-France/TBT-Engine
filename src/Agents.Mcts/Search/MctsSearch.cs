@@ -6,11 +6,13 @@ using Agents.Mcts.Hashing;
 using Agents.Mcts.Simulation;
 using Core.Domain.Types;
 using Core.Engine.Actions.Choice;
+using Core.Game.State.ReadOnly;
 
 public sealed class MctsSearch : IMctsSearch
 {
     private readonly IStateEvaluator _stateEvaluator;
     private readonly IGameStateHasher _stateHasher;
+    private readonly Dictionary<GameStateKey, MctsNode> _stateNodesByKey = new();
 
     public MctsSearch(IStateEvaluator stateEvaluator, IGameStateHasher stateHasher)
     {
@@ -32,21 +34,17 @@ public sealed class MctsSearch : IMctsSearch
 
         ValidateConfig(config);
 
-        if (legalActions.Count == 1)
-            return legalActions[0];
-
         var rootState = simulation.GetState();
         TeamId perspective = rootState.Turn.TeamToAct;
-        var root = new MctsNode(_stateHasher.Compute(rootState), perspective, legalActions);
-        var stateNodesByKey = new Dictionary<GameStateKey, MctsNode>
-        {
-            [root.StateKey] = root
-        };
+        var root = ResolveRootNode(rootState, legalActions, perspective);
+
+        if (legalActions.Count == 1)
+            return legalActions[0];
 
         var random = new Random(config.RandomSeed);
 
         for (var iteration = 0; iteration < config.IterationBudget; iteration++)
-            RunIteration(simulation, root, stateNodesByKey, perspective, config, random);
+            RunIteration(simulation, root, perspective, config, random);
 
         return SelectBestRootAction(root);
     }
@@ -54,7 +52,6 @@ public sealed class MctsSearch : IMctsSearch
     private void RunIteration(
         ISimulationFacade simulation,
         MctsNode root,
-        IDictionary<GameStateKey, MctsNode> stateNodesByKey,
         TeamId rootPerspective,
         MctsSearchConfig config,
         Random random)
@@ -95,7 +92,7 @@ public sealed class MctsSearch : IMctsSearch
                 var advancedState = simulation.GetState();
                 var advancedStateKey = _stateHasher.Compute(advancedState);
 
-                if (!stateNodesByKey.TryGetValue(advancedStateKey, out var advancedNode))
+                if (!_stateNodesByKey.TryGetValue(advancedStateKey, out var advancedNode))
                 {
                     advancedNode = new MctsNode(
                         advancedStateKey,
@@ -104,7 +101,7 @@ public sealed class MctsSearch : IMctsSearch
                             ? Array.Empty<ActionChoice>()
                             : simulation.GetLegalActions());
 
-                    stateNodesByKey.Add(advancedStateKey, advancedNode);
+                    _stateNodesByKey.Add(advancedStateKey, advancedNode);
                 }
 
                 var edge = node.AddOutgoingEdge(action, advancedNode);
@@ -315,5 +312,60 @@ public sealed class MctsSearch : IMctsSearch
             SkipActiveUnitAction => 2,
             _ => 3
         };
+    }
+
+    private MctsNode ResolveRootNode(
+        IReadOnlyGameState rootState,
+        IReadOnlyList<ActionChoice> legalActions,
+        TeamId perspective)
+    {
+        var rootStateKey = _stateHasher.Compute(rootState);
+
+        if (!_stateNodesByKey.TryGetValue(rootStateKey, out var root))
+        {
+            ResetPersistentGraph();
+
+            root = new MctsNode(rootStateKey, perspective, legalActions);
+            _stateNodesByKey[rootStateKey] = root;
+            return root;
+        }
+
+        PruneUnreachableNodesFrom(root);
+        return root;
+    }
+
+    private void PruneUnreachableNodesFrom(MctsNode root)
+    {
+        var reachable = new HashSet<GameStateKey>();
+        var stack = new Stack<MctsNode>();
+        stack.Push(root);
+
+        while (stack.Count > 0)
+        {
+            var node = stack.Pop();
+            if (!reachable.Add(node.StateKey))
+                continue;
+
+            foreach (var edge in node.OutgoingEdges)
+                stack.Push(edge.NextStateNode);
+        }
+
+        if (reachable.Count == _stateNodesByKey.Count)
+            return;
+
+        var keysToRemove = new List<GameStateKey>();
+        foreach (var key in _stateNodesByKey.Keys)
+        {
+            if (!reachable.Contains(key))
+                keysToRemove.Add(key);
+        }
+
+        foreach (var key in keysToRemove)
+            _stateNodesByKey.Remove(key);
+    }
+
+    private void ResetPersistentGraph()
+    {
+        _stateNodesByKey.Clear();
     }
 }
