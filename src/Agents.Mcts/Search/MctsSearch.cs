@@ -2,17 +2,20 @@ namespace Agents.Mcts.Search;
 
 using Agents.Mcts.Config;
 using Agents.Mcts.Evaluation;
+using Agents.Mcts.Hashing;
 using Agents.Mcts.Simulation;
-using Core.Engine.Actions.Choice;
 using Core.Domain.Types;
+using Core.Engine.Actions.Choice;
 
 public sealed class MctsSearch : IMctsSearch
 {
     private readonly IStateEvaluator _stateEvaluator;
+    private readonly IGameStateHasher _stateHasher;
 
-    public MctsSearch(IStateEvaluator stateEvaluator)
+    public MctsSearch(IStateEvaluator stateEvaluator, IGameStateHasher stateHasher)
     {
         _stateEvaluator = stateEvaluator ?? throw new ArgumentNullException(nameof(stateEvaluator));
+        _stateHasher = stateHasher ?? throw new ArgumentNullException(nameof(stateHasher));
     }
 
     public ActionChoice FindBestAction(ISimulationFacade simulation, MctsSearchConfig config)
@@ -32,12 +35,18 @@ public sealed class MctsSearch : IMctsSearch
         if (legalActions.Count == 1)
             return legalActions[0];
 
-        TeamId perspective = simulation.GetState().Turn.TeamToAct;
-        var root = new MctsNode(perspective, legalActions);
+        var rootState = simulation.GetState();
+        TeamId perspective = rootState.Turn.TeamToAct;
+        var root = new MctsNode(_stateHasher.Compute(rootState), perspective, legalActions);
+        var stateNodesByKey = new Dictionary<GameStateKey, MctsNode>
+        {
+            [root.StateKey] = root
+        };
+
         var random = new Random(config.RandomSeed);
 
         for (var iteration = 0; iteration < config.IterationBudget; iteration++)
-            RunIteration(simulation, root, perspective, config, random);
+            RunIteration(simulation, root, stateNodesByKey, perspective, config, random);
 
         return SelectBestRootAction(root);
     }
@@ -45,12 +54,14 @@ public sealed class MctsSearch : IMctsSearch
     private void RunIteration(
         ISimulationFacade simulation,
         MctsNode root,
+        IDictionary<GameStateKey, MctsNode> stateNodesByKey,
         TeamId rootPerspective,
         MctsSearchConfig config,
         Random random)
     {
         var marker = simulation.MarkUndo();
-        var path = new List<MctsNode> { root };
+        var nodePath = new List<MctsNode> { root };
+        var edgePath = new List<MctsEdge>();
         var node = root;
         var depth = 0;
 
@@ -60,11 +71,13 @@ public sealed class MctsSearch : IMctsSearch
             // depth limit, or terminal state.
             while (depth < config.MaxDepth &&
                    !simulation.IsTerminal() &&
-                   node.CanSelectChild)
+                   node.CanSelectOutgoingEdge)
             {
-                node = SelectChild(node, rootPerspective, config.ExplorationConstant);
-                simulation.ApplyAction(node.ActionFromParent!);
-                path.Add(node);
+                var edge = SelectEdge(node, rootPerspective, config.ExplorationConstant);
+                simulation.ApplyAction(edge.Action);
+                node = edge.NextStateNode;
+                edgePath.Add(edge);
+                nodePath.Add(node);
                 depth++;
             }
 
@@ -74,26 +87,41 @@ public sealed class MctsSearch : IMctsSearch
                 node.CanExpand)
             {
                 var action = node.RemoveUnexpandedActionAt(random.Next(node.UnexpandedActionCount));
+
+                // Advance simulation
                 simulation.ApplyAction(action);
                 depth++;
 
-                var child = node.AddChild(
-                    action,
-                    simulation.GetState().Turn.TeamToAct,
-                    simulation.IsTerminal() || depth >= config.MaxDepth
-                        ? Array.Empty<ActionChoice>()
-                        : simulation.GetLegalActions());
+                var advancedState = simulation.GetState();
+                var advancedStateKey = _stateHasher.Compute(advancedState);
 
-                node = child;
-                path.Add(node);
+                if (!stateNodesByKey.TryGetValue(advancedStateKey, out var advancedNode))
+                {
+                    advancedNode = new MctsNode(
+                        advancedStateKey,
+                        advancedState.Turn.TeamToAct,
+                        simulation.IsTerminal()
+                            ? Array.Empty<ActionChoice>()
+                            : simulation.GetLegalActions());
+
+                    stateNodesByKey.Add(advancedStateKey, advancedNode);
+                }
+
+                var edge = node.AddOutgoingEdge(action, advancedNode);
+
+                edgePath.Add(edge);
+                nodePath.Add(advancedNode);
             }
 
             var reward = Rollout(simulation, rootPerspective, depth, config, random);
 
             // Backpropagation: the rollout result is always stored from the
             // root player's perspective, and selection flips sign as turns alternate.
-            foreach (var visitedNode in path)
+            foreach (var visitedNode in nodePath)
                 visitedNode.RecordSimulation(reward);
+
+            foreach (var visitedEdge in edgePath)
+                visitedEdge.RecordSimulation(reward);
         }
         finally
         {
@@ -177,71 +205,73 @@ public sealed class MctsSearch : IMctsSearch
         return _stateEvaluator.Evaluate(simulation.GetState(), context);
     }
 
-    private static MctsNode SelectChild(MctsNode node, TeamId rootPerspective, double explorationConstant)
+    private static MctsEdge SelectEdge(MctsNode node, TeamId rootPerspective, double explorationConstant)
     {
         // When it is the root players turn root value is maximized; when it is
         // the opponent's turn it is minimized by negating exploitation.
         var maximizing = node.TeamToAct == rootPerspective;
 
-        MctsNode? bestChild = null;
-
+        MctsEdge? bestEdge = null;
         var bestScore = double.NegativeInfinity;
 
-        foreach (var child in node.Children)
+        foreach (var edge in node.OutgoingEdges)
         {
-            // Standard UCT exploration bonus. Unvisited children are forced first.
-            var explorationBonus = child.Visits == 0
+            // Standard UCT exploration bonus. Unvisited OutgoingEdges are forced first.
+            var explorationBonus = edge.Visits == 0
                 ? double.PositiveInfinity
-                : explorationConstant * Math.Sqrt(Math.Log(Math.Max(1, node.Visits)) / child.Visits);
+                : explorationConstant * Math.Sqrt(Math.Log(Math.Max(1, node.Visits)) / edge.Visits);
 
-            var estimatedValue = child.AverageValue;
-            var score = (maximizing ? estimatedValue : -estimatedValue) + explorationBonus;
+            var exploitation = edge.AverageValue;
+            var score = (maximizing ? exploitation : -exploitation) + explorationBonus;
 
-            if (score > bestScore || (score == bestScore && bestChild is not null && CompareActionPreference(child.ActionFromParent!, bestChild.ActionFromParent!) < 0))
+            if (score > bestScore ||
+                (score == bestScore &&
+                 bestEdge is not null &&
+                 CompareActionPreference(edge.Action, bestEdge.Action) < 0))
             {
                 bestScore = score;
-                bestChild = child;
+                bestEdge = edge;
             }
         }
 
-        return bestChild ?? throw new InvalidOperationException("No child node available for selection.");
+        return bestEdge ?? throw new InvalidOperationException("No child node available for selection.");
     }
 
     private static ActionChoice SelectBestRootAction(MctsNode root)
     {
         // Final move choice prefers the action the search trusted most often,
         // then uses value and stable tie-breaking for deterministic output.
-        MctsNode? bestChild = null;
+        MctsEdge? bestEdge = null;
 
-        foreach (var child in root.Children)
+        foreach (var edge in root.OutgoingEdges)
         {
-            if (bestChild is null)
+            if (bestEdge is null)
             {
-                bestChild = child;
+                bestEdge = edge;
                 continue;
             }
 
-            if (child.Visits > bestChild.Visits)
+            if (edge.Visits > bestEdge.Visits)
             {
-                bestChild = child;
+                bestEdge = edge;
                 continue;
             }
 
-            if (child.Visits == bestChild.Visits && child.AverageValue > bestChild.AverageValue)
+            if (edge.Visits == bestEdge.Visits && edge.AverageValue > bestEdge.AverageValue)
             {
-                bestChild = child;
+                bestEdge = edge;
                 continue;
             }
 
-            if (child.Visits == bestChild.Visits &&
-                child.AverageValue == bestChild.AverageValue &&
-                GetActionPreference(child.ActionFromParent!) < GetActionPreference(bestChild.ActionFromParent!))
+            if (edge.Visits == bestEdge.Visits &&
+                edge.AverageValue == bestEdge.AverageValue &&
+                GetActionPreference(edge.Action) < GetActionPreference(bestEdge.Action))
             {
-                bestChild = child;
+                bestEdge = edge;
             }
         }
 
-        return bestChild?.ActionFromParent
+        return bestEdge?.Action
             ?? throw new InvalidOperationException("Search completed without exploring any root action.");
     }
 
