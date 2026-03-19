@@ -16,6 +16,10 @@ public static class ContentIssueFactory
     public const string UnsupportedComponentTypeCode = "VAL_UNSUPPORTED_COMPONENT_TYPE";
     public const string MissingComponentFieldCode = "VAL_MISSING_COMPONENT_FIELD";
     public const string InvalidEnumValueCode = "VAL_INVALID_ENUM_VALUE";
+    public const string ContentDirectoryNotFoundCode = "LOAD_CONTENT_DIRECTORY_NOT_FOUND";
+    public const string ContentFileNotFoundCode = "LOAD_CONTENT_FILE_NOT_FOUND";
+    public const string InvalidJsonCode = "LOAD_INVALID_JSON";
+    public const string ContentReadErrorCode = "LOAD_CONTENT_READ_ERROR";
 
     public static ContentIssue RequiredField(string path, string fieldName)
         => new(
@@ -119,6 +123,37 @@ public static class ContentIssueFactory
         => new(
             InvalidEnumValueCode,
             $"Value '{rawValue ?? "<null>"}' is not valid for enum '{enumName}'.",
+            path,
+            ContentIssueSeverity.Error);
+
+    public static ContentIssue ContentDirectoryNotFound(string path)
+        => new(
+            ContentDirectoryNotFoundCode,
+            "Content directory was not found.",
+            path,
+            ContentIssueSeverity.Error);
+
+    public static ContentIssue ContentFileNotFound(string path, IReadOnlyList<string> expectedFileNames)
+    {
+        var expected = string.Join(", ", expectedFileNames.Select(name => $"'{name}'"));
+        return new ContentIssue(
+            ContentFileNotFoundCode,
+            $"No content file found. Expected one of: {expected}",
+            path,
+            ContentIssueSeverity.Error);
+    }
+
+    public static ContentIssue InvalidJson(string path, string expectedType, string detail)
+        => new(
+            InvalidJsonCode,
+            $"JSON is invalid for expected type '{expectedType}': {detail}",
+            path,
+            ContentIssueSeverity.Error);
+
+    public static ContentIssue ContentReadError(string path, string detail)
+        => new(
+            ContentReadErrorCode,
+            $"Failed reading content: {detail}",
             path,
             ContentIssueSeverity.Error);
 }
