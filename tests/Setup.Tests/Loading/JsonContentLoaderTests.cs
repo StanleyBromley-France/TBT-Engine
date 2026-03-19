@@ -44,16 +44,15 @@ public sealed class JsonContentLoaderTests
                 new() { Id = "scenario-1" }
             });
 
-            var loader = new JsonContentLoader();
-            var pack = loader.LoadFromFiles(root);
+            var pack = JsonContentLoader.LoadFromFiles(root);
 
-            Assert.Single(pack.UnitTemplates);
-            Assert.Single(pack.Abilities);
-            Assert.Single(pack.EffectTemplates);
-            Assert.Single(pack.EffectComponentTemplates);
+            Assert.Single(pack.Templates.Units);
+            Assert.Single(pack.Templates.Abilities);
+            Assert.Single(pack.Templates.Effects);
+            Assert.Single(pack.Templates.EffectComponents);
             Assert.Single(pack.GameStates);
-            Assert.Equal("unit-1", pack.UnitTemplates[0].Id);
-            Assert.Empty(pack.Issues);
+            Assert.Equal("unit-1", pack.Templates.Units[0].Id);
+            Assert.Empty(pack.IssueView.Issues);
         }
         finally
         {
@@ -73,10 +72,9 @@ public sealed class JsonContentLoaderTests
             WriteJson(root, "effectComponentTemplates.json", new List<EffectComponentTemplateConfig>());
             WriteJson(root, "gameStates.json", new List<GameStateConfig>());
 
-            var loader = new JsonContentLoader();
-            var pack = loader.LoadFromFiles(root);
+            var pack = JsonContentLoader.LoadFromFiles(root);
 
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.InvalidJsonCode && i.Path == "UnitTemplates");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.InvalidJsonCode && i.Path == "UnitTemplates");
         }
         finally
         {
@@ -92,10 +90,9 @@ public sealed class JsonContentLoaderTests
         {
             WriteJson(root, "unitTemplates.json", new List<UnitTemplateConfig>());
 
-            var loader = new JsonContentLoader();
-            var pack = loader.LoadFromFiles(root);
+            var pack = JsonContentLoader.LoadFromFiles(root);
 
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.ContentFileNotFoundCode && i.Path == "Abilities");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.ContentFileNotFoundCode && i.Path == "Abilities");
         }
         finally
         {
@@ -115,18 +112,17 @@ public sealed class JsonContentLoaderTests
             WriteJson(root, "effectComponentTemplates.json", new List<EffectComponentTemplateConfig> { new() { Id = "component-1" } });
             WriteJson(root, "gameStates.json", new List<GameStateConfig> { new() { Id = "" } });
 
-            var loader = new JsonContentLoader();
-            var pack = loader.LoadFromFiles(root);
+            var pack = JsonContentLoader.LoadFromFiles(root);
 
-            Assert.True(pack.HasErrors);
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Id");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Name");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Name");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Category");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Targeting.AllowedTarget");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "EffectTemplates[0].Name");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "EffectComponentTemplates[0].Type");
-            Assert.Contains(pack.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "GameStates[0].Id");
+            Assert.True(pack.IssueView.HasErrors);
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Id");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Name");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Name");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Category");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Targeting.AllowedTarget");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "EffectTemplates[0].Name");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "EffectComponentTemplates[0].Type");
+            Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "GameStates[0].Id");
         }
         finally
         {

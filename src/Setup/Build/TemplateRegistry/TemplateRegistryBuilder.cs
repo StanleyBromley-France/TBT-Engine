@@ -37,7 +37,7 @@ public sealed class TemplateRegistryBuilder : ITemplateRegistryBuilder
 
         if (mode == ContentValidationMode.Strict && issues.HasErrors)
         {
-            return new TemplateRegistryBuildResult(null, issues.Issues);
+            return new TemplateRegistryBuildResult(null, issues);
         }
 
         var registry = new TemplateRegistry(
@@ -46,6 +46,6 @@ public sealed class TemplateRegistryBuilder : ITemplateRegistryBuilder
             effects: new EffectTemplateRepository(builtEffects),
             effectComponents: new EffectComponentTemplateRepository(builtComponents));
 
-        return new TemplateRegistryBuildResult(registry, issues.Issues);
+        return new TemplateRegistryBuildResult(registry, issues);
     }
 }

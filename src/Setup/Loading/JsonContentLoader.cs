@@ -4,7 +4,7 @@ using Setup.Config;
 using Setup.Validation.Primitives;
 using System.Text.Json;
 
-public sealed class JsonContentLoader
+public static class JsonContentLoader
 {
     private static readonly string[] UnitTemplateFiles = ["unitTemplates.json", "units.json"];
     private static readonly string[] AbilityFiles = ["abilities.json"];
@@ -19,8 +19,11 @@ public sealed class JsonContentLoader
         AllowTrailingCommas = true
     };
 
-    public ContentPack LoadFromFiles(string path)
+    public static ContentPack LoadFromFiles(string path)
     {
+        var pack = new ContentPack();
+        IContentPackBuilder builder = pack;
+
         if (string.IsNullOrWhiteSpace(path))
         {
             throw new ArgumentException("Content path must not be null or whitespace.", nameof(path));
@@ -31,27 +34,39 @@ public sealed class JsonContentLoader
         if (!Directory.Exists(directoryPath))
         {
             issues.Add(ContentIssueFactory.ContentDirectoryNotFound(directoryPath));
-            return new ContentPack
-            {
-                Issues = issues.Issues.ToList()
-            };
+            builder.AddIssues(issues);
+
+            return pack;
         }
 
-        var pack = new ContentPack
-        {
-            UnitTemplates = LoadList<UnitTemplateConfig>(directoryPath, "UnitTemplates", UnitTemplateFiles, issues),
-            Abilities = LoadList<AbilityConfig>(directoryPath, "Abilities", AbilityFiles, issues),
-            EffectTemplates = LoadList<EffectTemplateConfig>(directoryPath, "EffectTemplates", EffectTemplateFiles, issues),
-            EffectComponentTemplates = LoadList<EffectComponentTemplateConfig>(directoryPath, "EffectComponentTemplates", EffectComponentTemplateFiles, issues),
-            GameStates = LoadList<GameStateConfig>(directoryPath, "GameStates", GameStateFiles, issues)
-        };
+        var gamestates = LoadList<GameStateConfig>(directoryPath, "GameStates", GameStateFiles, issues);
+        ConfigValidator.ValidateGameStates(gamestates, issues);
 
-        ValidateRequiredFields(pack, issues);
-        pack.Issues = issues.Issues.ToList();
+        builder.AddGameStates(gamestates);
+
+        IContentPackTemplatesBuilder templatesBuilder = builder.ContentPackTemplatesBuilder;
+
+        var units = LoadList<UnitTemplateConfig>(directoryPath, "UnitTemplates", UnitTemplateFiles, issues);
+        var abilities = LoadList<AbilityConfig>(directoryPath, "Abilities", AbilityFiles, issues);
+        var effects = LoadList<EffectTemplateConfig>(directoryPath, "EffectTemplates", EffectTemplateFiles, issues);
+        var effectComps = LoadList<EffectComponentTemplateConfig>(directoryPath, "EffectComponentTemplates", EffectComponentTemplateFiles, issues);
+
+        ConfigValidator.ValidateUnits(units, issues);
+        ConfigValidator.ValidateAbilities(abilities, issues);
+        ConfigValidator.ValidateEffects(effects, issues);
+        ConfigValidator.ValidateEffectComponents(effectComps, issues);
+
+        templatesBuilder.AddUnits(units);
+        templatesBuilder.AddAbilities(abilities);
+        templatesBuilder.AddEffects(effects);
+        templatesBuilder.AddEffectComponents(effectComps);
+
+        builder.AddIssues(issues);
+
         return pack;
     }
 
-    public T LoadJson<T>(string path)
+    public static T LoadJson<T>(string path)
     {
         if (string.IsNullOrWhiteSpace(path))
         {
@@ -130,175 +145,5 @@ public sealed class JsonContentLoader
         }
 
         return null;
-    }
-
-    private static void ValidateRequiredFields(ContentPack pack, ValidationCollector issues)
-    {
-        ValidateUnitTemplates(pack.UnitTemplates, issues);
-        ValidateAbilities(pack.Abilities, issues);
-        ValidateEffectTemplates(pack.EffectTemplates, issues);
-        ValidateEffectComponentTemplates(pack.EffectComponentTemplates, issues);
-        ValidateGameStates(pack.GameStates, issues);
-    }
-
-    private static void ValidateUnitTemplates(
-        List<UnitTemplateConfig> unitTemplates,
-        ValidationCollector issues)
-    {
-        for (var i = 0; i < unitTemplates.Count; i++)
-        {
-            var item = unitTemplates[i];
-            var path = $"UnitTemplates[{i}]";
-            if (item is null)
-            {
-                issues.Add(ContentIssueFactory.NullItem(path));
-                continue;
-            }
-
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Name, $"{path}.Name", "Name", issues);
-
-            if (item.AbilityIds is null)
-            {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.AbilityIds"));
-            }
-            else
-            {
-                for (var j = 0; j < item.AbilityIds.Count; j++)
-                {
-                    ValidateRequiredString(item.AbilityIds[j], $"{path}.AbilityIds[{j}]", "AbilityIds[]", issues);
-                }
-            }
-        }
-    }
-
-    private static void ValidateAbilities(
-        List<AbilityConfig> abilities,
-        ValidationCollector issues)
-    {
-        for (var i = 0; i < abilities.Count; i++)
-        {
-            var item = abilities[i];
-            var path = $"Abilities[{i}]";
-            if (item is null)
-            {
-                issues.Add(ContentIssueFactory.NullItem(path));
-                continue;
-            }
-
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Name, $"{path}.Name", "Name", issues);
-            ValidateRequiredString(item.Category, $"{path}.Category", "Category", issues);
-            ValidateRequiredString(item.EffectTemplateId, $"{path}.EffectTemplateId", "EffectTemplateId", issues);
-            ValidateRequiredString(item.Targeting?.AllowedTarget, $"{path}.Targeting.AllowedTarget", "AllowedTarget", issues);
-        }
-    }
-
-    private static void ValidateEffectTemplates(
-        List<EffectTemplateConfig> effectTemplates,
-        ValidationCollector issues)
-    {
-        for (var i = 0; i < effectTemplates.Count; i++)
-        {
-            var item = effectTemplates[i];
-            var path = $"EffectTemplates[{i}]";
-            if (item is null)
-            {
-                issues.Add(ContentIssueFactory.NullItem(path));
-                continue;
-            }
-
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Name, $"{path}.Name", "Name", issues);
-
-            if (item.ComponentTemplateIds is null)
-            {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.ComponentTemplateIds"));
-            }
-            else
-            {
-                for (var j = 0; j < item.ComponentTemplateIds.Count; j++)
-                {
-                    ValidateRequiredString(item.ComponentTemplateIds[j], $"{path}.ComponentTemplateIds[{j}]", "ComponentTemplateIds[]", issues);
-                }
-            }
-        }
-    }
-
-    private static void ValidateEffectComponentTemplates(
-        List<EffectComponentTemplateConfig> effectComponentTemplates,
-        ValidationCollector issues)
-    {
-        for (var i = 0; i < effectComponentTemplates.Count; i++)
-        {
-            var item = effectComponentTemplates[i];
-            var path = $"EffectComponentTemplates[{i}]";
-            if (item is null)
-            {
-                issues.Add(ContentIssueFactory.NullItem(path));
-                continue;
-            }
-
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Type, $"{path}.Type", "Type", issues);
-        }
-    }
-
-    private static void ValidateGameStates(
-        List<GameStateConfig> gameStates,
-        ValidationCollector issues)
-    {
-        for (var i = 0; i < gameStates.Count; i++)
-        {
-            var item = gameStates[i];
-            var path = $"GameStates[{i}]";
-            if (item is null)
-            {
-                issues.Add(ContentIssueFactory.NullItem(path));
-                continue;
-            }
-
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-
-            if (item.MapGen is null)
-            {
-                issues.Add(ContentIssueFactory.RequiredField($"{path}.MapGen", "MapGen"));
-            }
-            else if (item.MapGen.TileDistribution is null)
-            {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.MapGen.TileDistribution"));
-            }
-
-            if (item.Units is null)
-            {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.Units"));
-            }
-            else
-            {
-                for (var j = 0; j < item.Units.Count; j++)
-                {
-                    var spawn = item.Units[j];
-                    if (spawn is null)
-                    {
-                        issues.Add(ContentIssueFactory.NullItem($"{path}.Units[{j}]"));
-                        continue;
-                    }
-
-                    ValidateRequiredString(spawn.UnitTemplateId, $"{path}.Units[{j}].UnitTemplateId", "UnitTemplateId", issues);
-                }
-            }
-        }
-    }
-
-    private static void ValidateRequiredString(
-        string? value,
-        string path,
-        string fieldName,
-        ValidationCollector issues)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            issues.Add(ContentIssueFactory.RequiredField(path, fieldName));
-        }
     }
 }

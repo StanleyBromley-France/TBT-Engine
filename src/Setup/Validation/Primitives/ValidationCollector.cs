@@ -1,28 +1,31 @@
 namespace Setup.Validation.Primitives;
 
-public sealed class ValidationCollector
+public sealed class ValidationCollector : IContentIssueView
 {
     private readonly List<ContentIssue> _issues = new();
-    private readonly IReadOnlyList<ContentIssue> _readOnlyIssues;
-
-    public ValidationCollector()
-    {
-        _readOnlyIssues = _issues.AsReadOnly();
-    }
-
-    public IReadOnlyList<ContentIssue> Issues => _readOnlyIssues;
-
-    public int Count => _issues.Count;
 
     public bool HasErrors => _issues.Any(i => i.Severity == ContentIssueSeverity.Error);
 
-    public bool ShouldHalt(ContentValidationMode mode)
+    IReadOnlyList<ContentIssue> IContentIssueView.Issues => _issues;
+
+    int IContentIssueView.Count => _issues.Count;
+
+    bool IContentIssueView.ShouldHalt(ContentValidationMode mode)
         => mode == ContentValidationMode.Strict && HasErrors;
 
     public void Add(ContentIssue issue)
     {
         ArgumentNullException.ThrowIfNull(issue);
         _issues.Add(issue);
+    }
+
+    public void AddRange(ValidationCollector issues)
+    {
+        ArgumentNullException.ThrowIfNull(issues);
+
+        if (ReferenceEquals(this, issues)) throw new ArgumentException("Cannot add a collector to itself.", nameof(issues));
+        
+        _issues.AddRange(issues._issues);
     }
 
     public void AddError(string code, string message, string? path = null)

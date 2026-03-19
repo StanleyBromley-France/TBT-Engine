@@ -45,8 +45,8 @@ public sealed class TemplateRegistryBuilderTests
         var result = Build(input, ContentValidationMode.Lenient);
 
         Assert.NotNull(result.TemplateRegistry);
-        Assert.True(result.Issues.Count > 0);
-        Assert.Contains(result.Issues, i => i.Path == "Abilities[1].EffectTemplateId");
+        Assert.True(result.IssueView.Count > 0);
+        Assert.Contains(result.IssueView.Issues, i => i.Path == "Abilities[1].EffectTemplateId");
         Assert.Single(result.TemplateRegistry!.Abilities.GetAll());
     }
 

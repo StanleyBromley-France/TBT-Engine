@@ -6,16 +6,16 @@ using Core.Domain.Repositories;
 public sealed class TemplateRegistryBuildResult
 {
     public TemplateRegistry? TemplateRegistry { get; }
-    public IReadOnlyList<ContentIssue> Issues { get; }
+    public IContentIssueView IssueView { get; }
 
     public bool HasErrors =>
-        Issues.Any(i => i.Severity == ContentIssueSeverity.Error);
+        IssueView.Issues.Any(i => i.Severity == ContentIssueSeverity.Error);
 
     public TemplateRegistryBuildResult(
         TemplateRegistry? templateRegistry,
-        IReadOnlyList<ContentIssue> issues)
+        IContentIssueView issues)
     {
         TemplateRegistry = templateRegistry;
-        Issues = issues ?? throw new ArgumentNullException(nameof(issues));
+        IssueView = issues ?? throw new ArgumentNullException(nameof(issues));
     }
 }

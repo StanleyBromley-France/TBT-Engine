@@ -3,16 +3,27 @@ namespace Setup.Loading;
 using Setup.Config;
 using Setup.Validation.Primitives;
 
-public sealed class ContentPack
+public sealed class ContentPack : IContentPackBuilder
 {
-    public List<UnitTemplateConfig> UnitTemplates { get; set; } = new();
-    public List<AbilityConfig> Abilities { get; set; } = new();
-    public List<EffectTemplateConfig> EffectTemplates { get; set; } = new();
-    public List<EffectComponentTemplateConfig> EffectComponentTemplates { get; set; } = new();
-    public List<GameStateConfig> GameStates { get; set; } = new();
-    public List<ContentIssue> Issues { get; set; } = new();
+    private ContentPackTemplates _templates = new ContentPackTemplates();
+    private ValidationCollector _issueCollector = new ValidationCollector();
+    private List<GameStateConfig> _gameStates= new List<GameStateConfig>();
 
-    public bool HasErrors =>
-        Issues.Any(i => i.Severity == ContentIssueSeverity.Error);
+    public ContentPackTemplates Templates => _templates;
+    public IReadOnlyList<GameStateConfig> GameStates => _gameStates;
+
+    public IContentIssueView IssueView => _issueCollector;
+
+    IContentPackTemplatesBuilder IContentPackBuilder.ContentPackTemplatesBuilder => _templates;
+
+    void IContentPackBuilder.AddIssues(ValidationCollector issues)
+    {
+        _issueCollector = issues;
+    }
+
+    void IContentPackBuilder.AddGameStates(List<GameStateConfig> gameStates)
+    {
+       _gameStates = gameStates;
+    }
 
 }
