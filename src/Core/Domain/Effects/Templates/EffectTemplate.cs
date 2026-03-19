@@ -26,7 +26,7 @@ public class EffectTemplate
     /// Creates a template with a configuration and components
     /// Holds static data for effect instances
     /// </summary>
-    protected EffectTemplate(
+    internal EffectTemplate(
         EffectTemplateId id,
         string name,
         bool isHarmful,

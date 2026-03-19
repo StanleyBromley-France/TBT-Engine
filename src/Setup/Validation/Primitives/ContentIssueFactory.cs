@@ -13,6 +13,9 @@ public static class ContentIssueFactory
     public const string SpawnOutOfBoundsCode = "VAL_SPAWN_OUT_OF_BOUNDS";
     public const string InvalidTeamCode = "VAL_INVALID_TEAM";
     public const string InvalidTeamToActCode = "VAL_INVALID_TEAM_TO_ACT";
+    public const string UnsupportedComponentTypeCode = "VAL_UNSUPPORTED_COMPONENT_TYPE";
+    public const string MissingComponentFieldCode = "VAL_MISSING_COMPONENT_FIELD";
+    public const string InvalidEnumValueCode = "VAL_INVALID_ENUM_VALUE";
 
     public static ContentIssue RequiredField(string path, string fieldName)
         => new(
@@ -95,6 +98,27 @@ public static class ContentIssueFactory
         => new(
             InvalidTeamToActCode,
             $"TeamToAct must match attacker ({attackerTeamId}) or defender ({defenderTeamId}). Actual value: {teamToAct}.",
+            path,
+            ContentIssueSeverity.Error);
+
+    public static ContentIssue UnsupportedComponentType(string path, string? componentType)
+        => new(
+            UnsupportedComponentTypeCode,
+            $"Unsupported effect component type '{componentType ?? "<null>"}'.",
+            path,
+            ContentIssueSeverity.Error);
+
+    public static ContentIssue MissingComponentField(string path, string fieldName)
+        => new(
+            MissingComponentFieldCode,
+            $"Component field '{fieldName}' is required but missing.",
+            path,
+            ContentIssueSeverity.Error);
+
+    public static ContentIssue InvalidEnumValue(string path, string enumName, string? rawValue)
+        => new(
+            InvalidEnumValueCode,
+            $"Value '{rawValue ?? "<null>"}' is not valid for enum '{enumName}'.",
             path,
             ContentIssueSeverity.Error);
 }
