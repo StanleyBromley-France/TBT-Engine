@@ -114,7 +114,7 @@ public sealed class JsonContentLoaderTests
 
             var pack = JsonContentLoader.LoadFromFiles(root);
 
-            Assert.True(pack.IssueView.HasErrors);
+            Assert.True(pack.HasErrors);
             Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Id");
             Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Name");
             Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Name");

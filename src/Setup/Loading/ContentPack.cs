@@ -10,6 +10,9 @@ public sealed class ContentPack : IContentPackBuilder
     private List<GameStateConfig> _gameStates= new List<GameStateConfig>();
 
     public ContentPackTemplates Templates => _templates;
+    public bool HasErrors =>
+    IssueView.Issues.Any(i => i.Severity == ContentIssueSeverity.Error);
+
     public IReadOnlyList<GameStateConfig> GameStates => _gameStates;
 
     public IContentIssueView IssueView => _issueCollector;

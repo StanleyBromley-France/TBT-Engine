@@ -10,9 +10,6 @@ public sealed class ValidationCollector : IContentIssueView
 
     int IContentIssueView.Count => _issues.Count;
 
-    bool IContentIssueView.ShouldHalt(ContentValidationMode mode)
-        => mode == ContentValidationMode.Strict && HasErrors;
-
     public void Add(ContentIssue issue)
     {
         ArgumentNullException.ThrowIfNull(issue);
