@@ -1,4 +1,4 @@
-namespace Core.Game.Bootstrap.Creation.Map;
+namespace Core.Game.Bootstrap.Builders.Map;
 
 using Core.Game.Bootstrap.Contracts;
 using Core.Game.Bootstrap.Creation.Map.Results;

@@ -1,8 +1,9 @@
-namespace Core.Tests.Game.Bootstrap.Creation;
+namespace Core.Tests.Game.Bootstrap.Builders;
 
 using Core.Domain.Types;
+using Core.Game.Bootstrap.Builders.Map;
 using Core.Game.Bootstrap.Contracts;
-using Core.Game.Bootstrap.Creation.Map;
+using Core.Game.Bootstrap.Creation.Map.Rng;
 using Core.Map.Grid;
 using Core.Map.Search;
 using Core.Map.Terrain;
