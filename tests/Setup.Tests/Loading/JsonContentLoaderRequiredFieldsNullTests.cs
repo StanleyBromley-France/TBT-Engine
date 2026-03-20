@@ -30,7 +30,7 @@ public sealed class JsonContentLoaderRequiredFieldsNullTests
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "EffectComponentTemplates[0].Type");
 
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "GameStates[0].Id");
-        Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "GameStates[0].MapGen");
+        Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.NullCollectionCode && i.Path == "GameStates[0].MapGen.TileDistribution");
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.NullCollectionCode && i.Path == "GameStates[0].Units");
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.NullCollectionCode && i.Path == "GameStates[1].MapGen.TileDistribution");
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "GameStates[1].Units[0].Id");

@@ -3,7 +3,13 @@
     "id": "",
     "name": "",
     "category": "",
+    "manaCost": 0,
     "effectTemplateId": "",
-    "targeting": null
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "",
+      "radius": 0
+    }
   }
 ]

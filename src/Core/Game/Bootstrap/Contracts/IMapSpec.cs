@@ -6,7 +6,5 @@ public interface IMapSpec
 {
     int Width { get; }
     int Height { get; }
-    int Seed { get; }
-    int RngPosition { get; }
     IReadOnlyDictionary<TerrainType, double> TileDistribution { get; }
 }

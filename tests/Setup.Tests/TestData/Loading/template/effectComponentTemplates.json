@@ -1,6 +1,14 @@
 [
   {
     "id": "",
-    "type": null
+    "type": null,
+    "damage": null,
+    "damageType": null,
+    "heal": null,
+    "stat": null,
+    "amount": null,
+    "percent": null,
+    "critChance": null,
+    "critMultiplier": null
   }
 ]

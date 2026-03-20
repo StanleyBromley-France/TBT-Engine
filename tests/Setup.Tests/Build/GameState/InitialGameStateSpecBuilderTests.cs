@@ -23,8 +23,6 @@ public sealed class InitialGameStateSpecBuilderTests
             new GameStateConfig
             {
                 Id = "scenario-1",
-                Seed = 99,
-                RngPosition = 7,
                 AttackerTeamId = 1,
                 DefenderTeamId = 2,
                 TeamToAct = 1,
@@ -67,14 +65,10 @@ public sealed class InitialGameStateSpecBuilderTests
         Assert.Equal("scenario-1", spec.Id);
         Assert.Equal(4, spec.MapSpec.Width);
         Assert.Equal(3, spec.MapSpec.Height);
-        Assert.Equal(99, spec.MapSpec.Seed);
-        Assert.Equal(7, spec.MapSpec.RngPosition);
         Assert.Equal(new TeamId(1), spec.AttackerTeamId);
         Assert.Equal(new TeamId(2), spec.DefenderTeamId);
         Assert.Equal(3, spec.InitialTurn.AttackerTurnsTaken);
         Assert.Equal(new TeamId(1), spec.InitialTurn.TeamToAct);
-        Assert.Equal(99, spec.InitialRng.Seed);
-        Assert.Equal(7, spec.InitialRng.Position);
         Assert.Equal(2, spec.UnitSpawns.Count);
 
         var firstSpawn = spec.UnitSpawns[0];
@@ -197,8 +191,6 @@ public sealed class InitialGameStateSpecBuilderTests
         return new GameStateConfig
         {
             Id = id,
-            Seed = 123,
-            RngPosition = 0,
             AttackerTeamId = 1,
             DefenderTeamId = 2,
             TeamToAct = 1,

@@ -12,8 +12,6 @@ public sealed class MapSpecBuilder : IMapSpecBuilder
 
     public MapSpecBuildResult Build(
         MapGenConfig mapGenConfig,
-        int seed,
-        int rngPosition,
         string configPath)
     {
         ArgumentNullException.ThrowIfNull(mapGenConfig);
@@ -45,8 +43,6 @@ public sealed class MapSpecBuilder : IMapSpecBuilder
         var mapSpec = new MapSpec(
             width: mapGenConfig.Width,
             height: mapGenConfig.Height,
-            seed: seed,
-            rngPosition: rngPosition,
             tileDistribution: distribution);
 
         return new MapSpecBuildResult(mapSpec, issues);

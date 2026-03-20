@@ -41,8 +41,6 @@ public sealed class JsonContentLoaderRequiredFieldsPopulatedTests
         Assert.Single(pack.GameStates);
         var gameState = pack.GameStates[0];
         Assert.Equal("scenario-1", gameState.Id);
-        Assert.Equal(99, gameState.Seed);
-        Assert.Equal(7, gameState.RngPosition);
         Assert.Equal(1, gameState.AttackerTeamId);
         Assert.Equal(2, gameState.DefenderTeamId);
         Assert.Equal(1, gameState.TeamToAct);

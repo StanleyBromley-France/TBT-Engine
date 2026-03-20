@@ -1,7 +1,15 @@
 [
   {
     "id": "",
-    "mapGen": null,
+    "mapGen": {
+      "width": 0,
+      "height": 0,
+      "tileDistribution": null
+    },
+    "attackerTeamId": 0,
+    "defenderTeamId": 0,
+    "teamToAct": 0,
+    "attackerTurnsTaken": 0,
     "units": null
   },
   {
@@ -11,10 +19,14 @@
       "height": 1,
       "tileDistribution": null
     },
+    "attackerTeamId": 0,
+    "defenderTeamId": 0,
+    "teamToAct": 0,
+    "attackerTurnsTaken": 0,
     "units": [
       {
         "id": null,
-        "teamId": 1,
+        "teamId": 0,
         "q": 0,
         "r": 0
       },

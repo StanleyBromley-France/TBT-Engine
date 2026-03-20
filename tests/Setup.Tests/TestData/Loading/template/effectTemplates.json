@@ -2,6 +2,9 @@
   {
     "id": "",
     "name": "",
+    "isHarmful": false,
+    "totalTicks": 0,
+    "maxStacks": 0,
     "componentTemplateIds": null
   }
 ]

@@ -7,7 +7,5 @@ public interface IMapSpecBuilder
 {
     MapSpecBuildResult Build(
         MapGenConfig mapGenConfig,
-        int seed,
-        int rngPosition,
         string configPath);
 }

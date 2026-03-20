@@ -23,14 +23,12 @@ public sealed class MapSpecBuilderTests
             }
         };
 
-        var result = builder.Build(config, seed: 1234, rngPosition: 5, configPath: "GameStates[0].MapGen");
+        var result = builder.Build(config, configPath: "GameStates[0].MapGen");
 
         Assert.NotNull(result.MapSpec);
         Assert.False(result.HasErrors);
         Assert.Equal(4, result.MapSpec!.Width);
         Assert.Equal(3, result.MapSpec.Height);
-        Assert.Equal(1234, result.MapSpec.Seed);
-        Assert.Equal(5, result.MapSpec.RngPosition);
         Assert.Equal(3, result.MapSpec.TileDistribution.Count);
         Assert.Equal(0.7, result.MapSpec.TileDistribution[TerrainType.Plain]);
         Assert.Equal(0.2, result.MapSpec.TileDistribution[TerrainType.Mountain]);
@@ -51,7 +49,7 @@ public sealed class MapSpecBuilderTests
             }
         };
 
-        var result = builder.Build(config, seed: 1, rngPosition: 0, configPath: "GameStates[0].MapGen");
+        var result = builder.Build(config, configPath: "GameStates[0].MapGen");
 
         Assert.Null(result.MapSpec);
         Assert.True(result.HasErrors);
@@ -73,7 +71,7 @@ public sealed class MapSpecBuilderTests
             }
         };
 
-        var result = builder.Build(config, seed: 1, rngPosition: 0, configPath: "GameStates[0].MapGen");
+        var result = builder.Build(config, configPath: "GameStates[0].MapGen");
 
         Assert.Null(result.MapSpec);
         Assert.True(result.HasErrors);
@@ -96,7 +94,7 @@ public sealed class MapSpecBuilderTests
             }
         };
 
-        var result = builder.Build(config, seed: 1, rngPosition: 0, configPath: "GameStates[0].MapGen");
+        var result = builder.Build(config, configPath: "GameStates[0].MapGen");
 
         Assert.Null(result.MapSpec);
         Assert.True(result.HasErrors);
@@ -114,7 +112,7 @@ public sealed class MapSpecBuilderTests
             TileDistribution = new Dictionary<string, double>()
         };
 
-        var result = builder.Build(config, seed: 1, rngPosition: 0, configPath: "GameStates[0].MapGen");
+        var result = builder.Build(config, configPath: "GameStates[0].MapGen");
 
         Assert.Null(result.MapSpec);
         Assert.True(result.HasErrors);
@@ -136,7 +134,7 @@ public sealed class MapSpecBuilderTests
             }
         };
 
-        var result = builder.Build(config, seed: 1, rngPosition: 0, configPath: "GameStates[0].MapGen");
+        var result = builder.Build(config, configPath: "GameStates[0].MapGen");
 
         Assert.NotNull(result.MapSpec);
         Assert.False(result.HasErrors);

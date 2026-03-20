@@ -8,8 +8,6 @@
         "Plain": 1.0
       }
     },
-    "seed": 99,
-    "rngPosition": 7,
     "attackerTeamId": 1,
     "defenderTeamId": 2,
     "teamToAct": 1,

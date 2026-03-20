@@ -3,7 +3,6 @@ namespace Setup.Build.GameState;
 using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Game.Bootstrap.Contracts;
-using Core.Game.State;
 using Setup.Build.GameState.Map;
 using Setup.Build.GameState.Results;
 using Setup.Build.GameState.Unit;
@@ -47,8 +46,6 @@ public sealed class GameStateSpecBuilder : IGameStateSpecBuilder
 
         var mapSpecResult = _mapSpecBuilder.Build(
             gameStateConfig.MapGen,
-            gameStateConfig.Seed,
-            gameStateConfig.RngPosition,
             ContentSchema.Property(configPath, ContentSchema.Fields.MapGen));
 
         foreach (var mapIssue in mapSpecResult.IssueView.Issues)
@@ -78,7 +75,6 @@ public sealed class GameStateSpecBuilder : IGameStateSpecBuilder
             attackerTeamId: new TeamId(gameStateConfig.AttackerTeamId),
             defenderTeamId: new TeamId(gameStateConfig.DefenderTeamId),
             initialTurn: new Turn(gameStateConfig.AttackerTurnsTaken, new TeamId(gameStateConfig.TeamToAct)),
-            initialRng: new RngState(seed: gameStateConfig.Seed, position: gameStateConfig.RngPosition),
             unitSpawns: unitSpawns);
 
         return new GameStateSpecBuildResult(spec, issues);
