@@ -1,0 +1,12 @@
+[
+  {
+    "id": "unit-1",
+    "name": "Knight",
+    "maxHP": 120,
+    "maxManaPoints": 25,
+    "movePoints": 4,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 90,
+    "abilityIds": ["ability-1"]
+  }
+]

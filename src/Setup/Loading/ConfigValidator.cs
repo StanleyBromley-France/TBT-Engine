@@ -1,4 +1,5 @@
-﻿using Setup.Config;
+using Setup.Config;
+using Setup.Validation;
 using Setup.Validation.Primitives;
 
 namespace Setup.Loading;
@@ -12,25 +13,29 @@ internal static class ConfigValidator
         for (var i = 0; i < unitTemplates.Count; i++)
         {
             var item = unitTemplates[i];
-            var path = $"UnitTemplates[{i}]";
+            var path = ContentSchema.UnitTemplate(i);
             if (item is null)
             {
                 issues.Add(ContentIssueFactory.NullItem(path));
                 continue;
             }
 
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Name, $"{path}.Name", "Name", issues);
+            ValidateRequiredString(item.Id, ContentSchema.Property(path, ContentSchema.Fields.Id), ContentSchema.Fields.Id, issues);
+            ValidateRequiredString(item.Name, ContentSchema.Property(path, ContentSchema.Fields.Name), ContentSchema.Fields.Name, issues);
 
             if (item.AbilityIds is null)
             {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.AbilityIds"));
+                issues.Add(ContentIssueFactory.NullCollection(ContentSchema.Property(path, ContentSchema.Fields.AbilityIds)));
             }
             else
             {
                 for (var j = 0; j < item.AbilityIds.Count; j++)
                 {
-                    ValidateRequiredString(item.AbilityIds[j], $"{path}.AbilityIds[{j}]", "AbilityIds[]", issues);
+                    ValidateRequiredString(
+                        item.AbilityIds[j],
+                        ContentSchema.IndexedProperty(path, ContentSchema.Fields.AbilityIds, j),
+                        $"{ContentSchema.Fields.AbilityIds}[]",
+                        issues);
                 }
             }
         }
@@ -43,18 +48,22 @@ internal static class ConfigValidator
         for (var i = 0; i < abilities.Count; i++)
         {
             var item = abilities[i];
-            var path = $"Abilities[{i}]";
+            var path = ContentSchema.Ability(i);
             if (item is null)
             {
                 issues.Add(ContentIssueFactory.NullItem(path));
                 continue;
             }
 
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Name, $"{path}.Name", "Name", issues);
-            ValidateRequiredString(item.Category, $"{path}.Category", "Category", issues);
-            ValidateRequiredString(item.EffectTemplateId, $"{path}.EffectTemplateId", "EffectTemplateId", issues);
-            ValidateRequiredString(item.Targeting?.AllowedTarget, $"{path}.Targeting.AllowedTarget", "AllowedTarget", issues);
+            ValidateRequiredString(item.Id, ContentSchema.Property(path, ContentSchema.Fields.Id), ContentSchema.Fields.Id, issues);
+            ValidateRequiredString(item.Name, ContentSchema.Property(path, ContentSchema.Fields.Name), ContentSchema.Fields.Name, issues);
+            ValidateRequiredString(item.Category, ContentSchema.Property(path, ContentSchema.Fields.Category), ContentSchema.Fields.Category, issues);
+            ValidateRequiredString(item.EffectTemplateId, ContentSchema.Property(path, ContentSchema.Fields.EffectTemplateId), ContentSchema.Fields.EffectTemplateId, issues);
+            ValidateRequiredString(
+                item.Targeting?.AllowedTarget,
+                ContentSchema.Property(ContentSchema.Property(path, nameof(AbilityConfig.Targeting)), ContentSchema.Fields.AllowedTarget),
+                ContentSchema.Fields.AllowedTarget,
+                issues);
         }
     }
 
@@ -65,25 +74,29 @@ internal static class ConfigValidator
         for (var i = 0; i < effectTemplates.Count; i++)
         {
             var item = effectTemplates[i];
-            var path = $"EffectTemplates[{i}]";
+            var path = ContentSchema.EffectTemplate(i);
             if (item is null)
             {
                 issues.Add(ContentIssueFactory.NullItem(path));
                 continue;
             }
 
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Name, $"{path}.Name", "Name", issues);
+            ValidateRequiredString(item.Id, ContentSchema.Property(path, ContentSchema.Fields.Id), ContentSchema.Fields.Id, issues);
+            ValidateRequiredString(item.Name, ContentSchema.Property(path, ContentSchema.Fields.Name), ContentSchema.Fields.Name, issues);
 
             if (item.ComponentTemplateIds is null)
             {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.ComponentTemplateIds"));
+                issues.Add(ContentIssueFactory.NullCollection(ContentSchema.Property(path, ContentSchema.Fields.ComponentTemplateIds)));
             }
             else
             {
                 for (var j = 0; j < item.ComponentTemplateIds.Count; j++)
                 {
-                    ValidateRequiredString(item.ComponentTemplateIds[j], $"{path}.ComponentTemplateIds[{j}]", "ComponentTemplateIds[]", issues);
+                    ValidateRequiredString(
+                        item.ComponentTemplateIds[j],
+                        ContentSchema.IndexedProperty(path, ContentSchema.Fields.ComponentTemplateIds, j),
+                        $"{ContentSchema.Fields.ComponentTemplateIds}[]",
+                        issues);
                 }
             }
         }
@@ -96,15 +109,15 @@ internal static class ConfigValidator
         for (var i = 0; i < effectComponentTemplates.Count; i++)
         {
             var item = effectComponentTemplates[i];
-            var path = $"EffectComponentTemplates[{i}]";
+            var path = ContentSchema.EffectComponentTemplate(i);
             if (item is null)
             {
                 issues.Add(ContentIssueFactory.NullItem(path));
                 continue;
             }
 
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
-            ValidateRequiredString(item.Type, $"{path}.Type", "Type", issues);
+            ValidateRequiredString(item.Id, ContentSchema.Property(path, ContentSchema.Fields.Id), ContentSchema.Fields.Id, issues);
+            ValidateRequiredString(item.Type, ContentSchema.Property(path, ContentSchema.Fields.Type), ContentSchema.Fields.Type, issues);
         }
     }
 
@@ -115,40 +128,48 @@ internal static class ConfigValidator
         for (var i = 0; i < gameStates.Count; i++)
         {
             var item = gameStates[i];
-            var path = $"GameStates[{i}]";
+            var path = ContentSchema.GameState(i);
             if (item is null)
             {
                 issues.Add(ContentIssueFactory.NullItem(path));
                 continue;
             }
 
-            ValidateRequiredString(item.Id, $"{path}.Id", "Id", issues);
+            ValidateRequiredString(item.Id, ContentSchema.Property(path, ContentSchema.Fields.Id), ContentSchema.Fields.Id, issues);
 
             if (item.MapGen is null)
             {
-                issues.Add(ContentIssueFactory.RequiredField($"{path}.MapGen", "MapGen"));
+                issues.Add(ContentIssueFactory.RequiredField(ContentSchema.Property(path, ContentSchema.Fields.MapGen), ContentSchema.Fields.MapGen));
             }
             else if (item.MapGen.TileDistribution is null)
             {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.MapGen.TileDistribution"));
+                issues.Add(ContentIssueFactory.NullCollection(
+                    ContentSchema.Property(
+                        ContentSchema.Property(path, ContentSchema.Fields.MapGen),
+                        ContentSchema.Fields.TileDistribution)));
             }
 
             if (item.Units is null)
             {
-                issues.Add(ContentIssueFactory.NullCollection($"{path}.Units"));
+                issues.Add(ContentIssueFactory.NullCollection(ContentSchema.Property(path, ContentSchema.Collections.Units)));
             }
             else
             {
                 for (var j = 0; j < item.Units.Count; j++)
                 {
+                    var spawnPath = ContentSchema.GameStateUnit(path, j);
                     var spawn = item.Units[j];
                     if (spawn is null)
                     {
-                        issues.Add(ContentIssueFactory.NullItem($"{path}.Units[{j}]"));
+                        issues.Add(ContentIssueFactory.NullItem(spawnPath));
                         continue;
                     }
 
-                    ValidateRequiredString(spawn.UnitTemplateId, $"{path}.Units[{j}].UnitTemplateId", "UnitTemplateId", issues);
+                    ValidateRequiredString(
+                        spawn.Id,
+                        ContentSchema.Property(spawnPath, ContentSchema.Fields.Id),
+                        ContentSchema.Fields.Id,
+                        issues);
                 }
             }
         }

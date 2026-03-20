@@ -5,6 +5,7 @@ using Core.Domain.Types;
 using Core.Domain.Units;
 using Core.Domain.Units.Templates;
 using Setup.Config;
+using Setup.Validation;
 using Setup.Validation.Primitives;
 
 internal static class UnitRepoBuilder
@@ -19,12 +20,12 @@ internal static class UnitRepoBuilder
 
         for (var i = 0; i < configs.Count; i++)
         {
-            var path = $"UnitTemplates[{i}]";
+            var path = ContentSchema.UnitTemplate(i);
             var config = configs[i];
 
             if (!seenIds.Add(config.Id))
             {
-                issues.Add(ContentIssueFactory.DuplicateId($"{path}.Id", config.Id));
+                issues.Add(ContentIssueFactory.DuplicateId(ContentSchema.Property(path, ContentSchema.Fields.Id), config.Id));
                 continue;
             }
 
@@ -37,7 +38,7 @@ internal static class UnitRepoBuilder
                 if (!builtAbilities.ContainsKey(abilityId))
                 {
                     issues.Add(ContentIssueFactory.UnknownReference(
-                        $"{path}.AbilityIds[{j}]",
+                        ContentSchema.IndexedProperty(path, ContentSchema.Fields.AbilityIds, j),
                         "ability",
                         rawId));
                     continue;

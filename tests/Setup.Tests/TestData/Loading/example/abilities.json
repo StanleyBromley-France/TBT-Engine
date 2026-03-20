@@ -1,0 +1,15 @@
+[
+  {
+    "id": "ability-1",
+    "name": "Slash",
+    "category": "MeleeAttack",
+    "manaCost": 3,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-1"
+  }
+]

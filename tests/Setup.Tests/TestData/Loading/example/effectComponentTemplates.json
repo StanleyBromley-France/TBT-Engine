@@ -1,0 +1,8 @@
+[
+  {
+    "id": "component-1",
+    "type": "InstantDamage",
+    "damage": 15,
+    "damageType": "Physical"
+  }
+]

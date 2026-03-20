@@ -4,6 +4,7 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Types;
 using Setup.Build.TemplateRegistry.Builders.EffectComponents;
 using Setup.Config;
+using Setup.Validation;
 using Setup.Validation.Primitives;
 
 internal static class EffectComponentRepoBuilder
@@ -18,18 +19,18 @@ internal static class EffectComponentRepoBuilder
 
         for (var i = 0; i < configs.Count; i++)
         {
-            var path = $"EffectComponentTemplates[{i}]";
+            var path = ContentSchema.EffectComponentTemplate(i);
             var config = configs[i];
 
             if (!seenIds.Add(config.Id))
             {
-                issues.Add(ContentIssueFactory.DuplicateId($"{path}.Id", config.Id));
+                issues.Add(ContentIssueFactory.DuplicateId(ContentSchema.Property(path, ContentSchema.Fields.Id), config.Id));
                 continue;
             }
 
             if (!strategyRegistry.TryResolve(config.Type, out var strategy))
             {
-                issues.Add(ContentIssueFactory.UnsupportedComponentType($"{path}.Type", config.Type));
+                issues.Add(ContentIssueFactory.UnsupportedComponentType(ContentSchema.Property(path, ContentSchema.Fields.Type), config.Type));
                 continue;
             }
 

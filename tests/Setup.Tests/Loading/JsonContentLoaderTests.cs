@@ -8,59 +8,6 @@ using System.Text.Json;
 public sealed class JsonContentLoaderTests
 {
     [Fact]
-    public void LoadFromFiles_Loads_Content_With_Current_File_Names()
-    {
-        var root = CreateTempDirectory();
-        try
-        {
-            WriteJson(root, "unitTemplates.json", new List<UnitTemplateConfig>
-            {
-                new() { Id = "unit-1", Name = "Knight", AbilityIds = ["ability-1"] }
-            });
-            WriteJson(root, "abilities.json", new List<AbilityConfig>
-            {
-                new()
-                {
-                    Id = "ability-1",
-                    Name = "Slash",
-                    Category = "MeleeAttack",
-                    EffectTemplateId = "effect-1",
-                    Targeting = new TargetingRulesConfig
-                    {
-                        AllowedTarget = "Enemy"
-                    }
-                }
-            });
-            WriteJson(root, "effectTemplates.json", new List<EffectTemplateConfig>
-            {
-                new() { Id = "effect-1", Name = "SlashEffect", ComponentTemplateIds = ["component-1"] }
-            });
-            WriteJson(root, "effectComponentTemplates.json", new List<EffectComponentTemplateConfig>
-            {
-                new() { Id = "component-1", Type = "InstantDamage", Damage = 10, DamageType = "Physical" }
-            });
-            WriteJson(root, "gameStates.json", new List<GameStateConfig>
-            {
-                new() { Id = "scenario-1" }
-            });
-
-            var pack = JsonContentLoader.LoadFromFiles(root);
-
-            Assert.Single(pack.Templates.Units);
-            Assert.Single(pack.Templates.Abilities);
-            Assert.Single(pack.Templates.Effects);
-            Assert.Single(pack.Templates.EffectComponents);
-            Assert.Single(pack.GameStates);
-            Assert.Equal("unit-1", pack.Templates.Units[0].Id);
-            Assert.Empty(pack.IssueView.Issues);
-        }
-        finally
-        {
-            DeleteTempDirectory(root);
-        }
-    }
-
-    [Fact]
     public void LoadFromFiles_Collects_Issue_For_Malformed_Json()
     {
         var root = CreateTempDirectory();

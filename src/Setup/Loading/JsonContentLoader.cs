@@ -1,17 +1,12 @@
 namespace Setup.Loading;
 
 using Setup.Config;
+using Setup.Validation;
 using Setup.Validation.Primitives;
 using System.Text.Json;
 
 public static class JsonContentLoader
 {
-    private static readonly string[] UnitTemplateFiles = ["unitTemplates.json", "units.json"];
-    private static readonly string[] AbilityFiles = ["abilities.json"];
-    private static readonly string[] EffectTemplateFiles = ["effectTemplates.json", "effects.json"];
-    private static readonly string[] EffectComponentTemplateFiles = ["effectComponentTemplates.json", "effectComponents.json"];
-    private static readonly string[] GameStateFiles = ["gameStates.json"];
-
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -39,17 +34,17 @@ public static class JsonContentLoader
             return pack;
         }
 
-        var gamestates = LoadList<GameStateConfig>(directoryPath, "GameStates", GameStateFiles, issues);
+        var gamestates = LoadList<GameStateConfig>(directoryPath, ContentSchema.Collections.GameStates, ContentFiles.GameStateFiles, issues);
         ConfigValidator.ValidateGameStates(gamestates, issues);
 
         builder.AddGameStates(gamestates);
 
         IContentPackTemplatesBuilder templatesBuilder = builder.ContentPackTemplatesBuilder;
 
-        var units = LoadList<UnitTemplateConfig>(directoryPath, "UnitTemplates", UnitTemplateFiles, issues);
-        var abilities = LoadList<AbilityConfig>(directoryPath, "Abilities", AbilityFiles, issues);
-        var effects = LoadList<EffectTemplateConfig>(directoryPath, "EffectTemplates", EffectTemplateFiles, issues);
-        var effectComps = LoadList<EffectComponentTemplateConfig>(directoryPath, "EffectComponentTemplates", EffectComponentTemplateFiles, issues);
+        var units = LoadList<UnitTemplateConfig>(directoryPath, ContentSchema.Collections.UnitTemplates, ContentFiles.UnitTemplateFiles, issues);
+        var abilities = LoadList<AbilityConfig>(directoryPath, ContentSchema.Collections.Abilities, ContentFiles.AbilityFiles, issues);
+        var effects = LoadList<EffectTemplateConfig>(directoryPath, ContentSchema.Collections.EffectTemplates, ContentFiles.EffectTemplateFiles, issues);
+        var effectComps = LoadList<EffectComponentTemplateConfig>(directoryPath, ContentSchema.Collections.EffectComponentTemplates, ContentFiles.EffectComponentTemplateFiles, issues);
 
         ConfigValidator.ValidateUnits(units, issues);
         ConfigValidator.ValidateAbilities(abilities, issues);

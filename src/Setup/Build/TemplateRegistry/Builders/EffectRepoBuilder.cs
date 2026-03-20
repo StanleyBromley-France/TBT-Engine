@@ -4,6 +4,7 @@ using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Effects.Templates;
 using Core.Domain.Types;
 using Setup.Config;
+using Setup.Validation;
 using Setup.Validation.Primitives;
 
 internal static class EffectRepoBuilder
@@ -18,12 +19,12 @@ internal static class EffectRepoBuilder
 
         for (var i = 0; i < configs.Count; i++)
         {
-            var path = $"EffectTemplates[{i}]";
+            var path = ContentSchema.EffectTemplate(i);
             var config = configs[i];
 
             if (!seenIds.Add(config.Id))
             {
-                issues.Add(ContentIssueFactory.DuplicateId($"{path}.Id", config.Id));
+                issues.Add(ContentIssueFactory.DuplicateId(ContentSchema.Property(path, ContentSchema.Fields.Id), config.Id));
                 continue;
             }
 
@@ -36,7 +37,7 @@ internal static class EffectRepoBuilder
                 if (!builtComponents.ContainsKey(componentId))
                 {
                     issues.Add(ContentIssueFactory.UnknownReference(
-                        $"{path}.ComponentTemplateIds[{j}]",
+                        ContentSchema.IndexedProperty(path, ContentSchema.Fields.ComponentTemplateIds, j),
                         "effect component template",
                         rawId));
                     continue;

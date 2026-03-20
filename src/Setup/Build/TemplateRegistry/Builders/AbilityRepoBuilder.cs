@@ -5,6 +5,7 @@ using Core.Domain.Abilities.Targeting;
 using Core.Domain.Effects.Templates;
 using Core.Domain.Types;
 using Setup.Config;
+using Setup.Validation;
 using Setup.Validation.Primitives;
 
 internal static class AbilityRepoBuilder
@@ -19,12 +20,12 @@ internal static class AbilityRepoBuilder
 
         for (var i = 0; i < configs.Count; i++)
         {
-            var path = $"Abilities[{i}]";
+            var path = ContentSchema.Ability(i);
             var config = configs[i];
 
             if (!seenIds.Add(config.Id))
             {
-                issues.Add(ContentIssueFactory.DuplicateId($"{path}.Id", config.Id));
+                issues.Add(ContentIssueFactory.DuplicateId(ContentSchema.Property(path, ContentSchema.Fields.Id), config.Id));
                 continue;
             }
 
@@ -37,7 +38,7 @@ internal static class AbilityRepoBuilder
             if (!builtEffects.ContainsKey(effectId))
             {
                 issues.Add(ContentIssueFactory.UnknownReference(
-                    $"{path}.EffectTemplateId",
+                    ContentSchema.Property(path, ContentSchema.Fields.EffectTemplateId),
                     "effect template",
                     config.EffectTemplateId));
                 continue;
@@ -72,14 +73,16 @@ internal static class AbilityRepoBuilder
     {
         var hasCategory = TryParseEnum(
             config.Category,
-            $"Abilities[{index}].Category",
+            ContentSchema.Property(ContentSchema.Ability(index), ContentSchema.Fields.Category),
             nameof(AbilityCategory),
             issues,
             out category);
 
         var hasTarget = TryParseEnum(
             config.Targeting!.AllowedTarget,
-            $"Abilities[{index}].Targeting.AllowedTarget",
+            ContentSchema.Property(
+                ContentSchema.Property(ContentSchema.Ability(index), nameof(AbilityConfig.Targeting)),
+                ContentSchema.Fields.AllowedTarget),
             nameof(TargetType),
             issues,
             out targetType);
