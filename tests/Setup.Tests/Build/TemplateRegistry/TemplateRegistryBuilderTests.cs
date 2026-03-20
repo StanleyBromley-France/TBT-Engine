@@ -1,4 +1,4 @@
-namespace Setup.Tests.Build;
+namespace Setup.Tests.Build.TemplateRegistry;
 
 using Setup.Build.TemplateRegistry;
 using Setup.Build.TemplateRegistry.Builders.EffectComponents;
