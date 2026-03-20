@@ -5,6 +5,7 @@ using Setup.Build.TemplateRegistry.Builders.EffectComponents;
 using Setup.Build.TemplateRegistry.Builders.EffectComponents.Builders;
 using Setup.Build.TemplateRegistry.Results;
 using Setup.Config;
+using Setup.Loading;
 using Setup.Validation.Primitives;
 
 public sealed class TemplateRegistryBuilderTests
@@ -79,11 +80,16 @@ public sealed class TemplateRegistryBuilderTests
 
         var resolver = new EffectComponentBuilderResolver(strategies);
         var builder = new TemplateRegistryBuilder(resolver);
+
+        var packTemplates = new ContentPackTemplates();
+        var templatesBuilder = (IContentPackTemplatesBuilder)packTemplates;
+        templatesBuilder.AddUnits(input.UnitTemplates);
+        templatesBuilder.AddAbilities(input.Abilities);
+        templatesBuilder.AddEffects(input.EffectTemplates);
+        templatesBuilder.AddEffectComponents(input.EffectComponentTemplates);
+
         return builder.Build(
-            input.UnitTemplates,
-            input.Abilities,
-            input.EffectTemplates,
-            input.EffectComponentTemplates,
+            packTemplates,
             mode);
     }
 

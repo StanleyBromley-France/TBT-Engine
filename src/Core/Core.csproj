@@ -12,6 +12,7 @@
 	<ItemGroup>
 		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
 		<InternalsVisibleTo Include="Core.Tests" />
+		<InternalsVisibleTo Include="Agent.Tests" />
 		<InternalsVisibleTo Include="Setup" />
 	</ItemGroup>
 </Project>

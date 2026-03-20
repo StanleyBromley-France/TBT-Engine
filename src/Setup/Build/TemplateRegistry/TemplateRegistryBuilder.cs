@@ -4,7 +4,7 @@ using Core.Domain.Repositories;
 using Setup.Build.TemplateRegistry.Builders;
 using Setup.Build.TemplateRegistry.Builders.EffectComponents;
 using Setup.Build.TemplateRegistry.Results;
-using Setup.Config;
+using Setup.Loading;
 using Setup.Validation.Primitives;
 
 public sealed class TemplateRegistryBuilder : ITemplateRegistryBuilder
@@ -19,21 +19,18 @@ public sealed class TemplateRegistryBuilder : ITemplateRegistryBuilder
     }
 
     public TemplateRegistryBuildResult Build(
-        List<UnitTemplateConfig> unitConfigs,
-        List<AbilityConfig> abilityConfigs,
-        List<EffectTemplateConfig> effectConfigs,
-        List<EffectComponentTemplateConfig> componentConfigs,
+        ContentPackTemplates packTemplates,
         ContentValidationMode mode)
     {
         var issues = new ValidationCollector();
 
         var builtComponents = EffectComponentRepoBuilder.Build(
-            componentConfigs,
+            packTemplates.EffectComponents,
             issues,
             _effectComponentStrategies);
-        var builtEffects = EffectRepoBuilder.Build(effectConfigs, builtComponents, issues);
-        var builtAbilities = AbilityRepoBuilder.Build(abilityConfigs, builtEffects, issues);
-        var builtUnits = UnitRepoBuilder.Build(unitConfigs, builtAbilities, issues);
+        var builtEffects = EffectRepoBuilder.Build(packTemplates.Effects, builtComponents, issues);
+        var builtAbilities = AbilityRepoBuilder.Build(packTemplates.Abilities, builtEffects, issues);
+        var builtUnits = UnitRepoBuilder.Build(packTemplates.Units, builtAbilities, issues);
 
         if (mode == ContentValidationMode.Strict && issues.HasErrors)
         {
