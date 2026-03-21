@@ -127,7 +127,7 @@ internal static class EngineTestFactory
             registry);
 
         return new GameSessionServices(
-            units: new UnitInstanceFactory(new UnitInstanceIdFactory()),
+            units: new UnitInstanceFactory(new UnitInstanceIdFactory(), registry.Units),
             effects: effectFactory,
             effectComponents: effectComponentFactory);
     }

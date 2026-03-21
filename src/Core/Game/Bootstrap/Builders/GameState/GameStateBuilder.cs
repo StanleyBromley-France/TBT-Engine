@@ -9,6 +9,7 @@ using Core.Game.State;
 using Core.Game.Factories.Units;
 using Core.Map.Grid;
 using Core.Game.Session;
+using Core.Game.Requests;
 
 public sealed class GameStateBuilder : IGameStateBuilder
 {
@@ -19,9 +20,9 @@ public sealed class GameStateBuilder : IGameStateBuilder
         _unitInstanceFactory = unitInstanceFactory ?? throw new ArgumentNullException(nameof(unitInstanceFactory));
     }
 
-    public GameState Build(IGameStateSpec spec, TemplateRegistry templateRegistry, Map map, InstanceAllocationState instanceAllocation)
+    public GameState Build(IGameStateSpec spec, Map map, InstanceAllocationState instanceAllocation)
     {
-        var unitInstances = BuildUnitInstances(spec, templateRegistry, instanceAllocation);
+        var unitInstances = BuildUnitInstances(spec, instanceAllocation);
         var activeEffects = BuildActiveEffects(unitInstances.Keys);
 
         return new GameState(
@@ -35,15 +36,16 @@ public sealed class GameStateBuilder : IGameStateBuilder
 
     private Dictionary<UnitInstanceId, UnitInstance> BuildUnitInstances(
         IGameStateSpec spec,
-        TemplateRegistry templateRegistry,
         InstanceAllocationState instanceAllocation)
     {
         var instances = new Dictionary<UnitInstanceId, UnitInstance>();
 
         foreach (var spawn in spec.UnitSpawns)
         {
-            var template = templateRegistry.Units.Get(spawn.UnitTemplateId);
-            var unit = _unitInstanceFactory.Create(template, spawn.TeamId, spawn.Position, instanceAllocation);
+
+            var unitRequest = new SpawnUnitRequest(spawn.UnitTemplateId, spawn.TeamId, spawn.Position);
+
+            var unit = _unitInstanceFactory.Create(unitRequest, instanceAllocation);
 
             if (!instances.TryAdd(unit.Id, unit))
             {
