@@ -13,16 +13,16 @@ using Core.Game.Requests;
 
 public sealed class GameStateBuilder : IGameStateBuilder
 {
-    private readonly IUnitInstanceFactory _unitInstanceFactory;
+    private readonly GameSessionServices _sessionServices;
 
-    public GameStateBuilder(IUnitInstanceFactory unitInstanceFactory)
+    internal GameStateBuilder(GameSessionServices sessionServices)
     {
-        _unitInstanceFactory = unitInstanceFactory ?? throw new ArgumentNullException(nameof(unitInstanceFactory));
+        _sessionServices = sessionServices;
     }
 
-    public GameState Build(IGameStateSpec spec, Map map, InstanceAllocationState instanceAllocation)
+    public GameState Build(IGameStateSpec spec, Map map)
     {
-        var unitInstances = BuildUnitInstances(spec, instanceAllocation);
+        var unitInstances = BuildUnitInstances(spec);
         var activeEffects = BuildActiveEffects(unitInstances.Keys);
 
         return new GameState(
@@ -35,8 +35,7 @@ public sealed class GameStateBuilder : IGameStateBuilder
     }
 
     private Dictionary<UnitInstanceId, UnitInstance> BuildUnitInstances(
-        IGameStateSpec spec,
-        InstanceAllocationState instanceAllocation)
+        IGameStateSpec spec)
     {
         var instances = new Dictionary<UnitInstanceId, UnitInstance>();
 
@@ -45,7 +44,7 @@ public sealed class GameStateBuilder : IGameStateBuilder
 
             var unitRequest = new SpawnUnitRequest(spawn.UnitTemplateId, spawn.TeamId, spawn.Position);
 
-            var unit = _unitInstanceFactory.Create(unitRequest, instanceAllocation);
+            var unit = _sessionServices.CreateUnit(unitRequest);
 
             if (!instances.TryAdd(unit.Id, unit))
             {

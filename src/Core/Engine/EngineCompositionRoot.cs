@@ -64,40 +64,14 @@ public static class EngineCompositionRoot
 
     private static IEffectManager BuildEffectManager(GameSession session)
     {
-        var effectComponentIdFactory = new EffectComponentInstanceIdFactory();
-
-        var componentCreators = BuildEffectComponentCreatorRegistry(effectComponentIdFactory);
-        var effectComponentFactory = new EffectComponentInstanceFactory(componentCreators);
-
-        var effectIdFactory = new EffectInstanceIdFactory();
-        var effectFactory = new EffectInstanceFactory(
-            effectIdFactory,
-            effectComponentFactory,
-            session.Context.Content);
-
         var derivedStatsCalculator = BuildDerivedStatsCalculator();
         var damageCalculator = BuildDamageCalculator();
         var healCalculator = BuildHealCalculator();
 
         return new EffectManager(
-            effectFactory,
             derivedStatsCalculator,
             damageCalculator,
             healCalculator);
-    }
-
-    private static ComponentInstanceCreatorRegistry BuildEffectComponentCreatorRegistry(
-        EffectComponentInstanceIdFactory idFactory)
-    {
-        return new ComponentInstanceCreatorRegistry(
-        [
-            new DamageOverTimeCreator(idFactory),
-            new FlatAttributeModifierCreator(idFactory),
-            new HealOverTimeCreator(idFactory),
-            new InstantDamageCreator(idFactory),
-            new InstantHealCreator(idFactory),
-            new PercentAttributeModifierCreator(idFactory),
-        ]);
     }
 
     private static DerivedStatsCalculator BuildDerivedStatsCalculator()

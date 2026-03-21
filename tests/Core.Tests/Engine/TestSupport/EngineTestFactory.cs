@@ -135,8 +135,7 @@ internal static class EngineTestFactory
 
         return new GameSessionServices(
             units: new UnitInstanceFactory(new UnitInstanceIdFactory(), registry.Units),
-            effects: effectFactory,
-            effectComponents: effectComponentFactory);
+            effects: effectFactory);
     }
 
     private static Core.Map.Grid.Map CreateMap(int width, int height)

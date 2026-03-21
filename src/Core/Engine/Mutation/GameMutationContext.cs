@@ -1,7 +1,9 @@
 ﻿namespace Core.Engine.Mutation;
 
+using Core.Domain.Effects.Instances.Mutable;
 using Core.Engine.Mutation.Mutators;
 using Core.Engine.Random;
+using Core.Game.Requests;
 using Core.Game.Session;
 using Core.Game.State;
 using Core.Undo;
@@ -57,6 +59,8 @@ public sealed class GameMutationContext : IGameMutationAccess
         Effects = effects ?? throw new ArgumentNullException(nameof(effects));
         Rng = rngMutator ?? throw new ArgumentNullException(nameof(rngMutator));
     }
+
+    public EffectInstance CreateEffect(CreateEffectRequest request) => _session.Context.SessionServices.CreateEffect(request);
 
     GameState IGameMutationAccess.GetState() => _session.Runtime.State;
     UndoRecord IGameMutationAccess.GetUndo() => _undoRecord;

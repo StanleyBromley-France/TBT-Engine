@@ -10,19 +10,18 @@ using Core.Engine.Effects.Components.Calculators;
 using Core.Engine.Mutation;
 using Core.Engine.Mutation.Mutators;
 using Core.Game.Factories.Effects;
+using Core.Game.Requests;
 using Core.Game.State.ReadOnly;
 
 internal sealed class EffectManager : IEffectManager
 {
-    private readonly IEffectInstanceFactory _effectFactory;
     private readonly IDerivedStatsCalculator _derivedStats;
     private readonly IDamageCalculator _damageCalculator;
     private readonly IHealCalculator _healCalculator;
 
-    public EffectManager(IEffectInstanceFactory effectFactory, IDerivedStatsCalculator derivedStats, IDamageCalculator damageCalculator, IHealCalculator healCalculator)
+    public EffectManager(IDerivedStatsCalculator derivedStats, IDamageCalculator damageCalculator, IHealCalculator healCalculator)
     {
         _derivedStats = derivedStats ?? throw new ArgumentNullException(nameof(derivedStats));
-        _effectFactory = effectFactory ?? throw new ArgumentNullException(nameof(effectFactory));
         _healCalculator = healCalculator ?? throw new ArgumentNullException(nameof(healCalculator));
         _damageCalculator = damageCalculator ?? throw new ArgumentNullException(nameof(damageCalculator));
     }
@@ -55,7 +54,8 @@ internal sealed class EffectManager : IEffectManager
             }
             else
             {
-                var instance = _effectFactory.Create(request.TemplateId, request.SourceUnitId, targetId, new());
+                var createRequest = new CreateEffectRequest(request.TemplateId, request.SourceUnitId, targetId);
+                var instance = context.CreateEffect(createRequest);
 
                 context.Effects.AddEffect(instance.TargetUnitId, instance);
 

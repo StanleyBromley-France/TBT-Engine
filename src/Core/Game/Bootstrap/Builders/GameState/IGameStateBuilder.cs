@@ -8,5 +8,5 @@ using Core.Map.Grid;
 
 public interface IGameStateBuilder
 {
-    GameState Build(IGameStateSpec spec, Map map, InstanceAllocationState instanceAllocation);
+    GameState Build(IGameStateSpec spec, Map map);
 }

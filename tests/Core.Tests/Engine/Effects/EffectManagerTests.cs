@@ -17,10 +17,14 @@ using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
 using Core.Tests.Engine.TestSupport;
+using Core.Game.Match;
+using Core.Game.State;
 using Core.Game.State.ReadOnly;
 using Core.Game.Factories.EffectComponents;
 using Core.Game.Factories.Effects;
+using Core.Game.Factories.Units;
 using Core.Game.Session;
+using Core.Game.Requests;
 
 namespace Core.Tests.Engine.Effects;
 
@@ -33,9 +37,6 @@ public class EffectManagerTests
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0), hp: 10);
         var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
-        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-        var undo = new UndoRecord();
-        var context = new GameMutationContext(session, new DeterministicRng(), undo);
 
         var templateId = new EffectTemplateId("test-effect");
         var template = new TestEffectTemplate(templateId, totalTicks: 3, maxStacks: 2);
@@ -51,12 +52,15 @@ public class EffectManagerTests
                 src,
                 tgt,
                 new EffectComponentInstance[] { healComponent, damageComponent }));
+        var session = CreateSession(state, factory, template);
+        var undo = new UndoRecord();
+        var context = new GameMutationContext(session, new DeterministicRng(), undo);
 
         var expectedDerived = new UnitDerivedStats(9, 100, 100, 20, 6, 2, 100, 100, 100);
         var derivedStats = new FakeDerivedStatsCalculator(expectedDerived);
         var healCalc = new FakeHealCalculator(3);
         var dmgCalc = new FakeDamageCalculator(5);
-        var manager = new EffectManager(factory, derivedStats, dmgCalc, healCalc);
+        var manager = new EffectManager(derivedStats, dmgCalc, healCalc);
         var request = new EffectApplicationRequest(templateId, source.Id, new[] { target.Id });
 
         // Act: apply the effect request to a target with no existing effect stack.
@@ -78,9 +82,6 @@ public class EffectManagerTests
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
         var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
-        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-        var undo = new UndoRecord();
-        var context = new GameMutationContext(session, new DeterministicRng(), undo);
 
         var templateId = new EffectTemplateId("test-effect");
         var template = new TestEffectTemplate(templateId, totalTicks: 4, maxStacks: 3);
@@ -98,9 +99,11 @@ public class EffectManagerTests
 
         var factory = new FakeEffectFactory((src, tgt) =>
             throw new InvalidOperationException("Factory should not be called for existing effect."));
+        var session = CreateSession(state, factory, template);
+        var undo = new UndoRecord();
+        var context = new GameMutationContext(session, new DeterministicRng(), undo);
         var expectedDerived = new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100);
         var manager = new EffectManager(
-            factory,
             new FakeDerivedStatsCalculator(expectedDerived),
             new FakeDamageCalculator(0),
             new FakeHealCalculator(2));
@@ -123,8 +126,6 @@ public class EffectManagerTests
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
         var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
-        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var template = new TestEffectTemplate(new EffectTemplateId("tick"), totalTicks: 1, maxStacks: 1);
         var effect = new EffectInstance(
@@ -135,10 +136,14 @@ public class EffectManagerTests
             Array.Empty<EffectComponentInstance>());
         effect.RemainingTicks = 1;
         state.ActiveEffects[target.Id][effect.Id] = effect;
+        var session = CreateSession(
+            state,
+            new FakeEffectFactory((src, tgt) => throw new NotImplementedException()),
+            template);
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var derivedStats = new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100));
         var manager = new EffectManager(
-            new FakeEffectFactory((src, tgt) => throw new NotImplementedException()),
             derivedStats,
             new FakeDamageCalculator(0),
             new FakeHealCalculator(0));
@@ -158,8 +163,6 @@ public class EffectManagerTests
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0), hp: 10);
         var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
-        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var templateId = new EffectTemplateId("dot-hot");
         var effectTemplate = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1);
@@ -171,9 +174,10 @@ public class EffectManagerTests
         var effectId = new EffectInstanceId(502);
         var factory = new FakeEffectFactory((src, tgt) =>
             new EffectInstance(effectId, effectTemplate, src, tgt, new EffectComponentInstance[] { hot, dot }));
+        var session = CreateSession(state, factory, effectTemplate);
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var manager = new EffectManager(
-            factory,
             new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
             new FakeDamageCalculator(5),
             new FakeHealCalculator(2));
@@ -202,8 +206,6 @@ public class EffectManagerTests
         var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
         var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
         var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
-        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var templateId = new EffectTemplateId("bad");
         var effectTemplate = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1);
@@ -211,8 +213,9 @@ public class EffectManagerTests
         var mismatched = new MismatchedResolvableComponent(new EffectComponentInstanceId(400), damageTemplate, HpType.Heal);
         var factory = new FakeEffectFactory((src, tgt) =>
             new EffectInstance(new EffectInstanceId(401), effectTemplate, src, tgt, new EffectComponentInstance[] { mismatched }));
+        var session = CreateSession(state, factory, effectTemplate);
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
         var manager = new EffectManager(
-            factory,
             new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
             new FakeDamageCalculator(1),
             new FakeHealCalculator(1));
@@ -229,24 +232,17 @@ public class EffectManagerTests
         var firstTarget = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
         var secondTarget = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
         var state = EngineTestFactory.CreateState(new[] { source, firstTarget, secondTarget }, teamToAct: 1);
-        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
-        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var templateId = new EffectTemplateId("unique-effect");
         var template = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1);
-        var templates = new TemplateRegistry(
-            units: new UnitTemplateRepository(new Dictionary<UnitTemplateId, UnitTemplate>()),
-            abilities: new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()),
-            effects: new EffectTemplateRepository(new[] { new KeyValuePair<EffectTemplateId, EffectTemplate>(templateId, template) }),
-            effectComponents: new EffectComponentTemplateRepository(new Dictionary<EffectComponentTemplateId, EffectComponentTemplate>()));
-
         var factory = new EffectInstanceFactory(
             effectIds: new EffectInstanceIdFactory(),
             componentFactory: new StubComponentFactory(),
-            templates: templates);
+            templates: CreateTemplates(template));
+        var session = CreateSession(state, factory, template);
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
 
         var manager = new EffectManager(
-            factory,
             new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
             new FakeDamageCalculator(0),
             new FakeHealCalculator(0));
@@ -261,6 +257,30 @@ public class EffectManagerTests
         Assert.NotEqual(firstEffectId, secondEffectId);
     }
 
+    private static GameSession CreateSession(GameState state, IEffectInstanceFactory effectFactory, params EffectTemplate[] effectTemplates)
+    {
+        var registry = CreateTemplates(effectTemplates);
+        var context = new GameContext(
+            content: registry,
+            teams: new TeamPair(new TeamId(1), new TeamId(2)),
+            sessionServices: new GameSessionServices(
+                units: new UnitInstanceFactory(new UnitInstanceIdFactory(), registry.Units),
+                effects: effectFactory));
+
+        return new GameSession(
+            context,
+            new GameRuntime(state, new UndoHistory(), GameOutcome.Ongoing()));
+    }
+
+    private static TemplateRegistry CreateTemplates(params EffectTemplate[] effectTemplates)
+    {
+        return new TemplateRegistry(
+            units: new UnitTemplateRepository(new Dictionary<UnitTemplateId, UnitTemplate>()),
+            abilities: new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()),
+            effects: new EffectTemplateRepository(effectTemplates.Select(template => new KeyValuePair<EffectTemplateId, EffectTemplate>(template.Id, template))),
+            effectComponents: new EffectComponentTemplateRepository(new Dictionary<EffectComponentTemplateId, EffectComponentTemplate>()));
+    }
+
     private sealed class FakeEffectFactory : IEffectInstanceFactory
     {
         private readonly Func<UnitInstanceId, UnitInstanceId, EffectInstance> _create;
@@ -271,10 +291,10 @@ public class EffectManagerTests
             _create = create;
         }
 
-        public EffectInstance Create(EffectTemplateId templateId, UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, InstanceAllocationState instanceAllocation)
+        public EffectInstance Create(CreateEffectRequest effectRequest, InstanceAllocationState instanceAllocation)
         {
             CreateCallCount++;
-            var effect = _create(sourceUnitId, targetUnitId);
+            var effect = _create(effectRequest.SourceUnitId, effectRequest.TargetUnitId);
             return effect;
         }
     }

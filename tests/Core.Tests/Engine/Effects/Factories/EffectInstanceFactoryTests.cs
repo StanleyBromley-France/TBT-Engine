@@ -14,6 +14,7 @@ using Core.Undo.Steps.Effects;
 using Core.Game.Factories.EffectComponents;
 using Core.Game.Factories.Effects;
 using Core.Game.Session;
+using Core.Game.Requests;
 
 namespace Core.Tests.Engine.Effects.Factories;
 
@@ -49,7 +50,8 @@ public class EffectInstanceFactoryTests
             templates: templates);
 
         // Act: create an effect instance for target through the factory
-        var created = factory.Create(effectTemplateId, source.Id, target.Id, new());
+        var createRequest = new CreateEffectRequest(effectTemplateId, source.Id, target.Id);
+        var created = factory.Create(createRequest, new());
 
         context.Effects.AddEffect(created.TargetUnitId, created);
 
