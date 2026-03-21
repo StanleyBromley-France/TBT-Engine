@@ -6,13 +6,13 @@ using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
 using Core.Domain.Units.Templates;
-using Core.Engine.Effects.Components.Factories;
-using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 using Core.Undo.Steps.Effects;
+using Core.Game.Factories.EffectComponents;
+using Core.Game.Factories.Effects;
 
 namespace Core.Tests.Engine.Effects.Factories;
 

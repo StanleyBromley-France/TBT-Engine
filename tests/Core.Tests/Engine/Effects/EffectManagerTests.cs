@@ -12,12 +12,12 @@ using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
 using Core.Engine.Effects;
 using Core.Engine.Effects.Components.Calculators;
-using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 using Core.Game.State.ReadOnly;
+using Core.Game.Factories.Effects;
 
 namespace Core.Tests.Engine.Effects;
 

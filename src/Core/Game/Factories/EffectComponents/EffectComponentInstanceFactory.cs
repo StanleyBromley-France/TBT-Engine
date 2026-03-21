@@ -1,8 +1,8 @@
-﻿namespace Core.Engine.Effects.Components.Factories;
+﻿namespace Core.Game.Factories.EffectComponents;
 
+using Core.Game.Factories.EffectComponents.Registry;
 using Domain.Effects.Components.Instances.Mutable;
 using Domain.Effects.Components.Templates;
-using Effects.Components.Factories.Registry;
 public sealed class EffectComponentInstanceFactory : IEffectComponentInstanceFactory
 {
     private readonly IComponentInstanceCreatorRegistry _registry;

@@ -1,7 +1,7 @@
-﻿namespace Core.Engine.Effects.Components.Factories.Registry;
+﻿namespace Core.Game.Factories.EffectComponents.Registry;
 
 using Core.Domain.Effects.Components.Templates;
-using Core.Engine.Effects.Components.Factories.Creators;
+using Core.Game.Factories.EffectComponents.Creators;
 
 public interface IComponentInstanceCreatorRegistry
 {

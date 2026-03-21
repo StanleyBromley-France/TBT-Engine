@@ -1,6 +1,6 @@
 ﻿using Core.Domain.Types;
 
-namespace Core.Engine.Effects.Components.Factories;
+namespace Core.Game.Factories.EffectComponents;
 
 public sealed class EffectComponentInstanceIdFactory : IEffectComponentInstanceIdFactory
 {

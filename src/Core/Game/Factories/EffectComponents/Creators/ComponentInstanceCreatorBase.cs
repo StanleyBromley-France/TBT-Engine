@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Effects.Components.Factories.Creators;
+﻿namespace Core.Game.Factories.EffectComponents.Creators;
 
 using Domain.Effects.Components.Instances.Mutable;
 using Domain.Effects.Components.Templates;

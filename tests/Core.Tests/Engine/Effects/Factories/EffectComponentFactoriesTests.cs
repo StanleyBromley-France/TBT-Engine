@@ -1,9 +1,9 @@
 using Core.Domain.Effects.Components.Instances.Mutable;
 using Core.Domain.Effects.Components.Templates;
 using Core.Domain.Types;
-using Core.Engine.Effects.Components.Factories;
-using Core.Engine.Effects.Components.Factories.Creators;
-using Core.Engine.Effects.Components.Factories.Registry;
+using Core.Game.Factories.EffectComponents;
+using Core.Game.Factories.EffectComponents.Creators;
+using Core.Game.Factories.EffectComponents.Registry;
 
 namespace Core.Tests.Engine.Effects.Factories;
 

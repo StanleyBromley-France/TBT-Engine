@@ -1,4 +1,4 @@
-﻿namespace Core.Engine.Effects.Factories;
+﻿namespace Core.Game.Factories.Effects;
 
 using Domain.Types;
 

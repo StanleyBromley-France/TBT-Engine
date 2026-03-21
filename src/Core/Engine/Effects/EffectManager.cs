@@ -7,9 +7,9 @@ using Core.Domain.Effects.Instances.Execution;
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Domain.Types;
 using Core.Engine.Effects.Components.Calculators;
-using Core.Engine.Effects.Factories;
 using Core.Engine.Mutation;
 using Core.Engine.Mutation.Mutators;
+using Core.Game.Factories.Effects;
 using Core.Game.State.ReadOnly;
 
 internal sealed class EffectManager : IEffectManager

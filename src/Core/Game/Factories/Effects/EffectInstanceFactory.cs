@@ -1,13 +1,12 @@
-﻿using System;
-namespace Core.Engine.Effects.Factories;
+﻿namespace Core.Game.Factories.Effects;
 
 using Domain.Effects.Components.Instances.Mutable;
 using Domain.Repositories;
-using Engine.Effects.Components.Factories;
 using Domain.Effects.Instances.Mutable;
 using Domain.Types;
 using Core.Engine.Mutation;
 using Core.Domain.Effects.Instances.ReadOnly;
+using Core.Game.Factories.EffectComponents;
 
 internal sealed class EffectInstanceFactory : IEffectInstanceFactory
 {

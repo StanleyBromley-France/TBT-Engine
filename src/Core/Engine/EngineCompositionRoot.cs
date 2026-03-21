@@ -5,13 +5,13 @@ using Core.Engine.Actions.Choice;
 using Core.Engine.Actions.Execution;
 using Core.Engine.Effects;
 using Core.Engine.Effects.Components.Calculators;
-using Core.Engine.Effects.Components.Factories;
-using Core.Engine.Effects.Components.Factories.Creators;
-using Core.Engine.Effects.Components.Factories.Registry;
-using Core.Engine.Effects.Factories;
 using Core.Engine.Random;
 using Core.Engine.Rules;
 using Core.Engine.Victory;
+using Core.Game.Factories.EffectComponents;
+using Core.Game.Factories.EffectComponents.Creators;
+using Core.Game.Factories.EffectComponents.Registry;
+using Core.Game.Factories.Effects;
 using Core.Game.Session;
 using Core.Map.Pathfinding;
 
