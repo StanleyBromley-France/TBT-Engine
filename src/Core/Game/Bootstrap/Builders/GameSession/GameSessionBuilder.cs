@@ -7,11 +7,12 @@ using Core.Game.Session;
 using Core.Game.State;
 using Core.Undo;
 
-public sealed class GameSessionBuilder : IGameSessionBuilder
+internal sealed class GameSessionBuilder : IGameSessionBuilder
 {
     public GameSession Build(
         GameState state,
         TemplateRegistry templateRegistry,
+        GameSessionServices gameSessionServices,
         TeamId attackerTeamId,
         TeamId defenderTeamId)
     {
@@ -19,7 +20,8 @@ public sealed class GameSessionBuilder : IGameSessionBuilder
 
         var context = new GameContext(
             content: templateRegistry,
-            teams: teams);
+            teams: teams,
+            sessionServices: gameSessionServices);
 
         var runtime = new GameRuntime(
             state: state,

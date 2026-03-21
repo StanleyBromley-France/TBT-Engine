@@ -154,7 +154,8 @@ public sealed class GameStateHasherGeneralTests
         var session = new GameSession(
             new GameContext(
                 content: registry,
-                teams: new TeamPair(new TeamId(1), new TeamId(2))),
+                teams: new TeamPair(new TeamId(1), new TeamId(2)),
+                sessionServices: EngineTestFactory.CreateSessionServices(registry)),
             new GameRuntime(
                 state,
                 new Core.Undo.UndoHistory(),

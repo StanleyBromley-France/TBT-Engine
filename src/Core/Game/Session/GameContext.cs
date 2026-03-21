@@ -11,10 +11,11 @@ public sealed class GameContext
 {
     public TemplateRegistry Content { get; }
     public TeamPair Teams { get; }
-
-    public GameContext(TemplateRegistry content, TeamPair teams)
+    internal GameSessionServices SessionServices { get; }
+    internal GameContext(TemplateRegistry content, TeamPair teams, GameSessionServices sessionServices)
     {
         Content = content ?? throw new ArgumentNullException(nameof(content));
         Teams = teams ?? throw new ArgumentNullException(nameof(teams));
+        SessionServices = sessionServices ?? throw new ArgumentNullException(nameof(sessionServices));
     }
 }

@@ -13,6 +13,7 @@ using Core.Game.Match;
 using Core.Map.Grid;
 using Core.Game.Session;
 using Core.Game.State;
+using Core.Tests.Engine.TestSupport;
 
 namespace Core.Tests.Engine.Victory;
 
@@ -188,7 +189,8 @@ public class VictoryEvaluatorsTests
 
         var context = new GameContext(
             content: registry,
-            teams: new TeamPair(new TeamId(1), new TeamId(2)));
+            teams: new TeamPair(new TeamId(1), new TeamId(2)),
+            sessionServices: EngineTestFactory.CreateSessionServices(registry));
 
         var runtime = new GameRuntime(
             state: state,

@@ -10,6 +10,11 @@ using Core.Domain.Units.Instances.Mutable;
 using Core.Domain.Units.Templates;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
+using Core.Game.Factories.EffectComponents;
+using Core.Game.Factories.EffectComponents.Creators;
+using Core.Game.Factories.EffectComponents.Registry;
+using Core.Game.Factories.Effects;
+using Core.Game.Factories.Units;
 using Core.Undo;
 using Core.Game.Match;
 using Core.Map.Grid;
@@ -91,7 +96,8 @@ internal static class EngineTestFactory
 
         var context = new GameContext(
             content: registry,
-            teams: new TeamPair(new TeamId(1), new TeamId(2)));
+            teams: new TeamPair(new TeamId(1), new TeamId(2)),
+            sessionServices: CreateSessionServices(registry));
 
         var runtime = new GameRuntime(
             state: state,
@@ -106,6 +112,31 @@ internal static class EngineTestFactory
     public static GameMutationContext CreateContext(GameSession session)
     {
         return new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
+    }
+
+    internal static GameSessionServices CreateSessionServices(TemplateRegistry registry)
+    {
+        var effectComponentIdFactory = new EffectComponentInstanceIdFactory();
+        var componentCreators = new ComponentInstanceCreatorRegistry(
+        [
+            new DamageOverTimeCreator(effectComponentIdFactory),
+            new FlatAttributeModifierCreator(effectComponentIdFactory),
+            new HealOverTimeCreator(effectComponentIdFactory),
+            new InstantDamageCreator(effectComponentIdFactory),
+            new InstantHealCreator(effectComponentIdFactory),
+            new PercentAttributeModifierCreator(effectComponentIdFactory),
+        ]);
+
+        var effectComponentFactory = new EffectComponentInstanceFactory(componentCreators);
+        var effectFactory = new EffectInstanceFactory(
+            new EffectInstanceIdFactory(),
+            effectComponentFactory,
+            registry);
+
+        return new GameSessionServices(
+            units: new UnitInstanceFactory(new UnitInstanceIdFactory()),
+            effects: effectFactory,
+            effectComponents: effectComponentFactory);
     }
 
     private static Core.Map.Grid.Map CreateMap(int width, int height)

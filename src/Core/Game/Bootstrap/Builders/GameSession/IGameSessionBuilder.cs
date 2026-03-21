@@ -5,7 +5,7 @@ using Core.Domain.Types;
 using Core.Game.Session;
 using Core.Game.State;
 
-public interface IGameSessionBuilder
+internal interface IGameSessionBuilder
 {
-    GameSession Build(GameState state, TemplateRegistry templateRegistry, TeamId attackerTeamId, TeamId defenderTeamId);
+    GameSession Build(GameState state, TemplateRegistry templateRegistry, GameSessionServices gameSessionServices, TeamId attackerTeamId, TeamId defenderTeamId);
 }
