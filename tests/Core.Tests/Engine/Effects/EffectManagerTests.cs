@@ -269,7 +269,7 @@ public class EffectManagerTests
 
         return new GameSession(
             context,
-            new GameRuntime(state, new UndoHistory(), GameOutcome.Ongoing()));
+            new GameRuntime(state, new UndoHistory(), GameOutcome.Ongoing(), new InstanceAllocationState()));
     }
 
     private static TemplateRegistry CreateTemplates(params EffectTemplate[] effectTemplates)

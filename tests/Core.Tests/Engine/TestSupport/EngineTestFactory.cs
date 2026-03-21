@@ -102,7 +102,8 @@ internal static class EngineTestFactory
         var runtime = new GameRuntime(
             state: state,
             undo: new UndoHistory(),
-            outcome: GameOutcome.Ongoing());
+            outcome: GameOutcome.Ongoing(),
+            instanceAllocation: new InstanceAllocationState());
 
         return new GameSession(
             context: context,

@@ -19,6 +19,6 @@ internal sealed class GameSessionServices
         _effects = effects ?? throw new ArgumentNullException(nameof(effects));
     }
 
-    internal EffectInstance CreateEffect(CreateEffectRequest request) => _effects.Create(request, new());
-    internal UnitInstance CreateUnit(SpawnUnitRequest request) => _units.Create(request, new());
+    internal EffectInstance CreateEffect(CreateEffectRequest request, InstanceAllocationState instanceAllocationState) => _effects.Create(request, instanceAllocationState);
+    internal UnitInstance CreateUnit(SpawnUnitRequest request, InstanceAllocationState instanceAllocationState) => _units.Create(request, instanceAllocationState);
 }

@@ -60,7 +60,7 @@ public sealed class GameMutationContext : IGameMutationAccess
         Rng = rngMutator ?? throw new ArgumentNullException(nameof(rngMutator));
     }
 
-    public EffectInstance CreateEffect(CreateEffectRequest request) => _session.Context.SessionServices.CreateEffect(request);
+    public EffectInstance CreateEffect(CreateEffectRequest request) => _session.Context.SessionServices.CreateEffect(request, _session.Runtime.InstanceAllocation);
 
     GameState IGameMutationAccess.GetState() => _session.Runtime.State;
     UndoRecord IGameMutationAccess.GetUndo() => _undoRecord;

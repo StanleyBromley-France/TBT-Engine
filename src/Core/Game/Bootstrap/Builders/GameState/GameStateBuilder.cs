@@ -6,7 +6,6 @@ using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
 using Core.Game.Bootstrap.Contracts;
 using Core.Game.State;
-using Core.Game.Factories.Units;
 using Core.Map.Grid;
 using Core.Game.Session;
 using Core.Game.Requests;
@@ -20,9 +19,9 @@ public sealed class GameStateBuilder : IGameStateBuilder
         _sessionServices = sessionServices;
     }
 
-    public GameState Build(IGameStateSpec spec, Map map)
+    public GameState Build(IGameStateSpec spec, Map map, InstanceAllocationState instanceAllocationState)
     {
-        var unitInstances = BuildUnitInstances(spec);
+        var unitInstances = BuildUnitInstances(spec, instanceAllocationState);
         var activeEffects = BuildActiveEffects(unitInstances.Keys);
 
         return new GameState(
@@ -35,7 +34,8 @@ public sealed class GameStateBuilder : IGameStateBuilder
     }
 
     private Dictionary<UnitInstanceId, UnitInstance> BuildUnitInstances(
-        IGameStateSpec spec)
+        IGameStateSpec spec,
+        InstanceAllocationState instanceAllocationState)
     {
         var instances = new Dictionary<UnitInstanceId, UnitInstance>();
 
@@ -44,7 +44,7 @@ public sealed class GameStateBuilder : IGameStateBuilder
 
             var unitRequest = new SpawnUnitRequest(spawn.UnitTemplateId, spawn.TeamId, spawn.Position);
 
-            var unit = _sessionServices.CreateUnit(unitRequest);
+            var unit = _sessionServices.CreateUnit(unitRequest, instanceAllocationState);
 
             if (!instances.TryAdd(unit.Id, unit))
             {

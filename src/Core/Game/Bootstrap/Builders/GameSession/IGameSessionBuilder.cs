@@ -7,5 +7,11 @@ using Core.Game.State;
 
 internal interface IGameSessionBuilder
 {
-    GameSession Build(GameState state, TemplateRegistry templateRegistry, GameSessionServices gameSessionServices, TeamId attackerTeamId, TeamId defenderTeamId);
+    GameSession Build(
+        GameState state, 
+        TemplateRegistry templateRegistry, 
+        GameSessionServices gameSessionServices,
+        InstanceAllocationState instanceAllocationState,
+        TeamId attackerTeamId, 
+        TeamId defenderTeamId);
 }

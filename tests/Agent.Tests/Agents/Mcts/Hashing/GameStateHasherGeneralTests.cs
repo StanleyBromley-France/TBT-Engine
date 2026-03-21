@@ -159,7 +159,8 @@ public sealed class GameStateHasherGeneralTests
             new GameRuntime(
                 state,
                 new Core.Undo.UndoHistory(),
-                GameOutcome.Ongoing()));
+                GameOutcome.Ongoing(),
+                instanceAllocation: new InstanceAllocationState()));
 
         return EngineCompositionRoot.Create(session, turnCount: 12);
     }

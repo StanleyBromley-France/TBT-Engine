@@ -13,6 +13,7 @@ internal sealed class GameSessionBuilder : IGameSessionBuilder
         GameState state,
         TemplateRegistry templateRegistry,
         GameSessionServices gameSessionServices,
+        InstanceAllocationState instanceAllocationState,
         TeamId attackerTeamId,
         TeamId defenderTeamId)
     {
@@ -26,7 +27,8 @@ internal sealed class GameSessionBuilder : IGameSessionBuilder
         var runtime = new GameRuntime(
             state: state,
             undo: new UndoHistory(),
-            outcome: GameOutcome.Ongoing());
+            outcome: GameOutcome.Ongoing(),
+            instanceAllocation: instanceAllocationState);
 
         return new GameSession(context, runtime);
     }

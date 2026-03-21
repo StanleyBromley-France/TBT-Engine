@@ -14,12 +14,13 @@ public sealed class GameRuntime
     public GameState State { get; }
     public UndoHistory Undo { get; }
     public GameOutcome Outcome { get; private set; }
-
-    public GameRuntime(GameState state, UndoHistory undo, GameOutcome outcome)
+    public InstanceAllocationState InstanceAllocation { get; private set; }
+    public GameRuntime(GameState state, UndoHistory undo, GameOutcome outcome, InstanceAllocationState instanceAllocation)
     {
         State = state ?? throw new ArgumentNullException(nameof(state));
         Undo = undo ?? throw new ArgumentNullException(nameof(undo));
         Outcome = outcome ?? throw new ArgumentNullException(nameof(outcome));
+        InstanceAllocation = instanceAllocation ?? throw new ArgumentNullException(nameof(instanceAllocation));
     }
 
     public void SetGameOutcome(GameOutcome outcome)
@@ -39,6 +40,7 @@ public sealed class GameRuntime
         return new GameRuntime(
             state: State.DeepCloneForSimulation(),
             undo: new UndoHistory(),
-            outcome: Outcome);
+            outcome: Outcome,
+            instanceAllocation: InstanceAllocation.DeepCloneForSimulation());
     }
 }
