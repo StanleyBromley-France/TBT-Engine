@@ -49,7 +49,9 @@ public class EffectInstanceFactoryTests
             templates: templates);
 
         // Act: create an effect instance for target through the factory
-        var created = factory.Create(context, effectTemplateId, source.Id, target.Id, new());
+        var created = factory.Create(effectTemplateId, source.Id, target.Id, new());
+
+        context.Effects.AddEffect(created.TargetUnitId, created);
 
         // Assert
         Assert.Equal(expectedEffectId, created.Id);

@@ -42,7 +42,7 @@ public class EffectManagerTests
         var healComponent = new InstantHealComponentInstance(new EffectComponentInstanceId(11), healTemplate);
         var damageComponent = new InstantDamageComponentInstance(new EffectComponentInstanceId(12), damageTemplate);
 
-        var factory = new FakeEffectFactory((ctx, src, tgt) =>
+        var factory = new FakeEffectFactory((src, tgt) =>
             new EffectInstance(
                 new EffectInstanceId(100),
                 template,
@@ -94,7 +94,7 @@ public class EffectManagerTests
         existing.RemainingTicks = 1;
         state.ActiveEffects[target.Id][existing.Id] = existing;
 
-        var factory = new FakeEffectFactory((ctx, src, tgt) =>
+        var factory = new FakeEffectFactory((src, tgt) =>
             throw new InvalidOperationException("Factory should not be called for existing effect."));
         var expectedDerived = new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100);
         var manager = new EffectManager(
@@ -136,7 +136,7 @@ public class EffectManagerTests
 
         var derivedStats = new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100));
         var manager = new EffectManager(
-            new FakeEffectFactory((ctx, src, tgt) => throw new NotImplementedException()),
+            new FakeEffectFactory((src, tgt) => throw new NotImplementedException()),
             derivedStats,
             new FakeDamageCalculator(0),
             new FakeHealCalculator(0));
@@ -167,7 +167,7 @@ public class EffectManagerTests
         var dot = new DamageOverTimeComponentInstance(new EffectComponentInstanceId(501), dotTemplate);
 
         var effectId = new EffectInstanceId(502);
-        var factory = new FakeEffectFactory((ctx, src, tgt) =>
+        var factory = new FakeEffectFactory((src, tgt) =>
             new EffectInstance(effectId, effectTemplate, src, tgt, new EffectComponentInstance[] { hot, dot }));
 
         var manager = new EffectManager(
@@ -207,7 +207,7 @@ public class EffectManagerTests
         var effectTemplate = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1);
         var damageTemplate = new InstantDamageComponentTemplate(new EffectComponentTemplateId("dmg"), 1, DamageType.Physical, 0, 1.5f);
         var mismatched = new MismatchedResolvableComponent(new EffectComponentInstanceId(400), damageTemplate, HpType.Heal);
-        var factory = new FakeEffectFactory((ctx, src, tgt) =>
+        var factory = new FakeEffectFactory((src, tgt) =>
             new EffectInstance(new EffectInstanceId(401), effectTemplate, src, tgt, new EffectComponentInstance[] { mismatched }));
         var manager = new EffectManager(
             factory,
@@ -222,19 +222,18 @@ public class EffectManagerTests
 
     private sealed class FakeEffectFactory : IEffectInstanceFactory
     {
-        private readonly Func<GameMutationContext, UnitInstanceId, UnitInstanceId, EffectInstance> _create;
+        private readonly Func<UnitInstanceId, UnitInstanceId, EffectInstance> _create;
         public int CreateCallCount { get; private set; }
 
-        public FakeEffectFactory(Func<GameMutationContext, UnitInstanceId, UnitInstanceId, EffectInstance> create)
+        public FakeEffectFactory(Func<UnitInstanceId, UnitInstanceId, EffectInstance> create)
         {
             _create = create;
         }
 
-        public IReadOnlyEffectInstance Create(GameMutationContext context, EffectTemplateId templateId, UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, InstanceAllocationState instanceAllocation)
+        public EffectInstance Create(EffectTemplateId templateId, UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, InstanceAllocationState instanceAllocation)
         {
             CreateCallCount++;
-            var effect = _create(context, sourceUnitId, targetUnitId);
-            context.Effects.AddEffect(targetUnitId, effect);
+            var effect = _create(sourceUnitId, targetUnitId);
             return effect;
         }
     }

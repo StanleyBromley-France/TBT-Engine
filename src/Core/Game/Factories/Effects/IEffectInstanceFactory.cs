@@ -1,14 +1,12 @@
 ﻿namespace Core.Game.Factories.Effects;
 
-using Core.Domain.Effects.Instances.ReadOnly;
-using Core.Engine.Mutation;
+using Core.Domain.Effects.Instances.Mutable;
 using Core.Game.Session;
 using Domain.Types;
 
 internal interface IEffectInstanceFactory
 {
-    IReadOnlyEffectInstance Create(
-    GameMutationContext context,
+    EffectInstance Create(
     EffectTemplateId templateId,
     UnitInstanceId sourceUnitId,
     UnitInstanceId targetUnitId,
