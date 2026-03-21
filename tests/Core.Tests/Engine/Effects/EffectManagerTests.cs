@@ -10,6 +10,7 @@ using Core.Domain.Effects.Templates;
 using Core.Domain.Repositories;
 using Core.Domain.Types;
 using Core.Domain.Units.Instances.Mutable;
+using Core.Domain.Units.Templates;
 using Core.Engine.Effects;
 using Core.Engine.Effects.Components.Calculators;
 using Core.Engine.Mutation;
@@ -17,6 +18,7 @@ using Core.Engine.Random;
 using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 using Core.Game.State.ReadOnly;
+using Core.Game.Factories.EffectComponents;
 using Core.Game.Factories.Effects;
 using Core.Game.Session;
 
@@ -220,6 +222,45 @@ public class EffectManagerTests
         Assert.Throws<InvalidOperationException>(() => manager.ApplyOrStackEffect(context, state, request));
     }
 
+    [Fact]
+    public void ApplyOrStackEffect_Creating_Multiple_New_Effects_Assigns_Distinct_Effect_Ids()
+    {
+        var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var firstTarget = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
+        var secondTarget = EngineTestFactory.CreateUnit(3, 2, new HexCoord(2, 0));
+        var state = EngineTestFactory.CreateState(new[] { source, firstTarget, secondTarget }, teamToAct: 1);
+        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord());
+
+        var templateId = new EffectTemplateId("unique-effect");
+        var template = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1);
+        var templates = new TemplateRegistry(
+            units: new UnitTemplateRepository(new Dictionary<UnitTemplateId, UnitTemplate>()),
+            abilities: new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()),
+            effects: new EffectTemplateRepository(new[] { new KeyValuePair<EffectTemplateId, EffectTemplate>(templateId, template) }),
+            effectComponents: new EffectComponentTemplateRepository(new Dictionary<EffectComponentTemplateId, EffectComponentTemplate>()));
+
+        var factory = new EffectInstanceFactory(
+            effectIds: new EffectInstanceIdFactory(),
+            componentFactory: new StubComponentFactory(),
+            templates: templates);
+
+        var manager = new EffectManager(
+            factory,
+            new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
+            new FakeDamageCalculator(0),
+            new FakeHealCalculator(0));
+
+        var request = new EffectApplicationRequest(templateId, source.Id, new[] { firstTarget.Id, secondTarget.Id });
+
+        manager.ApplyOrStackEffect(context, state, request);
+
+        var firstEffectId = Assert.Single(state.ActiveEffects[firstTarget.Id]).Key;
+        var secondEffectId = Assert.Single(state.ActiveEffects[secondTarget.Id]).Key;
+
+        Assert.NotEqual(firstEffectId, secondEffectId);
+    }
+
     private sealed class FakeEffectFactory : IEffectInstanceFactory
     {
         private readonly Func<UnitInstanceId, UnitInstanceId, EffectInstance> _create;
@@ -277,6 +318,12 @@ public class EffectManagerTests
         }
 
         public int Compute(GameMutationContext context, IReadOnlyGameState state, IReadOnlyEffectInstance effect, IHealComponent componentTemplate) => _value;
+    }
+
+    private sealed class StubComponentFactory : IEffectComponentInstanceFactory
+    {
+        public EffectComponentInstance Create(EffectComponentTemplate componentTemplate, InstanceAllocationState instanceAllocation)
+            => throw new InvalidOperationException("This test uses effect templates without component templates.");
     }
 
     private sealed class TestEffectTemplate : EffectTemplate
