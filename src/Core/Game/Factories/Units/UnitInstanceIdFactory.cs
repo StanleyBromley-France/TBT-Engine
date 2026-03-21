@@ -1,10 +1,9 @@
 namespace Core.Game.Factories.Units;
 
 using Core.Domain.Types;
+using Core.Game.Session;
 
 public sealed class UnitInstanceIdFactory : IUnitInstanceIdFactory
 {
-    private int _next = 1;
-
-    public UnitInstanceId Create() => new UnitInstanceId(_next++);
+    public UnitInstanceId Create(InstanceAllocationState instanceAllocation) => new UnitInstanceId(instanceAllocation.GetNextUnitInstanceIdSeed());
 }

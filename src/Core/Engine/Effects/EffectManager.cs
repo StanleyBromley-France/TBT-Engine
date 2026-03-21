@@ -55,7 +55,7 @@ internal sealed class EffectManager : IEffectManager
             }
             else
             {
-                var instance = _effectFactory.Create(context, request.TemplateId, request.SourceUnitId, targetId);
+                var instance = _effectFactory.Create(context, request.TemplateId, request.SourceUnitId, targetId, new());
 
                 ResolveHpDeltaComponents(context, state, instance, targetId);
 

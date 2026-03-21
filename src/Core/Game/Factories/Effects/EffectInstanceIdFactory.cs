@@ -1,10 +1,9 @@
 ﻿namespace Core.Game.Factories.Effects;
 
+using Core.Game.Session;
 using Domain.Types;
 
 internal sealed class EffectInstanceIdFactory : IEffectInstanceIdFactory
 {
-    private int _next = 1;
-
-    public EffectInstanceId Create() => new EffectInstanceId(_next++);
+    public EffectInstanceId Create(InstanceAllocationState instanceAllocation) => new EffectInstanceId(instanceAllocation.GetNextEffectInstanceIdSeed());
 }

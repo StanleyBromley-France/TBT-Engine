@@ -4,6 +4,7 @@ using Core.Domain.Types;
 using Core.Game.Factories.EffectComponents;
 using Core.Game.Factories.EffectComponents.Creators;
 using Core.Game.Factories.EffectComponents.Registry;
+using Core.Game.Session;
 
 namespace Core.Tests.Engine.Effects.Factories;
 
@@ -20,7 +21,7 @@ public class EffectComponentFactoriesTests
         var factory = new EffectComponentInstanceFactory(registry);
 
         // Act: ask the factory to create from template (it should resolve creator then delegate creation)
-        var created = factory.Create(template);
+        var created = factory.Create(template, new());
 
         // Assert
         Assert.Same(expected, created);
@@ -42,7 +43,7 @@ public class EffectComponentFactoriesTests
 
         // Act: resolve creator from registry, then create through that resolved creator
         var resolved = registry.Resolve(template);
-        var created = resolved.Create(template);
+        var created = resolved.Create(template, new());
 
         // Assert
         Assert.Same(first, resolved);
@@ -83,7 +84,7 @@ public class EffectComponentFactoriesTests
         public bool CanCreate(EffectComponentTemplate template)
             => ReferenceEquals(_supported, template);
 
-        public EffectComponentInstance Create(EffectComponentTemplate template)
+        public EffectComponentInstance Create(EffectComponentTemplate template, InstanceAllocationState instanceAllocation)
         {
             CreateCallCount++;
             return _instance;

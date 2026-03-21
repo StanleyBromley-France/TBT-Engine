@@ -13,6 +13,7 @@ using Core.Tests.Engine.TestSupport;
 using Core.Undo.Steps.Effects;
 using Core.Game.Factories.EffectComponents;
 using Core.Game.Factories.Effects;
+using Core.Game.Session;
 
 namespace Core.Tests.Engine.Effects.Factories;
 
@@ -48,7 +49,7 @@ public class EffectInstanceFactoryTests
             templates: templates);
 
         // Act: create an effect instance for target through the factory
-        var created = factory.Create(context, effectTemplateId, source.Id, target.Id);
+        var created = factory.Create(context, effectTemplateId, source.Id, target.Id, new());
 
         // Assert
         Assert.Equal(expectedEffectId, created.Id);
@@ -77,7 +78,7 @@ public class EffectInstanceFactoryTests
             _id = id;
         }
 
-        public EffectInstanceId Create() => _id;
+        public EffectInstanceId Create(InstanceAllocationState instanceAllocation) => _id;
     }
 
     private sealed class StubComponentFactory : IEffectComponentInstanceFactory
@@ -91,7 +92,7 @@ public class EffectInstanceFactoryTests
             _component = new InstantHealComponentInstance(componentId, (InstantHealComponentTemplate)expectedTemplate);
         }
 
-        public EffectComponentInstance Create(EffectComponentTemplate componentTemplate)
+        public EffectComponentInstance Create(EffectComponentTemplate componentTemplate, InstanceAllocationState instanceAllocation)
         {
             Assert.Same(_expectedTemplate, componentTemplate);
             return _component;

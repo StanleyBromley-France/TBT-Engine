@@ -2,6 +2,7 @@
 
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Engine.Mutation;
+using Core.Game.Session;
 using Domain.Types;
 
 internal interface IEffectInstanceFactory
@@ -10,5 +11,6 @@ internal interface IEffectInstanceFactory
     GameMutationContext context,
     EffectTemplateId templateId,
     UnitInstanceId sourceUnitId,
-    UnitInstanceId targetUnitId);
+    UnitInstanceId targetUnitId,
+    InstanceAllocationState instanceAllocation);
 }

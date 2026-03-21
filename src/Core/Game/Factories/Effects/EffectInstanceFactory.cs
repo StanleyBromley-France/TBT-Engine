@@ -7,6 +7,7 @@ using Domain.Types;
 using Core.Engine.Mutation;
 using Core.Domain.Effects.Instances.ReadOnly;
 using Core.Game.Factories.EffectComponents;
+using Core.Game.Session;
 
 internal sealed class EffectInstanceFactory : IEffectInstanceFactory
 {
@@ -28,17 +29,18 @@ internal sealed class EffectInstanceFactory : IEffectInstanceFactory
         GameMutationContext context,
         EffectTemplateId templateId,
         UnitInstanceId sourceUnitId,
-        UnitInstanceId targetUnitId)
+        UnitInstanceId targetUnitId,
+        InstanceAllocationState instanceAllocation)
     {
         var template = _templates.Effects.Get(templateId);
-        var effectId = _effectIds.Create();
+        var effectId = _effectIds.Create(instanceAllocation);
 
         var components = new List<EffectComponentInstance>();
 
         foreach (var componentTemplateId in template.ComponentTemplateIds)
         {
             var componentTemplate = _templates.EffectComponents.Get(componentTemplateId);
-            var component = _componentFactory.Create(componentTemplate);
+            var component = _componentFactory.Create(componentTemplate, instanceAllocation);
             components.Add(component);
         }
 

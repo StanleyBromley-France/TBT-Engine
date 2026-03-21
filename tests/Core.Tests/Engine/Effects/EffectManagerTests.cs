@@ -18,6 +18,7 @@ using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 using Core.Game.State.ReadOnly;
 using Core.Game.Factories.Effects;
+using Core.Game.Session;
 
 namespace Core.Tests.Engine.Effects;
 
@@ -229,7 +230,7 @@ public class EffectManagerTests
             _create = create;
         }
 
-        public IReadOnlyEffectInstance Create(GameMutationContext context, EffectTemplateId templateId, UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId)
+        public IReadOnlyEffectInstance Create(GameMutationContext context, EffectTemplateId templateId, UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, InstanceAllocationState instanceAllocation)
         {
             CreateCallCount++;
             var effect = _create(context, sourceUnitId, targetUnitId);
