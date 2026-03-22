@@ -1,0 +1,12 @@
+namespace Cli.Args.Options;
+
+public sealed class EvalOptions : ContentOptions
+{
+    public int Seed { get; init; }
+
+    public int MaxTurns { get; init; }
+
+    public required MctsOptions AttackerMcts { get; init; }
+
+    public required MctsOptions DefenderMcts { get; init; }
+}
