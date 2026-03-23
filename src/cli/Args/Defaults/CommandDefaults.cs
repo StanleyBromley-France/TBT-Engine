@@ -30,7 +30,8 @@ public static class CommandDefaults
             MaxTurns = 12,
             ValidationMode = ContentValidationMode.Strict,
             AttackerMcts = MctsOptions.AttackerDefault,
-            DefenderMcts = MctsOptions.DefenderDefault
+            DefenderMcts = MctsOptions.DefenderDefault,
+            EvalRunResultOutput = @"path",
         });
     }
 }

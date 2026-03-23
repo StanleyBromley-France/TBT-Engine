@@ -9,4 +9,6 @@ public sealed class EvalOptions : ContentOptions
     public required MctsOptions AttackerMcts { get; init; }
 
     public required MctsOptions DefenderMcts { get; init; }
+
+    public required string EvalRunResultOutput { get; init; }
 }
