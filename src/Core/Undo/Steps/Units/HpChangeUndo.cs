@@ -8,13 +8,19 @@ public sealed class HpChangeUndo : IUndoStep
 {
     public UnitInstanceId UnitId { get; }
     public int OldHp { get; }
-    public bool WasAliveBeforeChange { get; }
+    public HexCoord AffectedHex { get; }
+    public bool WasHexOccupiedBeforeChange { get; }
 
-    public HpChangeUndo(UnitInstanceId unitId, int oldHp, bool wasAliveBeforeChange)
+    public HpChangeUndo(
+        UnitInstanceId unitId,
+        int oldHp,
+        HexCoord affectedHex,
+        bool wasHexOccupiedBeforeChange)
     {
         UnitId = unitId;
         OldHp = oldHp;
-        WasAliveBeforeChange = wasAliveBeforeChange;
+        AffectedHex = affectedHex;
+        WasHexOccupiedBeforeChange = wasHexOccupiedBeforeChange;
     }
 
     public void Undo(GameState state)
@@ -22,9 +28,9 @@ public sealed class HpChangeUndo : IUndoStep
         var unit = state.UnitInstances[UnitId];
         unit.Resources.HP = OldHp;
 
-        if (WasAliveBeforeChange)
-            state.OccupiedHexes.Add(unit.Position);
+        if (WasHexOccupiedBeforeChange)
+            state.OccupiedHexes.Add(AffectedHex);
         else
-            state.OccupiedHexes.Remove(unit.Position);
+            state.OccupiedHexes.Remove(AffectedHex);
     }
 }

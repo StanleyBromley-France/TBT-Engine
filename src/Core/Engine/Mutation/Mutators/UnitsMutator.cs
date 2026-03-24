@@ -16,7 +16,10 @@ public sealed class UnitsMutator : IUnitsMutator
         var state = _ctx.GetState();
         var unit = state.UnitInstances[unitId];
 
-        var before = unit.Resources.HP;
+        var beforeHp = unit.Resources.HP;
+        var affectedHex = unit.Position;
+        var wasHexOccupiedBeforeChange = state.OccupiedHexes.Contains(affectedHex);
+
         var wasAlive = unit.IsAlive;
         unit.Resources.HP += delta;
         var isAlive = unit.IsAlive;
@@ -27,7 +30,7 @@ public sealed class UnitsMutator : IUnitsMutator
         else if (!wasAlive && isAlive)
             state.OccupiedHexes.Add(unit.Position);
 
-        _ctx.GetUndo().AddStep(new HpChangeUndo(unitId, before, wasAlive));
+        _ctx.GetUndo().AddStep(new HpChangeUndo(unitId, beforeHp, affectedHex, wasHexOccupiedBeforeChange));
     }
 
     public void ChangeMana(UnitInstanceId unitId, int delta)

@@ -57,4 +57,32 @@ public class UnitsMutatorTests
         Assert.False(deadUnit.IsAlive);
         Assert.DoesNotContain(deadUnit.Position, state.OccupiedHexes);
     }
+
+    [Fact]
+    public void ChangeHp_When_DeadUnitSharesHexWithAliveUnit_Undo_DoesNotClear_LiveOccupancy()
+    {
+        var sharedHex = new HexCoord(3, 1);
+        var deadUnit = EngineTestFactory.CreateUnit(1, 1, sharedHex, hp: 0);
+        var aliveUnit = EngineTestFactory.CreateUnit(2, 1, sharedHex, hp: 10);
+        var otherAliveUnit = EngineTestFactory.CreateUnit(3, 1, new HexCoord(1, 0), hp: 10);
+        var state = EngineTestFactory.CreateState(new[] { deadUnit, aliveUnit, otherAliveUnit }, teamToAct: 1);
+        var session = EngineTestFactory.CreateSession(state, new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+        var undo = new UndoRecord();
+        var context = new GameMutationContext(session, new DeterministicRng(), undo);
+
+        Assert.False(deadUnit.IsAlive);
+        Assert.True(aliveUnit.IsAlive);
+        Assert.Contains(sharedHex, state.OccupiedHexes);
+
+        context.Units.ChangeHp(deadUnit.Id, -1);
+
+        Assert.False(deadUnit.IsAlive);
+        Assert.Contains(sharedHex, state.OccupiedHexes);
+
+        undo.UndoAll(state);
+
+        Assert.False(deadUnit.IsAlive);
+        Assert.True(aliveUnit.IsAlive);
+        Assert.Contains(sharedHex, state.OccupiedHexes);
+    }
 }

@@ -105,7 +105,7 @@ public sealed partial class GameStateHasher : IGameStateHasher
             {
                 var effect = effectEntry.Value;
 
-                hash.Add(effect.Id.Value);
+                //hash.Add(effect.Id.Value);
                 hash.Add(effect.Template.Id.Value);
                 hash.Add(effect.SourceUnitId.Value);
                 hash.Add(effect.TargetUnitId.Value);
@@ -114,7 +114,7 @@ public sealed partial class GameStateHasher : IGameStateHasher
 
                 foreach (var component in effect.Components.OrderBy(component => component.Id.Value))
                 {
-                    hash.Add(component.Id.Value);
+                    //hash.Add(component.Id.Value);
                     hash.Add(component.Template.Id.Value);
 
                     if (component is IReadOnlyResolvableHpDeltaComponent hpDeltaComponent)
