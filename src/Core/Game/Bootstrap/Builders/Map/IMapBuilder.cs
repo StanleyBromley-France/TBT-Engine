@@ -1,7 +1,7 @@
 namespace Core.Game.Bootstrap.Builders.Map;
 
+using Core.Game.Bootstrap.Builders.Map.Results;
 using Core.Game.Bootstrap.Contracts;
-using Core.Game.Bootstrap.Creation.Map.Results;
 
 public interface IMapBuilder
 {

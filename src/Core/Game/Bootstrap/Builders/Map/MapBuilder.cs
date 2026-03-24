@@ -1,9 +1,9 @@
 namespace Core.Game.Bootstrap.Builders.Map;
 
 using Core.Domain.Types;
+using Core.Game.Bootstrap.Builders.Map.Results;
+using Core.Game.Bootstrap.Builders.Map.Rng;
 using Core.Game.Bootstrap.Contracts;
-using Core.Game.Bootstrap.Creation.Map.Results;
-using Core.Game.Bootstrap.Creation.Map.Rng;
 using Core.Map.Grid;
 using Core.Map.Pathfinding;
 using Core.Map.Search;

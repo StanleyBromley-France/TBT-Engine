@@ -1,4 +1,4 @@
-namespace Core.Game.Bootstrap.Creation.Map.Rng;
+namespace Core.Game.Bootstrap.Builders.Map.Rng;
 
 public sealed class MapGenerationRngState
 {

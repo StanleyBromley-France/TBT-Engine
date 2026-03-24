@@ -1,4 +1,4 @@
-namespace Core.Game.Bootstrap.Creation.Map.Results;
+namespace Core.Game.Bootstrap.Builders.Map.Results;
 
 using Core.Map.Grid;
 
