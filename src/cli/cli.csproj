@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Agents.Mcts\Agents.Mcts.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\GameRunner\GameRunner.csproj" />
     <ProjectReference Include="..\Setup\Setup.csproj" />
   </ItemGroup>
   
