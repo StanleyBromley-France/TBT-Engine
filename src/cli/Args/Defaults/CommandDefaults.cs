@@ -6,11 +6,15 @@ using Setup.Validation.Primitives;
 
 public static class CommandDefaults
 {
+    private static readonly string ExampleContentPath = Path.Combine(AppContext.BaseDirectory, "content");
+
+    private static readonly string EvalOutputPath = Path.Combine(AppContext.BaseDirectory, "eval-run-result.json");
+
     public static CliArguments CreatePlayArguments()
     {
         return CliArguments.CreatePlay(new PlayOptions
         {
-            ContentPath = @"content",
+            ContentPath = ExampleContentPath,
             GameStateId = "default",
             Seed = 12345,
             MaxTurns = 12,
@@ -25,13 +29,13 @@ public static class CommandDefaults
     {
         return CliArguments.CreateEval(new EvalOptions
         {
-            ContentPath = @"content",
+            ContentPath = ExampleContentPath,
             Seed = 12345,
             MaxTurns = 12,
             ValidationMode = ContentValidationMode.Strict,
             AttackerMcts = MctsOptions.AttackerDefault,
             DefenderMcts = MctsOptions.DefenderDefault,
-            EvalRunResultOutput = @"path",
+            EvalRunResultOutput = EvalOutputPath,
         });
     }
 }
