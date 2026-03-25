@@ -12,8 +12,8 @@ public sealed class InteractiveCliArgumentsPrompt
 
         return command switch
         {
-            Command.Play => CommandDefaults.CreatePlayArguments(),
-            Command.Eval => CommandDefaults.CreateEvalArguments(),
+            Command.Play => CliArguments.CreatePlay(CommandDefaults.CreatePlayOptions()),
+            Command.Eval => CliArguments.CreateEval(CommandDefaults.CreateEvalOptions()),
             _ => throw new InvalidOperationException($"Unsupported command '{command}'.")
         };
     }

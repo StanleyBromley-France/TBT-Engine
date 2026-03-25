@@ -10,9 +10,9 @@ public static class CommandDefaults
 
     private static readonly string EvalOutputPath = Path.Combine(AppContext.BaseDirectory, "eval-run-result.json");
 
-    public static CliArguments CreatePlayArguments()
+    public static PlayOptions CreatePlayOptions()
     {
-        return CliArguments.CreatePlay(new PlayOptions
+        return new PlayOptions
         {
             ContentPath = ExampleContentPath,
             GameStateId = "default",
@@ -22,12 +22,12 @@ public static class CommandDefaults
             Mode = PlayMode.ZeroPlayer,
             AttackerMcts = MctsOptions.AttackerDefault,
             DefenderMcts = MctsOptions.DefenderDefault
-        });
+        };
     }
 
-    public static CliArguments CreateEvalArguments()
+    public static EvalOptions CreateEvalOptions()
     {
-        return CliArguments.CreateEval(new EvalOptions
+        return new EvalOptions
         {
             ContentPath = ExampleContentPath,
             Seed = 12345,
@@ -36,6 +36,6 @@ public static class CommandDefaults
             AttackerMcts = MctsOptions.AttackerDefault,
             DefenderMcts = MctsOptions.DefenderDefault,
             EvalRunResultOutput = EvalOutputPath,
-        });
+        };
     }
 }

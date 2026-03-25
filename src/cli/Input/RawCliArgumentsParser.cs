@@ -43,7 +43,7 @@ public sealed class RawCliArgumentsParser
 
     private static CliArguments ParsePlay(IReadOnlyDictionary<string, string> options)
     {
-        var defaults = CommandDefaults.CreatePlayArguments().PlayOptions
+        var defaults = CommandDefaults.CreatePlayOptions()
                     ?? throw new InvalidOperationException("Default play options are unavailable.");
 
         return CliArguments.CreatePlay(new PlayOptions
@@ -61,7 +61,7 @@ public sealed class RawCliArgumentsParser
 
     private static CliArguments ParseEval(IReadOnlyDictionary<string, string> options)
     {
-        var defaults = CommandDefaults.CreateEvalArguments().EvalOptions
+        var defaults = CommandDefaults.CreateEvalOptions()
                     ?? throw new InvalidOperationException("Default eval options are unavailable.");
 
         return CliArguments.CreateEval(new EvalOptions
