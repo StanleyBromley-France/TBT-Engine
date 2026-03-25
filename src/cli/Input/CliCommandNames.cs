@@ -1,4 +1,4 @@
-namespace Cli.Input.Parsing;
+namespace Cli.Input;
 
 using Cli.Args.Commands;
 

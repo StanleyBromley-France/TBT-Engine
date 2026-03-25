@@ -11,7 +11,7 @@ try
     if (args.Length > 0)
     {
         var parser = new RawCliArgumentsParser();
-        arguments = parser.Parse(args[0]);
+        arguments = parser.Parse(args);
     }
     else
     {
