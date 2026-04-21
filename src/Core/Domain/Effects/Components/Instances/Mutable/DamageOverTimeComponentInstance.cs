@@ -36,7 +36,11 @@ public sealed class DamageOverTimeComponentInstance : EffectComponentInstance<Da
         // tick damage is multiplied per stack
         var damage = _resolvedDamagePerTick.Value * effect.CurrentStacks;
 
-        context.CombatTelemetry.RecordDamage(effect.SourceUnitId, effect.TargetUnitId, damage);
+        var state = ((IGameMutationAccess)context).GetState();
+        var target = state.UnitInstances[effect.TargetUnitId];
+        var wasFatal = target.IsAlive && target.Resources.HP - damage <= 0;
+
+        context.CombatTelemetry.RecordDamage(effect.SourceUnitId, effect.TargetUnitId, damage, wasFatal);
         context.Units.ChangeHp(effect.TargetUnitId, -damage);
     }
 

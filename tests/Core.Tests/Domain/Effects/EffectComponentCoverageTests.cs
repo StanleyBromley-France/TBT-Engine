@@ -86,6 +86,24 @@ public class EffectComponentCoverageTests
         Assert.Equal(unit.Id, damageEvent.SourceUnitId);
         Assert.Equal(unit.Id, damageEvent.TargetUnitId);
         Assert.Equal(3, damageEvent.Amount);
+        Assert.False(damageEvent.WasFatal);
+    }
+
+    [Fact]
+    public void InstantDamageComponent_OnApply_Records_Fatal_Damage_Telemetry()
+    {
+        var (unit, context, telemetry) = CreateSingleUnitContextWithTelemetry(hp: 3);
+        var component = new InstantDamageComponentInstance(
+            new EffectComponentInstanceId(1011),
+            new InstantDamageComponentTemplate(new EffectComponentTemplateId("instant-dmg-fatal"), 1, DamageType.Physical, 0, 1f));
+
+        ((IResolvableHpDeltaComponent)component).ResolvedHpDelta = 3;
+        var effect = CreateEffect(sourceId: unit.Id, targetId: unit.Id, component);
+
+        component.OnApply(context, effect);
+
+        var damageEvent = Assert.Single(telemetry.DamageEvents);
+        Assert.True(damageEvent.WasFatal);
     }
 
     [Fact]
@@ -300,14 +318,18 @@ public class EffectComponentCoverageTests
 
     private sealed class RecordingCombatTelemetrySink : ICombatTelemetrySink
     {
-        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> DamageEvents { get; } = new();
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount, bool WasFatal)> DamageEvents { get; } = new();
 
         public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> HealingEvents { get; } = new();
 
-        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
-            => DamageEvents.Add((sourceUnitId, targetUnitId, amount));
+        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount, bool wasFatal)
+            => DamageEvents.Add((sourceUnitId, targetUnitId, amount, wasFatal));
 
         public void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
             => HealingEvents.Add((sourceUnitId, targetUnitId, amount));
+
+        public void RecordEffectApplied(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, EffectTelemetryKind kind, int grantedTicks)
+        {
+        }
     }
 }

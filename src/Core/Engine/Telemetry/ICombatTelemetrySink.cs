@@ -4,7 +4,9 @@ using Core.Domain.Types;
 
 public interface ICombatTelemetrySink
 {
-    void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount);
+    void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount, bool wasFatal);
 
     void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount);
+
+    void RecordEffectApplied(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, EffectTelemetryKind kind, int grantedTicks);
 }

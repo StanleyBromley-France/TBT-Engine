@@ -140,7 +140,12 @@ internal sealed class EvalCommandRunner
                     Performance: new EvalUnitPerformanceResult(
                         DamageDealt: totals.DamageDealt,
                         DamageTaken: totals.DamageTaken,
-                        HealingDone: totals.HealingDone));
+                        HealingDone: totals.HealingDone,
+                        Kills: totals.Kills,
+                        BuffEffectsApplied: totals.BuffEffectsApplied,
+                        DebuffEffectsApplied: totals.DebuffEffectsApplied,
+                        BuffUptimeTicksGranted: totals.BuffUptimeTicksGranted,
+                        DebuffUptimeTicksGranted: totals.DebuffUptimeTicksGranted));
             })
             .ToArray();
     }

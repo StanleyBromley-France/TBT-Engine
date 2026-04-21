@@ -9,6 +9,7 @@ using Core.Domain.Types;
 using Core.Engine.Effects.Components.Calculators;
 using Core.Engine.Mutation;
 using Core.Engine.Mutation.Mutators;
+using Core.Engine.Telemetry;
 using Core.Game.Factories.Effects;
 using Core.Game.Requests;
 using Core.Game.State.ReadOnly;
@@ -49,6 +50,11 @@ internal sealed class EffectManager : IEffectManager
             {
                 context.Effects.IncreaseStacks(targetId, existing.Id);
                 context.Effects.ResetTicksToMax(targetId, existing.Id);
+                context.CombatTelemetry.RecordEffectApplied(
+                    request.SourceUnitId,
+                    targetId,
+                    ClassifyEffect(existing),
+                    existing.Template.TotalTicks);
 
                 ResolveHpDeltaComponents(context, state, existing, targetId);
             }
@@ -58,6 +64,11 @@ internal sealed class EffectManager : IEffectManager
                 var instance = context.CreateEffect(createRequest);
 
                 context.Effects.AddEffect(instance.TargetUnitId, instance);
+                context.CombatTelemetry.RecordEffectApplied(
+                    request.SourceUnitId,
+                    targetId,
+                    ClassifyEffect(instance),
+                    instance.Template.TotalTicks);
 
                 ResolveHpDeltaComponents(context, state, instance, targetId);
 
@@ -167,5 +178,18 @@ internal sealed class EffectManager : IEffectManager
 
             context.Effects.UpdateHpDelta(target, instance.Id, component.Id, resolveValue);
         }
+    }
+
+    private static EffectTelemetryKind ClassifyEffect(IReadOnlyEffectInstance effect)
+    {
+        var hasAttributeModifier = effect.Components.Any(component =>
+            component.Template is FlatAttributeModifierComponentTemplate or PercentAttributeModifierComponentTemplate);
+
+        if (!hasAttributeModifier)
+            return EffectTelemetryKind.Standard;
+
+        return effect.Template.IsHarmful
+            ? EffectTelemetryKind.Debuff
+            : EffectTelemetryKind.Buff;
     }
 }

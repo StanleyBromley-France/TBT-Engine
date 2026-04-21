@@ -147,12 +147,16 @@ public class EngineSandboxIsolationTests
 
     private sealed class RecordingCombatTelemetrySink : ICombatTelemetrySink
     {
-        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> DamageEvents { get; } = new();
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount, bool WasFatal)> DamageEvents { get; } = new();
 
-        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
-            => DamageEvents.Add((sourceUnitId, targetUnitId, amount));
+        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount, bool wasFatal)
+            => DamageEvents.Add((sourceUnitId, targetUnitId, amount, wasFatal));
 
         public void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
+        {
+        }
+
+        public void RecordEffectApplied(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, EffectTelemetryKind kind, int grantedTicks)
         {
         }
     }

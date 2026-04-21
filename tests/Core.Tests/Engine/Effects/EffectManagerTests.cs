@@ -15,6 +15,7 @@ using Core.Engine.Effects;
 using Core.Engine.Effects.Components.Calculators;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
+using Core.Engine.Telemetry;
 using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 using Core.Game.Match;
@@ -257,6 +258,109 @@ public class EffectManagerTests
         Assert.NotEqual(firstEffectId, secondEffectId);
     }
 
+    [Fact]
+    public void ApplyOrStackEffect_Records_Harmful_Effect_Application_Telemetry()
+    {
+        var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
+
+        var templateId = new EffectTemplateId("harmful-effect");
+        var modifierTemplate = new FlatAttributeModifierComponentTemplate(
+            new EffectComponentTemplateId("harmful-flat"),
+            Core.Domain.Effects.Stats.StatType.PhysicalDamageReceived,
+            amount: 10);
+        var template = new TestEffectTemplate(templateId, totalTicks: 3, maxStacks: 1, isHarmful: true, componentIds: [modifierTemplate.Id]);
+        var factory = new FakeEffectFactory((src, tgt) =>
+            new EffectInstance(new EffectInstanceId(900), template, src, tgt, [new FlatAttributeModifierComponentInstance(new EffectComponentInstanceId(901), modifierTemplate)]));
+        var session = CreateSession(state, factory, template);
+        var telemetry = new RecordingCombatTelemetrySink();
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord(), telemetry);
+
+        var manager = new EffectManager(
+            new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
+            new FakeDamageCalculator(0),
+            new FakeHealCalculator(0));
+
+        manager.ApplyOrStackEffect(context, state, new EffectApplicationRequest(templateId, source.Id, new[] { target.Id }));
+
+        var effectEvent = Assert.Single(telemetry.EffectEvents);
+        Assert.Equal(source.Id, effectEvent.SourceUnitId);
+        Assert.Equal(target.Id, effectEvent.TargetUnitId);
+        Assert.Equal(EffectTelemetryKind.Debuff, effectEvent.Kind);
+        Assert.Equal(3, effectEvent.GrantedTicks);
+    }
+
+    [Fact]
+    public void ApplyOrStackEffect_Records_Refresh_As_Granted_Ticks()
+    {
+        var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
+
+        var templateId = new EffectTemplateId("buff-effect");
+        var modifierTemplate = new PercentAttributeModifierComponentTemplate(
+            new EffectComponentTemplateId("buff-percent"),
+            Core.Domain.Effects.Stats.StatType.DamageDealt,
+            percent: 25);
+        var template = new TestEffectTemplate(templateId, totalTicks: 4, maxStacks: 3, isHarmful: false, componentIds: [modifierTemplate.Id]);
+        var existing = new EffectInstance(
+            new EffectInstanceId(901),
+            template,
+            source.Id,
+            target.Id,
+            [new PercentAttributeModifierComponentInstance(new EffectComponentInstanceId(902), modifierTemplate)]);
+        existing.RemainingTicks = 1;
+        state.ActiveEffects[target.Id][existing.Id] = existing;
+
+        var session = CreateSession(state, new FakeEffectFactory((_, _) => throw new InvalidOperationException()), template);
+        var telemetry = new RecordingCombatTelemetrySink();
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord(), telemetry);
+
+        var manager = new EffectManager(
+            new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
+            new FakeDamageCalculator(0),
+            new FakeHealCalculator(0));
+
+        manager.ApplyOrStackEffect(context, state, new EffectApplicationRequest(templateId, source.Id, new[] { target.Id }));
+
+        var effectEvent = Assert.Single(telemetry.EffectEvents);
+        Assert.Equal(EffectTelemetryKind.Buff, effectEvent.Kind);
+        Assert.Equal(4, effectEvent.GrantedTicks);
+    }
+
+    [Fact]
+    public void ApplyOrStackEffect_Does_Not_Record_Pure_Damage_Effect_As_Debuff()
+    {
+        var source = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0));
+        var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0));
+        var state = EngineTestFactory.CreateState(new[] { source, target }, teamToAct: 1);
+
+        var templateId = new EffectTemplateId("pure-damage");
+        var damageTemplate = new InstantDamageComponentTemplate(
+            new EffectComponentTemplateId("pure-dmg-component"),
+            damage: 1,
+            DamageType.Physical,
+            critChance: 0,
+            critMultiplier: 1f);
+        var template = new TestEffectTemplate(templateId, totalTicks: 2, maxStacks: 1, isHarmful: true, componentIds: [damageTemplate.Id]);
+        var factory = new FakeEffectFactory((src, tgt) =>
+            new EffectInstance(new EffectInstanceId(903), template, src, tgt, [new InstantDamageComponentInstance(new EffectComponentInstanceId(904), damageTemplate)]));
+        var session = CreateSession(state, factory, template);
+        var telemetry = new RecordingCombatTelemetrySink();
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord(), telemetry);
+
+        var manager = new EffectManager(
+            new FakeDerivedStatsCalculator(new UnitDerivedStats(3, 100, 100, 10, 10, 2, 100, 100, 100)),
+            new FakeDamageCalculator(5),
+            new FakeHealCalculator(0));
+
+        manager.ApplyOrStackEffect(context, state, new EffectApplicationRequest(templateId, source.Id, new[] { target.Id }));
+
+        var effectEvent = Assert.Single(telemetry.EffectEvents);
+        Assert.Equal(EffectTelemetryKind.Standard, effectEvent.Kind);
+    }
+
     private static GameSession CreateSession(GameState state, IEffectInstanceFactory effectFactory, params EffectTemplate[] effectTemplates)
     {
         var registry = CreateTemplates(effectTemplates);
@@ -348,10 +452,39 @@ public class EffectManagerTests
 
     private sealed class TestEffectTemplate : EffectTemplate
     {
-        public TestEffectTemplate(EffectTemplateId id, int totalTicks, int maxStacks)
-            : base(id, name: "test", isHarmful: false, totalTicks: totalTicks, maxStacks: maxStacks, components: Array.Empty<EffectComponentTemplateId>())
+        public TestEffectTemplate(
+            EffectTemplateId id,
+            int totalTicks,
+            int maxStacks,
+            bool isHarmful = false,
+            IEnumerable<EffectComponentTemplateId>? componentIds = null)
+            : base(
+                id,
+                name: "test",
+                isHarmful: isHarmful,
+                totalTicks: totalTicks,
+                maxStacks: maxStacks,
+                components: componentIds ?? Array.Empty<EffectComponentTemplateId>())
         {
         }
+    }
+
+    private sealed class RecordingCombatTelemetrySink : ICombatTelemetrySink
+    {
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount, bool WasFatal)> DamageEvents { get; } = new();
+
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> HealingEvents { get; } = new();
+
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, EffectTelemetryKind Kind, int GrantedTicks)> EffectEvents { get; } = new();
+
+        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount, bool wasFatal)
+            => DamageEvents.Add((sourceUnitId, targetUnitId, amount, wasFatal));
+
+        public void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
+            => HealingEvents.Add((sourceUnitId, targetUnitId, amount));
+
+        public void RecordEffectApplied(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, EffectTelemetryKind kind, int grantedTicks)
+            => EffectEvents.Add((sourceUnitId, targetUnitId, kind, grantedTicks));
     }
 
     private sealed class MismatchedResolvableComponent : EffectComponentInstance, IReadOnlyResolvableHpDeltaComponent
