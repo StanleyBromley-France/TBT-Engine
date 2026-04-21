@@ -22,6 +22,11 @@ internal static class ConfigValidator
 
             ValidateRequiredString(item.Id, ContentSchema.Property(path, ContentSchema.Fields.Id), ContentSchema.Fields.Id, issues);
             ValidateRequiredString(item.Name, ContentSchema.Property(path, ContentSchema.Fields.Name), ContentSchema.Fields.Name, issues);
+            ValidateRequiredString(
+                item.PrimaryRole,
+                ContentSchema.Property(path, ContentSchema.Fields.PrimaryRole),
+                ContentSchema.Fields.PrimaryRole,
+                issues);
 
             if (item.AbilityIds is null)
             {

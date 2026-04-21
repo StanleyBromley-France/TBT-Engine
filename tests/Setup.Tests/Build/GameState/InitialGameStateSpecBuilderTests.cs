@@ -224,6 +224,8 @@ public sealed class InitialGameStateSpecBuilderTests
             id => new UnitTemplate(
                 id: new UnitTemplateId(id),
                 name: id,
+                primaryRole: RoleType.Damage,
+                secondaryRole: null,
                 baseStats: new UnitBaseStats(
                     maxHp: 10,
                     maxManaPoints: 5,

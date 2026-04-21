@@ -14,6 +14,7 @@ public sealed class JsonContentLoaderRequiredFieldsNullTests
 
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Id");
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].Name");
+        Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "UnitTemplates[0].PrimaryRole");
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.NullCollectionCode && i.Path == "UnitTemplates[0].AbilityIds");
 
         Assert.Contains(pack.IssueView.Issues, i => i.Code == ContentIssueFactory.RequiredFieldCode && i.Path == "Abilities[0].Id");

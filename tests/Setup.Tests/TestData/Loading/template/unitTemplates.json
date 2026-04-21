@@ -2,6 +2,7 @@
   {
     "id": "",
     "name": "",
+    "primaryRole": "",
     "maxHp": 0,
     "maxManaPoints": 0,
     "movePoints": 0,

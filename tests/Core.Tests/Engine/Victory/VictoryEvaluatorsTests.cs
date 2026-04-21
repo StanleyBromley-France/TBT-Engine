@@ -161,6 +161,8 @@ public class VictoryEvaluatorsTests
         var template = new UnitTemplate(
             new UnitTemplateId($"unit-{id}"),
             $"Unit {id}",
+            RoleType.Damage,
+            null,
             new UnitBaseStats(maxHp: 10, maxManaPoints: 5, movePoints: 3, physicalDamageModifier: 100, magicDamageModifier: 100),
             Array.Empty<AbilityId>());
         var unit = new UnitInstance(new UnitInstanceId(id), new TeamId(team), template, new HexCoord(id, 0));

@@ -17,14 +17,26 @@ namespace Core.Domain.Units.Templates
 
         public string Name { get; }
 
+        public RoleType PrimaryRole { get; }
+
+        public RoleType? SecondaryRole { get; }
+
         public UnitBaseStats BaseStats { get; }
 
         public AbilityId[] AbilityIds { get; }
 
-        public UnitTemplate(UnitTemplateId id, string name, UnitBaseStats baseStats, AbilityId[] abilityIds)
+        public UnitTemplate(
+            UnitTemplateId id,
+            string name,
+            RoleType primaryRole,
+            RoleType? secondaryRole,
+            UnitBaseStats baseStats,
+            AbilityId[] abilityIds)
         {
             Id = id;
             Name = name;
+            PrimaryRole = primaryRole;
+            SecondaryRole = secondaryRole;
             BaseStats = baseStats;
             AbilityIds = abilityIds;
         }

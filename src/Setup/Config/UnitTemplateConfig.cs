@@ -4,6 +4,8 @@ public sealed class UnitTemplateConfig
 {
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public string PrimaryRole { get; set; } = string.Empty;
+    public string? SecondaryRole { get; set; }
     public int MaxHP { get; set; }
     public int MaxManaPoints { get; set; }
     public int MovePoints { get; set; }

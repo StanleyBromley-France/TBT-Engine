@@ -16,6 +16,8 @@ public static class ContentSchema
     {
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string PrimaryRole = "PrimaryRole";
+        public const string SecondaryRole = "SecondaryRole";
         public const string Category = "Category";
         public const string EffectTemplateId = "EffectTemplateId";
         public const string AllowedTarget = "AllowedTarget";

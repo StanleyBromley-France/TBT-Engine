@@ -29,6 +29,11 @@ internal static class UnitRepoBuilder
                 continue;
             }
 
+            if (!TryParseRoles(config, path, issues, out var primaryRole, out var secondaryRole))
+            {
+                continue;
+            }
+
             var abilityIds = new List<AbilityId>();
             for (var j = 0; j < config.AbilityIds.Count; j++)
             {
@@ -58,10 +63,67 @@ internal static class UnitRepoBuilder
             result[id] = new UnitTemplate(
                 id,
                 config.Name,
+                primaryRole,
+                secondaryRole,
                 baseStats,
                 abilityIds.ToArray());
         }
 
         return result;
+    }
+
+    private static bool TryParseRoles(
+        UnitTemplateConfig config,
+        string path,
+        ValidationCollector issues,
+        out RoleType primaryRole,
+        out RoleType? secondaryRole)
+    {
+        var hasPrimary = TryParseEnum(
+            config.PrimaryRole,
+            ContentSchema.Property(path, ContentSchema.Fields.PrimaryRole),
+            nameof(RoleType),
+            issues,
+            out primaryRole);
+
+        secondaryRole = null;
+        if (string.IsNullOrWhiteSpace(config.SecondaryRole))
+        {
+            return hasPrimary;
+        }
+
+        var hasSecondary = TryParseEnum(
+            config.SecondaryRole,
+            ContentSchema.Property(path, ContentSchema.Fields.SecondaryRole),
+            nameof(RoleType),
+            issues,
+            out RoleType parsedSecondaryRole);
+
+        if (hasSecondary)
+        {
+            secondaryRole = parsedSecondaryRole;
+        }
+
+        return hasPrimary && hasSecondary;
+    }
+
+    private static bool TryParseEnum<TEnum>(
+        string? raw,
+        string path,
+        string enumName,
+        ValidationCollector issues,
+        out TEnum parsed)
+        where TEnum : struct
+    {
+        if (!string.IsNullOrWhiteSpace(raw) &&
+            Enum.TryParse(raw, ignoreCase: true, out TEnum parsedValue))
+        {
+            parsed = parsedValue;
+            return true;
+        }
+
+        issues.Add(ContentIssueFactory.InvalidEnumValue(path, enumName, raw));
+        parsed = default;
+        return false;
     }
 }

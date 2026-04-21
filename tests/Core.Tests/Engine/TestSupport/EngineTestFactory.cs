@@ -54,6 +54,8 @@ internal static class EngineTestFactory
         var template = new UnitTemplate(
             new UnitTemplateId($"unit-{id}"),
             $"Unit {id}",
+            RoleType.Damage,
+            null,
             new UnitBaseStats(maxHp: 10, maxManaPoints: 10, movePoints: 3, physicalDamageModifier: 100, magicDamageModifier: 100),
             abilityIds);
 

@@ -2,6 +2,8 @@
   {
     "id": "unit-1",
     "name": "Knight",
+    "primaryRole": "Tank",
+    "secondaryRole": "Buffer",
     "maxHP": 120,
     "maxManaPoints": 25,
     "movePoints": 4,

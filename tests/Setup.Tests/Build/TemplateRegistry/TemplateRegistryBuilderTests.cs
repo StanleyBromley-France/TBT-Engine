@@ -1,5 +1,6 @@
 namespace Setup.Tests.Build.TemplateRegistry;
 
+using Core.Domain.Units;
 using Setup.Build.TemplateRegistry;
 using Setup.Build.TemplateRegistry.Builders.EffectComponents;
 using Setup.Build.TemplateRegistry.Builders.EffectComponents.Builders;
@@ -60,7 +61,9 @@ public sealed class TemplateRegistryBuilderTests
 
         Assert.NotNull(result.TemplateRegistry);
         Assert.False(result.HasErrors);
-        Assert.Single(result.TemplateRegistry!.Units.GetAll());
+        var unit = Assert.Single(result.TemplateRegistry!.Units.GetAll().Values);
+        Assert.Equal(RoleType.Tank, unit.PrimaryRole);
+        Assert.Equal(RoleType.Buffer, unit.SecondaryRole);
         Assert.Single(result.TemplateRegistry.Abilities.GetAll());
         Assert.Single(result.TemplateRegistry.Effects.GetAll());
         Assert.Single(result.TemplateRegistry.EffectComponents.GetAll());
@@ -103,6 +106,8 @@ public sealed class TemplateRegistryBuilderTests
                 {
                     Id = "unit-1",
                     Name = "Soldier",
+                    PrimaryRole = "Tank",
+                    SecondaryRole = "Buffer",
                     MaxHP = 100,
                     MaxManaPoints = 10,
                     MovePoints = 5,

@@ -18,6 +18,8 @@ public sealed class JsonContentLoaderRequiredFieldsPopulatedTests
         Assert.Single(pack.Templates.Units);
         Assert.Equal("unit-1", pack.Templates.Units[0].Id);
         Assert.Equal("Knight", pack.Templates.Units[0].Name);
+        Assert.Equal("Tank", pack.Templates.Units[0].PrimaryRole);
+        Assert.Equal("Buffer", pack.Templates.Units[0].SecondaryRole);
         Assert.Single(pack.Templates.Units[0].AbilityIds);
         Assert.Equal("ability-1", pack.Templates.Units[0].AbilityIds[0]);
 
