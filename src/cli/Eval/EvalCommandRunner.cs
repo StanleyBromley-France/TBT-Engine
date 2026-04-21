@@ -13,6 +13,7 @@ using Core.Game.Bootstrap;
 using Core.Game.Bootstrap.Contracts;
 using GameRunner.Controllers;
 using GameRunner.Runners;
+using GameRunner.Results;
 using Setup.Build.Scenarios;
 using Setup.ScenarioSetup;
 
@@ -46,12 +47,15 @@ internal sealed class EvalCommandRunner
                 scenario.TemplateRegistry!,
                 scenario.GameStateSpec!,
                 options.Seed);
-            var engine = EngineCompositionRoot.Create(session, options.MaxTurns);
+            var telemetry = new UnitPerformanceTelemetryCollector();
+            var engine = EngineCompositionRoot.Create(session, options.MaxTurns, telemetry);
 
             _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
             var controllers = CreateControllers(options, scenario.GameStateSpec!);
             var runner = new EvalRunner();
             var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, cancellationToken);
+            var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
+            result = result with { Units = units };
             scenarioResults.Add(new EvalScenarioResult(gameStateId, result));
         }
 
@@ -101,5 +105,43 @@ internal sealed class EvalCommandRunner
 
         if (scenario.TemplateRegistry is null || scenario.GameStateSpec is null)
             throw new InvalidOperationException($"Scenario bootstrap did not produce a template registry and game state spec for '{gameStateId}'.");
+    }
+
+    private static IReadOnlyList<EvalUnitResult> BuildUnitResults(
+        EngineFacade engine,
+        IGameStateSpec gameStateSpec,
+        UnitPerformanceTelemetryCollector telemetry)
+    {
+        var state = engine.GetState();
+
+        return state.UnitInstances.Values
+            .OrderBy(unit => unit.Id.Value)
+            .Select(unit =>
+            {
+                var totals = telemetry.GetTotals(unit.Id.Value);
+                var side = unit.Team == gameStateSpec.AttackerTeamId
+                    ? "Attacker"
+                    : unit.Team == gameStateSpec.DefenderTeamId
+                        ? "Defender"
+                        : "Unknown";
+
+                return new EvalUnitResult(
+                    UnitInstanceId: unit.Id.Value,
+                    UnitTemplateId: unit.Template.Id.Value,
+                    TeamId: unit.Team.Value,
+                    Side: side,
+                    Roles: new EvalUnitRolesResult(
+                        PrimaryRole: unit.Template.PrimaryRole.ToString(),
+                        SecondaryRole: unit.Template.SecondaryRole?.ToString()),
+                    FinalState: new EvalUnitFinalStateResult(
+                        Alive: unit.IsAlive,
+                        Hp: unit.Resources.HP,
+                        Mana: unit.Resources.Mana),
+                    Performance: new EvalUnitPerformanceResult(
+                        DamageDealt: totals.DamageDealt,
+                        DamageTaken: totals.DamageTaken,
+                        HealingDone: totals.HealingDone));
+            })
+            .ToArray();
     }
 }

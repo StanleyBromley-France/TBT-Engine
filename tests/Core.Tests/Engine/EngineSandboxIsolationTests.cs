@@ -7,6 +7,7 @@ using Core.Domain.Types;
 using Core.Domain.Units.Templates;
 using Core.Engine;
 using Core.Engine.Actions.Choice;
+using Core.Engine.Telemetry;
 using Core.Game.Match;
 using Core.Game.Session;
 using Core.Tests.Engine.TestSupport;
@@ -49,6 +50,37 @@ public class EngineSandboxIsolationTests
         // Assert: live should still allocate its first effect instance id independently.
         var liveEffect = Assert.Single(session.Runtime.State.ActiveEffects[target.Id]);
         Assert.Equal(new EffectInstanceId(1), liveEffect.Key);
+    }
+
+    [Fact]
+    public void CreateSandbox_Does_Not_Record_Combat_Telemetry_From_Sandbox_Simulation()
+    {
+        var abilityId = new AbilityId("strike");
+        var effectId = new EffectTemplateId("strike-effect");
+        var componentId = new EffectComponentTemplateId("strike-damage");
+        var ability = new Ability(
+            abilityId,
+            "Strike",
+            AbilityCategory.OffensiveSpell,
+            cost: 0,
+            targeting: new TargetingRules(range: 1, requiresLineOfSight: false, allowedTarget: TargetType.Enemy, radius: 0),
+            effect: effectId);
+        var effect = new TestEffectTemplate(effectId, componentId);
+        var component = new InstantDamageComponentTemplate(componentId, damage: 1, DamageType.Physical, critChance: 0, critMultiplier: 1.5f);
+
+        var caster = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), abilityIds: abilityId);
+        var target = EngineTestFactory.CreateUnit(2, 2, new HexCoord(1, 0), hp: 10);
+        var state = EngineTestFactory.CreateState(new[] { caster, target }, teamToAct: 1);
+        var session = CreateSession(state, caster.Template, target.Template, ability, effect, component);
+        var telemetry = new RecordingCombatTelemetrySink();
+
+        var live = EngineCompositionRoot.Create(session, turnCount: 12, telemetry);
+        var sandbox = live.CreateSandbox();
+        var action = new UseAbilityAction(caster.Id, ability.Id, target.Id);
+
+        sandbox.ApplyAction(action);
+
+        Assert.Empty(telemetry.DamageEvents);
     }
 
     private static GameSession CreateSession(
@@ -109,6 +141,18 @@ public class EngineSandboxIsolationTests
                 totalTicks: 3,
                 maxStacks: 1,
                 components: new[] { componentId })
+        {
+        }
+    }
+
+    private sealed class RecordingCombatTelemetrySink : ICombatTelemetrySink
+    {
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> DamageEvents { get; } = new();
+
+        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
+            => DamageEvents.Add((sourceUnitId, targetUnitId, amount));
+
+        public void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
         {
         }
     }

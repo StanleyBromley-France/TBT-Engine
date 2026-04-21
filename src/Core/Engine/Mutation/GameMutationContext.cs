@@ -3,6 +3,7 @@
 using Core.Domain.Effects.Instances.Mutable;
 using Core.Engine.Mutation.Mutators;
 using Core.Engine.Random;
+using Core.Engine.Telemetry;
 using Core.Game.Requests;
 using Core.Game.Session;
 using Core.Game.State;
@@ -20,17 +21,23 @@ public sealed class GameMutationContext : IGameMutationAccess
     private readonly DeterministicRng _rngService;
     private readonly UndoRecord _undoRecord;
 
+    public ICombatTelemetrySink CombatTelemetry { get; }
     public IUnitsMutator Units { get; }
     public IMovementMutator Movement { get; }
     public ITurnMutator Turn { get; }
     public IEffectsMutator Effects { get; }
     public IRngMutator Rng { get; }
 
-    internal GameMutationContext(GameSession session, DeterministicRng rng, UndoRecord undoRecord)
+    internal GameMutationContext(
+        GameSession session,
+        DeterministicRng rng,
+        UndoRecord undoRecord,
+        ICombatTelemetrySink? combatTelemetry = null)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _rngService = rng ?? throw new ArgumentNullException(nameof(rng));
         _undoRecord = undoRecord;
+        CombatTelemetry = combatTelemetry ?? NullCombatTelemetrySink.Instance;
 
         Units = new UnitsMutator(this);
         Movement = new MovementMutator(this);
@@ -43,6 +50,7 @@ public sealed class GameMutationContext : IGameMutationAccess
     GameSession session,
     DeterministicRng rng,
     UndoRecord undoRecord,
+    ICombatTelemetrySink? combatTelemetry,
     IUnitsMutator units,
     IMovementMutator movement,
     ITurnMutator turn,
@@ -52,6 +60,7 @@ public sealed class GameMutationContext : IGameMutationAccess
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _rngService = rng ?? throw new ArgumentNullException(nameof(rng));
         _undoRecord = undoRecord;
+        CombatTelemetry = combatTelemetry ?? NullCombatTelemetrySink.Instance;
 
         Units = units ?? throw new ArgumentNullException(nameof(units));
         Movement = movement ?? throw new ArgumentNullException(nameof(movement));

@@ -33,6 +33,7 @@ public sealed class InstantDamageComponentInstance : EffectComponentInstance<Ins
         if (!_resolvedDamage.HasValue)
             throw new InvalidOperationException("Damage was not resolved before applying.");
 
+        context.CombatTelemetry.RecordDamage(effect.SourceUnitId, effect.TargetUnitId, _resolvedDamage.Value);
         context.Units.ChangeHp(effect.TargetUnitId, -_resolvedDamage.Value);
     }
 

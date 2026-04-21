@@ -9,6 +9,7 @@ internal static class EvalBatchResultWriter
     {
         WriteIndented = true,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
     public static async Task WriteAsync(EvalBatchResult result, string filePath, CancellationToken cancellationToken = default)

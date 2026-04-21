@@ -9,6 +9,7 @@ using Core.Domain.Units.Instances.Mutable;
 using Core.Engine.Effects;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
+using Core.Engine.Telemetry;
 using Core.Undo;
 using Core.Tests.Engine.TestSupport;
 using Core.Game.State;
@@ -34,6 +35,25 @@ public class EffectComponentCoverageTests
     }
 
     [Fact]
+    public void InstantHealComponent_OnApply_Records_Healing_Telemetry()
+    {
+        var (unit, context, telemetry) = CreateSingleUnitContextWithTelemetry(hp: 5);
+        var component = new InstantHealComponentInstance(
+            new EffectComponentInstanceId(1008),
+            new InstantHealComponentTemplate(new EffectComponentTemplateId("instant-heal-telemetry"), heal: 1));
+
+        ((IResolvableHpDeltaComponent)component).ResolvedHpDelta = 4;
+        var effect = CreateEffect(sourceId: unit.Id, targetId: unit.Id, component);
+
+        component.OnApply(context, effect);
+
+        var healingEvent = Assert.Single(telemetry.HealingEvents);
+        Assert.Equal(unit.Id, healingEvent.SourceUnitId);
+        Assert.Equal(unit.Id, healingEvent.TargetUnitId);
+        Assert.Equal(4, healingEvent.Amount);
+    }
+
+    [Fact]
     public void InstantDamageComponent_OnApply_Damages_Target()
     {
         var (unit, context) = CreateSingleUnitContext(hp: 9);
@@ -47,6 +67,25 @@ public class EffectComponentCoverageTests
         component.OnApply(context, effect);
 
         Assert.Equal(6, unit.Resources.HP);
+    }
+
+    [Fact]
+    public void InstantDamageComponent_OnApply_Records_Damage_Telemetry()
+    {
+        var (unit, context, telemetry) = CreateSingleUnitContextWithTelemetry(hp: 9);
+        var component = new InstantDamageComponentInstance(
+            new EffectComponentInstanceId(1009),
+            new InstantDamageComponentTemplate(new EffectComponentTemplateId("instant-dmg-telemetry"), 1, DamageType.Physical, 0, 1f));
+
+        ((IResolvableHpDeltaComponent)component).ResolvedHpDelta = 3;
+        var effect = CreateEffect(sourceId: unit.Id, targetId: unit.Id, component);
+
+        component.OnApply(context, effect);
+
+        var damageEvent = Assert.Single(telemetry.DamageEvents);
+        Assert.Equal(unit.Id, damageEvent.SourceUnitId);
+        Assert.Equal(unit.Id, damageEvent.TargetUnitId);
+        Assert.Equal(3, damageEvent.Amount);
     }
 
     [Fact]
@@ -183,6 +222,17 @@ public class EffectComponentCoverageTests
         return (unit, context);
     }
 
+    private static (UnitInstance unit, GameMutationContext context, RecordingCombatTelemetrySink telemetry) CreateSingleUnitContextWithTelemetry(int hp = 10)
+    {
+        var (unit, state) = CreateSingleUnitState(hp);
+        var session = EngineTestFactory.CreateSession(
+            state,
+            new AbilityRepository(Array.Empty<KeyValuePair<AbilityId, Ability>>()));
+        var telemetry = new RecordingCombatTelemetrySink();
+        var context = new GameMutationContext(session, new DeterministicRng(), new UndoRecord(), telemetry);
+        return (unit, context, telemetry);
+    }
+
     private static (UnitInstance unit, GameState state) CreateSingleUnitState(int hp = 10)
     {
         var unit = EngineTestFactory.CreateUnit(1, 1, new HexCoord(0, 0), hp: hp);
@@ -190,15 +240,21 @@ public class EffectComponentCoverageTests
         return (unit, state);
     }
 
-    private static Core.Domain.Effects.Instances.Mutable.EffectInstance CreateEffect(UnitInstanceId targetId, params EffectComponentInstance[] components)
+    private static Core.Domain.Effects.Instances.Mutable.EffectInstance CreateEffect(
+        UnitInstanceId sourceId,
+        UnitInstanceId targetId,
+        params EffectComponentInstance[] components)
     {
         return new Core.Domain.Effects.Instances.Mutable.EffectInstance(
             new EffectInstanceId(2000 + components.Length),
             new TestEffectTemplate(new EffectTemplateId("component-test")),
-            sourceUnitId: targetId,
+            sourceUnitId: sourceId,
             targetUnitId: targetId,
             components);
     }
+
+    private static Core.Domain.Effects.Instances.Mutable.EffectInstance CreateEffect(UnitInstanceId targetId, params EffectComponentInstance[] components)
+        => CreateEffect(targetId, targetId, components);
 
     private static int GetBaseStat(Core.Domain.Units.UnitBaseStats baseStats, StatType stat)
     {
@@ -240,5 +296,18 @@ public class EffectComponentCoverageTests
             : base(id, "component-test", isHarmful: false, totalTicks: 3, maxStacks: 5, components: Array.Empty<EffectComponentTemplateId>())
         {
         }
+    }
+
+    private sealed class RecordingCombatTelemetrySink : ICombatTelemetrySink
+    {
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> DamageEvents { get; } = new();
+
+        public List<(UnitInstanceId SourceUnitId, UnitInstanceId TargetUnitId, int Amount)> HealingEvents { get; } = new();
+
+        public void RecordDamage(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
+            => DamageEvents.Add((sourceUnitId, targetUnitId, amount));
+
+        public void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
+            => HealingEvents.Add((sourceUnitId, targetUnitId, amount));
     }
 }

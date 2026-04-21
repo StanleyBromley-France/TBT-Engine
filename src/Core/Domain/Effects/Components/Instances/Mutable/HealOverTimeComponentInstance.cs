@@ -33,6 +33,7 @@ public sealed class HealOverTimeComponentInstance
 
         var heal = _resolvedHealPerTick.Value * effect.CurrentStacks;
 
+        context.CombatTelemetry.RecordHealing(effect.SourceUnitId, effect.TargetUnitId, heal);
         context.Units.ChangeHp(effect.TargetUnitId, +heal);
     }
 

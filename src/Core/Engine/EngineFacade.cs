@@ -8,6 +8,7 @@ using Core.Engine.Effects;
 using Core.Engine.Mutation;
 using Core.Engine.Random;
 using Core.Engine.Rules;
+using Core.Engine.Telemetry;
 using Core.Engine.Victory;
 using Core.Game.Match;
 using Core.Game.Session;
@@ -33,13 +34,15 @@ public sealed class EngineFacade
     private readonly DeterministicRng _rngService;
     private readonly IEffectManager _effectManager;
     private readonly IGameOverEvaluator _gameOver;
+    private readonly ICombatTelemetrySink _combatTelemetry;
     internal EngineFacade(
         GameSession session,
         IActionRules rules,
         IActionDispatcher dispatcher,
         DeterministicRng rngService,
         IEffectManager effectManager,
-        IGameOverEvaluator gameOver)
+        IGameOverEvaluator gameOver,
+        ICombatTelemetrySink? combatTelemetry = null)
     {
         _session = session ?? throw new ArgumentNullException(nameof(session));
         _rules = rules ?? throw new ArgumentNullException(nameof(rules));
@@ -47,6 +50,7 @@ public sealed class EngineFacade
         _rngService = rngService ?? throw new ArgumentNullException(nameof(rngService));
         _effectManager = effectManager ?? throw new ArgumentNullException(nameof(effectManager));
         _gameOver = gameOver ?? throw new ArgumentNullException(nameof(_gameOver));
+        _combatTelemetry = combatTelemetry ?? NullCombatTelemetrySink.Instance;
     }
 
     public TemplateRegistry GetContent() => _session.Context.Content;
@@ -116,7 +120,8 @@ public sealed class EngineFacade
             dispatcher: _dispatcher,
             rngService: _rngService,
             effectManager: _effectManager,
-            gameOver: _gameOver);
+            gameOver: _gameOver,
+            combatTelemetry: NullCombatTelemetrySink.Instance);
     }
 
     // Post apply action resolution
@@ -216,7 +221,8 @@ public sealed class EngineFacade
         return new GameMutationContext(
             _session,
             _rngService,
-            undo);
+            undo,
+            _combatTelemetry);
     }
 
     private void Commit(UndoRecord undo)

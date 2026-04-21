@@ -30,6 +30,7 @@ public sealed class InstantHealComponentInstance : EffectComponentInstance<Insta
         if (!_resolvedHeal.HasValue)
             throw new InvalidOperationException("Heal was not resolved before applying.");
 
+        context.CombatTelemetry.RecordHealing(effect.SourceUnitId, effect.TargetUnitId, _resolvedHeal.Value);
         context.Units.ChangeHp(effect.TargetUnitId, _resolvedHeal.Value);
     }
 

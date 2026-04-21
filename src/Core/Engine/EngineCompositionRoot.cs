@@ -7,6 +7,7 @@ using Core.Engine.Effects;
 using Core.Engine.Effects.Components.Calculators;
 using Core.Engine.Random;
 using Core.Engine.Rules;
+using Core.Engine.Telemetry;
 using Core.Engine.Victory;
 using Core.Game.Factories.EffectComponents;
 using Core.Game.Factories.EffectComponents.Creators;
@@ -17,7 +18,10 @@ using Core.Map.Pathfinding;
 
 public static class EngineCompositionRoot
 {
-    public static EngineFacade Create(GameSession session, int turnCount)
+    public static EngineFacade Create(
+        GameSession session,
+        int turnCount,
+        ICombatTelemetrySink? combatTelemetry = null)
     {
         // Core
         var rng = BuildRng();
@@ -44,7 +48,8 @@ public static class EngineCompositionRoot
             dispatcher,
             rng,
             effectManager,
-            gameOverEvaluator);
+            gameOverEvaluator,
+            combatTelemetry);
     }
 
     // -------------------------
