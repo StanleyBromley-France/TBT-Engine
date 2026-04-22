@@ -7,7 +7,8 @@ public sealed record EvalRunResult(
     int? WinningTeam,
     int AppliedActionCount,
     IReadOnlyList<EvalActionRecord> Actions,
-    IReadOnlyList<EvalUnitResult> Units)
+    IReadOnlyList<EvalUnitResult> Units,
+    IReadOnlyList<EvalTeamResult> Teams)
 {
     public static EvalRunResult From(GameOutcome outcome, IReadOnlyList<EvalActionRecord> actions)
     {
@@ -16,6 +17,7 @@ public sealed record EvalRunResult(
             outcome.WinningTeam?.Value,
             actions.Count,
             actions,
-            Array.Empty<EvalUnitResult>());
+            Array.Empty<EvalUnitResult>(),
+            Array.Empty<EvalTeamResult>());
     }
 }

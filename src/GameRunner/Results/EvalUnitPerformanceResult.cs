@@ -5,6 +5,7 @@ public sealed record EvalUnitPerformanceResult(
     int DamageTaken,
     int HealingDone,
     int Kills,
+    int Deaths,
     int BuffEffectsApplied,
     int DebuffEffectsApplied,
     int BuffUptimeTicksGranted,

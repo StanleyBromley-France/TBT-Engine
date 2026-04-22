@@ -16,7 +16,10 @@ internal sealed class UnitPerformanceTelemetryCollector : ICombatTelemetrySink
         GetOrCreate(targetUnitId.Value).DamageTaken += amount;
 
         if (wasFatal)
+        {
             GetOrCreate(sourceUnitId.Value).Kills += 1;
+            GetOrCreate(targetUnitId.Value).Deaths += 1;
+        }
     }
 
     public void RecordHealing(UnitInstanceId sourceUnitId, UnitInstanceId targetUnitId, int amount)
@@ -71,6 +74,8 @@ internal sealed class UnitPerformanceTelemetryCollector : ICombatTelemetrySink
         public int HealingDone { get; set; }
 
         public int Kills { get; set; }
+
+        public int Deaths { get; set; }
 
         public int BuffEffectsApplied { get; set; }
 

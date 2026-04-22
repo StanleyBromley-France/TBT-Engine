@@ -55,7 +55,8 @@ internal sealed class EvalCommandRunner
             var runner = new EvalRunner();
             var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, cancellationToken);
             var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
-            result = result with { Units = units };
+            var teams = BuildTeamResults(units, result.Actions);
+            result = result with { Units = units, Teams = teams };
             scenarioResults.Add(new EvalScenarioResult(gameStateId, result));
         }
 
@@ -142,10 +143,58 @@ internal sealed class EvalCommandRunner
                         DamageTaken: totals.DamageTaken,
                         HealingDone: totals.HealingDone,
                         Kills: totals.Kills,
+                        Deaths: totals.Deaths,
                         BuffEffectsApplied: totals.BuffEffectsApplied,
                         DebuffEffectsApplied: totals.DebuffEffectsApplied,
                         BuffUptimeTicksGranted: totals.BuffUptimeTicksGranted,
                         DebuffUptimeTicksGranted: totals.DebuffUptimeTicksGranted));
+            })
+            .ToArray();
+    }
+
+    private static IReadOnlyList<EvalTeamResult> BuildTeamResults(
+        IReadOnlyList<EvalUnitResult> units,
+        IReadOnlyList<EvalActionRecord> actions)
+    {
+        return units
+            .GroupBy(unit => new { unit.TeamId, unit.Side })
+            .OrderBy(group => group.Key.TeamId)
+            .Select(group =>
+            {
+                var teamUnits = group.ToArray();
+                var abilityCasts = actions.Count(action =>
+                    action.ActingTeam == group.Key.TeamId &&
+                    string.Equals(action.ActionType, "UseAbilityAction", StringComparison.Ordinal));
+
+                var rolesPresent = teamUnits
+                    .SelectMany(unit => new[] { unit.Roles.PrimaryRole, unit.Roles.SecondaryRole })
+                    .OfType<string>()
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(role => role, StringComparer.Ordinal)
+                    .ToArray();
+
+                var unitTemplateIds = teamUnits
+                    .Select(unit => unit.UnitTemplateId)
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(id => id, StringComparer.Ordinal)
+                    .ToArray();
+
+                return new EvalTeamResult(
+                    TeamId: group.Key.TeamId,
+                    Side: group.Key.Side,
+                    UnitTemplateIds: unitTemplateIds,
+                    RolesPresent: rolesPresent,
+                    FinalState: new EvalTeamFinalStateResult(
+                        AliveCount: teamUnits.Count(unit => unit.FinalState.Alive),
+                        TotalHp: teamUnits.Sum(unit => unit.FinalState.Hp),
+                        TotalMana: teamUnits.Sum(unit => unit.FinalState.Mana)),
+                    Performance: new EvalTeamPerformanceResult(
+                        DamageDealt: teamUnits.Sum(unit => unit.Performance.DamageDealt),
+                        DamageTaken: teamUnits.Sum(unit => unit.Performance.DamageTaken),
+                        HealingDone: teamUnits.Sum(unit => unit.Performance.HealingDone),
+                        Kills: teamUnits.Sum(unit => unit.Performance.Kills),
+                        Deaths: teamUnits.Sum(unit => unit.Performance.Deaths),
+                        AbilityCasts: abilityCasts));
             })
             .ToArray();
     }
