@@ -21,7 +21,6 @@ public sealed class EvalRunner : IEvalRunner
         ArgumentNullException.ThrowIfNull(controllers);
 
         var actionRecords = new List<EvalActionRecord>();
-        var scenarioStopwatch = System.Diagnostics.Stopwatch.StartNew();
         int? lastObservedTeamToAct = null;
 
         observer.OnScenarioStarted(scenarioId);
@@ -68,10 +67,7 @@ public sealed class EvalRunner : IEvalRunner
             }
         }
 
-        scenarioStopwatch.Stop();
-        var result = EvalRunResult.From(engine.GetOutcome(), actionRecords);
-        observer.OnScenarioCompleted(scenarioId, result, scenarioStopwatch.Elapsed);
-        return result;
+        return EvalRunResult.Empty(actionRecords);
     }
 
     private static void ValidateChosenAction(ActionChoice action)

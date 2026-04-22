@@ -1,23 +1,31 @@
 namespace GameRunner.Results;
 
-using Core.Game.Match;
-
 public sealed record EvalRunResult(
-    GameOutcomeType OutcomeType,
-    int? WinningTeam,
-    int AppliedActionCount,
-    IReadOnlyList<EvalActionRecord> Actions,
+    EvalMatchResult Match,
+    IReadOnlyList<EvalTeamResult> Teams,
     IReadOnlyList<EvalUnitResult> Units,
-    IReadOnlyList<EvalTeamResult> Teams)
+    IReadOnlyList<EvalActionRecord> Actions)
 {
-    public static EvalRunResult From(GameOutcome outcome, IReadOnlyList<EvalActionRecord> actions)
+    public static EvalRunResult Empty(IReadOnlyList<EvalActionRecord> actions)
     {
         return new EvalRunResult(
-            outcome.Type,
-            outcome.WinningTeam?.Value,
-            actions.Count,
-            actions,
+            new EvalMatchResult(
+                ScenarioId: string.Empty,
+                Seed: 0,
+                AttackerTeamId: 0,
+                DefenderTeamId: 0,
+                Outcome: "invalid",
+                TerminationReason: "invalid",
+                AttackerTurnsTaken: 0,
+                TurnsPlayed: 0,
+                ActionCount: actions.Count,
+                Map: new EvalMatchMapResult(
+                    Width: 0,
+                    Height: 0,
+                    TileDistributionSpec: new Dictionary<string, double>(),
+                    TileCountsActual: new Dictionary<string, int>())),
+            Array.Empty<EvalTeamResult>(),
             Array.Empty<EvalUnitResult>(),
-            Array.Empty<EvalTeamResult>());
+            actions);
     }
 }

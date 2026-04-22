@@ -35,11 +35,8 @@ internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
 
     public void OnScenarioCompleted(string scenarioId, EvalRunResult result, TimeSpan totalDuration)
     {
-        var winner = result.WinningTeam.HasValue
-            ? ResolveTeamLabel(scenarioId, result.WinningTeam.Value)
-            : "Draw";
         Console.WriteLine(
-            $"Finished scenario '{scenarioId}'. Outcome={result.OutcomeType}, Winner={winner}, Actions={result.AppliedActionCount}, Duration={totalDuration.TotalMilliseconds:F0} ms");
+            $"Finished scenario '{scenarioId}'. Outcome={result.Match.Outcome}, TerminationReason={result.Match.TerminationReason}, Actions={result.Match.ActionCount}, Duration={totalDuration.TotalMilliseconds:F0} ms");
     }
 
     private static string FormatAction(ActionChoice action)
