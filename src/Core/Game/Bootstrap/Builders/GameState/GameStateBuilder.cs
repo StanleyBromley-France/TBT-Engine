@@ -19,7 +19,11 @@ public sealed class GameStateBuilder : IGameStateBuilder
         _sessionServices = sessionServices;
     }
 
-    public GameState Build(IGameStateSpec spec, Map map, InstanceAllocationState instanceAllocationState)
+    public GameState Build(
+        IGameStateSpec spec,
+        Map map,
+        InstanceAllocationState instanceAllocationState,
+        int simulationSeed)
     {
         var unitInstances = BuildUnitInstances(spec, instanceAllocationState);
         var activeEffects = BuildActiveEffects(unitInstances.Keys);
@@ -30,7 +34,7 @@ public sealed class GameStateBuilder : IGameStateBuilder
             activeEffects: activeEffects,
             turn: spec.InitialTurn,
             phase: new ActivationPhase(),
-            rng: new RngState(seed: 0, position: 0));
+            rng: new RngState(seed: simulationSeed, position: 0));
     }
 
     private Dictionary<UnitInstanceId, UnitInstance> BuildUnitInstances(

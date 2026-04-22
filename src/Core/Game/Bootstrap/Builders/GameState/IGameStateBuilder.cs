@@ -7,5 +7,9 @@ using Core.Map.Grid;
 
 public interface IGameStateBuilder
 {
-    GameState Build(IGameStateSpec spec, Map map, InstanceAllocationState instanceAllocationState);
+    GameState Build(
+        IGameStateSpec spec,
+        Map map,
+        InstanceAllocationState instanceAllocationState,
+        int simulationSeed);
 }

@@ -16,9 +16,9 @@ public sealed class MctsOptions
         Profile = MctsAgentProfile.Defensive("Defender")
     };
 
-    public int IterationBudget { get; init; } = 256;
+    public int IterationBudget { get; init; } = 128;
 
-    public int MaxDepth { get; init; } = 12;
+    public int MaxDepth { get; init; } = 6;
 
     public int RandomSeed { get; init; } = 12345;
 

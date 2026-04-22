@@ -13,6 +13,7 @@ using Core.Game.Bootstrap;
 using Core.Game.Bootstrap.Contracts;
 using Core.Map.Search;
 using Core.Map.Terrain;
+using Core.Random;
 using GameRunner.Controllers;
 using GameRunner.Runners;
 using GameRunner.Results;
@@ -21,6 +22,9 @@ using Setup.ScenarioSetup;
 
 internal sealed class EvalCommandRunner
 {
+    private const int AttackerSearchSeedSalt = 3;
+    private const int DefenderSearchSeedSalt = 4;
+
     private readonly ConsoleEvalRunObserver _observer = new();
 
     public async Task<EvalBatchResult> RunAsync(EvalOptions options, CancellationToken cancellationToken = default)
@@ -54,7 +58,7 @@ internal sealed class EvalCommandRunner
             var engine = EngineCompositionRoot.Create(session, options.MaxTurns, telemetry);
 
             _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
-            var controllers = CreateControllers(options, scenario.GameStateSpec!);
+            var controllers = CreateControllers(options, scenario.GameStateSpec!, options.Seed);
             var runner = new EvalRunner();
             var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, cancellationToken);
             var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
@@ -79,10 +83,17 @@ internal sealed class EvalCommandRunner
 
     private static IReadOnlyDictionary<TeamId, IPlayerController> CreateControllers(
         EvalOptions options,
-        IGameStateSpec gameStateSpec)
+        IGameStateSpec gameStateSpec,
+        int sharedSeed)
     {
-        var attackerConfig = CreateSearchConfig(options.AttackerMcts, options.DefenderMcts.Profile);
-        var defenderConfig = CreateSearchConfig(options.DefenderMcts, options.AttackerMcts.Profile);
+        var attackerConfig = CreateSearchConfig(
+            options.AttackerMcts,
+            options.DefenderMcts.Profile,
+            DeriveSearchSeed(sharedSeed, AttackerSearchSeedSalt, options.AttackerMcts.RandomSeed));
+        var defenderConfig = CreateSearchConfig(
+            options.DefenderMcts,
+            options.AttackerMcts.Profile,
+            DeriveSearchSeed(sharedSeed, DefenderSearchSeedSalt, options.DefenderMcts.RandomSeed));
 
         return new Dictionary<TeamId, IPlayerController>
         {
@@ -94,16 +105,25 @@ internal sealed class EvalCommandRunner
     private static IMctsSearch CreateSearch()
         => new MctsSearch(new MaterialStateEvaluator(), new GameStateHasher());
 
-    private static MctsSearchConfig CreateSearchConfig(MctsOptions options, MctsAgentProfile opponentProfile)
+    private static MctsSearchConfig CreateSearchConfig(
+        MctsOptions options,
+        MctsAgentProfile opponentProfile,
+        int randomSeed)
     {
         return new MctsSearchConfig(options.Profile, opponentProfile)
         {
             IterationBudget = options.IterationBudget,
             MaxDepth = options.MaxDepth,
-            RandomSeed = options.RandomSeed,
+            RandomSeed = randomSeed,
             MaxAttackerTurns = options.MaxAttackerTurns,
             RolloutPolicy = options.RolloutPolicy,
         };
+    }
+
+    private static int DeriveSearchSeed(int sharedSeed, int domainSalt, int configuredSeed)
+    {
+        var domainSeed = SeedDeriver.Derive(sharedSeed, domainSalt);
+        return SeedDeriver.Derive(domainSeed, configuredSeed);
     }
 
     private static void EnsureScenarioIsValid(ScenarioResult scenario, string gameStateId)
