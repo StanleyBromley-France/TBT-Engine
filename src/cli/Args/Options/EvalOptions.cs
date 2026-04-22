@@ -2,6 +2,8 @@ namespace Cli.Args.Options;
 
 public sealed class EvalOptions : ContentOptions
 {
+    public string GameStateId { get; init; } = string.Empty;
+
     public int Seed { get; init; }
 
     public int RepeatCount { get; init; }

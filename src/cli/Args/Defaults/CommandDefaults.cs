@@ -30,6 +30,7 @@ public static class CommandDefaults
         return new EvalOptions
         {
             ContentPath = ExampleContentPath,
+            GameStateId = string.Empty,
             Seed = 12345,
             RepeatCount = 1,
             MaxTurns = 12,

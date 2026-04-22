@@ -68,6 +68,7 @@ public sealed class RawCliArgumentsParser
         {
             ContentPath = GetString(options, "content", defaults.ContentPath),
             ValidationMode = GetEnum(options, "validation", defaults.ValidationMode),
+            GameStateId = GetString(options, "game-state", defaults.GameStateId),
             Seed = GetInt(options, "seed", defaults.Seed),
             RepeatCount = GetInt(options, "repeat-count", defaults.RepeatCount),
             MaxTurns = GetInt(options, "max-turns", defaults.MaxTurns),

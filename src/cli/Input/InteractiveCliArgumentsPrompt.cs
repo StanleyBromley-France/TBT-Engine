@@ -22,12 +22,14 @@ public sealed class InteractiveCliArgumentsPrompt
     private static EvalOptions PromptEvalOptions()
     {
         var defaults = CommandDefaults.CreateEvalOptions();
+        var gameStateId = PromptOptionalString("Scenario id (blank for all)", defaults.GameStateId);
         var repeatCount = PromptPositiveInt("Repeat count", defaults.RepeatCount);
 
         return new EvalOptions
         {
             ContentPath = defaults.ContentPath,
             ValidationMode = defaults.ValidationMode,
+            GameStateId = gameStateId,
             Seed = defaults.Seed,
             RepeatCount = repeatCount,
             MaxTurns = defaults.MaxTurns,
@@ -74,5 +76,16 @@ public sealed class InteractiveCliArgumentsPrompt
 
             Console.WriteLine($"{label} must be a positive integer.");
         }
+    }
+
+    private static string PromptOptionalString(string label, string defaultValue)
+    {
+        Console.Write($"{label}: ");
+        var raw = Console.ReadLine()?.Trim();
+
+        if (string.IsNullOrWhiteSpace(raw))
+            return defaultValue;
+
+        return raw;
     }
 }

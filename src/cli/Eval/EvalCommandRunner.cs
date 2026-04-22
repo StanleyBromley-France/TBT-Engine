@@ -37,11 +37,12 @@ internal sealed class EvalCommandRunner
         IScenarioSetup setup = new ScenarioSetup();
 
         var source = setup.Load(options.ContentPath, options.ValidationMode);
+        var selectedGameStateIds = ResolveSelectedGameStateIds(source.GameStateIds, options.GameStateId);
 
 
         var scenarioResults = new List<EvalScenarioResult>();
 
-        foreach (var gameStateId in source.GameStateIds)
+        foreach (var gameStateId in selectedGameStateIds)
         {
             var scenario = setup.Create(
                 source,
@@ -86,6 +87,24 @@ internal sealed class EvalCommandRunner
         var batchResult = new EvalBatchResult(scenarioResults);
         await EvalBatchResultWriter.WriteAsync(batchResult, options.EvalRunResultOutput, cancellationToken);
         return batchResult;
+    }
+
+    private static IReadOnlyList<string> ResolveSelectedGameStateIds(
+        IReadOnlyList<string> availableGameStateIds,
+        string requestedGameStateId)
+    {
+        if (string.IsNullOrWhiteSpace(requestedGameStateId))
+            return availableGameStateIds;
+
+        var match = availableGameStateIds.FirstOrDefault(id =>
+            string.Equals(id, requestedGameStateId, StringComparison.Ordinal));
+
+        if (match is not null)
+            return [match];
+
+        Console.WriteLine(
+            $"Warning: scenario '{requestedGameStateId}' was not found. Falling back to all scenarios.");
+        return availableGameStateIds;
     }
 
     private static IReadOnlyDictionary<TeamId, IPlayerController> CreateControllers(
