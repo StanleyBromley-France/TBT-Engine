@@ -69,6 +69,7 @@ public sealed class RawCliArgumentsParser
             ContentPath = GetString(options, "content", defaults.ContentPath),
             ValidationMode = GetEnum(options, "validation", defaults.ValidationMode),
             Seed = GetInt(options, "seed", defaults.Seed),
+            RepeatCount = GetInt(options, "repeat-count", defaults.RepeatCount),
             MaxTurns = GetInt(options, "max-turns", defaults.MaxTurns),
             EvalRunResultOutput = GetString(options, "output", defaults.EvalRunResultOutput),
             AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts),

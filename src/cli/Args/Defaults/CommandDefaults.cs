@@ -31,6 +31,7 @@ public static class CommandDefaults
         {
             ContentPath = ExampleContentPath,
             Seed = 12345,
+            RepeatCount = 1,
             MaxTurns = 12,
             ValidationMode = ContentValidationMode.Strict,
             AttackerMcts = MctsOptions.AttackerDefault,

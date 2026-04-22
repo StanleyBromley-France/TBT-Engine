@@ -31,6 +31,9 @@ internal sealed class EvalCommandRunner
     {
         ArgumentNullException.ThrowIfNull(options);
 
+        if (options.RepeatCount <= 0)
+            throw new ArgumentOutOfRangeException(nameof(options.RepeatCount), "Repeat count must be positive.");
+
         IScenarioSetup setup = new ScenarioSetup();
 
         var source = setup.Load(options.ContentPath, options.ValidationMode);
@@ -40,9 +43,6 @@ internal sealed class EvalCommandRunner
 
         foreach (var gameStateId in source.GameStateIds)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            var scenarioStopwatch = System.Diagnostics.Stopwatch.StartNew();
-
             var scenario = setup.Create(
                 source,
                 gameStateId,
@@ -50,30 +50,37 @@ internal sealed class EvalCommandRunner
 
             EnsureScenarioIsValid(scenario, gameStateId);
 
-            var session = GameSessionBootstrapper.Create(
-                scenario.TemplateRegistry!,
-                scenario.GameStateSpec!,
-                options.Seed);
-            var telemetry = new UnitPerformanceTelemetryCollector();
-            var engine = EngineCompositionRoot.Create(session, options.MaxTurns, telemetry);
+            for (var repeatIndex = 0; repeatIndex < options.RepeatCount; repeatIndex++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var scenarioStopwatch = System.Diagnostics.Stopwatch.StartNew();
+                var runSeed = GetRunSeed(options.Seed, repeatIndex);
 
-            _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
-            var controllers = CreateControllers(options, scenario.GameStateSpec!, options.Seed);
-            var runner = new EvalRunner();
-            var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, cancellationToken);
-            var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
-            var teams = BuildTeamResults(units, result.Actions);
-            var match = BuildMatchResult(
-                engine,
-                scenario.GameStateSpec!,
-                result.Actions,
-                options.Seed,
-                options.MaxTurns,
-                gameStateId);
-            result = result with { Match = match, Teams = teams, Units = units };
-            scenarioStopwatch.Stop();
-            _observer.OnScenarioCompleted(gameStateId, result, scenarioStopwatch.Elapsed);
-            scenarioResults.Add(new EvalScenarioResult(gameStateId, result));
+                var session = GameSessionBootstrapper.Create(
+                    scenario.TemplateRegistry!,
+                    scenario.GameStateSpec!,
+                    runSeed);
+                var telemetry = new UnitPerformanceTelemetryCollector();
+                var engine = EngineCompositionRoot.Create(session, options.MaxTurns, telemetry);
+
+                _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
+                var controllers = CreateControllers(options, scenario.GameStateSpec!, runSeed);
+                var runner = new EvalRunner();
+                var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, cancellationToken);
+                var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
+                var teams = BuildTeamResults(units, result.Actions);
+                var match = BuildMatchResult(
+                    engine,
+                    scenario.GameStateSpec!,
+                    result.Actions,
+                    runSeed,
+                    options.MaxTurns,
+                    gameStateId);
+                result = result with { Match = match, Teams = teams, Units = units };
+                scenarioStopwatch.Stop();
+                _observer.OnScenarioCompleted(gameStateId, result, scenarioStopwatch.Elapsed);
+                scenarioResults.Add(new EvalScenarioResult(gameStateId, repeatIndex + 1, result));
+            }
         }
 
         var batchResult = new EvalBatchResult(scenarioResults);
@@ -124,6 +131,14 @@ internal sealed class EvalCommandRunner
     {
         var domainSeed = SeedDeriver.Derive(sharedSeed, domainSalt);
         return SeedDeriver.Derive(domainSeed, configuredSeed);
+    }
+
+    private static int GetRunSeed(int baseSeed, int repeatIndex)
+    {
+        unchecked
+        {
+            return baseSeed + repeatIndex;
+        }
     }
 
     private static void EnsureScenarioIsValid(ScenarioResult scenario, string gameStateId)
