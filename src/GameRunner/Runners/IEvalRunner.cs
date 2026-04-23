@@ -13,5 +13,6 @@ public interface IEvalRunner
         EngineFacade engine,
         IReadOnlyDictionary<TeamId, IPlayerController> controllers,
         IEvalRunObserver observer,
+        IEvalRunTelemetryCollector? performanceCollector = null,
         CancellationToken cancellationToken = default);
 }

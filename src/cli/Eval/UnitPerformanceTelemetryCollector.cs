@@ -2,8 +2,11 @@ namespace Cli.Eval;
 
 using Core.Domain.Types;
 using Core.Engine.Telemetry;
+using Core.Game.State.ReadOnly;
+using Core.Map.Search;
+using GameRunner.Runners;
 
-internal sealed class UnitPerformanceTelemetryCollector : ICombatTelemetrySink
+internal sealed class UnitPerformanceTelemetryCollector : ICombatTelemetrySink, IEvalRunTelemetryCollector
 {
     private readonly Dictionary<int, UnitPerformanceTotals> _byUnitId = new();
 
@@ -48,6 +51,35 @@ internal sealed class UnitPerformanceTelemetryCollector : ICombatTelemetrySink
         }
     }
 
+    public void OnTeamTurnStarted(IReadOnlyGameState state)
+    {
+        foreach (var unit in state.UnitInstances.Values)
+        {
+            if (!unit.IsAlive || unit.Team != state.Turn.TeamToAct)
+                continue;
+
+            GetOrCreate(unit.Id.Value).TurnsSurvived += 1;
+        }
+    }
+
+    public void OnActionChosen(IReadOnlyGameState state, Core.Engine.Actions.Choice.ActionChoice action)
+    {
+        var totals = GetOrCreate(action.UnitId.Value);
+        totals.ActionsTaken += 1;
+
+        switch (action)
+        {
+            case Core.Engine.Actions.Choice.UseAbilityAction:
+                totals.AbilityCasts += 1;
+                break;
+            case Core.Engine.Actions.Choice.MoveAction move:
+                totals.MoveActions += 1;
+                var start = state.UnitInstances[action.UnitId].Position;
+                totals.TilesMovedTotal += MapSearch.GetDistance(start, move.TargetHex);
+                break;
+        }
+    }
+
     public UnitPerformanceTotals GetTotals(int unitInstanceId)
     {
         return _byUnitId.TryGetValue(unitInstanceId, out var totals)
@@ -84,5 +116,15 @@ internal sealed class UnitPerformanceTelemetryCollector : ICombatTelemetrySink
         public int BuffUptimeTicksGranted { get; set; }
 
         public int DebuffUptimeTicksGranted { get; set; }
+
+        public int ActionsTaken { get; set; }
+
+        public int AbilityCasts { get; set; }
+
+        public int MoveActions { get; set; }
+
+        public int TilesMovedTotal { get; set; }
+
+        public int TurnsSurvived { get; set; }
     }
 }

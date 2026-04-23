@@ -14,6 +14,7 @@ public sealed class EvalRunner : IEvalRunner
         EngineFacade engine,
         IReadOnlyDictionary<TeamId, IPlayerController> controllers,
         IEvalRunObserver observer,
+        IEvalRunTelemetryCollector? performanceCollector = null,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(scenarioId);
@@ -34,6 +35,7 @@ public sealed class EvalRunner : IEvalRunner
             if (lastObservedTeamToAct != teamToAct.Value)
             {
                 observer.OnTurnStarted(scenarioId, state.Turn.AttackerTurnsTaken, teamToAct.Value);
+                performanceCollector?.OnTeamTurnStarted(state);
                 lastObservedTeamToAct = teamToAct.Value;
             }
             var legalActions = engine.GetLegalActions().ToList().AsReadOnly();
@@ -53,6 +55,7 @@ public sealed class EvalRunner : IEvalRunner
 
             ValidateChosenAction(chosenAction);
             observer.OnActionChosen(scenarioId, actionRecords.Count + 1, chosenAction, actionStopwatch.Elapsed);
+            performanceCollector?.OnActionChosen(state, chosenAction);
             actionRecords.Add(CreateActionRecord(state.Turn.AttackerTurnsTaken, teamToAct, chosenAction));
 
             try

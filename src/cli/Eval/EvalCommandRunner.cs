@@ -67,7 +67,7 @@ internal sealed class EvalCommandRunner
                 _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
                 var controllers = CreateControllers(options, scenario.GameStateSpec!, runSeed);
                 var runner = new EvalRunner();
-                var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, cancellationToken);
+                var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, telemetry, cancellationToken);
                 var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
                 var teams = BuildTeamResults(units, result.Actions);
                 var match = BuildMatchResult(
@@ -205,6 +205,11 @@ internal sealed class EvalCommandRunner
                         Hp: unit.Resources.HP,
                         Mana: unit.Resources.Mana),
                     Performance: new EvalUnitPerformanceResult(
+                        ActionsTaken: totals.ActionsTaken,
+                        AbilityCasts: totals.AbilityCasts,
+                        MoveActions: totals.MoveActions,
+                        TilesMovedTotal: totals.TilesMovedTotal,
+                        TurnsSurvived: totals.TurnsSurvived,
                         DamageDealt: totals.DamageDealt,
                         DamageTaken: totals.DamageTaken,
                         HealingDone: totals.HealingDone,
