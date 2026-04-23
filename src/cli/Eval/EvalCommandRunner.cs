@@ -26,8 +26,6 @@ internal sealed class EvalCommandRunner
     private const int AttackerSearchSeedSalt = 3;
     private const int DefenderSearchSeedSalt = 4;
 
-    private readonly ConsoleEvalRunObserver _observer = new();
-
     public async Task<EvalBatchResult> RunAsync(EvalOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(options);
@@ -36,8 +34,11 @@ internal sealed class EvalCommandRunner
             throw new ArgumentOutOfRangeException(nameof(options.RepeatCount), "Repeat count must be positive.");
         if (options.Parallelism <= 0)
             throw new ArgumentOutOfRangeException(nameof(options.Parallelism), "Parallelism must be positive.");
+        if (options.Quiet && options.Verbose)
+            throw new InvalidOperationException("Options '--quiet' and '--verbose' cannot be used together.");
 
         IScenarioSetup setup = new ScenarioSetup();
+        var observer = new ConsoleEvalRunObserver(GetVerbosity(options));
 
         var source = setup.Load(options.ContentPath, options.ValidationMode);
         var selectedGameStateIds = ResolveSelectedGameStateIds(source.GameStateIds, options.GameStateId);
@@ -51,7 +52,7 @@ internal sealed class EvalCommandRunner
                     options.ValidationMode);
 
                 EnsureScenarioIsValid(scenario, gameStateId);
-                _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
+                observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
 
                 return new EvalScenarioWorkItem(gameStateId, scenarioOrder, scenario);
             })
@@ -81,7 +82,7 @@ internal sealed class EvalCommandRunner
 
                 var controllers = CreateControllers(options, job.ScenarioWorkItem.Scenario.GameStateSpec!, runSeed);
                 var runner = new EvalRunner();
-                var result = await runner.RunAsync(job.ScenarioWorkItem.GameStateId, engine, controllers, _observer, telemetry, cancellationToken).ConfigureAwait(false);
+                var result = await runner.RunAsync(job.ScenarioWorkItem.GameStateId, engine, controllers, observer, telemetry, cancellationToken).ConfigureAwait(false);
                 var units = BuildUnitResults(engine, job.ScenarioWorkItem.Scenario.GameStateSpec!, telemetry);
                 var teams = BuildTeamResults(units, result.Actions);
                 var match = BuildMatchResult(
@@ -93,7 +94,7 @@ internal sealed class EvalCommandRunner
                     job.ScenarioWorkItem.GameStateId);
                 result = result with { Match = match, Teams = teams, Units = units };
                 scenarioStopwatch.Stop();
-                _observer.OnScenarioCompleted(job.ScenarioWorkItem.GameStateId, result, scenarioStopwatch.Elapsed);
+                observer.OnScenarioCompleted(job.ScenarioWorkItem.GameStateId, result, scenarioStopwatch.Elapsed);
                 scenarioResults.Add(new EvalScenarioResultWithOrder(
                     job.ScenarioWorkItem.ScenarioOrder,
                     job.RepeatIndex,
@@ -401,6 +402,17 @@ internal sealed class EvalCommandRunner
 
     private static string ToTelemetryKey(TerrainType terrain)
         => terrain.ToString().ToLowerInvariant();
+
+    private static EvalLogVerbosity GetVerbosity(EvalOptions options)
+    {
+        if (options.Quiet)
+            return EvalLogVerbosity.Quiet;
+
+        if (options.Verbose)
+            return EvalLogVerbosity.Verbose;
+
+        return EvalLogVerbosity.Summary;
+    }
 
     private sealed record EvalScenarioWorkItem(string GameStateId, int ScenarioOrder, ScenarioResult Scenario);
 

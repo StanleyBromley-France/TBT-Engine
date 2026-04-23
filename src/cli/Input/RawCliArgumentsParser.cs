@@ -77,6 +77,8 @@ public sealed class RawCliArgumentsParser
             RepeatCount = GetInt(options, "repeat-count", defaults.RepeatCount),
             Parallelism = GetInt(options, "parallelism", defaults.Parallelism),
             MaxTurns = maxTurns,
+            Quiet = GetFlag(options, "quiet"),
+            Verbose = GetFlag(options, "verbose"),
             EvalRunResultOutput = GetString(options, "output", defaults.EvalRunResultOutput),
             AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts, maxTurns),
             DefenderMcts = BuildMctsOptions(options, "defender", defaults.DefenderMcts, maxTurns),
@@ -166,6 +168,22 @@ public sealed class RawCliArgumentsParser
         throw new InvalidOperationException($"Value '{rawValue}' for '--{key}' is not a valid integer.");
     }
 
+    private static bool GetFlag(
+        IReadOnlyDictionary<string, string> options,
+        string key)
+    {
+        if (!options.TryGetValue(key, out var rawValue))
+            return false;
+
+        if (string.IsNullOrEmpty(rawValue))
+            return true;
+
+        if (bool.TryParse(rawValue, out var value))
+            return value;
+
+        throw new InvalidOperationException($"Value '{rawValue}' for '--{key}' is not a valid boolean.");
+    }
+
     private static TEnum GetEnum<TEnum>(
         IReadOnlyDictionary<string, string> options,
         string key,
@@ -199,11 +217,19 @@ public sealed class RawCliArgumentsParser
             optionName = NormalizeOptionName(optionName);
 
             if (index + 1 >= tokens.Length)
-                throw new InvalidOperationException($"Missing value for option '--{optionName}'.");
+            {
+                options[optionName] = string.Empty;
+                continue;
+            }
 
-            var optionValue = tokens[++index];
+            var optionValue = tokens[index + 1];
             if (optionValue.StartsWith("--", StringComparison.Ordinal))
-                throw new InvalidOperationException($"Missing value for option '--{optionName}'.");
+            {
+                options[optionName] = string.Empty;
+                continue;
+            }
+
+            index++;
 
             if (!options.TryAdd(optionName, optionValue))
                 throw new InvalidOperationException($"Option '--{optionName}' was supplied more than once.");

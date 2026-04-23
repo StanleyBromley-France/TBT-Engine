@@ -12,6 +12,10 @@ public sealed class EvalOptions : ContentOptions
 
     public int MaxTurns { get; init; }
 
+    public bool Quiet { get; init; }
+
+    public bool Verbose { get; init; }
+
     public required MctsOptions AttackerMcts { get; init; }
 
     public required MctsOptions DefenderMcts { get; init; }

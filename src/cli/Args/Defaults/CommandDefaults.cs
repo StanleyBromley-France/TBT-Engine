@@ -35,6 +35,8 @@ public static class CommandDefaults
             RepeatCount = 1,
             Parallelism = 12,
             MaxTurns = 12,
+            Quiet = false,
+            Verbose = false,
             ValidationMode = ContentValidationMode.Strict,
             AttackerMcts = MctsOptions.AttackerDefault,
             DefenderMcts = MctsOptions.DefenderDefault,

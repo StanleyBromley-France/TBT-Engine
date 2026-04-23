@@ -24,6 +24,7 @@ public sealed class InteractiveCliArgumentsPrompt
         var defaults = CommandDefaults.CreateEvalOptions();
         var gameStateId = PromptOptionalString("Scenario id (blank for all)", defaults.GameStateId);
         var repeatCount = PromptPositiveInt("Repeat count", defaults.RepeatCount);
+        var verbosity = PromptEvalLogVerbosity();
 
         return new EvalOptions
         {
@@ -34,6 +35,8 @@ public sealed class InteractiveCliArgumentsPrompt
             RepeatCount = repeatCount,
             Parallelism = defaults.Parallelism,
             MaxTurns = defaults.MaxTurns,
+            Quiet = verbosity == EvalPromptVerbosity.Quiet,
+            Verbose = verbosity == EvalPromptVerbosity.Verbose,
             AttackerMcts = defaults.AttackerMcts,
             DefenderMcts = defaults.DefenderMcts,
             EvalRunResultOutput = defaults.EvalRunResultOutput,
@@ -88,5 +91,37 @@ public sealed class InteractiveCliArgumentsPrompt
             return defaultValue;
 
         return raw;
+    }
+
+    private static EvalPromptVerbosity PromptEvalLogVerbosity()
+    {
+        Console.WriteLine("Eval output:");
+        Console.WriteLine("  1. Summary");
+        Console.WriteLine("  2. Quiet");
+        Console.WriteLine("  3. Verbose");
+
+        while (true)
+        {
+            Console.Write("Output mode [1]: ");
+            var raw = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrWhiteSpace(raw) || string.Equals(raw, "1", StringComparison.Ordinal))
+                return EvalPromptVerbosity.Summary;
+
+            if (string.Equals(raw, "2", StringComparison.Ordinal))
+                return EvalPromptVerbosity.Quiet;
+
+            if (string.Equals(raw, "3", StringComparison.Ordinal))
+                return EvalPromptVerbosity.Verbose;
+
+            Console.WriteLine("Enter 1, 2, or 3.");
+        }
+    }
+
+    private enum EvalPromptVerbosity
+    {
+        Summary,
+        Quiet,
+        Verbose,
     }
 }

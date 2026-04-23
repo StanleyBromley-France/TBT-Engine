@@ -8,8 +8,14 @@ using System.Collections.Concurrent;
 
 internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
 {
+    private readonly EvalLogVerbosity _verbosity;
     private readonly ConcurrentDictionary<string, (int AttackerTeamId, int DefenderTeamId)> _scenarioTeams = new(StringComparer.Ordinal);
     private readonly object _consoleLock = new();
+
+    public ConsoleEvalRunObserver(EvalLogVerbosity verbosity)
+    {
+        _verbosity = verbosity;
+    }
 
     public void RegisterScenario(string scenarioId, IGameStateSpec gameStateSpec)
     {
@@ -21,22 +27,34 @@ internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
 
     public void OnScenarioStarted(string scenarioId)
     {
+        if (_verbosity != EvalLogVerbosity.Verbose)
+            return;
+
         WriteLine($"Starting scenario '{scenarioId}'...");
     }
 
     public void OnTurnStarted(string scenarioId, int attackerTurnsTaken, int teamToAct)
     {
+        if (_verbosity != EvalLogVerbosity.Verbose)
+            return;
+
         WriteLine($"[{scenarioId}] Turn start: attackerTurnsTaken={attackerTurnsTaken}, teamToAct={ResolveTeamLabel(scenarioId, teamToAct)}");
     }
 
     public void OnActionChosen(string scenarioId, int actionIndex, ActionChoice action, TimeSpan selectionDuration)
     {
+        if (_verbosity != EvalLogVerbosity.Verbose)
+            return;
+
         WriteLine(
             $"[{scenarioId}] Action {actionIndex}: {FormatAction(action)} selected in {selectionDuration.TotalMilliseconds:F0} ms");
     }
 
     public void OnScenarioCompleted(string scenarioId, EvalRunResult result, TimeSpan totalDuration)
     {
+        if (_verbosity == EvalLogVerbosity.Quiet)
+            return;
+
         WriteLine(
             $"Finished scenario '{scenarioId}'. Outcome={result.Match.Outcome}, TerminationReason={result.Match.TerminationReason}, Actions={result.Match.ActionCount}, Duration={totalDuration.TotalMilliseconds:F0} ms");
     }
@@ -73,4 +91,11 @@ internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
 
         return teamId.ToString();
     }
+}
+
+internal enum EvalLogVerbosity
+{
+    Quiet,
+    Summary,
+    Verbose,
 }
