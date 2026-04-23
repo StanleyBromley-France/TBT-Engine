@@ -33,6 +33,7 @@ public static class CommandDefaults
             GameStateId = string.Empty,
             Seed = 12345,
             RepeatCount = 1,
+            Parallelism = 12,
             MaxTurns = 12,
             ValidationMode = ContentValidationMode.Strict,
             AttackerMcts = MctsOptions.AttackerDefault,

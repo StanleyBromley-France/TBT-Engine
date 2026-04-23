@@ -8,6 +8,8 @@ public sealed class EvalOptions : ContentOptions
 
     public int RepeatCount { get; init; }
 
+    public int Parallelism { get; init; }
+
     public int MaxTurns { get; init; }
 
     public required MctsOptions AttackerMcts { get; init; }

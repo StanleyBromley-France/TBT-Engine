@@ -45,6 +45,8 @@ public sealed class RawCliArgumentsParser
     {
         var defaults = CommandDefaults.CreatePlayOptions()
                     ?? throw new InvalidOperationException("Default play options are unavailable.");
+        var maxTurns = GetInt(options, "max-turns", defaults.MaxTurns);
+        EnsureLegacySideTurnOptionsAreNotUsed(options);
 
         return CliArguments.CreatePlay(new PlayOptions
         {
@@ -52,10 +54,10 @@ public sealed class RawCliArgumentsParser
             ValidationMode = GetEnum(options, "validation", defaults.ValidationMode),
             GameStateId = GetString(options, "game-state", defaults.GameStateId),
             Seed = GetInt(options, "seed", defaults.Seed),
-            MaxTurns = GetInt(options, "max-turns", defaults.MaxTurns),
+            MaxTurns = maxTurns,
             Mode = GetEnum(options, "mode", defaults.Mode),
-            AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts),
-            DefenderMcts = BuildMctsOptions(options, "defender", defaults.DefenderMcts),
+            AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts, maxTurns),
+            DefenderMcts = BuildMctsOptions(options, "defender", defaults.DefenderMcts, maxTurns),
         });
     }
 
@@ -63,6 +65,8 @@ public sealed class RawCliArgumentsParser
     {
         var defaults = CommandDefaults.CreateEvalOptions()
                     ?? throw new InvalidOperationException("Default eval options are unavailable.");
+        var maxTurns = GetInt(options, "max-turns", defaults.MaxTurns);
+        EnsureLegacySideTurnOptionsAreNotUsed(options);
 
         return CliArguments.CreateEval(new EvalOptions
         {
@@ -71,27 +75,41 @@ public sealed class RawCliArgumentsParser
             GameStateId = GetString(options, "game-state", defaults.GameStateId),
             Seed = GetInt(options, "seed", defaults.Seed),
             RepeatCount = GetInt(options, "repeat-count", defaults.RepeatCount),
-            MaxTurns = GetInt(options, "max-turns", defaults.MaxTurns),
+            Parallelism = GetInt(options, "parallelism", defaults.Parallelism),
+            MaxTurns = maxTurns,
             EvalRunResultOutput = GetString(options, "output", defaults.EvalRunResultOutput),
-            AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts),
-            DefenderMcts = BuildMctsOptions(options, "defender", defaults.DefenderMcts),
+            AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts, maxTurns),
+            DefenderMcts = BuildMctsOptions(options, "defender", defaults.DefenderMcts, maxTurns),
         });
     }
 
     private static MctsOptions BuildMctsOptions(
         IReadOnlyDictionary<string, string> options,
         string side,
-        MctsOptions defaults)
+        MctsOptions defaults,
+        int maxTurns)
     {
         return new MctsOptions
         {
             IterationBudget = GetInt(options, $"{side}-iterations", defaults.IterationBudget),
             MaxDepth = GetInt(options, $"{side}-max-depth", defaults.MaxDepth),
             RandomSeed = GetInt(options, $"{side}-random-seed", defaults.RandomSeed),
-            MaxAttackerTurns = GetInt(options, $"{side}-max-attacker-turns", defaults.MaxAttackerTurns),
+            MaxAttackerTurns = maxTurns,
             RolloutPolicy = GetEnum(options, $"{side}-rollout-policy", defaults.RolloutPolicy),
             Profile = GetProfile(options, $"{side}-profile", defaults.Profile, side),
         };
+    }
+
+    private static void EnsureLegacySideTurnOptionsAreNotUsed(IReadOnlyDictionary<string, string> options)
+    {
+        foreach (var legacyOption in new[] { "attacker-max-attacker-turns", "defender-max-attacker-turns" })
+        {
+            if (options.ContainsKey(legacyOption))
+            {
+                throw new InvalidOperationException(
+                    $"Option '--{legacyOption}' is no longer supported. Use '--max-turns' to set the shared attacker turn budget for both the engine and MCTS.");
+            }
+        }
     }
 
     private static MctsAgentProfile GetProfile(

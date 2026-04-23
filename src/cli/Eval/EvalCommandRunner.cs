@@ -19,6 +19,7 @@ using GameRunner.Runners;
 using GameRunner.Results;
 using Setup.Build.Scenarios;
 using Setup.ScenarioSetup;
+using System.Collections.Concurrent;
 
 internal sealed class EvalCommandRunner
 {
@@ -33,58 +34,86 @@ internal sealed class EvalCommandRunner
 
         if (options.RepeatCount <= 0)
             throw new ArgumentOutOfRangeException(nameof(options.RepeatCount), "Repeat count must be positive.");
+        if (options.Parallelism <= 0)
+            throw new ArgumentOutOfRangeException(nameof(options.Parallelism), "Parallelism must be positive.");
 
         IScenarioSetup setup = new ScenarioSetup();
 
         var source = setup.Load(options.ContentPath, options.ValidationMode);
         var selectedGameStateIds = ResolveSelectedGameStateIds(source.GameStateIds, options.GameStateId);
 
+        var scenarios = selectedGameStateIds
+            .Select((gameStateId, scenarioOrder) =>
+            {
+                var scenario = setup.Create(
+                    source,
+                    gameStateId,
+                    options.ValidationMode);
 
-        var scenarioResults = new List<EvalScenarioResult>();
+                EnsureScenarioIsValid(scenario, gameStateId);
+                _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
 
-        foreach (var gameStateId in selectedGameStateIds)
+                return new EvalScenarioWorkItem(gameStateId, scenarioOrder, scenario);
+            })
+            .ToArray();
+
+        var jobs = scenarios
+            .SelectMany(workItem => Enumerable.Range(0, options.RepeatCount).Select(repeatIndex =>
+                new EvalRunWorkItem(workItem, repeatIndex)))
+            .ToArray();
+        var scenarioResults = new ConcurrentBag<EvalScenarioResultWithOrder>();
+        using var concurrencyLimiter = new SemaphoreSlim(options.Parallelism);
+        var tasks = jobs.Select(job => Task.Run(async () =>
         {
-            var scenario = setup.Create(
-                source,
-                gameStateId,
-                options.ValidationMode);
-
-            EnsureScenarioIsValid(scenario, gameStateId);
-
-            for (var repeatIndex = 0; repeatIndex < options.RepeatCount; repeatIndex++)
+            await concurrencyLimiter.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var scenarioStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                var runSeed = GetRunSeed(options.Seed, repeatIndex);
+                var runSeed = GetRunSeed(options.Seed, job.RepeatIndex);
 
                 var session = GameSessionBootstrapper.Create(
-                    scenario.TemplateRegistry!,
-                    scenario.GameStateSpec!,
+                    job.ScenarioWorkItem.Scenario.TemplateRegistry!,
+                    job.ScenarioWorkItem.Scenario.GameStateSpec!,
                     runSeed);
                 var telemetry = new UnitPerformanceTelemetryCollector();
                 var engine = EngineCompositionRoot.Create(session, options.MaxTurns, telemetry);
 
-                _observer.RegisterScenario(gameStateId, scenario.GameStateSpec!);
-                var controllers = CreateControllers(options, scenario.GameStateSpec!, runSeed);
+                var controllers = CreateControllers(options, job.ScenarioWorkItem.Scenario.GameStateSpec!, runSeed);
                 var runner = new EvalRunner();
-                var result = await runner.RunAsync(gameStateId, engine, controllers, _observer, telemetry, cancellationToken);
-                var units = BuildUnitResults(engine, scenario.GameStateSpec!, telemetry);
+                var result = await runner.RunAsync(job.ScenarioWorkItem.GameStateId, engine, controllers, _observer, telemetry, cancellationToken).ConfigureAwait(false);
+                var units = BuildUnitResults(engine, job.ScenarioWorkItem.Scenario.GameStateSpec!, telemetry);
                 var teams = BuildTeamResults(units, result.Actions);
                 var match = BuildMatchResult(
                     engine,
-                    scenario.GameStateSpec!,
+                    job.ScenarioWorkItem.Scenario.GameStateSpec!,
                     result.Actions,
                     runSeed,
                     options.MaxTurns,
-                    gameStateId);
+                    job.ScenarioWorkItem.GameStateId);
                 result = result with { Match = match, Teams = teams, Units = units };
                 scenarioStopwatch.Stop();
-                _observer.OnScenarioCompleted(gameStateId, result, scenarioStopwatch.Elapsed);
-                scenarioResults.Add(new EvalScenarioResult(gameStateId, repeatIndex + 1, result));
+                _observer.OnScenarioCompleted(job.ScenarioWorkItem.GameStateId, result, scenarioStopwatch.Elapsed);
+                scenarioResults.Add(new EvalScenarioResultWithOrder(
+                    job.ScenarioWorkItem.ScenarioOrder,
+                    job.RepeatIndex,
+                    new EvalScenarioResult(job.ScenarioWorkItem.GameStateId, job.RepeatIndex + 1, result)));
             }
-        }
+            finally
+            {
+                concurrencyLimiter.Release();
+            }
+        }, cancellationToken));
 
-        var batchResult = new EvalBatchResult(scenarioResults);
+        await Task.WhenAll(tasks);
+
+        var orderedScenarioResults = scenarioResults
+            .OrderBy(result => result.ScenarioOrder)
+            .ThenBy(result => result.RepeatIndex)
+            .Select(result => result.Result)
+            .ToArray();
+
+        var batchResult = new EvalBatchResult(orderedScenarioResults);
         await EvalBatchResultWriter.WriteAsync(batchResult, options.EvalRunResultOutput, cancellationToken);
         return batchResult;
     }
@@ -372,4 +401,10 @@ internal sealed class EvalCommandRunner
 
     private static string ToTelemetryKey(TerrainType terrain)
         => terrain.ToString().ToLowerInvariant();
+
+    private sealed record EvalScenarioWorkItem(string GameStateId, int ScenarioOrder, ScenarioResult Scenario);
+
+    private sealed record EvalRunWorkItem(EvalScenarioWorkItem ScenarioWorkItem, int RepeatIndex);
+
+    private sealed record EvalScenarioResultWithOrder(int ScenarioOrder, int RepeatIndex, EvalScenarioResult Result);
 }

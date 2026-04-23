@@ -32,6 +32,7 @@ public sealed class InteractiveCliArgumentsPrompt
             GameStateId = gameStateId,
             Seed = defaults.Seed,
             RepeatCount = repeatCount,
+            Parallelism = defaults.Parallelism,
             MaxTurns = defaults.MaxTurns,
             AttackerMcts = defaults.AttackerMcts,
             DefenderMcts = defaults.DefenderMcts,

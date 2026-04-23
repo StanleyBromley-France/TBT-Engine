@@ -4,10 +4,12 @@ using Core.Engine.Actions.Choice;
 using Core.Game.Bootstrap.Contracts;
 using GameRunner.Results;
 using GameRunner.Runners.Observers;
+using System.Collections.Concurrent;
 
 internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
 {
-    private readonly Dictionary<string, (int AttackerTeamId, int DefenderTeamId)> _scenarioTeams = new(StringComparer.Ordinal);
+    private readonly ConcurrentDictionary<string, (int AttackerTeamId, int DefenderTeamId)> _scenarioTeams = new(StringComparer.Ordinal);
+    private readonly object _consoleLock = new();
 
     public void RegisterScenario(string scenarioId, IGameStateSpec gameStateSpec)
     {
@@ -19,24 +21,32 @@ internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
 
     public void OnScenarioStarted(string scenarioId)
     {
-        Console.WriteLine($"Starting scenario '{scenarioId}'...");
+        WriteLine($"Starting scenario '{scenarioId}'...");
     }
 
     public void OnTurnStarted(string scenarioId, int attackerTurnsTaken, int teamToAct)
     {
-        Console.WriteLine($"[{scenarioId}] Turn start: attackerTurnsTaken={attackerTurnsTaken}, teamToAct={ResolveTeamLabel(scenarioId, teamToAct)}");
+        WriteLine($"[{scenarioId}] Turn start: attackerTurnsTaken={attackerTurnsTaken}, teamToAct={ResolveTeamLabel(scenarioId, teamToAct)}");
     }
 
     public void OnActionChosen(string scenarioId, int actionIndex, ActionChoice action, TimeSpan selectionDuration)
     {
-        Console.WriteLine(
+        WriteLine(
             $"[{scenarioId}] Action {actionIndex}: {FormatAction(action)} selected in {selectionDuration.TotalMilliseconds:F0} ms");
     }
 
     public void OnScenarioCompleted(string scenarioId, EvalRunResult result, TimeSpan totalDuration)
     {
-        Console.WriteLine(
+        WriteLine(
             $"Finished scenario '{scenarioId}'. Outcome={result.Match.Outcome}, TerminationReason={result.Match.TerminationReason}, Actions={result.Match.ActionCount}, Duration={totalDuration.TotalMilliseconds:F0} ms");
+    }
+
+    private void WriteLine(string message)
+    {
+        lock (_consoleLock)
+        {
+            Console.WriteLine(message);
+        }
     }
 
     private static string FormatAction(ActionChoice action)
