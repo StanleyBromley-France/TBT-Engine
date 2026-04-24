@@ -50,13 +50,13 @@ internal sealed class ConsoleEvalRunObserver : IEvalRunObserver
             $"[{scenarioId}] Action {actionIndex}: {FormatAction(action)} selected in {selectionDuration.TotalMilliseconds:F0} ms");
     }
 
-    public void OnScenarioCompleted(string scenarioId, EvalRunResult result, TimeSpan totalDuration)
+    public void OnScenarioCompleted(string scenarioId, int repeatIndex, int runSeed, EvalRunResult result, TimeSpan totalDuration)
     {
         if (_verbosity == EvalLogVerbosity.Quiet)
             return;
 
         WriteLine(
-            $"Finished scenario '{scenarioId}'. Outcome={result.Match.Outcome}, TerminationReason={result.Match.TerminationReason}, Actions={result.Match.ActionCount}, Duration={totalDuration.TotalMilliseconds:F0} ms");
+            $"Finished scenario '{scenarioId}'. Repeat={repeatIndex + 1}, RunSeed={runSeed}, Outcome={result.Match.Outcome}, TerminationReason={result.Match.TerminationReason}, Actions={result.Match.ActionCount}, Duration={totalDuration.TotalMilliseconds:F0} ms");
     }
 
     private void WriteLine(string message)

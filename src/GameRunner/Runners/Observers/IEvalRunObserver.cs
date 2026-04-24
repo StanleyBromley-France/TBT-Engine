@@ -11,5 +11,5 @@ public interface IEvalRunObserver
 
     void OnActionChosen(string scenarioId, int actionIndex, ActionChoice action, TimeSpan selectionDuration);
 
-    void OnScenarioCompleted(string scenarioId, EvalRunResult result, TimeSpan totalDuration);
+    void OnScenarioCompleted(string scenarioId, int repeatIndex, int runSeed, EvalRunResult result, TimeSpan totalDuration);
 }

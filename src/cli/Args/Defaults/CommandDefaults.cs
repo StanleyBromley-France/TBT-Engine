@@ -31,10 +31,10 @@ public static class CommandDefaults
         {
             ContentPath = ExampleContentPath,
             GameStateId = string.Empty,
-            Seed = 12345,
+            Seed = 3867623,
             RepeatCount = 1,
             Parallelism = 12,
-            MaxTurns = 12,
+            MaxTurns = 40,
             Quiet = false,
             Verbose = false,
             ValidationMode = ContentValidationMode.Strict,

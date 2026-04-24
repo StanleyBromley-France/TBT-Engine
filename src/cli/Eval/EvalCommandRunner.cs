@@ -94,7 +94,12 @@ internal sealed class EvalCommandRunner
                     job.ScenarioWorkItem.GameStateId);
                 result = result with { Match = match, Teams = teams, Units = units };
                 scenarioStopwatch.Stop();
-                observer.OnScenarioCompleted(job.ScenarioWorkItem.GameStateId, result, scenarioStopwatch.Elapsed);
+                observer.OnScenarioCompleted(
+                    job.ScenarioWorkItem.GameStateId,
+                    job.RepeatIndex,
+                    runSeed,
+                    result,
+                    scenarioStopwatch.Elapsed);
                 scenarioResults.Add(new EvalScenarioResultWithOrder(
                     job.ScenarioWorkItem.ScenarioOrder,
                     job.RepeatIndex,
