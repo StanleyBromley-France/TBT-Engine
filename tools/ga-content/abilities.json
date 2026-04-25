@@ -1,0 +1,275 @@
+[
+  {
+    "id": "ability-shield-bash",
+    "name": "Shield Bash",
+    "category": "MeleeAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-shield-bash"
+  },
+  {
+    "id": "ability-shield-strike",
+    "name": "Shield Strike",
+    "category": "MeleeAttack",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-shield-strike"
+  },
+  {
+    "id": "ability-bulwark-stance",
+    "name": "Bulwark Stance",
+    "category": "DefensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-bulwark-stance"
+  },
+  {
+    "id": "ability-rallying-shout",
+    "name": "Rallying Shout",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 2,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Ally",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-rallying-shout"
+  },
+  {
+    "id": "ability-mend",
+    "name": "Mend",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-mend"
+  },
+  {
+    "id": "ability-renewing-light",
+    "name": "Renewing Light",
+    "category": "DefensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-renewing-light"
+  },
+  {
+    "id": "ability-battle-prayer",
+    "name": "Battle Prayer",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-battle-prayer"
+  },
+  {
+    "id": "ability-piercing-shot",
+    "name": "Piercing Shot",
+    "category": "RangedAttack",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-piercing-shot"
+  },
+  {
+    "id": "ability-volley",
+    "name": "Volley",
+    "category": "RangedAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-volley"
+  },
+  {
+    "id": "ability-hunters-mark",
+    "name": "Hunter's Mark",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-hunters-mark"
+  },
+  {
+    "id": "ability-cleave",
+    "name": "Cleave",
+    "category": "MeleeAttack",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-cleave"
+  },
+  {
+    "id": "ability-iron-hide",
+    "name": "Iron Hide",
+    "category": "DefensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-iron-hide"
+  },
+  {
+    "id": "ability-crippling-blow",
+    "name": "Crippling Blow",
+    "category": "MeleeAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-crippling-blow"
+  },
+  {
+    "id": "ability-firebolt",
+    "name": "Firebolt",
+    "category": "OffensiveSpell",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-firebolt"
+  },
+  {
+    "id": "ability-searing-hex",
+    "name": "Searing Hex",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-searing-hex"
+  },
+  {
+    "id": "ability-flame-ward",
+    "name": "Flame Ward",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-flame-ward"
+  },
+  {
+    "id": "ability-radiant-bolt",
+    "name": "Radiant Bolt",
+    "category": "OffensiveSpell",
+    "manaCost": 0,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-radiant-bolt"
+  },
+  {
+    "id": "ability-shadow-bolt",
+    "name": "Shadow Bolt",
+    "category": "OffensiveSpell",
+    "manaCost": 0,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-shadow-bolt"
+  },
+  {
+    "id": "ability-shadow-mend",
+    "name": "Shadow Mend",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-shadow-mend"
+  },
+  {
+    "id": "ability-wither",
+    "name": "Wither",
+    "category": "OffensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-wither"
+  },
+  {
+    "id": "ability-tide-blessing",
+    "name": "Tide Blessing",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-tide-blessing"
+  }
+]

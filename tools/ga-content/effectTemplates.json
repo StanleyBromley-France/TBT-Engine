@@ -1,0 +1,170 @@
+[
+  {
+    "id": "effect-shield-bash",
+    "name": "ShieldBashEffect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-shield-bash-damage", "component-shield-bash-breach"]
+  },
+  {
+    "id": "effect-shield-strike",
+    "name": "ShieldStrikeEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-shield-strike-damage"]
+  },
+  {
+    "id": "effect-bulwark-stance",
+    "name": "BulwarkStanceEffect",
+    "isHarmful": false,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-bulwark-heal", "component-bulwark-phys-guard", "component-bulwark-magic-guard"]
+  },
+  {
+    "id": "effect-rallying-shout",
+    "name": "RallyingShoutEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-rally-damage", "component-rally-move"]
+  },
+  {
+    "id": "effect-mend",
+    "name": "MendEffect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-mend-heal"]
+  },
+  {
+    "id": "effect-renewing-light",
+    "name": "RenewingLightEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": ["component-renewing-hot", "component-renewing-received"]
+  },
+  {
+    "id": "effect-battle-prayer",
+    "name": "BattlePrayerEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-battle-prayer-damage", "component-battle-prayer-healing"]
+  },
+  {
+    "id": "effect-piercing-shot",
+    "name": "PiercingShotEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-piercing-shot-damage"]
+  },
+  {
+    "id": "effect-volley",
+    "name": "VolleyEffect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-volley-damage", "component-volley-slow"]
+  },
+  {
+    "id": "effect-hunters-mark",
+    "name": "HuntersMarkEffect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-hunters-mark-phys", "component-hunters-mark-magic"]
+  },
+  {
+    "id": "effect-cleave",
+    "name": "CleaveEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-cleave-damage"]
+  },
+  {
+    "id": "effect-iron-hide",
+    "name": "IronHideEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-iron-hide-max-hp", "component-iron-hide-phys-guard"]
+  },
+  {
+    "id": "effect-crippling-blow",
+    "name": "CripplingBlowEffect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-crippling-blow-damage", "component-crippling-blow-weakness"]
+  },
+  {
+    "id": "effect-firebolt",
+    "name": "FireboltEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-firebolt-damage"]
+  },
+  {
+    "id": "effect-searing-hex",
+    "name": "SearingHexEffect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": ["component-searing-hex-dot", "component-searing-hex-magic-breach"]
+  },
+  {
+    "id": "effect-flame-ward",
+    "name": "FlameWardEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-flame-ward-damage", "component-flame-ward-magic-guard"]
+  },
+  {
+    "id": "effect-radiant-bolt",
+    "name": "RadiantBoltEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-radiant-bolt-damage"]
+  },
+  {
+    "id": "effect-shadow-bolt",
+    "name": "ShadowBoltEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-shadow-bolt-damage"]
+  },
+  {
+    "id": "effect-shadow-mend",
+    "name": "ShadowMendEffect",
+    "isHarmful": false,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-shadow-mend-heal", "component-shadow-mend-hot"]
+  },
+  {
+    "id": "effect-wither",
+    "name": "WitherEffect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": ["component-wither-dot", "component-wither-heal-cut", "component-wither-weakness"]
+  },
+  {
+    "id": "effect-tide-blessing",
+    "name": "TideBlessingEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-tide-blessing-received", "component-tide-blessing-magic-guard"]
+  }
+]

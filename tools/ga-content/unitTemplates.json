@@ -1,0 +1,74 @@
+[
+  {
+    "id": "unit-iron-vanguard",
+    "name": "Iron Vanguard",
+    "primaryRole": "Tank",
+    "secondaryRole": "Buffer",
+    "maxHP": 150,
+    "maxManaPoints": 18,
+    "movePoints": 3,
+    "physicalDamageReceived": 85,
+    "magicDamageReceived": 110,
+    "abilityIds": ["ability-shield-strike", "ability-bulwark-stance", "ability-rallying-shout"]
+  },
+  {
+    "id": "unit-dawn-medic",
+    "name": "Dawn Medic",
+    "primaryRole": "Healer",
+    "secondaryRole": "Buffer",
+    "maxHP": 92,
+    "maxManaPoints": 30,
+    "movePoints": 4,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 90,
+    "abilityIds": ["ability-radiant-bolt", "ability-mend", "ability-renewing-light"]
+  },
+  {
+    "id": "unit-longshot-ranger",
+    "name": "Longshot Ranger",
+    "primaryRole": "Damage",
+    "secondaryRole": "Debuffer",
+    "maxHP": 105,
+    "maxManaPoints": 24,
+    "movePoints": 4,
+    "physicalDamageReceived": 95,
+    "magicDamageReceived": 100,
+    "abilityIds": ["ability-piercing-shot", "ability-volley", "ability-hunters-mark"]
+  },
+  {
+    "id": "unit-grave-bruiser",
+    "name": "Grave Bruiser",
+    "primaryRole": "Tank",
+    "secondaryRole": "Debuffer",
+    "maxHP": 155,
+    "maxManaPoints": 16,
+    "movePoints": 3,
+    "physicalDamageReceived": 90,
+    "magicDamageReceived": 115,
+    "abilityIds": ["ability-cleave", "ability-iron-hide", "ability-crippling-blow"]
+  },
+  {
+    "id": "unit-ember-seer",
+    "name": "Ember Seer",
+    "primaryRole": "Damage",
+    "secondaryRole": "Debuffer",
+    "maxHP": 88,
+    "maxManaPoints": 32,
+    "movePoints": 4,
+    "physicalDamageReceived": 105,
+    "magicDamageReceived": 85,
+    "abilityIds": ["ability-firebolt", "ability-searing-hex", "ability-flame-ward"]
+  },
+  {
+    "id": "unit-mire-priest",
+    "name": "Mire Priest",
+    "primaryRole": "Healer",
+    "secondaryRole": "Debuffer",
+    "maxHP": 98,
+    "maxManaPoints": 30,
+    "movePoints": 4,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 95,
+    "abilityIds": ["ability-shadow-bolt", "ability-shadow-mend", "ability-wither"]
+  }
+]

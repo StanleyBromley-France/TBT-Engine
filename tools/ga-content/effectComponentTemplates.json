@@ -1,0 +1,221 @@
+[
+  {
+    "id": "component-shield-bash-damage",
+    "type": "InstantDamage",
+    "damage": 18,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-shield-strike-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-shield-bash-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 20
+  },
+  {
+    "id": "component-bulwark-heal",
+    "type": "InstantHeal",
+    "heal": 12
+  },
+  {
+    "id": "component-bulwark-phys-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -20
+  },
+  {
+    "id": "component-bulwark-magic-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -10
+  },
+  {
+    "id": "component-rally-damage",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 20
+  },
+  {
+    "id": "component-rally-move",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": 1
+  },
+  {
+    "id": "component-mend-heal",
+    "type": "InstantHeal",
+    "heal": 24
+  },
+  {
+    "id": "component-renewing-hot",
+    "type": "HealOverTime",
+    "heal": 8
+  },
+  {
+    "id": "component-renewing-received",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": 20
+  },
+  {
+    "id": "component-battle-prayer-damage",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 15
+  },
+  {
+    "id": "component-battle-prayer-healing",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingDealt",
+    "percent": 15
+  },
+  {
+    "id": "component-piercing-shot-damage",
+    "type": "InstantDamage",
+    "damage": 20,
+    "damageType": "Physical",
+    "critChance": 25,
+    "critMultiplier": 1.5
+  },
+  {
+    "id": "component-volley-damage",
+    "type": "InstantDamage",
+    "damage": 12,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-volley-slow",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": -1
+  },
+  {
+    "id": "component-hunters-mark-phys",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 15
+  },
+  {
+    "id": "component-hunters-mark-magic",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": 10
+  },
+  {
+    "id": "component-cleave-damage",
+    "type": "InstantDamage",
+    "damage": 16,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-iron-hide-max-hp",
+    "type": "FlatAttributeModifier",
+    "stat": "MaxHP",
+    "amount": 15
+  },
+  {
+    "id": "component-iron-hide-phys-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -15
+  },
+  {
+    "id": "component-crippling-blow-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-crippling-blow-weakness",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": -20
+  },
+  {
+    "id": "component-firebolt-damage",
+    "type": "InstantDamage",
+    "damage": 22,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-searing-hex-dot",
+    "type": "DamageOverTime",
+    "damage": 8,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-searing-hex-magic-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": 15
+  },
+  {
+    "id": "component-flame-ward-damage",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 15
+  },
+  {
+    "id": "component-flame-ward-magic-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -20
+  },
+  {
+    "id": "component-radiant-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-shadow-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-shadow-mend-heal",
+    "type": "InstantHeal",
+    "heal": 16
+  },
+  {
+    "id": "component-shadow-mend-hot",
+    "type": "HealOverTime",
+    "heal": 6
+  },
+  {
+    "id": "component-wither-dot",
+    "type": "DamageOverTime",
+    "damage": 6,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-wither-heal-cut",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": -25
+  },
+  {
+    "id": "component-wither-weakness",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": -15
+  },
+  {
+    "id": "component-tide-blessing-received",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": 25
+  },
+  {
+    "id": "component-tide-blessing-magic-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -15
+  }
+]

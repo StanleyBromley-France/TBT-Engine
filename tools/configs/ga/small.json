@@ -1,0 +1,14 @@
+{
+  "ga_random_seed": 2365256,
+  "candidate_population_size": 10,
+  "generation_count": 3,
+  "mutation_probability": 0.8,
+  "evaluation_turn_budget": 100,
+  "evaluation_repeat_stages": [
+    { "total_repeats": 1 },
+    { "total_repeats": 3 },
+    { "total_repeats": 5 }
+  ],
+  "evaluation_timeout_seconds": 18000,
+  "evaluation_log_mode": "quiet"
+}

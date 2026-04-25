@@ -1,0 +1,522 @@
+[
+  {
+    "id": "scenario-1-generated-1",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 1,
+        "q": 3,
+        "r": 1
+      },
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 2,
+        "q": 8,
+        "r": -3
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-2",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 1,
+        "q": 3,
+        "r": 0
+      },
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 2,
+        "q": 8,
+        "r": -3
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-3",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 1,
+        "q": 3,
+        "r": 1
+      },
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 2,
+        "q": 8,
+        "r": -2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-4",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 1,
+        "q": 3,
+        "r": 4
+      },
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 2,
+        "q": 8,
+        "r": 0
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-5",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 1,
+        "q": 3,
+        "r": 3
+      },
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 2,
+        "q": 8,
+        "r": 2
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-6",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 1,
+        "q": 3,
+        "r": 5
+      },
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 2,
+        "q": 8,
+        "r": -2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-7",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 1,
+        "q": 3,
+        "r": 4
+      },
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 2,
+        "q": 8,
+        "r": 2
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-8",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 1,
+        "q": 3,
+        "r": 0
+      },
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 2,
+        "q": 8,
+        "r": 0
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-9",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 1,
+        "q": 3,
+        "r": 1
+      },
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-ember-seer",
+        "teamId": 2,
+        "q": 8,
+        "r": 0
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  },
+  {
+    "id": "scenario-1-generated-10",
+    "mapGen": {
+      "width": 12,
+      "height": 7,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-grave-bruiser",
+        "teamId": 1,
+        "q": 3,
+        "r": 2
+      },
+      {
+        "id": "unit-mire-priest",
+        "teamId": 1,
+        "q": 0,
+        "r": 6
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 1,
+        "q": 3,
+        "r": -1
+      },
+      {
+        "id": "unit-iron-vanguard",
+        "teamId": 2,
+        "q": 8,
+        "r": -1
+      },
+      {
+        "id": "unit-longshot-ranger",
+        "teamId": 2,
+        "q": 8,
+        "r": -4
+      },
+      {
+        "id": "unit-dawn-medic",
+        "teamId": 2,
+        "q": 11,
+        "r": 1
+      }
+    ]
+  }
+]
