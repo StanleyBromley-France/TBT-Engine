@@ -1,0 +1,23 @@
+{
+  "target_primary_role": "Tank",
+  "unit_max_hp_min": 120,
+  "unit_max_hp_max": 260,
+  "unit_max_mana_points_min": 0,
+  "unit_max_mana_points_max": 40,
+  "unit_move_points_min": 2,
+  "unit_move_points_max": 5,
+  "physical_damage_received_percent_min": 80,
+  "physical_damage_received_percent_max": 150,
+  "magic_damage_received_percent_min": 75,
+  "magic_damage_received_percent_max": 145,
+  "turn_limit_rate_target_min": 0.0,
+  "turn_limit_rate_target_max": 0.05,
+  "average_attacker_turn_count_target_min": 8.0,
+  "average_attacker_turn_count_target_max": 18.0,
+  "average_action_count_target_min": 70.0,
+  "average_action_count_target_max": 130.0,
+  "turn_limit_rate_fitness_weight": 0.25,
+  "average_attacker_turn_count_fitness_weight": 0.15,
+  "average_action_count_fitness_weight": 0.10,
+  "primary_role_alignment_fitness_weight": 0.50
+}
