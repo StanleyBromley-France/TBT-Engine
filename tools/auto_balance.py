@@ -8,10 +8,12 @@ from types import ModuleType
 
 from auto_balancer.cli import add_config_arguments
 import auto_balance_attacker_turn_limit
+import auto_balance_terrain_distribution
 
 
 BALANCERS: dict[str, ModuleType] = {
     "attacker-turn-limit": auto_balance_attacker_turn_limit,
+    "terrain-distribution": auto_balance_terrain_distribution,
 }
 
 

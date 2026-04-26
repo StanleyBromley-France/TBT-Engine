@@ -5,9 +5,11 @@ from auto_balancer.config_models.attacker_turn_limit_config import (
     AttackerTurnLimitBalancerConfig,
 )
 from auto_balancer.config_models.shared_config import GaConfig
+from auto_balancer.config_models.terrain_distribution_config import TerrainDistributionBalancerConfig
 
 __all__ = [
     "AttackerTurnLimitBalancerConfig",
     "AttackerTurnLimitBalanceConfig",
     "GaConfig",
+    "TerrainDistributionBalancerConfig",
 ]
