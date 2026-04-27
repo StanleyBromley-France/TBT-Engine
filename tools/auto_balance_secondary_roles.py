@@ -207,7 +207,7 @@ def evaluate_candidate(
             error_message=str(exc),
         )
 
-    return build_measurement(config, summary, normalized_candidate)
+    return build_measurement(config, content_path, summary, normalized_candidate)
 
 
 def run_eval_role_alignment_with_stages(
@@ -241,9 +241,11 @@ def apply_candidate_to_content(
 
 def build_measurement(
     config: config_models.SecondaryRoleBalancerConfig,
+    content_path: Path,
     summary: eval_api.EvalRoleAlignmentSummary,
     candidate: tuple[int, int, int, int, int],
 ) -> measurements.SecondaryRoleMeasurement:
+    unit_max_hp, _, unit_move_points, _, _ = candidate
     detailed = summary.detailed
     attacker_win_rate = detailed.attacker_wins / detailed.total_runs
     turn_limit_rate = detailed.turn_limit_count / detailed.total_runs
@@ -251,6 +253,9 @@ def build_measurement(
         config.balance.target_secondary_role,
         config.balance.target_primary_role,
         summary,
+        unit_max_hp,
+        unit_move_points,
+        scenarios.load_unit_templates(content_path),
     )
 
     turn_limit_fitness = ga.compute_target_band_fitness(

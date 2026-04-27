@@ -11,6 +11,9 @@ def compute_secondary_role_score(
     target_secondary_role: str,
     target_primary_role: str | None,
     summary: EvalRoleAlignmentSummary,
+    candidate_unit_max_hp: int,
+    candidate_unit_move_points: int,
+    peer_unit_templates: list[dict] | None = None,
 ) -> float:
     target_units = [
         unit
@@ -25,8 +28,76 @@ def compute_secondary_role_score(
         return compute_buffer_role_score(summary, target_units)
     if target_secondary_role == "Debuffer":
         return compute_debuffer_role_score(summary, target_units)
+    if target_secondary_role == "Acrobat":
+        return compute_acrobat_role_score(
+            target_primary_role,
+            candidate_unit_max_hp,
+            candidate_unit_move_points,
+            peer_unit_templates or [],
+        )
 
     return 0.0
+
+
+def compute_acrobat_role_score(
+    target_primary_role: str | None,
+    candidate_unit_max_hp: int,
+    candidate_unit_move_points: int,
+    peer_unit_templates: list[dict],
+) -> float:
+    peer_groups = build_acrobat_peer_groups(target_primary_role, peer_unit_templates)
+    if not peer_groups:
+        return 1.0
+
+    group_scores: list[float] = []
+    for peer_units in peer_groups:
+        peer_move_points = mean(int(unit["movePoints"]) for unit in peer_units)
+        peer_max_hp = mean(int(unit["maxHP"]) for unit in peer_units)
+        if peer_move_points <= 0.0 or peer_max_hp <= 0.0:
+            continue
+
+        move_ratio = candidate_unit_move_points / peer_move_points
+        hp_ratio = candidate_unit_max_hp / peer_max_hp
+        group_scores.append(
+            compute_target_band_fitness(move_ratio, 1.15, 1.75) * 0.60
+            + compute_target_band_fitness(hp_ratio, 0.55, 0.90) * 0.40
+        )
+
+    if not group_scores:
+        return 1.0
+    return mean(group_scores)
+
+
+def build_acrobat_peer_groups(
+    target_primary_role: str | None,
+    peer_unit_templates: list[dict],
+) -> list[list[dict]]:
+    if target_primary_role is not None:
+        return [
+            [
+                unit
+                for unit in peer_unit_templates
+                if unit.get("primaryRole") == target_primary_role
+                and unit.get("secondaryRole") != "Acrobat"
+            ]
+        ]
+
+    target_primary_roles = sorted(
+        {
+            unit.get("primaryRole")
+            for unit in peer_unit_templates
+            if unit.get("secondaryRole") == "Acrobat" and isinstance(unit.get("primaryRole"), str)
+        }
+    )
+    return [
+        [
+            unit
+            for unit in peer_unit_templates
+            if unit.get("primaryRole") == primary_role
+            and unit.get("secondaryRole") != "Acrobat"
+        ]
+        for primary_role in target_primary_roles
+    ]
 
 
 def compute_buffer_role_score(
