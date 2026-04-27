@@ -14,6 +14,7 @@ class SecondaryRoleMeasurement:
     turn_limit_rate: float
     average_attacker_turn_count: float
     average_action_count: float
+    primary_role_value_score: float
     secondary_role_alignment_score: float
     raw_fitness: float
     fitness: float

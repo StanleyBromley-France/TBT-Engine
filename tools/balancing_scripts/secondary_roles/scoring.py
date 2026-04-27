@@ -2,9 +2,90 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from auto_balancer.config_models.secondary_role_balance_config import SecondaryRoleBalanceConfig
 from auto_balancer.eval.results import EvalRoleAlignmentSummary, EvalUnitTemplateAggregate
 from auto_balancer.ga.fitness import compute_target_band_fitness
-from balancing_scripts.primary_roles.common import mean
+from balancing_scripts.primary_roles.common import (
+    damage_tradeoff_score,
+    healer_tradeoff_score,
+    mean,
+    role_dominance_score,
+    tank_tradeoff_score,
+)
+
+
+def compute_primary_role_value_score(
+    config: SecondaryRoleBalanceConfig,
+    summary: EvalRoleAlignmentSummary,
+) -> float:
+    """Score whether the target primary role is fulfilling its value proposition.
+
+    Each primary role has a job that justifies picking it over others:
+      Tank   — survives long enough and absorbs enough damage that the HP
+               investment is worthwhile. Scored via survival_rate and
+               average_damage_taken.
+      Healer — heals enough per game that ally survival is meaningfully
+               extended. Scored via average_healing_done.
+      Damage — deals enough damage per game to justify their lower durability.
+               Scored via average_damage_dealt.
+
+    Returns 0.0 if the primary role is None or unrecognised (e.g. standalone
+    secondary-role-only runs).
+    """
+    primary_role = config.target_primary_role
+    if not primary_role:
+        return 0.0
+
+    units = [
+        u for u in summary.units_by_template_id.values()
+        if u.primary_role == primary_role
+    ]
+    if not units:
+        return -10.0
+
+    if primary_role == "Tank":
+        avg_survival_rate = mean(u.survival_rate for u in units)
+        avg_damage_taken = mean(u.average_damage_taken for u in units)
+        return mean([
+            compute_target_band_fitness(
+                avg_survival_rate,
+                config.tank_survival_rate_target_min,
+                config.tank_survival_rate_target_max,
+            ),
+            compute_target_band_fitness(
+                avg_damage_taken,
+                config.tank_average_damage_taken_target_min,
+                config.tank_average_damage_taken_target_max,
+            ),
+            tank_tradeoff_score(summary),
+            role_dominance_score(summary),
+        ])
+
+    if primary_role == "Healer":
+        avg_healing = mean(u.average_healing_done for u in units)
+        return mean([
+            compute_target_band_fitness(
+                avg_healing,
+                config.healer_average_healing_done_target_min,
+                config.healer_average_healing_done_target_max,
+            ),
+            healer_tradeoff_score(summary),
+            role_dominance_score(summary),
+        ])
+
+    if primary_role == "Damage":
+        avg_damage_dealt = mean(u.average_damage_dealt for u in units)
+        return mean([
+            compute_target_band_fitness(
+                avg_damage_dealt,
+                config.damage_average_damage_dealt_target_min,
+                config.damage_average_damage_dealt_target_max,
+            ),
+            damage_tradeoff_score(summary),
+            role_dominance_score(summary),
+        ])
+
+    return 0.0
 
 
 def compute_secondary_role_score(
@@ -106,19 +187,14 @@ def compute_buffer_role_score(
 ) -> float:
     buff_uptime = mean(unit.average_buff_uptime_granted for unit in target_units)
     buff_effects = mean(unit.average_buff_effects_applied for unit in target_units)
-    debuff_uptime = mean(unit.average_debuff_uptime_granted for unit in target_units)
-    debuff_effects = mean(unit.average_debuff_effects_applied for unit in target_units)
     primary_tradeoff = compute_primary_role_tradeoff_score(summary, target_units)
 
-    # Secondary roles are exclusive: Buffer output should be buff output, not
-    # merely "more buff output than everyone else". The primary-role tradeoff
-    # keeps a Tank+Buffer from being as tanky as a non-Buffer Tank.
+    # Buffers should express buff utility, while the primary-role tradeoff keeps
+    # a Tank+Buffer from being as tanky as a non-Buffer Tank.
     return (
-        compute_target_band_fitness(buff_uptime, 1.00, 12.00) * 0.34
-        + compute_target_band_fitness(buff_effects, 0.50, 6.00) * 0.26
-        + compute_target_band_fitness(debuff_uptime, 0.00, 0.05) * 0.075
-        + compute_target_band_fitness(debuff_effects, 0.00, 0.05) * 0.075
-        + primary_tradeoff * 0.25
+        compute_target_band_fitness(buff_uptime, 1.00, 12.00) * 0.45
+        + compute_target_band_fitness(buff_effects, 0.50, 6.00) * 0.35
+        + primary_tradeoff * 0.20
     )
 
 
@@ -128,19 +204,14 @@ def compute_debuffer_role_score(
 ) -> float:
     debuff_uptime = mean(unit.average_debuff_uptime_granted for unit in target_units)
     debuff_effects = mean(unit.average_debuff_effects_applied for unit in target_units)
-    buff_uptime = mean(unit.average_buff_uptime_granted for unit in target_units)
-    buff_effects = mean(unit.average_buff_effects_applied for unit in target_units)
     primary_tradeoff = compute_primary_role_tradeoff_score(summary, target_units)
 
-    # Secondary roles are exclusive: Debuffer output should be debuff output,
-    # with buff output treated as role leakage. The primary-role tradeoff keeps
-    # the secondary utility from being a free upgrade over a pure primary role.
+    # Debuffers should express debuff utility, while the primary-role tradeoff
+    # keeps the secondary utility from being a free upgrade over a pure primary role.
     return (
-        compute_target_band_fitness(debuff_uptime, 1.00, 12.00) * 0.34
-        + compute_target_band_fitness(debuff_effects, 0.50, 6.00) * 0.26
-        + compute_target_band_fitness(buff_uptime, 0.00, 0.05) * 0.075
-        + compute_target_band_fitness(buff_effects, 0.00, 0.05) * 0.075
-        + primary_tradeoff * 0.25
+        compute_target_band_fitness(debuff_uptime, 1.00, 12.00) * 0.45
+        + compute_target_band_fitness(debuff_effects, 0.50, 6.00) * 0.35
+        + primary_tradeoff * 0.20
     )
 
 

@@ -5,11 +5,12 @@ from __future__ import annotations
 import argparse
 
 import auto_balancer.config_models as config_models
+import auto_balancer.package as balance_package
+import auto_balancer.reporting as reporting
 import auto_balancer.runtime as runtime
 import auto_balancer.scenarios as scenarios
-import auto_balance_primary_roles as primary_role_balancer
-from auto_balancer.cli import add_config_arguments
 from auto_balancer.config import load_balancer_config_from_args
+from auto_balancer.workflows import primary_roles as primary_role_balancer
 
 
 PRIMARY_ROLE_CONFIGS: tuple[tuple[str, str], ...] = (
@@ -78,18 +79,25 @@ def derive_role_config(
     return build_primary_role_config(nested_config, role_name, balance_section_name, role_seed=role_seed)
 
 
-def run(nested_config: config_models.NestedPrimaryRoleBalancerConfig) -> int:
-    runtime.ensure_local_deap()
+def run(
+    nested_config: config_models.NestedPrimaryRoleBalancerConfig,
+    source_content_path=None,
+    output_package_path=None,
+    persist_results: bool = False,
+) -> int:
+    runtime.ensure_deap_available()
+    content_source = runtime.DEFAULT_GA_CONTENT_DIR if source_content_path is None else source_content_path
 
     # All target roles share one generated content pack so each role pass builds on the previous one.
     validate_nested_config(nested_config)
 
     base_role_name, base_balance_section_name = PRIMARY_ROLE_CONFIGS[0]
     base_config = build_primary_role_config(nested_config, base_role_name, base_balance_section_name)
-    content_path = primary_role_balancer.prepare_eval_content(base_config)
+    content_path = primary_role_balancer.prepare_eval_content(base_config, content_source)
     offensive_ability_ids = scenarios.load_offensive_ability_ids(content_path)
 
     best_by_role: dict[str, object] = {}
+    before_by_role: dict[str, object] = {}
 
     for round_index in range(nested_config.balance.optimization_round_count):
         print(f"round {round_index + 1} start", flush=True)
@@ -105,6 +113,15 @@ def run(nested_config: config_models.NestedPrimaryRoleBalancerConfig) -> int:
             )
             # Rebuild per role so the derived seed and role-specific balance config are applied.
             eval_config = primary_role_balancer.build_eval_config(role_config, content_path)
+            if role_name not in before_by_role:
+                initial_candidate = primary_role_balancer.load_initial_candidate(role_config, content_path)
+                before_by_role[role_name] = primary_role_balancer.evaluate_candidate(
+                    role_config,
+                    content_path,
+                    eval_config,
+                    offensive_ability_ids,
+                    initial_candidate,
+                )
             best_measurement = primary_role_balancer.optimize_primary_role(
                 role_config,
                 content_path,
@@ -112,19 +129,12 @@ def run(nested_config: config_models.NestedPrimaryRoleBalancerConfig) -> int:
                 offensive_ability_ids,
             )
             best_by_role[role_name] = best_measurement
-            print(
-                "round-best "
-                f"role={role_name} "
-                f"hp={best_measurement.unit_max_hp} "
-                f"mana={best_measurement.unit_max_mana_points} "
-                f"move={best_measurement.unit_move_points} "
-                f"physDR={best_measurement.physical_damage_received_percent} "
-                f"magicDR={best_measurement.magic_damage_received_percent} "
-                f"turn-limit-rate={best_measurement.turn_limit_rate:.2%} "
-                f"avg-attacker-turns={best_measurement.average_attacker_turn_count:.2f} "
-                f"primary-role-score={best_measurement.primary_role_alignment_score:.4f} "
-                f"fitness={best_measurement.fitness:.4f}",
-                flush=True,
+            reporting.print_record(
+                "round-best",
+                [
+                    reporting.field("role", role_name),
+                    *reporting.primary_role_fields(best_measurement),
+                ],
             )
 
     print("nested primary role balancing complete", flush=True)
@@ -132,33 +142,42 @@ def run(nested_config: config_models.NestedPrimaryRoleBalancerConfig) -> int:
         measurement = best_by_role.get(role_name)
         if measurement is None:
             continue
-        print(
-            "best "
-            f"role={role_name} "
-            f"hp={measurement.unit_max_hp} "
-            f"mana={measurement.unit_max_mana_points} "
-            f"move={measurement.unit_move_points} "
-            f"physDR={measurement.physical_damage_received_percent} "
-            f"magicDR={measurement.magic_damage_received_percent} "
-            f"turn-limit-rate={measurement.turn_limit_rate:.2%} "
-            f"avg-attacker-turns={measurement.average_attacker_turn_count:.2f} "
-            f"primary-role-score={measurement.primary_role_alignment_score:.4f} "
-            f"fitness={measurement.fitness:.4f}",
-            flush=True,
+        reporting.print_record(
+            "best",
+            [
+                reporting.field("role", role_name),
+                *reporting.primary_role_fields(measurement),
+            ],
         )
+    if output_package_path is not None:
+        balance_package.write_balance_package(
+            output_package_path,
+            "primary-role-baselines",
+            content_source,
+            content_path,
+            build_package_report(before_by_role, best_by_role),
+            changed_files=("unitTemplates.json",),
+        )
+        print(f"package={output_package_path}", flush=True)
+
+    if persist_results:
+        scenarios.save_file_to_source_content(
+            content_path,
+            content_source,
+            "unitTemplates.json",
+        )
+        print(f"saved unitTemplates.json to {content_source}", flush=True)
     print(f"content={content_path}", flush=True)
     return 0
 
 
-def main() -> int:
-    return run(load_balancer_config(parse_args()))
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run primary role tuning across several roles and rounds.")
-    add_config_arguments(parser)
-    return parser.parse_args()
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+def build_package_report(before_by_role: dict[str, object], best_by_role: dict[str, object]) -> dict:
+    return reporting.build_evidence_report(
+        before_by_role,
+        best_by_role,
+        (
+            ("Fitness", "fitness"),
+            ("PrimaryRoleScore", "primary_role_alignment_score"),
+            ("TurnLimitRate", "turn_limit_rate"),
+        ),
+    )

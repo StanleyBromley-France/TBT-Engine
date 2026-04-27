@@ -1,8 +1,14 @@
 from __future__ import annotations
 
 from auto_balancer.eval.results import EvalRoleAlignmentSummary, EvalUnitTemplateAggregate
-from auto_balancer.ga.fitness import compute_target_band_fitness
-from balancing_scripts.primary_roles.common import mean, safe_ratio
+from balancing_scripts.primary_roles.common import (
+    healer_tradeoff_score,
+    mean,
+    role_dominance_score,
+    safe_ratio,
+    score_at_least,
+    score_at_most,
+)
 
 
 def compute_healer_role_score(
@@ -31,7 +37,9 @@ def compute_healer_role_score(
     )
 
     return (
-        compute_target_band_fitness(healing_vs_non_healer, 1.50, 5.00) * 0.45
-        + compute_target_band_fitness(damage_vs_damage, 0.15, 0.85) * 0.25
-        + compute_target_band_fitness(survival_vs_tank, 0.45, 1.10) * 0.30
+        score_at_least(healing_vs_non_healer, 1.50) * 0.30
+        + score_at_most(damage_vs_damage, 0.85) * 0.15
+        + score_at_most(survival_vs_tank, 1.10) * 0.15
+        + healer_tradeoff_score(summary) * 0.25
+        + role_dominance_score(summary) * 0.15
     )

@@ -40,3 +40,17 @@ class NestedPrimaryRolesGaConfig:
     evaluation_repeat_stages: tuple[RepeatStage, ...]
     evaluation_timeout_seconds: int
     evaluation_log_mode: str
+
+
+@dataclass(frozen=True)
+class NestedCombinationsGaConfig:
+    ga_random_seed: int
+    candidate_population_size: int
+    generation_count: int
+    mutation_probability: float
+    evaluation_turn_budget: int
+    random_seed_step_per_combination: int
+    random_seed_step_per_round: int
+    evaluation_repeat_stages: tuple[RepeatStage, ...]
+    evaluation_timeout_seconds: int
+    evaluation_log_mode: str

@@ -10,6 +10,7 @@ from auto_balancer.scenarios.generator import ScenarioGenerationConfig, generate
 GAME_STATES_FILE_NAME = "gameStates.json"
 UNIT_TEMPLATES_FILE_NAME = "unitTemplates.json"
 ABILITIES_FILE_NAME = "abilities.json"
+EFFECT_COMPONENT_TEMPLATES_FILE_NAME = "effectComponentTemplates.json"
 
 
 def prepare_generated_content(
@@ -98,6 +99,25 @@ def load_abilities(content_path: Path) -> list[dict]:
     return load_json_array(content_path / ABILITIES_FILE_NAME)
 
 
+def update_ability_mana_costs(
+    content_path: Path,
+    mana_cost_updates: dict[str, int],
+) -> None:
+    """Write updated manaCost values into abilities.json.
+
+    Args:
+        content_path: Directory containing the content files.
+        mana_cost_updates: Mapping of ability_id -> new manaCost value.
+    """
+    abilities_path = content_path / ABILITIES_FILE_NAME
+    abilities = load_json_array(abilities_path)
+    for ability in abilities:
+        ability_id = ability.get("id")
+        if ability_id in mana_cost_updates:
+            ability["manaCost"] = mana_cost_updates[ability_id]
+    write_json_array(abilities_path, abilities)
+
+
 def load_unit_templates(content_path: Path) -> list[dict]:
     return load_json_array(content_path / UNIT_TEMPLATES_FILE_NAME)
 
@@ -112,6 +132,7 @@ def update_unit_templates_for_role(
     unit_templates = load_unit_templates(content_path)
     matched_unit_ids: list[str] = []
 
+    matched_units: list[dict] = []
     for unit_template in unit_templates:
         unit_primary_role = unit_template.get("primaryRole")
         unit_secondary_role = unit_template.get("secondaryRole")
@@ -123,14 +144,67 @@ def update_unit_templates_for_role(
         unit_id = unit_template.get("id")
         if isinstance(unit_id, str):
             matched_unit_ids.append(unit_id)
+        matched_units.append(unit_template)
 
-        for field_name, field_value in field_values.items():
-            unit_template[field_name] = field_value
-
-    if not matched_unit_ids:
+    if not matched_units:
         raise ValueError(
             f"No unit templates matched role filter primaryRole={primary_role!r}, secondaryRole={secondary_role!r}."
         )
 
+    apply_role_baseline_values(matched_units, field_values)
+
     write_json_array(unit_templates_path, unit_templates)
     return matched_unit_ids
+
+
+def load_effect_components(content_path: Path) -> list[dict]:
+    return load_json_array(content_path / EFFECT_COMPONENT_TEMPLATES_FILE_NAME)
+
+
+def save_file_to_source_content(
+    generated_content_path: Path,
+    source_content_path: Path,
+    file_name: str,
+) -> None:
+    """Copy an optimised file from the generated content dir back to the source.
+
+    This makes results from one pipeline stage visible to subsequent stages:
+    ``prepare_generated_content`` always copies from the source, so unless the
+    source is updated the next stage starts from the original untuned values.
+    """
+    src = generated_content_path / file_name
+    dst = source_content_path / file_name
+    shutil.copy2(src, dst)
+
+
+def update_effect_component_values(
+    content_path: Path,
+    component_updates: dict[str, dict[str, int]],
+) -> None:
+    """Write updated numeric field values into effectComponentTemplates.json.
+
+    Args:
+        content_path: Directory containing the content files.
+        component_updates: Mapping of component_id -> {field_name: new_value}.
+    """
+    comps_path = content_path / EFFECT_COMPONENT_TEMPLATES_FILE_NAME
+    components = load_json_array(comps_path)
+    for component in components:
+        comp_id = component.get("id")
+        if comp_id in component_updates:
+            for field_name, value in component_updates[comp_id].items():
+                component[field_name] = value
+    write_json_array(comps_path, components)
+
+
+def apply_role_baseline_values(
+    unit_templates: list[dict],
+    field_values: dict[str, int],
+) -> None:
+    for field_name, target_mean in field_values.items():
+        current_values = [int(unit_template[field_name]) for unit_template in unit_templates]
+        current_mean = sum(current_values) / len(current_values)
+        delta = round(target_mean - current_mean)
+
+        for unit_template, current_value in zip(unit_templates, current_values):
+            unit_template[field_name] = current_value + delta

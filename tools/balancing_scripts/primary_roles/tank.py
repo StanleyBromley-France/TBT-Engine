@@ -1,8 +1,14 @@
 from __future__ import annotations
 
 from auto_balancer.eval.results import EvalRoleAlignmentSummary, EvalUnitTemplateAggregate
-from auto_balancer.ga.fitness import compute_target_band_fitness
-from balancing_scripts.primary_roles.common import mean, safe_ratio
+from balancing_scripts.primary_roles.common import (
+    mean,
+    role_dominance_score,
+    safe_ratio,
+    score_at_least,
+    score_at_most,
+    tank_tradeoff_score,
+)
 
 
 def compute_tank_role_score(
@@ -27,7 +33,9 @@ def compute_tank_role_score(
     )
 
     return (
-        compute_target_band_fitness(survival_vs_non_tank, 1.10, 1.80) * 0.45
-        + compute_target_band_fitness(damage_taken_vs_non_tank, 1.10, 2.20) * 0.35
-        + compute_target_band_fitness(damage_dealt_vs_damage, 0.25, 0.90) * 0.20
+        score_at_least(survival_vs_non_tank, 1.10) * 0.25
+        + score_at_least(damage_taken_vs_non_tank, 1.10) * 0.20
+        + score_at_most(damage_dealt_vs_damage, 0.90) * 0.15
+        + tank_tradeoff_score(summary) * 0.25
+        + role_dominance_score(summary) * 0.15
     )
