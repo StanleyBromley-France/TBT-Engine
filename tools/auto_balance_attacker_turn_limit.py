@@ -10,7 +10,7 @@ import auto_balancer.eval as eval_api
 import auto_balancer.ga as ga
 import auto_balancer.runtime as runtime
 import auto_balancer.scenarios as scenarios
-from auto_balancer.cli import add_config_arguments
+from auto_balancer.cli import add_config_arguments, raise_direct_balancer_cli_error
 from auto_balancer.config import load_balancer_config_from_args
 from auto_balancer.measurement_models import AttackerTurnLimitMeasurement
 
@@ -234,7 +234,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def run(config: config_models.AttackerTurnLimitBalancerConfig) -> int:
-    runtime.ensure_local_deap()
+    runtime.ensure_deap_available()
 
     # Build the generated content once, then evaluate each GA candidate against that same scenario set.
     validate_config(config)
@@ -275,7 +275,7 @@ def run(config: config_models.AttackerTurnLimitBalancerConfig) -> int:
 
 
 def main() -> int:
-    return run(load_balancer_config(parse_args()))
+    return raise_direct_balancer_cli_error()
 
 
 if __name__ == "__main__":

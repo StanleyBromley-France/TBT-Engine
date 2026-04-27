@@ -12,7 +12,7 @@ import auto_balancer.ga as ga
 import auto_balancer.measurement_models as measurements
 import auto_balancer.runtime as runtime
 import auto_balancer.scenarios as scenarios
-from auto_balancer.cli import add_config_arguments
+from auto_balancer.cli import add_config_arguments, raise_direct_balancer_cli_error
 from auto_balancer.config import load_balancer_config_from_args
 
 
@@ -516,7 +516,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def run(config: config_models.TerrainDistributionBalancerConfig) -> int:
-    runtime.ensure_local_deap()
+    runtime.ensure_deap_available()
 
     # Each candidate edits the generated content pack, runs eval, then the best confirmed candidate is written back.
     validate_config(config)
@@ -553,7 +553,7 @@ def run(config: config_models.TerrainDistributionBalancerConfig) -> int:
 
 
 def main() -> int:
-    return run(load_balancer_config(parse_args()))
+    return raise_direct_balancer_cli_error()
 
 
 if __name__ == "__main__":
