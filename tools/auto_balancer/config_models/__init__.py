@@ -9,6 +9,10 @@ from auto_balancer.config_models.primary_role_balance_config import (
     PrimaryRoleBalanceConfig,
     PrimaryRoleBalancerConfig,
 )
+from auto_balancer.config_models.secondary_role_balance_config import (
+    SecondaryRoleBalanceConfig,
+    SecondaryRoleBalancerConfig,
+)
 from auto_balancer.config_models.shared_config import GaConfig
 from auto_balancer.config_models.terrain_distribution_config import TerrainDistributionBalancerConfig
 
@@ -19,5 +23,7 @@ __all__ = [
     "NestedPrimaryRoleBalancerConfig",
     "PrimaryRoleBalanceConfig",
     "PrimaryRoleBalancerConfig",
+    "SecondaryRoleBalanceConfig",
+    "SecondaryRoleBalancerConfig",
     "TerrainDistributionBalancerConfig",
 ]

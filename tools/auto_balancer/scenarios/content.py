@@ -104,7 +104,7 @@ def load_unit_templates(content_path: Path) -> list[dict]:
 
 def update_unit_templates_for_role(
     content_path: Path,
-    primary_role: str,
+    primary_role: str | None,
     secondary_role: str | None,
     field_values: dict[str, int],
 ) -> list[str]:
@@ -115,7 +115,7 @@ def update_unit_templates_for_role(
     for unit_template in unit_templates:
         unit_primary_role = unit_template.get("primaryRole")
         unit_secondary_role = unit_template.get("secondaryRole")
-        if unit_primary_role != primary_role:
+        if primary_role is not None and unit_primary_role != primary_role:
             continue
         if secondary_role is not None and unit_secondary_role != secondary_role:
             continue

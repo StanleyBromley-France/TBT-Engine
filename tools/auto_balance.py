@@ -10,6 +10,7 @@ from auto_balancer.cli import add_config_arguments
 import auto_balance_attacker_turn_limit
 import auto_balance_primary_roles
 import auto_balance_primary_roles_nested
+import auto_balance_secondary_roles
 import auto_balance_terrain_distribution
 
 
@@ -17,6 +18,7 @@ BALANCERS: dict[str, ModuleType] = {
     "attacker-turn-limit": auto_balance_attacker_turn_limit,
     "primary-role": auto_balance_primary_roles,
     "primary-roles-nested": auto_balance_primary_roles_nested,
+    "secondary-role": auto_balance_secondary_roles,
     "terrain-distribution": auto_balance_terrain_distribution,
 }
 
