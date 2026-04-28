@@ -217,5 +217,187 @@
     "type": "PercentAttributeModifier",
     "stat": "MagicDamageReceived",
     "percent": -15
+  },
+  {
+    "id": "component-steadfast-cry-max-hp",
+    "type": "FlatAttributeModifier",
+    "stat": "MaxHP",
+    "amount": 20
+  },
+  {
+    "id": "component-steadfast-cry-phys-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -15
+  },
+  {
+    "id": "component-shatter-armor-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 25
+  },
+  {
+    "id": "component-shatter-armor-slow",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": -1
+  },
+  {
+    "id": "component-siege-smash-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-siege-smash-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 15
+  },
+  {
+    "id": "component-blitz-strike-damage",
+    "type": "InstantDamage",
+    "damage": 12,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-vaulting-charge-damage",
+    "type": "InstantDamage",
+    "damage": 16,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-evasive-dash-phys-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -20
+  },
+  {
+    "id": "component-evasive-dash-magic-guard",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -10
+  },
+  {
+    "id": "component-evasive-dash-move",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": 1
+  },
+  {
+    "id": "component-fleet-step-move",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": 2
+  },
+  {
+    "id": "component-condemn-phys-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 15
+  },
+  {
+    "id": "component-condemn-magic-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": 15
+  },
+  {
+    "id": "component-plague-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 10,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-plague-bolt-dot",
+    "type": "DamageOverTime",
+    "damage": 6,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-zephyr-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 12,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-wind-rush-received",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": 20
+  },
+  {
+    "id": "component-wind-rush-move",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": 1
+  },
+  {
+    "id": "component-quick-strike-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-war-hymn-damage",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 25
+  },
+  {
+    "id": "component-battle-surge-damage",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 30
+  },
+  {
+    "id": "component-nova-burst-damage",
+    "type": "InstantDamage",
+    "damage": 10,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-shadow-brand-breach",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 20
+  },
+  {
+    "id": "component-shadow-brand-dot",
+    "type": "DamageOverTime",
+    "damage": 7,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-frost-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 12,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-frost-bolt-slow",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": -1
+  },
+  {
+    "id": "component-acrobatic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 14,
+    "damageType": "Physical",
+    "critChance": 25,
+    "critMultiplier": 1.5
+  },
+  {
+    "id": "component-surge-step-move",
+    "type": "FlatAttributeModifier",
+    "stat": "MovePoints",
+    "amount": 2
+  },
+  {
+    "id": "component-surge-step-damage",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 15
   }
 ]

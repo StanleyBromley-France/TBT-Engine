@@ -271,5 +271,252 @@
       "radius": 2
     },
     "effectTemplateId": "effect-tide-blessing"
+  },
+  {
+    "id": "ability-steadfast-cry",
+    "name": "Steadfast Cry",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 2,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Ally",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-steadfast-cry"
+  },
+  {
+    "id": "ability-shatter-armor",
+    "name": "Shatter Armor",
+    "category": "MeleeAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-shatter-armor"
+  },
+  {
+    "id": "ability-siege-smash",
+    "name": "Siege Smash",
+    "category": "MeleeAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-siege-smash"
+  },
+  {
+    "id": "ability-blitz-strike",
+    "name": "Blitz Strike",
+    "category": "MeleeAttack",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-blitz-strike"
+  },
+  {
+    "id": "ability-vaulting-charge",
+    "name": "Vaulting Charge",
+    "category": "MeleeAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 2,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-vaulting-charge"
+  },
+  {
+    "id": "ability-evasive-dash",
+    "name": "Evasive Dash",
+    "category": "DefensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-evasive-dash"
+  },
+  {
+    "id": "ability-fleet-step",
+    "name": "Fleet Step",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-fleet-step"
+  },
+  {
+    "id": "ability-condemn",
+    "name": "Condemn",
+    "category": "OffensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-condemn"
+  },
+  {
+    "id": "ability-plague-bolt",
+    "name": "Plague Bolt",
+    "category": "OffensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-plague-bolt"
+  },
+  {
+    "id": "ability-zephyr-bolt",
+    "name": "Zephyr Bolt",
+    "category": "OffensiveSpell",
+    "manaCost": 0,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-zephyr-bolt"
+  },
+  {
+    "id": "ability-wind-rush",
+    "name": "Wind Rush",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-wind-rush"
+  },
+  {
+    "id": "ability-quick-strike",
+    "name": "Quick Strike",
+    "category": "MeleeAttack",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-quick-strike"
+  },
+  {
+    "id": "ability-war-hymn",
+    "name": "War Hymn",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 2,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Ally",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-war-hymn"
+  },
+  {
+    "id": "ability-battle-surge",
+    "name": "Battle Surge",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-battle-surge"
+  },
+  {
+    "id": "ability-nova-burst",
+    "name": "Nova Burst",
+    "category": "OffensiveSpell",
+    "manaCost": 6,
+    "targeting": {
+      "range": 3,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 2
+    },
+    "effectTemplateId": "effect-nova-burst"
+  },
+  {
+    "id": "ability-shadow-brand",
+    "name": "Shadow Brand",
+    "category": "MeleeAttack",
+    "manaCost": 6,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-shadow-brand"
+  },
+  {
+    "id": "ability-frost-bolt",
+    "name": "Frost Bolt",
+    "category": "OffensiveSpell",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-frost-bolt"
+  },
+  {
+    "id": "ability-acrobatic-strike",
+    "name": "Acrobatic Strike",
+    "category": "MeleeAttack",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-acrobatic-strike"
+  },
+  {
+    "id": "ability-surge-step",
+    "name": "Surge Step",
+    "category": "Utility",
+    "manaCost": 6,
+    "targeting": {
+      "range": 0,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Self",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-surge-step"
   }
 ]

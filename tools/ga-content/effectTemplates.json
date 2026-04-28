@@ -166,5 +166,157 @@
     "totalTicks": 3,
     "maxStacks": 1,
     "componentTemplateIds": ["component-tide-blessing-received", "component-tide-blessing-magic-guard"]
+  },
+  {
+    "id": "effect-steadfast-cry",
+    "name": "SteadfastCryEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-steadfast-cry-max-hp", "component-steadfast-cry-phys-guard"]
+  },
+  {
+    "id": "effect-shatter-armor",
+    "name": "ShatterArmorEffect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-shatter-armor-breach", "component-shatter-armor-slow"]
+  },
+  {
+    "id": "effect-siege-smash",
+    "name": "SiegeSmashEffect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-siege-smash-damage", "component-siege-smash-breach"]
+  },
+  {
+    "id": "effect-blitz-strike",
+    "name": "BlitzStrikeEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-blitz-strike-damage"]
+  },
+  {
+    "id": "effect-vaulting-charge",
+    "name": "VaultingChargeEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-vaulting-charge-damage"]
+  },
+  {
+    "id": "effect-evasive-dash",
+    "name": "EvasiveDashEffect",
+    "isHarmful": false,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-evasive-dash-phys-guard", "component-evasive-dash-magic-guard", "component-evasive-dash-move"]
+  },
+  {
+    "id": "effect-fleet-step",
+    "name": "FleetStepEffect",
+    "isHarmful": false,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-fleet-step-move"]
+  },
+  {
+    "id": "effect-condemn",
+    "name": "CondemnEffect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-condemn-phys-breach", "component-condemn-magic-breach"]
+  },
+  {
+    "id": "effect-plague-bolt",
+    "name": "PlagueBoltEffect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": ["component-plague-bolt-damage", "component-plague-bolt-dot"]
+  },
+  {
+    "id": "effect-zephyr-bolt",
+    "name": "ZephyrBoltEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-zephyr-bolt-damage"]
+  },
+  {
+    "id": "effect-wind-rush",
+    "name": "WindRushEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-wind-rush-received", "component-wind-rush-move"]
+  },
+  {
+    "id": "effect-quick-strike",
+    "name": "QuickStrikeEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-quick-strike-damage"]
+  },
+  {
+    "id": "effect-war-hymn",
+    "name": "WarHymnEffect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-war-hymn-damage"]
+  },
+  {
+    "id": "effect-battle-surge",
+    "name": "BattleSurgeEffect",
+    "isHarmful": false,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-battle-surge-damage"]
+  },
+  {
+    "id": "effect-nova-burst",
+    "name": "NovaBurstEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-nova-burst-damage"]
+  },
+  {
+    "id": "effect-shadow-brand",
+    "name": "ShadowBrandEffect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-shadow-brand-breach", "component-shadow-brand-dot"]
+  },
+  {
+    "id": "effect-frost-bolt",
+    "name": "FrostBoltEffect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-frost-bolt-damage", "component-frost-bolt-slow"]
+  },
+  {
+    "id": "effect-acrobatic-strike",
+    "name": "AcrobaticStrikeEffect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-acrobatic-strike-damage"]
+  },
+  {
+    "id": "effect-surge-step",
+    "name": "SurgeStepEffect",
+    "isHarmful": false,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": ["component-surge-step-move", "component-surge-step-damage"]
   }
 ]

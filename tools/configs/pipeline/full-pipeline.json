@@ -1,0 +1,17 @@
+{
+  "primary_role_baselines": {
+    "ga_config": "../ga/nested-primary-roles.json",
+    "scenario_configs": ["../scenario/generated-scenario-eval.json"],
+    "balance_config": "../balance/primary-roles-nested.json"
+  },
+  "unit_stats": {
+    "ga_config": "../ga/nested-combinations.json",
+    "scenario_configs": ["../scenario/generated-scenario-eval.json"],
+    "balance_config": "../balance/nested-combinations.json"
+  },
+  "ability_effects": {
+    "ga_config": "../ga/ability-effects.json",
+    "scenario_configs": ["../scenario/generated-scenario-eval.json"],
+    "balance_config": "../balance/ability-effects.json"
+  }
+}

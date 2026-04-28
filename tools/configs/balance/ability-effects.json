@@ -1,0 +1,38 @@
+{
+  "component_max_pct_change": 0.25,
+  "percent_mod_max_pct_change": 0.25,
+  "flat_mod_max_pct_change": 0.25,
+  "mana_cost_max_pct_change": 0.30,
+
+  "damage_floor": 4,
+  "heal_floor": 4,
+  "percent_mod_floor": 5,
+  "flat_mod_floor": 1,
+  "mana_cost_floor": 2,
+
+  "pct_change_diversity_target_min": 0.05,
+  "pct_change_diversity_target_max": 0.20,
+
+  "attacker_win_rate_target_min": 0.50,
+  "attacker_win_rate_target_max": 0.60,
+
+  "tank_average_damage_dealt_target_min": 12.0,
+  "tank_average_damage_dealt_target_max": 55.0,
+
+  "healer_average_healing_done_target_min": 28.0,
+  "healer_average_healing_done_target_max": 115.0,
+
+  "damage_average_damage_dealt_target_min": 50.0,
+  "damage_average_damage_dealt_target_max": 185.0,
+
+  "buffer_average_buff_uptime_target_min": 2.0,
+  "buffer_average_buff_uptime_target_max": 15.0,
+
+  "debuffer_average_debuff_uptime_target_min": 2.0,
+  "debuffer_average_debuff_uptime_target_max": 15.0,
+
+  "win_rate_fitness_weight": 0.15,
+  "primary_role_fitness_weight": 0.45,
+  "secondary_role_fitness_weight": 0.25,
+  "diversity_fitness_weight": 0.15
+}
