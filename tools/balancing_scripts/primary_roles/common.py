@@ -18,6 +18,10 @@ def safe_ratio(numerator: float, denominator: float) -> float:
     return numerator / denominator
 
 
+def safe_per_turn(total: float, turns: float) -> float:
+    return 0.0 if turns <= 0.0 else total / turns
+
+
 def score_at_most(observed_value: float, target_max: float) -> float:
     if observed_value <= target_max:
         return 1.0
@@ -62,12 +66,20 @@ def primary_role_metrics(
     primary_role: str,
 ) -> dict[str, float]:
     units = units_for_primary_role(summary, primary_role)
+    turns_survived = mean(unit.average_turns_survived for unit in units)
+    damage = mean(unit.average_damage_dealt for unit in units)
+    healing = mean(unit.average_healing_done for unit in units)
+    damage_taken = mean(unit.average_damage_taken for unit in units)
+    survival = mean(unit.survival_rate for unit in units)
     return {
-        "damage": mean(unit.average_damage_dealt for unit in units),
-        "healing": mean(unit.average_healing_done for unit in units),
-        "damage_taken": mean(unit.average_damage_taken for unit in units),
-        "survival": mean(unit.survival_rate for unit in units),
-        "turns_survived": mean(unit.average_turns_survived for unit in units),
+        "damage": damage,
+        "healing": healing,
+        "damage_taken": damage_taken,
+        "survival": survival,
+        "turns_survived": turns_survived,
+        "damage_per_turn": safe_per_turn(damage, turns_survived),
+        "healing_per_turn": safe_per_turn(healing, turns_survived),
+        "damage_taken_per_turn": safe_per_turn(damage_taken, turns_survived),
         "durability": effective_durability(units),
     }
 

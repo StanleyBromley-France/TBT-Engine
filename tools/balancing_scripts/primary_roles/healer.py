@@ -4,6 +4,7 @@ from auto_balancer.eval.results import EvalRoleAlignmentSummary, EvalUnitTemplat
 from balancing_scripts.primary_roles.common import (
     healer_tradeoff_score,
     mean,
+    primary_role_metrics,
     role_dominance_score,
     safe_ratio,
     score_at_least,
@@ -36,10 +37,33 @@ def compute_healer_role_score(
         mean(unit.survival_rate for unit in tank_units),
     )
 
-    return (
+    match_score = (
         score_at_least(healing_vs_non_healer, 1.50) * 0.30
         + score_at_most(damage_vs_damage, 0.85) * 0.15
         + score_at_most(survival_vs_tank, 1.10) * 0.15
         + healer_tradeoff_score(summary) * 0.25
         + role_dominance_score(summary) * 0.15
+    )
+    turn_score = compute_healer_per_turn_score(summary)
+    return (match_score * 0.70) + (turn_score * 0.30)
+
+
+def compute_healer_per_turn_score(summary: EvalRoleAlignmentSummary) -> float:
+    healer = primary_role_metrics(summary, "Healer")
+    damage = primary_role_metrics(summary, "Damage")
+    tank = primary_role_metrics(summary, "Tank")
+
+    return (
+        score_at_least(
+            safe_ratio(healer["healing_per_turn"], max(damage["damage_per_turn"], 1.0)),
+            0.35,
+        ) * 0.50
+        + score_at_most(
+            safe_ratio(healer["damage_per_turn"], max(damage["damage_per_turn"], 1.0)),
+            0.70,
+        ) * 0.25
+        + score_at_most(
+            safe_ratio(healer["damage_taken_per_turn"], max(tank["damage_taken_per_turn"], 1.0)),
+            0.90,
+        ) * 0.25
     )
