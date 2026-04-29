@@ -35,6 +35,16 @@ def execute_eval_command(config: EvalCommandConfig, turn_budget: int, output_pat
     if config.game_state:
         command.extend(["--game-state", config.game_state])
 
+    if config.mcts_iteration_budget is not None:
+        command.extend(
+            [
+                "--attacker-iterations",
+                str(config.mcts_iteration_budget),
+                "--defender-iterations",
+                str(config.mcts_iteration_budget),
+            ]
+        )
+
     if config.log_mode in {"normal", "verbose"}:
         completed = subprocess.run(
             command,

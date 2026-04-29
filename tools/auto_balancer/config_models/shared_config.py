@@ -26,6 +26,7 @@ class GaConfig:
     evaluation_repeat_stages: tuple[RepeatStage, ...]
     evaluation_timeout_seconds: int
     evaluation_log_mode: str
+    mcts_iteration_budget: int
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,7 @@ class NestedPrimaryRolesGaConfig:
     evaluation_repeat_stages: tuple[RepeatStage, ...]
     evaluation_timeout_seconds: int
     evaluation_log_mode: str
+    mcts_iteration_budget: int
 
 
 @dataclass(frozen=True)
@@ -54,3 +56,4 @@ class NestedCombinationsGaConfig:
     evaluation_repeat_stages: tuple[RepeatStage, ...]
     evaluation_timeout_seconds: int
     evaluation_log_mode: str
+    mcts_iteration_budget: int

@@ -32,6 +32,19 @@ def print_record(prefix: str, fields: Iterable[Field]) -> None:
     print(format_record(prefix, fields), flush=True)
 
 
+def print_banner(title: str, fields: Iterable[Field] = ()) -> None:
+    line = "=" * 80
+    print(line, flush=True)
+    print(format_record(title, fields), flush=True)
+    print(line, flush=True)
+
+
+def print_section(title: str, fields: Iterable[Field] = ()) -> None:
+    print("-" * 80, flush=True)
+    print(format_record(title, fields), flush=True)
+    print("-" * 80, flush=True)
+
+
 def stat_fields(measurement: Any) -> list[Field]:
     return [
         field("hp", measurement.unit_max_hp),
@@ -115,7 +128,10 @@ def build_metric_evidence(before: Any, after: Any, metrics: Iterable[Metric]) ->
         evidence[f"before{label}"] = before_value
         evidence[f"after{label}"] = after_value
         evidence[f"{label[0].lower()}{label[1:]}Delta"] = after_value - before_value
-        evidence[f"improved{label}"] = after_value > before_value
+        if label == "TurnLimitRate":
+            evidence[f"improved{label}"] = after_value < before_value
+        elif label != "AttackerWinRate":
+            evidence[f"improved{label}"] = after_value > before_value
     return evidence
 
 

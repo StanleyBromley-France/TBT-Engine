@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import time
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
@@ -38,7 +39,7 @@ class CandidateWorkflow(ABC, Generic[CandidateT, MeasurementT]):
     def get_fitness(self, measurement: MeasurementT) -> float:
         raise NotImplementedError
 
-    def on_candidate(self, measurement: MeasurementT) -> None:
+    def on_candidate(self, measurement: MeasurementT, elapsed_seconds: float, cached: bool) -> None:
         pass
 
     def on_generation_best(self, generation: int, measurement: MeasurementT) -> None:
@@ -67,10 +68,13 @@ def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]
         normalized = workflow.normalize_individual(individual)
         for index, value in enumerate(normalized):
             individual[index] = int(value)
+        cached = normalized in measurement_cache
+        t0 = time.monotonic()
         if normalized not in measurement_cache:
             measurement_cache[normalized] = workflow.evaluate_candidate(normalized)
+        elapsed = time.monotonic() - t0
         measurement = measurement_cache[normalized]
-        workflow.on_candidate(measurement)
+        workflow.on_candidate(measurement, elapsed, cached)
         return (workflow.get_fitness(measurement),)
 
     toolbox.register("evaluate", evaluate_individual)

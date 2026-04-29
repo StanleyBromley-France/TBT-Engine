@@ -206,6 +206,7 @@ def run(
     input_package_path: Path | None,
     output_package_path: Path | None,
 ) -> int:
+    runtime.disable_windows_quick_edit()
     runtime.ensure_deap_available()
     pipeline_cfg = load_pipeline_config(pipeline_config_path)
     base_dir = pipeline_config_path.parent

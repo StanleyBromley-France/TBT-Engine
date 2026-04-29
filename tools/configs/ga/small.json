@@ -10,5 +10,6 @@
     { "total_repeats": 5 }
   ],
   "evaluation_timeout_seconds": 18000,
-  "evaluation_log_mode": "quiet"
+  "evaluation_log_mode": "quiet",
+  "mcts_iteration_budget": 64
 }

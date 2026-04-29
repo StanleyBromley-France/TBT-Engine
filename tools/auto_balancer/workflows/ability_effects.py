@@ -230,6 +230,7 @@ def build_eval_config(
         repeat_count=final_repeat_count,
         timeout_seconds=config.ga.evaluation_timeout_seconds,
         log_mode=config.ga.evaluation_log_mode,
+        mcts_iteration_budget=config.ga.mcts_iteration_budget,
     )
 
 
@@ -409,8 +410,14 @@ class AbilityEffectsWorkflow(CandidateWorkflow[tuple[int, ...], measurements.Abi
     def get_fitness(self, measurement: measurements.AbilityEffectsMeasurement) -> float:
         return measurement.fitness
 
-    def on_candidate(self, measurement: measurements.AbilityEffectsMeasurement) -> None:
+    def on_candidate(
+        self,
+        measurement: measurements.AbilityEffectsMeasurement,
+        elapsed_seconds: float,
+        cached: bool,
+    ) -> None:
         _print_candidate(measurement)
+        print(f"candidate-time elapsed={elapsed_seconds:.1f}s cached={str(cached).lower()}", flush=True)
 
     def on_generation_best(self, generation: int, measurement: measurements.AbilityEffectsMeasurement) -> None:
         _print_generation_best(generation, measurement)
@@ -600,10 +607,13 @@ def build_package_report(
             {"ability-effects": after},
             (
                 ("Fitness", "fitness"),
+                ("AttackerWinRate", "attacker_win_rate"),
+                ("WinRateScore", "win_rate_score"),
                 ("PrimaryRoleScore", "primary_role_score"),
                 ("TradeoffScore", "role_tradeoff_score"),
                 ("DominanceScore", "role_dominance_score"),
                 ("SecondaryRoleScore", "secondary_role_score"),
+                ("DiversityScore", "diversity_score"),
             ),
         )["evidence"]
     }

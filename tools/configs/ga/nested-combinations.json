@@ -1,15 +1,15 @@
 {
   "ga_random_seed": 7291845,
-  "candidate_population_size": 12,
-  "generation_count": 6,
+  "candidate_population_size": 10,
+  "generation_count": 3,
   "mutation_probability": 0.85,
-  "evaluation_turn_budget": 100,
+  "evaluation_turn_budget": 10,
   "random_seed_step_per_combination": 101,
   "random_seed_step_per_round": 1000,
   "evaluation_repeat_stages": [
-    { "total_repeats": 1 },
-    { "total_repeats": 3 }
+    { "total_repeats": 1 }
   ],
   "evaluation_timeout_seconds": 18000,
-  "evaluation_log_mode": "normal"
+  "evaluation_log_mode": "quiet",
+  "mcts_iteration_budget": 64
 }

@@ -57,6 +57,7 @@ def build_role_alignment_eval_config(config: object, content_path: Path) -> eval
         repeat_count=final_repeat_count,
         timeout_seconds=config.ga.evaluation_timeout_seconds,
         log_mode=config.ga.evaluation_log_mode,
+        mcts_iteration_budget=config.ga.mcts_iteration_budget,
     )
 
 
@@ -259,8 +260,9 @@ class StatCandidateWorkflow(CandidateWorkflow[StatCandidate, MeasurementT]):
     def get_fitness(self, measurement: MeasurementT) -> float:
         return self._get_fitness(measurement)
 
-    def on_candidate(self, measurement: MeasurementT) -> None:
+    def on_candidate(self, measurement: MeasurementT, elapsed_seconds: float, cached: bool) -> None:
         self._on_candidate(measurement)
+        print(f"candidate-time elapsed={elapsed_seconds:.1f}s cached={str(cached).lower()}", flush=True)
 
     def on_generation_best(self, generation: int, measurement: MeasurementT) -> None:
         self._on_generation_best(generation, measurement)

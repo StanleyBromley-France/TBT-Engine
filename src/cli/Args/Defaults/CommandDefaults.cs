@@ -34,7 +34,7 @@ public static class CommandDefaults
             Seed = 3867623,
             RepeatCount = 1,
             Parallelism = 12,
-            MaxTurns = 40,
+            MaxTurns = 14,
             Quiet = false,
             Verbose = false,
             ValidationMode = ContentValidationMode.Strict,

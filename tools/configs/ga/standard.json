@@ -9,5 +9,6 @@
     { "total_repeats": 3 }
   ],
   "evaluation_timeout_seconds": 18000,
-  "evaluation_log_mode": "normal"
+  "evaluation_log_mode": "normal",
+  "mcts_iteration_budget": 64
 }
