@@ -58,6 +58,7 @@ def stat_fields(measurement: Any) -> list[Field]:
 def primary_role_fields(measurement: Any) -> list[Field]:
     return [
         *stat_fields(measurement),
+        field("combo-winrate", measurement.role_combination_win_rate, ".2%"),
         field("turn-limit-rate", measurement.turn_limit_rate, ".2%"),
         field("avg-attacker-turns", measurement.average_attacker_turn_count, ".2f"),
         field("primary-role-score", measurement.primary_role_alignment_score, ".4f"),
@@ -68,10 +69,10 @@ def primary_role_fields(measurement: Any) -> list[Field]:
 def secondary_role_fields(measurement: Any) -> list[Field]:
     return [
         *stat_fields(measurement),
+        field("combo-winrate", measurement.role_combination_win_rate, ".2%"),
         field("turn-limit-rate", measurement.turn_limit_rate, ".2%"),
         field("avg-attacker-turns", measurement.average_attacker_turn_count, ".2f"),
-        field("primary-role-score", measurement.primary_role_value_score, ".4f"),
-        field("secondary-role-score", measurement.secondary_role_alignment_score, ".4f"),
+        field("role-combination-score", measurement.role_combination_score, ".4f"),
         field("fitness", measurement.fitness, ".4f"),
     ]
 
@@ -81,7 +82,7 @@ def secondary_role_round_fields(measurement: Any) -> list[Field]:
         *stat_fields(measurement),
         field("turn-limit-rate", measurement.turn_limit_rate, ".2%"),
         field("avg-attacker-turns", measurement.average_attacker_turn_count, ".2f"),
-        field("secondary-role-score", measurement.secondary_role_alignment_score, ".4f"),
+        field("role-combination-score", measurement.role_combination_score, ".4f"),
         field("fitness", measurement.fitness, ".4f"),
     ]
 
@@ -101,6 +102,7 @@ def ability_effect_fields(measurement: Any, *, detailed: bool) -> list[Field]:
                 field("pct-std", measurement.pct_change_std_dev, ".4f"),
                 field("winrate-score", measurement.win_rate_score, ".4f"),
                 field("primary-score", measurement.primary_role_score, ".4f"),
+                field("combo-winrate-score", measurement.role_combination_win_rate_score, ".4f"),
             ]
         )
     fields.extend(

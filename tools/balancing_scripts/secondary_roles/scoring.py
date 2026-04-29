@@ -5,242 +5,149 @@ from collections.abc import Callable
 from auto_balancer.config_models.secondary_role_balance_config import SecondaryRoleBalanceConfig
 from auto_balancer.eval.results import EvalRoleAlignmentSummary, EvalUnitTemplateAggregate
 from auto_balancer.ga.fitness import compute_target_band_fitness
-from balancing_scripts.primary_roles.common import (
-    damage_tradeoff_score,
-    healer_tradeoff_score,
-    mean,
-    role_dominance_score,
-    tank_tradeoff_score,
-)
+from balancing_scripts.primary_roles.common import mean
+from balancing_scripts.primary_roles.scoring import compute_primary_role_score
 
 
-def compute_primary_role_value_score(
+def compute_role_combination_score(
     config: SecondaryRoleBalanceConfig,
-    summary: EvalRoleAlignmentSummary,
-) -> float:
-    """Score whether the target primary role is fulfilling its value proposition.
-
-    Each primary role has a job that justifies picking it over others:
-      Tank   — survives long enough and absorbs enough damage that the HP
-               investment is worthwhile. Scored via survival_rate and
-               average_damage_taken.
-      Healer — heals enough per game that ally survival is meaningfully
-               extended. Scored via average_healing_done.
-      Damage — deals enough damage per game to justify their lower durability.
-               Scored via average_damage_dealt.
-
-    Returns 0.0 if the primary role is None or unrecognised (e.g. standalone
-    secondary-role-only runs).
-    """
-    primary_role = config.target_primary_role
-    if not primary_role:
-        return 0.0
-
-    units = [
-        u for u in summary.units_by_template_id.values()
-        if u.primary_role == primary_role
-    ]
-    if not units:
-        return -10.0
-
-    if primary_role == "Tank":
-        avg_survival_rate = mean(u.survival_rate for u in units)
-        avg_damage_taken = mean(u.average_damage_taken for u in units)
-        return mean([
-            compute_target_band_fitness(
-                avg_survival_rate,
-                config.tank_survival_rate_target_min,
-                config.tank_survival_rate_target_max,
-            ),
-            compute_target_band_fitness(
-                avg_damage_taken,
-                config.tank_average_damage_taken_target_min,
-                config.tank_average_damage_taken_target_max,
-            ),
-            tank_tradeoff_score(summary),
-            role_dominance_score(summary),
-        ])
-
-    if primary_role == "Healer":
-        avg_healing = mean(u.average_healing_done for u in units)
-        return mean([
-            compute_target_band_fitness(
-                avg_healing,
-                config.healer_average_healing_done_target_min,
-                config.healer_average_healing_done_target_max,
-            ),
-            healer_tradeoff_score(summary),
-            role_dominance_score(summary),
-        ])
-
-    if primary_role == "Damage":
-        avg_damage_dealt = mean(u.average_damage_dealt for u in units)
-        return mean([
-            compute_target_band_fitness(
-                avg_damage_dealt,
-                config.damage_average_damage_dealt_target_min,
-                config.damage_average_damage_dealt_target_max,
-            ),
-            damage_tradeoff_score(summary),
-            role_dominance_score(summary),
-        ])
-
-    return 0.0
-
-
-def compute_secondary_role_score(
-    target_secondary_role: str,
-    target_primary_role: str | None,
     summary: EvalRoleAlignmentSummary,
     candidate_unit_max_hp: int,
     candidate_unit_move_points: int,
     peer_unit_templates: list[dict] | None = None,
 ) -> float:
+    """Score a hybrid role using family balance plus a pure-primary limit.
+
+    The family balance reuses the same primary-role relationship scoring used
+    by the primary-role baseline balancer, but filters the summary to the
+    current secondary role. For example, the Buffer family is scored as
+    Tank+Buffer vs Healer+Buffer vs Damage+Buffer.
+
+    The pure-primary limit is the extra hybrid constraint: Tank+Buffer should
+    not be as tanky as pure Tank, Damage+Debuffer should not deal as much damage
+    as pure Damage, and so on.
+    """
+    primary_role = config.target_primary_role
+    secondary_role = config.target_secondary_role
+    if not primary_role or not secondary_role:
+        return -10.0
+
     target_units = [
         unit
         for unit in summary.units_by_template_id.values()
-        if unit.secondary_role == target_secondary_role
-        and (target_primary_role is None or unit.primary_role == target_primary_role)
+        if unit.primary_role == primary_role
+        and unit.secondary_role == secondary_role
     ]
     if not target_units:
         return -10.0
 
-    if target_secondary_role == "Buffer":
-        return compute_buffer_role_score(summary, target_units)
-    if target_secondary_role == "Debuffer":
-        return compute_debuffer_role_score(summary, target_units)
-    if target_secondary_role == "Acrobat":
-        return compute_acrobat_role_score(
-            target_primary_role,
-            candidate_unit_max_hp,
-            candidate_unit_move_points,
-            peer_unit_templates or [],
-        )
-
-    return 0.0
-
-
-def compute_acrobat_role_score(
-    target_primary_role: str | None,
-    candidate_unit_max_hp: int,
-    candidate_unit_move_points: int,
-    peer_unit_templates: list[dict],
-) -> float:
-    peer_groups = build_acrobat_peer_groups(target_primary_role, peer_unit_templates)
-    if not peer_groups:
-        return 1.0
-
-    group_scores: list[float] = []
-    for peer_units in peer_groups:
-        peer_move_points = mean(int(unit["movePoints"]) for unit in peer_units)
-        peer_max_hp = mean(int(unit["maxHP"]) for unit in peer_units)
-        if peer_move_points <= 0.0 or peer_max_hp <= 0.0:
-            continue
-
-        move_ratio = candidate_unit_move_points / peer_move_points
-        hp_ratio = candidate_unit_max_hp / peer_max_hp
-        group_scores.append(
-            compute_target_band_fitness(move_ratio, 1.15, 1.75) * 0.60
-            + compute_target_band_fitness(hp_ratio, 0.55, 0.90) * 0.40
-        )
-
-    if not group_scores:
-        return 1.0
-    return mean(group_scores)
-
-
-def build_acrobat_peer_groups(
-    target_primary_role: str | None,
-    peer_unit_templates: list[dict],
-) -> list[list[dict]]:
-    if target_primary_role is not None:
-        return [
-            [
-                unit
-                for unit in peer_unit_templates
-                if unit.get("primaryRole") == target_primary_role
-                and unit.get("secondaryRole") != "Acrobat"
-            ]
-        ]
-
-    target_primary_roles = sorted(
-        {
-            unit.get("primaryRole")
-            for unit in peer_unit_templates
-            if unit.get("secondaryRole") == "Acrobat" and isinstance(unit.get("primaryRole"), str)
-        }
-    )
-    return [
-        [
-            unit
-            for unit in peer_unit_templates
-            if unit.get("primaryRole") == primary_role
-            and unit.get("secondaryRole") != "Acrobat"
-        ]
-        for primary_role in target_primary_roles
+    pure_primary_units = [
+        unit
+        for unit in summary.units_by_template_id.values()
+        if unit.primary_role == primary_role
+        and unit.secondary_role is None
     ]
+    family_primary_score = compute_family_primary_role_score(summary, secondary_role)
+    primary_anchor_score = compute_primary_anchor_score(primary_role, target_units, pure_primary_units)
+    secondary_expression_score = compute_secondary_expression_score(summary, secondary_role, target_units)
+    win_rate_score = compute_role_combination_win_rate_score(summary, primary_role, secondary_role)
+
+    return mean([family_primary_score, primary_anchor_score, secondary_expression_score, win_rate_score])
 
 
-def compute_buffer_role_score(
+def compute_family_primary_role_score(
     summary: EvalRoleAlignmentSummary,
+    secondary_role: str,
+) -> float:
+    family_units = {
+        unit_id: unit
+        for unit_id, unit in summary.units_by_template_id.items()
+        if unit.secondary_role == secondary_role
+    }
+    if not family_units:
+        return -10.0
+
+    family_summary = EvalRoleAlignmentSummary(summary.detailed, family_units, summary.role_combination_win_rates)
+    return mean([
+        compute_primary_role_score("Tank", family_summary),
+        compute_primary_role_score("Healer", family_summary),
+        compute_primary_role_score("Damage", family_summary),
+    ])
+
+
+def compute_role_combination_win_rate_score(
+    summary: EvalRoleAlignmentSummary,
+    primary_role: str,
+    secondary_role: str,
+) -> float:
+    role_combination = f"{primary_role}+{secondary_role}"
+    aggregate = summary.role_combination_win_rates.get(role_combination)
+    if aggregate is None or aggregate.team_observations <= 0:
+        return -10.0
+
+    fair_score = compute_target_band_fitness(aggregate.win_rate, 0.45, 0.55)
+
+    family_win_rates = [
+        item.win_rate
+        for item in summary.role_combination_win_rates.values()
+        if item.secondary_role == secondary_role and item.team_observations > 0
+    ]
+    family_average = mean(family_win_rates)
+    if family_average <= 0.0:
+        return fair_score
+
+    relative_score = compute_target_band_fitness(aggregate.win_rate / family_average, 0.85, 1.15)
+    return mean([fair_score, relative_score])
+
+
+def compute_secondary_expression_score(
+    summary: EvalRoleAlignmentSummary,
+    secondary_role: str,
     target_units: list[EvalUnitTemplateAggregate],
 ) -> float:
-    buff_uptime = mean(unit.average_buff_uptime_granted for unit in target_units)
-    buff_effects = mean(unit.average_buff_effects_applied for unit in target_units)
-    primary_tradeoff = compute_primary_role_tradeoff_score(summary, target_units)
+    if secondary_role == "Buffer":
+        buff_uptime = mean(unit.average_buff_uptime_granted for unit in target_units)
+        buff_effects = mean(unit.average_buff_effects_applied for unit in target_units)
+        return mean([
+            compute_target_band_fitness(buff_uptime, 1.00, 12.00),
+            compute_target_band_fitness(buff_effects, 0.50, 6.00),
+        ])
 
-    # Buffers should express buff utility, while the primary-role tradeoff keeps
-    # a Tank+Buffer from being as tanky as a non-Buffer Tank.
-    return (
-        compute_target_band_fitness(buff_uptime, 1.00, 12.00) * 0.45
-        + compute_target_band_fitness(buff_effects, 0.50, 6.00) * 0.35
-        + primary_tradeoff * 0.20
-    )
+    if secondary_role == "Debuffer":
+        debuff_uptime = mean(unit.average_debuff_uptime_granted for unit in target_units)
+        debuff_effects = mean(unit.average_debuff_effects_applied for unit in target_units)
+        return mean([
+            compute_target_band_fitness(debuff_uptime, 1.00, 12.00),
+            compute_target_band_fitness(debuff_effects, 0.50, 6.00),
+        ])
 
-
-def compute_debuffer_role_score(
-    summary: EvalRoleAlignmentSummary,
-    target_units: list[EvalUnitTemplateAggregate],
-) -> float:
-    debuff_uptime = mean(unit.average_debuff_uptime_granted for unit in target_units)
-    debuff_effects = mean(unit.average_debuff_effects_applied for unit in target_units)
-    primary_tradeoff = compute_primary_role_tradeoff_score(summary, target_units)
-
-    # Debuffers should express debuff utility, while the primary-role tradeoff
-    # keeps the secondary utility from being a free upgrade over a pure primary role.
-    return (
-        compute_target_band_fitness(debuff_uptime, 1.00, 12.00) * 0.45
-        + compute_target_band_fitness(debuff_effects, 0.50, 6.00) * 0.35
-        + primary_tradeoff * 0.20
-    )
-
-
-def compute_primary_role_tradeoff_score(
-    summary: EvalRoleAlignmentSummary,
-    target_units: list[EvalUnitTemplateAggregate],
-) -> float:
-    primary_scores: list[float] = []
-    target_primary_roles = sorted({unit.primary_role for unit in target_units})
-
-    for primary_role in target_primary_roles:
-        target_role_units = [unit for unit in target_units if unit.primary_role == primary_role]
-        peer_units = [
-            unit
+    if secondary_role == "Acrobat":
+        target_tiles_moved = mean(unit.average_tiles_moved_total for unit in target_units)
+        non_acrobat_tiles_moved = mean(
+            unit.average_tiles_moved_total
             for unit in summary.units_by_template_id.values()
-            if unit.primary_role == primary_role
-            and unit.secondary_role != target_role_units[0].secondary_role
-        ]
-        if not peer_units:
-            continue
+            if unit.secondary_role != "Acrobat"
+        )
+        if non_acrobat_tiles_moved <= 0.0:
+            return compute_target_band_fitness(target_tiles_moved, 4.00, 20.00)
+        return compute_target_band_fitness(target_tiles_moved / non_acrobat_tiles_moved, 1.15, 1.75)
 
-        ratio = compute_primary_power_ratio(primary_role, target_role_units, peer_units)
-        if ratio is None:
-            continue
-        primary_scores.append(compute_target_band_fitness(ratio, 0.55, 0.90))
+    return -10.0
 
-    if not primary_scores:
-        return 1.0
-    return mean(primary_scores)
+
+def compute_primary_anchor_score(
+    primary_role: str,
+    target_units: list[EvalUnitTemplateAggregate],
+    pure_primary_units: list[EvalUnitTemplateAggregate],
+) -> float:
+    if not pure_primary_units:
+        return -10.0
+
+    ratio = compute_primary_power_ratio(primary_role, target_units, pure_primary_units)
+    if ratio is None:
+        return -10.0
+
+    return compute_target_band_fitness(ratio, 0.55, 0.90)
 
 
 def compute_primary_power_ratio(

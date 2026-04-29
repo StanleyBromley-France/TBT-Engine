@@ -11,11 +11,11 @@ class SecondaryRoleMeasurement:
     physical_damage_received_percent: int
     magic_damage_received_percent: int
     attacker_win_rate: float
+    role_combination_win_rate: float
     turn_limit_rate: float
     average_attacker_turn_count: float
     average_action_count: float
-    primary_role_value_score: float
-    secondary_role_alignment_score: float
+    role_combination_score: float
     raw_fitness: float
     fitness: float
     error_message: str | None

@@ -14,7 +14,7 @@ import auto_balancer.runtime as runtime
 import auto_balancer.scenarios as scenarios
 import auto_balancer.workflows.role_stats as role_stats
 from auto_balancer.config import load_balancer_config_from_args
-from balancing_scripts.secondary_roles.scoring import compute_primary_role_value_score, compute_secondary_role_score
+from balancing_scripts.secondary_roles.scoring import compute_role_combination_score
 
 
 # ── Bounds ────────────────────────────────────────────────────────────────────
@@ -193,11 +193,11 @@ def evaluate_candidate(
         return measurements.SecondaryRoleMeasurement(
             *normalized_candidate,
             attacker_win_rate=0.0,
+            role_combination_win_rate=0.0,
             turn_limit_rate=1.0,
             average_attacker_turn_count=float(config.ga.evaluation_turn_budget),
             average_action_count=float(config.ga.evaluation_turn_budget * 6),
-            primary_role_value_score=-10.0,
-            secondary_role_alignment_score=-10.0,
+            role_combination_score=-10.0,
             raw_fitness=-10.0,
             fitness=-10.0,
             error_message=str(exc),
@@ -227,11 +227,11 @@ def evaluate_current_content(
         return measurements.SecondaryRoleMeasurement(
             *current_candidate,
             attacker_win_rate=0.0,
+            role_combination_win_rate=0.0,
             turn_limit_rate=1.0,
             average_attacker_turn_count=float(config.ga.evaluation_turn_budget),
             average_action_count=float(config.ga.evaluation_turn_budget * 6),
-            primary_role_value_score=-10.0,
-            secondary_role_alignment_score=-10.0,
+            role_combination_score=-10.0,
             raw_fitness=-10.0,
             fitness=-10.0,
             error_message=str(exc),
@@ -277,16 +277,16 @@ def build_measurement(
     detailed = summary.detailed
     attacker_win_rate = detailed.attacker_wins / detailed.total_runs
     turn_limit_rate = detailed.turn_limit_count / detailed.total_runs
-    secondary_role_alignment_score = compute_secondary_role_score(
-        config.balance.target_secondary_role,
-        config.balance.target_primary_role,
+    role_combination = f"{config.balance.target_primary_role}+{config.balance.target_secondary_role}"
+    role_combination_win_rate = summary.role_combination_win_rates.get(role_combination)
+    role_combination_win_rate_value = 0.0 if role_combination_win_rate is None else role_combination_win_rate.win_rate
+    role_combination_score = compute_role_combination_score(
+        config.balance,
         summary,
         unit_max_hp,
         unit_move_points,
         scenarios.load_unit_templates(content_path),
     )
-
-    primary_role_value_score = compute_primary_role_value_score(config.balance, summary)
 
     turn_limit_fitness = ga.compute_target_band_fitness(
         turn_limit_rate,
@@ -308,18 +308,24 @@ def build_measurement(
         turn_limit_fitness * config.balance.turn_limit_rate_fitness_weight
         + attacker_turns_fitness * config.balance.average_attacker_turn_count_fitness_weight
         + action_count_fitness * config.balance.average_action_count_fitness_weight
-        + primary_role_value_score * config.balance.primary_role_value_fitness_weight
-        + secondary_role_alignment_score * config.balance.secondary_role_alignment_fitness_weight
+        # The old primary/secondary split is now one role-combination score.
+        # Keep both config weights for compatibility and treat their sum as
+        # the role-combination weight.
+        + role_combination_score
+        * (
+            config.balance.primary_role_value_fitness_weight
+            + config.balance.secondary_role_alignment_fitness_weight
+        )
     )
 
     return measurements.SecondaryRoleMeasurement(
         *candidate,
         attacker_win_rate=attacker_win_rate,
+        role_combination_win_rate=role_combination_win_rate_value,
         turn_limit_rate=turn_limit_rate,
         average_attacker_turn_count=detailed.average_attacker_turn_count,
         average_action_count=detailed.average_action_count,
-        primary_role_value_score=primary_role_value_score,
-        secondary_role_alignment_score=secondary_role_alignment_score,
+        role_combination_score=role_combination_score,
         raw_fitness=raw_fitness,
         fitness=raw_fitness,
         error_message=None,
