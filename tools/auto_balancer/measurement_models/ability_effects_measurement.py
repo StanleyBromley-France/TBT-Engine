@@ -24,6 +24,7 @@ class AbilityEffectsMeasurement:
     role_tradeoff_score: float
     role_dominance_score: float
     secondary_role_score: float
+    role_combination_win_rate_score: float
     diversity_score: float
     fitness: float
     error_message: str | None

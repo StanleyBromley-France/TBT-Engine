@@ -53,6 +53,7 @@ class AbilityEffectsBalanceConfig:
     win_rate_fitness_weight: float
     primary_role_fitness_weight: float
     secondary_role_fitness_weight: float
+    role_combination_win_rate_fitness_weight: float
     diversity_fitness_weight: float
 
 

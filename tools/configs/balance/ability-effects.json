@@ -31,8 +31,9 @@
   "debuffer_average_debuff_uptime_target_min": 2.0,
   "debuffer_average_debuff_uptime_target_max": 15.0,
 
-  "win_rate_fitness_weight": 0.15,
-  "primary_role_fitness_weight": 0.45,
-  "secondary_role_fitness_weight": 0.25,
+  "win_rate_fitness_weight": 0.10,
+  "primary_role_fitness_weight": 0.40,
+  "secondary_role_fitness_weight": 0.20,
+  "role_combination_win_rate_fitness_weight": 0.15,
   "diversity_fitness_weight": 0.15
 }

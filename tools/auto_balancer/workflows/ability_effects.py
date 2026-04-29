@@ -293,6 +293,7 @@ def evaluate_candidate(
             role_tradeoff_score=-10.0,
             role_dominance_score=-10.0,
             secondary_role_score=-10.0,
+            role_combination_win_rate_score=-10.0,
             diversity_score=-10.0,
             fitness=-10.0,
             error_message=str(exc),
@@ -478,6 +479,7 @@ def validate_config(config: config_models.AbilityEffectsBalancerConfig) -> None:
         balance.win_rate_fitness_weight
         + balance.primary_role_fitness_weight
         + balance.secondary_role_fitness_weight
+        + balance.role_combination_win_rate_fitness_weight
         + balance.diversity_fitness_weight
     )
     if abs(weight_sum - 1.0) > 1e-6:
@@ -613,6 +615,7 @@ def build_package_report(
                 ("TradeoffScore", "role_tradeoff_score"),
                 ("DominanceScore", "role_dominance_score"),
                 ("SecondaryRoleScore", "secondary_role_score"),
+                ("RoleCombinationWinRateScore", "role_combination_win_rate_score"),
                 ("DiversityScore", "diversity_score"),
             ),
         )["evidence"]

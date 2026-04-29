@@ -20,7 +20,7 @@ def compute_ability_effects_score(
     summary: EvalRoleAlignmentSummary,
     pct_changes: list[float],
 ) -> AbilityEffectsMeasurement:
-    """Score a candidate on four axes.
+    """Score a candidate on five axes.
 
     win_rate
         Global attacker win rate — should be near 50 %. Catches ability values
@@ -33,6 +33,10 @@ def compute_ability_effects_score(
     secondary_role
         Per-secondary output bands: buffers show buff uptime, debuffers show
         debuff uptime.
+
+    role_combination_win_rate
+        Per-role-combination win rates should stay fair globally and relative
+        to other combinations in the same secondary-role family.
 
     diversity
         Standard deviation of fractional changes (final − initial) / initial
@@ -111,6 +115,8 @@ def compute_ability_effects_score(
         ),
     ])
 
+    role_combination_win_rate_score = compute_role_combination_win_rate_score(summary)
+
     # ── Diversity scoring ─────────────────────────────────────────────────────
     # Measure how varied the applied % corrections are.  A uniform +10% across
     # all parameters scores poorly; a mix of −20%, 0%, +15% scores well.
@@ -125,6 +131,7 @@ def compute_ability_effects_score(
         win_rate_score * config.win_rate_fitness_weight
         + primary_role_score * config.primary_role_fitness_weight
         + secondary_role_score * config.secondary_role_fitness_weight
+        + role_combination_win_rate_score * config.role_combination_win_rate_fitness_weight
         + diversity_score * config.diversity_fitness_weight
     )
 
@@ -141,10 +148,44 @@ def compute_ability_effects_score(
         role_tradeoff_score=role_tradeoff_score,
         role_dominance_score=dominance_score,
         secondary_role_score=secondary_role_score,
+        role_combination_win_rate_score=role_combination_win_rate_score,
         diversity_score=diversity_score,
         fitness=fitness,
         error_message=None,
     )
+
+
+def compute_role_combination_win_rate_score(summary: EvalRoleAlignmentSummary) -> float:
+    aggregates = [
+        item
+        for item in summary.role_combination_win_rates.values()
+        if item.team_observations > 0
+    ]
+    if not aggregates:
+        return -10.0
+
+    fair_scores = [
+        compute_target_band_fitness(item.win_rate, 0.45, 0.55)
+        for item in aggregates
+    ]
+
+    relative_scores: list[float] = []
+    secondary_roles = {item.secondary_role for item in aggregates}
+    for secondary_role in secondary_roles:
+        family = [item for item in aggregates if item.secondary_role == secondary_role]
+        if len(family) < 2:
+            continue
+        family_average = mean(item.win_rate for item in family)
+        if family_average <= 0.0:
+            continue
+        relative_scores.extend(
+            compute_target_band_fitness(item.win_rate / family_average, 0.85, 1.15)
+            for item in family
+        )
+
+    if not relative_scores:
+        return mean(fair_scores)
+    return mean([mean(fair_scores), mean(relative_scores)])
 
 
 def _safe_mean(
