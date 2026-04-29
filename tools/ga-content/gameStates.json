@@ -5,7 +5,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -57,7 +59,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -109,7 +113,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -161,7 +167,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -213,7 +221,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -265,7 +275,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -317,7 +329,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -369,7 +383,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -421,7 +437,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
@@ -473,7 +491,9 @@
       "width": 12,
       "height": 7,
       "tileDistribution": {
-        "Plain": 1.0
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
       }
     },
     "attackerTeamId": 1,
