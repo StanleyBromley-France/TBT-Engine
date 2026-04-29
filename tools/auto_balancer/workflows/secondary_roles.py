@@ -206,6 +206,40 @@ def evaluate_candidate(
     return build_measurement(config, content_path, summary, normalized_candidate)
 
 
+def evaluate_current_content(
+    config: config_models.SecondaryRoleBalancerConfig,
+    content_path: Path,
+    eval_config: eval_api.EvalCommandConfig,
+    offensive_ability_ids: set[str],
+    repeat_stages: tuple[eval_api.RepeatStage, ...] | None = None,
+) -> measurements.SecondaryRoleMeasurement:
+    current_candidate = load_initial_candidate(config, content_path)
+    staged_repeats = config.ga.evaluation_repeat_stages if repeat_stages is None else repeat_stages
+
+    try:
+        summary = run_eval_role_alignment_with_stages(
+            eval_config,
+            config.ga.evaluation_turn_budget,
+            staged_repeats,
+            offensive_ability_ids,
+        )
+    except Exception as exc:  # pragma: no cover
+        return measurements.SecondaryRoleMeasurement(
+            *current_candidate,
+            attacker_win_rate=0.0,
+            turn_limit_rate=1.0,
+            average_attacker_turn_count=float(config.ga.evaluation_turn_budget),
+            average_action_count=float(config.ga.evaluation_turn_budget * 6),
+            primary_role_value_score=-10.0,
+            secondary_role_alignment_score=-10.0,
+            raw_fitness=-10.0,
+            fitness=-10.0,
+            error_message=str(exc),
+        )
+
+    return build_measurement(config, content_path, summary, current_candidate)
+
+
 def run_eval_role_alignment_with_stages(
     eval_config: eval_api.EvalCommandConfig,
     turn_budget: int,

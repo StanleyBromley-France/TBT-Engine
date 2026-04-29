@@ -10,6 +10,7 @@ import auto_balancer.reporting as reporting
 import auto_balancer.runtime as runtime
 import auto_balancer.scenarios as scenarios
 from auto_balancer.config import load_balancer_config_from_args
+from auto_balancer.workflows import combined_primary_roles
 from auto_balancer.workflows import primary_roles as primary_role_balancer
 
 
@@ -43,6 +44,7 @@ def build_primary_role_config(
         evaluation_repeat_stages=config.ga.evaluation_repeat_stages,
         evaluation_timeout_seconds=config.ga.evaluation_timeout_seconds,
         evaluation_log_mode=config.ga.evaluation_log_mode,
+        mcts_iteration_budget=config.ga.mcts_iteration_budget,
     )
     balance_config = getattr(config.balance, balance_section_name)
     if balance_config.target_primary_role != role_name:
@@ -95,67 +97,45 @@ def run(
     base_config = build_primary_role_config(nested_config, base_role_name, base_balance_section_name)
     content_path = primary_role_balancer.prepare_eval_content(base_config, content_source)
     offensive_ability_ids = scenarios.load_offensive_ability_ids(content_path)
+    eval_config = primary_role_balancer.build_eval_config(base_config, content_path)
+    role_specs = combined_primary_roles.build_role_specs(
+        nested_config,
+        build_primary_role_config,
+        content_path,
+    )
 
-    best_by_role: dict[str, object] = {}
-    before_by_role: dict[str, object] = {}
+    reporting.print_banner(
+        "optimizing primary roles together",
+        [
+            reporting.field("population", nested_config.ga.candidate_population_size),
+            reporting.field("generations", nested_config.ga.generation_count),
+            reporting.field("repeat", nested_config.ga.evaluation_repeat_stages[-1].total_repeats),
+            reporting.field("turn-count", nested_config.ga.evaluation_turn_budget),
+        ],
+    )
+    before = combined_primary_roles.evaluate_current_content(
+        nested_config,
+        role_specs,
+        content_path,
+        eval_config,
+        offensive_ability_ids,
+    )
+    best = combined_primary_roles.optimize_combined_primary_roles(
+        nested_config,
+        role_specs,
+        content_path,
+        eval_config,
+        offensive_ability_ids,
+    )
 
-    for round_index in range(nested_config.balance.optimization_round_count):
-        print(f"round {round_index + 1} start", flush=True)
-        for role_index, (role_name, balance_section_name) in enumerate(PRIMARY_ROLE_CONFIGS):
-            role_config = derive_role_config(nested_config, role_name, balance_section_name, round_index, role_index)
-            print(
-                "optimizing primary role "
-                f"{role_name} in round {round_index + 1} "
-                f"(population={role_config.ga.candidate_population_size}, generations={role_config.ga.generation_count}, "
-                f"repeat={role_config.ga.evaluation_repeat_stages[-1].total_repeats}, "
-                f"turn-count={role_config.ga.evaluation_turn_budget})",
-                flush=True,
-            )
-            # Rebuild per role so the derived seed and role-specific balance config are applied.
-            eval_config = primary_role_balancer.build_eval_config(role_config, content_path)
-            if role_name not in before_by_role:
-                initial_candidate = primary_role_balancer.load_initial_candidate(role_config, content_path)
-                before_by_role[role_name] = primary_role_balancer.evaluate_candidate(
-                    role_config,
-                    content_path,
-                    eval_config,
-                    offensive_ability_ids,
-                    initial_candidate,
-                )
-            best_measurement = primary_role_balancer.optimize_primary_role(
-                role_config,
-                content_path,
-                eval_config,
-                offensive_ability_ids,
-            )
-            best_by_role[role_name] = best_measurement
-            reporting.print_record(
-                "round-best",
-                [
-                    reporting.field("role", role_name),
-                    *reporting.primary_role_fields(best_measurement),
-                ],
-            )
-
-    print("nested primary role balancing complete", flush=True)
-    for role_name, _ in PRIMARY_ROLE_CONFIGS:
-        measurement = best_by_role.get(role_name)
-        if measurement is None:
-            continue
-        reporting.print_record(
-            "best",
-            [
-                reporting.field("role", role_name),
-                *reporting.primary_role_fields(measurement),
-            ],
-        )
+    reporting.print_banner("primary role baseline complete", combined_primary_roles.combined_primary_role_fields(best))
     if output_package_path is not None:
         balance_package.write_balance_package(
             output_package_path,
             "primary-role-baselines",
             content_source,
             content_path,
-            build_package_report(before_by_role, best_by_role),
+            build_package_report(before, best),
             changed_files=("unitTemplates.json",),
         )
         print(f"package={output_package_path}", flush=True)
@@ -171,13 +151,18 @@ def run(
     return 0
 
 
-def build_package_report(before_by_role: dict[str, object], best_by_role: dict[str, object]) -> dict:
+def build_package_report(before: object, best: object) -> dict:
     return reporting.build_evidence_report(
-        before_by_role,
-        best_by_role,
+        {"primary-roles": before},
+        {"primary-roles": best},
         (
             ("Fitness", "fitness"),
-            ("PrimaryRoleScore", "primary_role_alignment_score"),
+            ("AttackerWinRate", "attacker_win_rate"),
+            ("AverageAttackerTurns", "average_attacker_turn_count"),
+            ("AveragePrimaryRoleScore", "average_primary_role_score"),
+            ("TankPrimaryRoleScore", "tank_primary_role_score"),
+            ("DamagePrimaryRoleScore", "damage_primary_role_score"),
+            ("HealerPrimaryRoleScore", "healer_primary_role_score"),
             ("TurnLimitRate", "turn_limit_rate"),
         ),
     )

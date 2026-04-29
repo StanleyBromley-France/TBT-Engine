@@ -67,6 +67,7 @@ def build_combination_config(
         evaluation_repeat_stages=nested_config.ga.evaluation_repeat_stages,
         evaluation_timeout_seconds=nested_config.ga.evaluation_timeout_seconds,
         evaluation_log_mode=nested_config.ga.evaluation_log_mode,
+        mcts_iteration_budget=nested_config.ga.mcts_iteration_budget,
     )
     balance_config = getattr(nested_config.balance, balance_section_name)
     if balance_config.target_primary_role != primary_role:
@@ -155,15 +156,11 @@ def run(
 
             eval_config = secondary_role_balancer.build_eval_config(combo_config, content_path)
             if combination_key not in before_by_combination:
-                initial_candidate = secondary_role_balancer.load_initial_candidate(combo_config, content_path)
-                initial_bounds = secondary_role_balancer.compute_stat_bounds(combo_config, initial_candidate)
-                before_by_combination[combination_key] = secondary_role_balancer.evaluate_candidate(
+                before_by_combination[combination_key] = secondary_role_balancer.evaluate_current_content(
                     combo_config,
                     content_path,
                     eval_config,
                     offensive_ability_ids,
-                    initial_bounds,
-                    initial_candidate,
                 )
             best_measurement = secondary_role_balancer.optimize_secondary_role(
                 combo_config,
@@ -215,6 +212,7 @@ def build_package_report(before_by_combination: dict[str, object], best_by_combi
         best_by_combination,
         (
             ("Fitness", "fitness"),
+            ("AttackerWinRate", "attacker_win_rate"),
             ("PrimaryRoleScore", "primary_role_value_score"),
             ("SecondaryRoleScore", "secondary_role_alignment_score"),
             ("TurnLimitRate", "turn_limit_rate"),
