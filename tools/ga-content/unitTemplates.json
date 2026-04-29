@@ -1,434 +1,770 @@
 [
-  {
-    "id": "unit-iron-vanguard",
-    "name": "Iron Vanguard",
-    "primaryRole": "Tank",
-    "secondaryRole": "Buffer",
-    "maxHP": 90,
-    "maxManaPoints": 18,
-    "movePoints": 3,
-    "physicalDamageReceived": 85,
-    "magicDamageReceived": 110,
-    "abilityIds": ["ability-shield-strike", "ability-bulwark-stance", "ability-rallying-shout"]
-  },
-  {
-    "id": "unit-stone-sentinel",
-    "name": "Stone Sentinel",
-    "primaryRole": "Tank",
-    "secondaryRole": "Buffer",
-    "maxHP": 89,
-    "maxManaPoints": 18,
-    "movePoints": 3,
-    "physicalDamageReceived": 85,
-    "magicDamageReceived": 110,
-    "abilityIds": ["ability-cleave", "ability-iron-hide", "ability-battle-prayer"]
-  },
-  {
-    "id": "unit-gilded-warden",
-    "name": "Gilded Warden",
-    "primaryRole": "Tank",
-    "secondaryRole": "Buffer",
-    "maxHP": 90,
-    "maxManaPoints": 18,
-    "movePoints": 3,
-    "physicalDamageReceived": 86,
-    "magicDamageReceived": 110,
-    "abilityIds": ["ability-shield-bash", "ability-bulwark-stance", "ability-rallying-shout"]
-  },
-  {
-    "id": "unit-bastion-knight",
-    "name": "Bastion Knight",
-    "primaryRole": "Tank",
-    "secondaryRole": "Buffer",
-    "maxHP": 90,
-    "maxManaPoints": 16,
-    "movePoints": 3,
-    "physicalDamageReceived": 85,
-    "magicDamageReceived": 112,
-    "abilityIds": ["ability-cleave", "ability-bulwark-stance", "ability-steadfast-cry"]
-  },
-  {
-    "id": "unit-grave-bruiser",
-    "name": "Grave Bruiser",
-    "primaryRole": "Tank",
-    "secondaryRole": "Debuffer",
-    "maxHP": 93,
-    "maxManaPoints": 16,
-    "movePoints": 3,
-    "physicalDamageReceived": 90,
-    "magicDamageReceived": 115,
-    "abilityIds": ["ability-cleave", "ability-iron-hide", "ability-crippling-blow"]
-  },
-  {
-    "id": "unit-siege-breaker",
-    "name": "Siege Breaker",
-    "primaryRole": "Tank",
-    "secondaryRole": "Debuffer",
-    "maxHP": 93,
-    "maxManaPoints": 16,
-    "movePoints": 3,
-    "physicalDamageReceived": 90,
-    "magicDamageReceived": 115,
-    "abilityIds": ["ability-shield-strike", "ability-bulwark-stance", "ability-shatter-armor"]
-  },
-  {
-    "id": "unit-plague-warden",
-    "name": "Plague Warden",
-    "primaryRole": "Tank",
-    "secondaryRole": "Debuffer",
-    "maxHP": 92,
-    "maxManaPoints": 16,
-    "movePoints": 3,
-    "physicalDamageReceived": 90,
-    "magicDamageReceived": 116,
-    "abilityIds": ["ability-shield-bash", "ability-iron-hide", "ability-crippling-blow"]
-  },
-  {
-    "id": "unit-iron-crusher",
-    "name": "Iron Crusher",
-    "primaryRole": "Tank",
-    "secondaryRole": "Debuffer",
-    "maxHP": 93,
-    "maxManaPoints": 14,
-    "movePoints": 3,
-    "physicalDamageReceived": 88,
-    "magicDamageReceived": 115,
-    "abilityIds": ["ability-cleave", "ability-bulwark-stance", "ability-siege-smash"]
-  },
-  {
-    "id": "unit-gale-sentinel",
-    "name": "Gale Sentinel",
-    "primaryRole": "Tank",
-    "secondaryRole": "Acrobat",
-    "maxHP": 69,
-    "maxManaPoints": 14,
-    "movePoints": 5,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 118,
-    "abilityIds": ["ability-blitz-strike", "ability-evasive-dash", "ability-fleet-step"]
-  },
-  {
-    "id": "unit-storm-vanguard",
-    "name": "Storm Vanguard",
-    "primaryRole": "Tank",
-    "secondaryRole": "Acrobat",
-    "maxHP": 69,
-    "maxManaPoints": 14,
-    "movePoints": 5,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 118,
-    "abilityIds": ["ability-cleave", "ability-fleet-step", "ability-vaulting-charge"]
-  },
-  {
-    "id": "unit-wind-bastion",
-    "name": "Wind Bastion",
-    "primaryRole": "Tank",
-    "secondaryRole": "Acrobat",
-    "maxHP": 67,
-    "maxManaPoints": 14,
-    "movePoints": 5,
-    "physicalDamageReceived": 96,
-    "magicDamageReceived": 118,
-    "abilityIds": ["ability-shield-bash", "ability-evasive-dash", "ability-fleet-step"]
-  },
-  {
-    "id": "unit-tempest-guard",
-    "name": "Tempest Guard",
-    "primaryRole": "Tank",
-    "secondaryRole": "Acrobat",
-    "maxHP": 70,
-    "maxManaPoints": 14,
-    "movePoints": 5,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 116,
-    "abilityIds": ["ability-blitz-strike", "ability-bulwark-stance", "ability-fleet-step"]
-  },
-  {
-    "id": "unit-dawn-medic",
-    "name": "Dawn Medic",
-    "primaryRole": "Healer",
-    "secondaryRole": "Buffer",
-    "maxHP": 55,
-    "maxManaPoints": 30,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 90,
-    "abilityIds": ["ability-radiant-bolt", "ability-mend", "ability-renewing-light"]
-  },
-  {
-    "id": "unit-tide-cleric",
-    "name": "Tide Cleric",
-    "primaryRole": "Healer",
-    "secondaryRole": "Buffer",
-    "maxHP": 55,
-    "maxManaPoints": 30,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 90,
-    "abilityIds": ["ability-radiant-bolt", "ability-shadow-mend", "ability-tide-blessing"]
-  },
-  {
-    "id": "unit-solar-warden",
-    "name": "Solar Warden",
-    "primaryRole": "Healer",
-    "secondaryRole": "Buffer",
-    "maxHP": 54,
-    "maxManaPoints": 30,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 90,
-    "abilityIds": ["ability-radiant-bolt", "ability-mend", "ability-battle-prayer"]
-  },
-  {
-    "id": "unit-chorus-priest",
-    "name": "Chorus Priest",
-    "primaryRole": "Healer",
-    "secondaryRole": "Buffer",
-    "maxHP": 55,
-    "maxManaPoints": 32,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 90,
-    "abilityIds": ["ability-radiant-bolt", "ability-renewing-light", "ability-battle-prayer"]
-  },
-  {
-    "id": "unit-mire-priest",
-    "name": "Mire Priest",
-    "primaryRole": "Healer",
-    "secondaryRole": "Debuffer",
-    "maxHP": 59,
-    "maxManaPoints": 30,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-shadow-bolt", "ability-shadow-mend", "ability-wither"]
-  },
-  {
-    "id": "unit-blight-warden",
-    "name": "Blight Warden",
-    "primaryRole": "Healer",
-    "secondaryRole": "Debuffer",
-    "maxHP": 59,
-    "maxManaPoints": 30,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-shadow-bolt", "ability-mend", "ability-condemn"]
-  },
-  {
-    "id": "unit-nether-medic",
-    "name": "Nether Medic",
-    "primaryRole": "Healer",
-    "secondaryRole": "Debuffer",
-    "maxHP": 58,
-    "maxManaPoints": 30,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-radiant-bolt", "ability-shadow-mend", "ability-wither"]
-  },
-  {
-    "id": "unit-venom-cleric",
-    "name": "Venom Cleric",
-    "primaryRole": "Healer",
-    "secondaryRole": "Debuffer",
-    "maxHP": 59,
-    "maxManaPoints": 28,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 96,
-    "abilityIds": ["ability-shadow-bolt", "ability-renewing-light", "ability-plague-bolt"]
-  },
-  {
-    "id": "unit-zephyr-mender",
-    "name": "Zephyr Mender",
-    "primaryRole": "Healer",
-    "secondaryRole": "Acrobat",
-    "maxHP": 47,
-    "maxManaPoints": 24,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-zephyr-bolt", "ability-mend", "ability-fleet-step"]
-  },
-  {
-    "id": "unit-breeze-cleric",
-    "name": "Breeze Cleric",
-    "primaryRole": "Healer",
-    "secondaryRole": "Acrobat",
-    "maxHP": 47,
-    "maxManaPoints": 24,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-radiant-bolt", "ability-mend", "ability-fleet-step"]
-  },
-  {
-    "id": "unit-swift-medic",
-    "name": "Swift Medic",
-    "primaryRole": "Healer",
-    "secondaryRole": "Acrobat",
-    "maxHP": 46,
-    "maxManaPoints": 24,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 96,
-    "abilityIds": ["ability-zephyr-bolt", "ability-shadow-mend", "ability-evasive-dash"]
-  },
-  {
-    "id": "unit-veil-mender",
-    "name": "Veil Mender",
-    "primaryRole": "Healer",
-    "secondaryRole": "Acrobat",
-    "maxHP": 47,
-    "maxManaPoints": 22,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-radiant-bolt", "ability-renewing-light", "ability-wind-rush"]
-  },
-  {
-    "id": "unit-battle-sage",
-    "name": "Battle Sage",
-    "primaryRole": "Damage",
-    "secondaryRole": "Buffer",
-    "maxHP": 60,
-    "maxManaPoints": 22,
-    "movePoints": 4,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 100,
-    "abilityIds": ["ability-firebolt", "ability-flame-ward", "ability-battle-prayer"]
-  },
-  {
-    "id": "unit-warcry-archer",
-    "name": "Warcry Archer",
-    "primaryRole": "Damage",
-    "secondaryRole": "Buffer",
-    "maxHP": 60,
-    "maxManaPoints": 22,
-    "movePoints": 4,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 100,
-    "abilityIds": ["ability-piercing-shot", "ability-volley", "ability-rallying-shout"]
-  },
-  {
-    "id": "unit-fury-brawler",
-    "name": "Fury Brawler",
-    "primaryRole": "Damage",
-    "secondaryRole": "Buffer",
-    "maxHP": 61,
-    "maxManaPoints": 22,
-    "movePoints": 4,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 100,
-    "abilityIds": ["ability-quick-strike", "ability-war-hymn", "ability-battle-surge"]
-  },
-  {
-    "id": "unit-storm-caller",
-    "name": "Storm Caller",
-    "primaryRole": "Damage",
-    "secondaryRole": "Buffer",
-    "maxHP": 59,
-    "maxManaPoints": 24,
-    "movePoints": 4,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 100,
-    "abilityIds": ["ability-nova-burst", "ability-flame-ward", "ability-rallying-shout"]
-  },
-  {
-    "id": "unit-longshot-ranger",
-    "name": "Longshot Ranger",
-    "primaryRole": "Damage",
-    "secondaryRole": "Debuffer",
-    "maxHP": 63,
-    "maxManaPoints": 24,
-    "movePoints": 4,
-    "physicalDamageReceived": 95,
-    "magicDamageReceived": 100,
-    "abilityIds": ["ability-piercing-shot", "ability-volley", "ability-hunters-mark"]
-  },
-  {
-    "id": "unit-ember-seer",
-    "name": "Ember Seer",
-    "primaryRole": "Damage",
-    "secondaryRole": "Debuffer",
-    "maxHP": 53,
-    "maxManaPoints": 32,
-    "movePoints": 4,
-    "physicalDamageReceived": 105,
-    "magicDamageReceived": 85,
-    "abilityIds": ["ability-firebolt", "ability-searing-hex", "ability-flame-ward"]
-  },
-  {
-    "id": "unit-shadow-blade",
-    "name": "Shadow Blade",
-    "primaryRole": "Damage",
-    "secondaryRole": "Debuffer",
-    "maxHP": 58,
-    "maxManaPoints": 26,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 93,
-    "abilityIds": ["ability-quick-strike", "ability-shadow-brand", "ability-crippling-blow"]
-  },
-  {
-    "id": "unit-frost-invoker",
-    "name": "Frost Invoker",
-    "primaryRole": "Damage",
-    "secondaryRole": "Debuffer",
-    "maxHP": 56,
-    "maxManaPoints": 28,
-    "movePoints": 4,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 92,
-    "abilityIds": ["ability-frost-bolt", "ability-searing-hex", "ability-hunters-mark"]
-  },
-  {
-    "id": "unit-wind-dancer",
-    "name": "Wind Dancer",
-    "primaryRole": "Damage",
-    "secondaryRole": "Acrobat",
-    "maxHP": 49,
-    "maxManaPoints": 20,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-acrobatic-strike", "ability-surge-step", "ability-fleet-step"]
-  },
-  {
-    "id": "unit-flicker-rogue",
-    "name": "Flicker Rogue",
-    "primaryRole": "Damage",
-    "secondaryRole": "Acrobat",
-    "maxHP": 49,
-    "maxManaPoints": 20,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-quick-strike", "ability-battle-surge", "ability-evasive-dash"]
-  },
-  {
-    "id": "unit-gust-mage",
-    "name": "Gust Mage",
-    "primaryRole": "Damage",
-    "secondaryRole": "Acrobat",
-    "maxHP": 48,
-    "maxManaPoints": 22,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 95,
-    "abilityIds": ["ability-firebolt", "ability-flame-ward", "ability-surge-step"]
-  },
-  {
-    "id": "unit-bolt-strider",
-    "name": "Bolt Strider",
-    "primaryRole": "Damage",
-    "secondaryRole": "Acrobat",
-    "maxHP": 50,
-    "maxManaPoints": 20,
-    "movePoints": 5,
-    "physicalDamageReceived": 100,
-    "magicDamageReceived": 94,
-    "abilityIds": ["ability-piercing-shot", "ability-volley", "ability-surge-step"]
-  }
+    {
+        "id":  "unit-iron-vanguard",
+        "name":  "Iron Vanguard",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Buffer",
+        "maxHP":  90,
+        "maxManaPoints":  18,
+        "movePoints":  3,
+        "physicalDamageReceived":  85,
+        "magicDamageReceived":  110,
+        "abilityIds":  [
+                           "ability-iron-vanguard-shield-strike",
+                           "ability-iron-vanguard-bulwark-stance",
+                           "ability-iron-vanguard-rallying-shout"
+                       ]
+    },
+    {
+        "id":  "unit-stone-sentinel",
+        "name":  "Stone Sentinel",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Buffer",
+        "maxHP":  89,
+        "maxManaPoints":  18,
+        "movePoints":  3,
+        "physicalDamageReceived":  85,
+        "magicDamageReceived":  110,
+        "abilityIds":  [
+                           "ability-stone-sentinel-cleave",
+                           "ability-stone-sentinel-iron-hide",
+                           "ability-stone-sentinel-battle-prayer"
+                       ]
+    },
+    {
+        "id":  "unit-gilded-warden",
+        "name":  "Gilded Warden",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Buffer",
+        "maxHP":  90,
+        "maxManaPoints":  18,
+        "movePoints":  3,
+        "physicalDamageReceived":  86,
+        "magicDamageReceived":  110,
+        "abilityIds":  [
+                           "ability-gilded-warden-shield-bash",
+                           "ability-gilded-warden-bulwark-stance",
+                           "ability-gilded-warden-rallying-shout"
+                       ]
+    },
+    {
+        "id":  "unit-bastion-knight",
+        "name":  "Bastion Knight",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Buffer",
+        "maxHP":  90,
+        "maxManaPoints":  16,
+        "movePoints":  3,
+        "physicalDamageReceived":  85,
+        "magicDamageReceived":  112,
+        "abilityIds":  [
+                           "ability-bastion-knight-cleave",
+                           "ability-bastion-knight-bulwark-stance",
+                           "ability-bastion-knight-steadfast-cry"
+                       ]
+    },
+    {
+        "id":  "unit-grave-bruiser",
+        "name":  "Grave Bruiser",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  93,
+        "maxManaPoints":  16,
+        "movePoints":  3,
+        "physicalDamageReceived":  90,
+        "magicDamageReceived":  115,
+        "abilityIds":  [
+                           "ability-grave-bruiser-cleave",
+                           "ability-grave-bruiser-iron-hide",
+                           "ability-grave-bruiser-crippling-blow"
+                       ]
+    },
+    {
+        "id":  "unit-siege-breaker",
+        "name":  "Siege Breaker",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  93,
+        "maxManaPoints":  16,
+        "movePoints":  3,
+        "physicalDamageReceived":  90,
+        "magicDamageReceived":  115,
+        "abilityIds":  [
+                           "ability-siege-breaker-shield-strike",
+                           "ability-siege-breaker-bulwark-stance",
+                           "ability-siege-breaker-shatter-armor"
+                       ]
+    },
+    {
+        "id":  "unit-plague-warden",
+        "name":  "Plague Warden",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  92,
+        "maxManaPoints":  16,
+        "movePoints":  3,
+        "physicalDamageReceived":  90,
+        "magicDamageReceived":  116,
+        "abilityIds":  [
+                           "ability-plague-warden-shield-bash",
+                           "ability-plague-warden-iron-hide",
+                           "ability-plague-warden-crippling-blow"
+                       ]
+    },
+    {
+        "id":  "unit-iron-crusher",
+        "name":  "Iron Crusher",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  93,
+        "maxManaPoints":  14,
+        "movePoints":  3,
+        "physicalDamageReceived":  88,
+        "magicDamageReceived":  115,
+        "abilityIds":  [
+                           "ability-iron-crusher-cleave",
+                           "ability-iron-crusher-bulwark-stance",
+                           "ability-iron-crusher-siege-smash"
+                       ]
+    },
+    {
+        "id":  "unit-gale-sentinel",
+        "name":  "Gale Sentinel",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  69,
+        "maxManaPoints":  14,
+        "movePoints":  5,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  118,
+        "abilityIds":  [
+                           "ability-gale-sentinel-blitz-strike",
+                           "ability-gale-sentinel-evasive-dash",
+                           "ability-gale-sentinel-fleet-step"
+                       ]
+    },
+    {
+        "id":  "unit-storm-vanguard",
+        "name":  "Storm Vanguard",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  69,
+        "maxManaPoints":  14,
+        "movePoints":  5,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  118,
+        "abilityIds":  [
+                           "ability-storm-vanguard-cleave",
+                           "ability-storm-vanguard-fleet-step",
+                           "ability-storm-vanguard-vaulting-charge"
+                       ]
+    },
+    {
+        "id":  "unit-wind-bastion",
+        "name":  "Wind Bastion",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  67,
+        "maxManaPoints":  14,
+        "movePoints":  5,
+        "physicalDamageReceived":  96,
+        "magicDamageReceived":  118,
+        "abilityIds":  [
+                           "ability-wind-bastion-shield-bash",
+                           "ability-wind-bastion-evasive-dash",
+                           "ability-wind-bastion-fleet-step"
+                       ]
+    },
+    {
+        "id":  "unit-tempest-guard",
+        "name":  "Tempest Guard",
+        "primaryRole":  "Tank",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  70,
+        "maxManaPoints":  14,
+        "movePoints":  5,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  116,
+        "abilityIds":  [
+                           "ability-tempest-guard-blitz-strike",
+                           "ability-tempest-guard-bulwark-stance",
+                           "ability-tempest-guard-fleet-step"
+                       ]
+    },
+    {
+        "id":  "unit-dawn-medic",
+        "name":  "Dawn Medic",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Buffer",
+        "maxHP":  55,
+        "maxManaPoints":  30,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-dawn-medic-radiant-bolt",
+                           "ability-dawn-medic-mend",
+                           "ability-dawn-medic-renewing-light"
+                       ]
+    },
+    {
+        "id":  "unit-tide-cleric",
+        "name":  "Tide Cleric",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Buffer",
+        "maxHP":  55,
+        "maxManaPoints":  30,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-tide-cleric-radiant-bolt",
+                           "ability-tide-cleric-shadow-mend",
+                           "ability-tide-cleric-tide-blessing"
+                       ]
+    },
+    {
+        "id":  "unit-solar-warden",
+        "name":  "Solar Warden",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Buffer",
+        "maxHP":  54,
+        "maxManaPoints":  30,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-solar-warden-radiant-bolt",
+                           "ability-solar-warden-mend",
+                           "ability-solar-warden-battle-prayer"
+                       ]
+    },
+    {
+        "id":  "unit-chorus-priest",
+        "name":  "Chorus Priest",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Buffer",
+        "maxHP":  55,
+        "maxManaPoints":  32,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-chorus-priest-radiant-bolt",
+                           "ability-chorus-priest-renewing-light",
+                           "ability-chorus-priest-battle-prayer"
+                       ]
+    },
+    {
+        "id":  "unit-mire-priest",
+        "name":  "Mire Priest",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  59,
+        "maxManaPoints":  30,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-mire-priest-shadow-bolt",
+                           "ability-mire-priest-shadow-mend",
+                           "ability-mire-priest-wither"
+                       ]
+    },
+    {
+        "id":  "unit-blight-warden",
+        "name":  "Blight Warden",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  59,
+        "maxManaPoints":  30,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-blight-warden-shadow-bolt",
+                           "ability-blight-warden-mend",
+                           "ability-blight-warden-condemn"
+                       ]
+    },
+    {
+        "id":  "unit-nether-medic",
+        "name":  "Nether Medic",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  58,
+        "maxManaPoints":  30,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-nether-medic-radiant-bolt",
+                           "ability-nether-medic-shadow-mend",
+                           "ability-nether-medic-wither"
+                       ]
+    },
+    {
+        "id":  "unit-venom-cleric",
+        "name":  "Venom Cleric",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  59,
+        "maxManaPoints":  28,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  96,
+        "abilityIds":  [
+                           "ability-venom-cleric-shadow-bolt",
+                           "ability-venom-cleric-renewing-light",
+                           "ability-venom-cleric-plague-bolt"
+                       ]
+    },
+    {
+        "id":  "unit-zephyr-mender",
+        "name":  "Zephyr Mender",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  47,
+        "maxManaPoints":  24,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-zephyr-mender-zephyr-bolt",
+                           "ability-zephyr-mender-mend",
+                           "ability-zephyr-mender-fleet-step"
+                       ]
+    },
+    {
+        "id":  "unit-breeze-cleric",
+        "name":  "Breeze Cleric",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  47,
+        "maxManaPoints":  24,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-breeze-cleric-radiant-bolt",
+                           "ability-breeze-cleric-mend",
+                           "ability-breeze-cleric-fleet-step"
+                       ]
+    },
+    {
+        "id":  "unit-swift-medic",
+        "name":  "Swift Medic",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  46,
+        "maxManaPoints":  24,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  96,
+        "abilityIds":  [
+                           "ability-swift-medic-zephyr-bolt",
+                           "ability-swift-medic-shadow-mend",
+                           "ability-swift-medic-evasive-dash"
+                       ]
+    },
+    {
+        "id":  "unit-veil-mender",
+        "name":  "Veil Mender",
+        "primaryRole":  "Healer",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  47,
+        "maxManaPoints":  22,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-veil-mender-radiant-bolt",
+                           "ability-veil-mender-renewing-light",
+                           "ability-veil-mender-wind-rush"
+                       ]
+    },
+    {
+        "id":  "unit-battle-sage",
+        "name":  "Battle Sage",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Buffer",
+        "maxHP":  60,
+        "maxManaPoints":  22,
+        "movePoints":  4,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  100,
+        "abilityIds":  [
+                           "ability-battle-sage-firebolt",
+                           "ability-battle-sage-flame-ward",
+                           "ability-battle-sage-battle-prayer"
+                       ]
+    },
+    {
+        "id":  "unit-warcry-archer",
+        "name":  "Warcry Archer",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Buffer",
+        "maxHP":  60,
+        "maxManaPoints":  22,
+        "movePoints":  4,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  100,
+        "abilityIds":  [
+                           "ability-warcry-archer-piercing-shot",
+                           "ability-warcry-archer-volley",
+                           "ability-warcry-archer-rallying-shout"
+                       ]
+    },
+    {
+        "id":  "unit-fury-brawler",
+        "name":  "Fury Brawler",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Buffer",
+        "maxHP":  61,
+        "maxManaPoints":  22,
+        "movePoints":  4,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  100,
+        "abilityIds":  [
+                           "ability-fury-brawler-quick-strike",
+                           "ability-fury-brawler-war-hymn",
+                           "ability-fury-brawler-battle-surge"
+                       ]
+    },
+    {
+        "id":  "unit-storm-caller",
+        "name":  "Storm Caller",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Buffer",
+        "maxHP":  59,
+        "maxManaPoints":  24,
+        "movePoints":  4,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  100,
+        "abilityIds":  [
+                           "ability-storm-caller-nova-burst",
+                           "ability-storm-caller-flame-ward",
+                           "ability-storm-caller-rallying-shout"
+                       ]
+    },
+    {
+        "id":  "unit-longshot-ranger",
+        "name":  "Longshot Ranger",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  63,
+        "maxManaPoints":  24,
+        "movePoints":  4,
+        "physicalDamageReceived":  95,
+        "magicDamageReceived":  100,
+        "abilityIds":  [
+                           "ability-longshot-ranger-piercing-shot",
+                           "ability-longshot-ranger-volley",
+                           "ability-longshot-ranger-hunters-mark"
+                       ]
+    },
+    {
+        "id":  "unit-ember-seer",
+        "name":  "Ember Seer",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  53,
+        "maxManaPoints":  32,
+        "movePoints":  4,
+        "physicalDamageReceived":  105,
+        "magicDamageReceived":  85,
+        "abilityIds":  [
+                           "ability-ember-seer-firebolt",
+                           "ability-ember-seer-searing-hex",
+                           "ability-ember-seer-flame-ward"
+                       ]
+    },
+    {
+        "id":  "unit-shadow-blade",
+        "name":  "Shadow Blade",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  58,
+        "maxManaPoints":  26,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  93,
+        "abilityIds":  [
+                           "ability-shadow-blade-quick-strike",
+                           "ability-shadow-blade-shadow-brand",
+                           "ability-shadow-blade-crippling-blow"
+                       ]
+    },
+    {
+        "id":  "unit-frost-invoker",
+        "name":  "Frost Invoker",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Debuffer",
+        "maxHP":  56,
+        "maxManaPoints":  28,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  92,
+        "abilityIds":  [
+                           "ability-frost-invoker-frost-bolt",
+                           "ability-frost-invoker-searing-hex",
+                           "ability-frost-invoker-hunters-mark"
+                       ]
+    },
+    {
+        "id":  "unit-wind-dancer",
+        "name":  "Wind Dancer",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  49,
+        "maxManaPoints":  20,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-wind-dancer-acrobatic-strike",
+                           "ability-wind-dancer-surge-step",
+                           "ability-wind-dancer-fleet-step"
+                       ]
+    },
+    {
+        "id":  "unit-flicker-rogue",
+        "name":  "Flicker Rogue",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  49,
+        "maxManaPoints":  20,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-flicker-rogue-quick-strike",
+                           "ability-flicker-rogue-battle-surge",
+                           "ability-flicker-rogue-evasive-dash"
+                       ]
+    },
+    {
+        "id":  "unit-gust-mage",
+        "name":  "Gust Mage",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  48,
+        "maxManaPoints":  22,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-gust-mage-firebolt",
+                           "ability-gust-mage-flame-ward",
+                           "ability-gust-mage-surge-step"
+                       ]
+    },
+    {
+        "id":  "unit-bolt-strider",
+        "name":  "Bolt Strider",
+        "primaryRole":  "Damage",
+        "secondaryRole":  "Acrobat",
+        "maxHP":  50,
+        "maxManaPoints":  20,
+        "movePoints":  5,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  94,
+        "abilityIds":  [
+                           "ability-bolt-strider-piercing-shot",
+                           "ability-bolt-strider-volley",
+                           "ability-bolt-strider-surge-step"
+                       ]
+    },
+    {
+        "id":  "unit-iron-bastion",
+        "name":  "Iron Bastion",
+        "primaryRole":  "Tank",
+        "secondaryRole":  null,
+        "maxHP":  105,
+        "maxManaPoints":  14,
+        "movePoints":  3,
+        "physicalDamageReceived":  80,
+        "magicDamageReceived":  105,
+        "abilityIds":  [
+                           "ability-iron-bastion-shield-strike",
+                           "ability-iron-bastion-bulwark-stance",
+                           "ability-iron-bastion-iron-hide"
+                       ]
+    },
+    {
+        "id":  "unit-granite-guardian",
+        "name":  "Granite Guardian",
+        "primaryRole":  "Tank",
+        "secondaryRole":  null,
+        "maxHP":  106,
+        "maxManaPoints":  14,
+        "movePoints":  3,
+        "physicalDamageReceived":  80,
+        "magicDamageReceived":  106,
+        "abilityIds":  [
+                           "ability-granite-guardian-cleave",
+                           "ability-granite-guardian-bulwark-stance",
+                           "ability-granite-guardian-iron-hide"
+                       ]
+    },
+    {
+        "id":  "unit-oath-shield",
+        "name":  "Oath Shield",
+        "primaryRole":  "Tank",
+        "secondaryRole":  null,
+        "maxHP":  104,
+        "maxManaPoints":  14,
+        "movePoints":  3,
+        "physicalDamageReceived":  82,
+        "magicDamageReceived":  104,
+        "abilityIds":  [
+                           "ability-oath-shield-shield-bash",
+                           "ability-oath-shield-bulwark-stance",
+                           "ability-oath-shield-iron-hide"
+                       ]
+    },
+    {
+        "id":  "unit-wallbreaker",
+        "name":  "Wallbreaker",
+        "primaryRole":  "Tank",
+        "secondaryRole":  null,
+        "maxHP":  105,
+        "maxManaPoints":  12,
+        "movePoints":  3,
+        "physicalDamageReceived":  81,
+        "magicDamageReceived":  105,
+        "abilityIds":  [
+                           "ability-wallbreaker-cleave",
+                           "ability-wallbreaker-shield-bash",
+                           "ability-wallbreaker-bulwark-stance"
+                       ]
+    },
+    {
+        "id":  "unit-dawn-restorer",
+        "name":  "Dawn Restorer",
+        "primaryRole":  "Healer",
+        "secondaryRole":  null,
+        "maxHP":  62,
+        "maxManaPoints":  34,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-dawn-restorer-radiant-bolt",
+                           "ability-dawn-restorer-mend",
+                           "ability-dawn-restorer-renewing-light"
+                       ]
+    },
+    {
+        "id":  "unit-river-surgeon",
+        "name":  "River Surgeon",
+        "primaryRole":  "Healer",
+        "secondaryRole":  null,
+        "maxHP":  61,
+        "maxManaPoints":  34,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  91,
+        "abilityIds":  [
+                           "ability-river-surgeon-radiant-bolt",
+                           "ability-river-surgeon-mend",
+                           "ability-river-surgeon-shadow-mend"
+                       ]
+    },
+    {
+        "id":  "unit-sanctum-cleric",
+        "name":  "Sanctum Cleric",
+        "primaryRole":  "Healer",
+        "secondaryRole":  null,
+        "maxHP":  62,
+        "maxManaPoints":  32,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-sanctum-cleric-shadow-bolt",
+                           "ability-sanctum-cleric-mend",
+                           "ability-sanctum-cleric-renewing-light"
+                       ]
+    },
+    {
+        "id":  "unit-mercy-adept",
+        "name":  "Mercy Adept",
+        "primaryRole":  "Healer",
+        "secondaryRole":  null,
+        "maxHP":  60,
+        "maxManaPoints":  34,
+        "movePoints":  4,
+        "physicalDamageReceived":  101,
+        "magicDamageReceived":  90,
+        "abilityIds":  [
+                           "ability-mercy-adept-radiant-bolt",
+                           "ability-mercy-adept-shadow-mend",
+                           "ability-mercy-adept-renewing-light"
+                       ]
+    },
+    {
+        "id":  "unit-ember-duelist",
+        "name":  "Ember Duelist",
+        "primaryRole":  "Damage",
+        "secondaryRole":  null,
+        "maxHP":  58,
+        "maxManaPoints":  22,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-ember-duelist-firebolt",
+                           "ability-ember-duelist-nova-burst",
+                           "ability-ember-duelist-flame-ward"
+                       ]
+    },
+    {
+        "id":  "unit-ash-marksman",
+        "name":  "Ash Marksman",
+        "primaryRole":  "Damage",
+        "secondaryRole":  null,
+        "maxHP":  58,
+        "maxManaPoints":  22,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  95,
+        "abilityIds":  [
+                           "ability-ash-marksman-piercing-shot",
+                           "ability-ash-marksman-volley",
+                           "ability-ash-marksman-frost-bolt"
+                       ]
+    },
+    {
+        "id":  "unit-razor-brawler",
+        "name":  "Razor Brawler",
+        "primaryRole":  "Damage",
+        "secondaryRole":  null,
+        "maxHP":  59,
+        "maxManaPoints":  20,
+        "movePoints":  4,
+        "physicalDamageReceived":  100,
+        "magicDamageReceived":  96,
+        "abilityIds":  [
+                           "ability-razor-brawler-quick-strike",
+                           "ability-razor-brawler-acrobatic-strike",
+                           "ability-razor-brawler-nova-burst"
+                       ]
+    },
+    {
+        "id":  "unit-cinder-mage",
+        "name":  "Cinder Mage",
+        "primaryRole":  "Damage",
+        "secondaryRole":  null,
+        "maxHP":  57,
+        "maxManaPoints":  24,
+        "movePoints":  4,
+        "physicalDamageReceived":  101,
+        "magicDamageReceived":  94,
+        "abilityIds":  [
+                           "ability-cinder-mage-firebolt",
+                           "ability-cinder-mage-nova-burst",
+                           "ability-cinder-mage-frost-bolt"
+                       ]
+    }
 ]
