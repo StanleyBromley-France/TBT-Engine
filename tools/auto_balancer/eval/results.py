@@ -46,6 +46,7 @@ class EvalUnitTemplateAggregate:
     average_damage_dealt: float
     average_damage_taken: float
     average_healing_done: float
+    average_tiles_moved_total: float
     average_turns_survived: float
     average_buff_uptime_granted: float
     average_debuff_uptime_granted: float
@@ -54,9 +55,20 @@ class EvalUnitTemplateAggregate:
 
 
 @dataclass(frozen=True)
+class EvalRoleCombinationWinRateAggregate:
+    role_combination: str
+    primary_role: str
+    secondary_role: str | None
+    team_observations: int
+    wins: int
+    win_rate: float
+
+
+@dataclass(frozen=True)
 class EvalRoleAlignmentSummary:
     detailed: EvalDetailedSummary
     units_by_template_id: dict[str, EvalUnitTemplateAggregate]
+    role_combination_win_rates: dict[str, EvalRoleCombinationWinRateAggregate]
 
 
 def parse_eval_summary(payload: dict) -> tuple[int, int, int]:
@@ -154,10 +166,15 @@ def parse_eval_role_alignment_summary(
     detailed = parse_eval_detailed_summary(payload, offensive_ability_ids)
     scenarios = get_scenarios(payload)
     aggregates: dict[str, dict[str, object]] = {}
+    role_combination_win_rates: dict[str, dict[str, object]] = {}
 
     for scenario in scenarios:
         result = scenario.get("result") or scenario.get("Result") or {}
+        match = result.get("match") or result.get("Match") or {}
         units = result.get("units") or result.get("Units") or []
+        outcome = str(match.get("outcome") or match.get("Outcome") or "")
+        team_combinations: dict[int, dict[str, object]] = {}
+
         for unit in units:
             unit_template_id = unit.get("unitTemplateId") or unit.get("UnitTemplateId")
             if not isinstance(unit_template_id, str) or not unit_template_id:
@@ -166,18 +183,23 @@ def parse_eval_role_alignment_summary(
             roles = unit.get("roles") or unit.get("Roles") or {}
             final_state = unit.get("finalState") or unit.get("FinalState") or {}
             performance = unit.get("performance") or unit.get("Performance") or {}
+            team_id = int(unit.get("teamId") or unit.get("TeamId") or 0)
+            side = str(unit.get("side") or unit.get("Side") or "").lower()
+            primary_role = roles.get("primaryRole") or roles.get("PrimaryRole") or "Unknown"
+            secondary_role = roles.get("secondaryRole") or roles.get("SecondaryRole")
 
             aggregate = aggregates.setdefault(
                 unit_template_id,
                 {
                     "unit_template_id": unit_template_id,
-                    "primary_role": roles.get("primaryRole") or roles.get("PrimaryRole") or "Unknown",
-                    "secondary_role": roles.get("secondaryRole") or roles.get("SecondaryRole"),
+                    "primary_role": primary_role,
+                    "secondary_role": secondary_role,
                     "appearances": 0,
                     "alive_count": 0,
                     "damage_dealt": 0,
                     "damage_taken": 0,
                     "healing_done": 0,
+                    "tiles_moved_total": 0,
                     "turns_survived": 0,
                     "buff_uptime_granted": 0,
                     "debuff_uptime_granted": 0,
@@ -198,6 +220,9 @@ def parse_eval_role_alignment_summary(
             aggregate["healing_done"] = int(aggregate["healing_done"]) + int(
                 performance.get("healingDone") or performance.get("HealingDone") or 0
             )
+            aggregate["tiles_moved_total"] = int(aggregate["tiles_moved_total"]) + int(
+                performance.get("tilesMovedTotal") or performance.get("TilesMovedTotal") or 0
+            )
             aggregate["turns_survived"] = int(aggregate["turns_survived"]) + int(
                 performance.get("turnsSurvived") or performance.get("TurnsSurvived") or 0
             )
@@ -214,6 +239,35 @@ def parse_eval_role_alignment_summary(
                 performance.get("debuffEffectsApplied") or performance.get("DebuffEffectsApplied") or 0
             )
 
+            if team_id != 0 and isinstance(primary_role, str):
+                role_combination = format_role_combination(primary_role, secondary_role)
+                team_entry = team_combinations.setdefault(
+                    team_id,
+                    {
+                        "side": side,
+                        "role_combinations": set(),
+                    },
+                )
+                team_entry["role_combinations"].add((role_combination, primary_role, secondary_role))
+
+        for team_entry in team_combinations.values():
+            side = str(team_entry["side"])
+            won = (outcome == "attacker" and side == "attacker") or (outcome == "defender" and side == "defender")
+            for role_combination, primary_role, secondary_role in team_entry["role_combinations"]:
+                role_win_rate = role_combination_win_rates.setdefault(
+                    role_combination,
+                    {
+                        "role_combination": role_combination,
+                        "primary_role": primary_role,
+                        "secondary_role": secondary_role,
+                        "team_observations": 0,
+                        "wins": 0,
+                    },
+                )
+                role_win_rate["team_observations"] = int(role_win_rate["team_observations"]) + 1
+                if won:
+                    role_win_rate["wins"] = int(role_win_rate["wins"]) + 1
+
     units_by_template_id: dict[str, EvalUnitTemplateAggregate] = {}
     for unit_template_id, aggregate in aggregates.items():
         appearances = int(aggregate["appearances"])
@@ -226,6 +280,7 @@ def parse_eval_role_alignment_summary(
             average_damage_dealt=_safe_divide(int(aggregate["damage_dealt"]), appearances),
             average_damage_taken=_safe_divide(int(aggregate["damage_taken"]), appearances),
             average_healing_done=_safe_divide(int(aggregate["healing_done"]), appearances),
+            average_tiles_moved_total=_safe_divide(int(aggregate["tiles_moved_total"]), appearances),
             average_turns_survived=_safe_divide(int(aggregate["turns_survived"]), appearances),
             average_buff_uptime_granted=_safe_divide(int(aggregate["buff_uptime_granted"]), appearances),
             average_debuff_uptime_granted=_safe_divide(int(aggregate["debuff_uptime_granted"]), appearances),
@@ -233,7 +288,30 @@ def parse_eval_role_alignment_summary(
             average_debuff_effects_applied=_safe_divide(int(aggregate["debuff_effects_applied"]), appearances),
         )
 
-    return EvalRoleAlignmentSummary(detailed=detailed, units_by_template_id=units_by_template_id)
+    win_rates_by_role_combination: dict[str, EvalRoleCombinationWinRateAggregate] = {}
+    for role_combination, aggregate in role_combination_win_rates.items():
+        team_observations = int(aggregate["team_observations"])
+        wins = int(aggregate["wins"])
+        win_rates_by_role_combination[role_combination] = EvalRoleCombinationWinRateAggregate(
+            role_combination=role_combination,
+            primary_role=str(aggregate["primary_role"]),
+            secondary_role=aggregate["secondary_role"] if isinstance(aggregate["secondary_role"], str) else None,
+            team_observations=team_observations,
+            wins=wins,
+            win_rate=_safe_divide(wins, team_observations),
+        )
+
+    return EvalRoleAlignmentSummary(
+        detailed=detailed,
+        units_by_template_id=units_by_template_id,
+        role_combination_win_rates=win_rates_by_role_combination,
+    )
+
+
+def format_role_combination(primary_role: str, secondary_role: object) -> str:
+    if isinstance(secondary_role, str) and secondary_role:
+        return f"{primary_role}+{secondary_role}"
+    return primary_role
 
 
 def _safe_divide(numerator: int, denominator: int) -> float:
