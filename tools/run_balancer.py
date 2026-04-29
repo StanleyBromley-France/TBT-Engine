@@ -8,8 +8,8 @@ primary-role-baselines
     for Tank, Healer, and Damage. Establishes broad role stat baselines before
     secondary-role combination tuning.
 
-unit-stats
-    Runs the nested-combinations stat balancer
+role-combination-stats
+    Runs the Role Combination Stat Balancer
     for all 9 primary+secondary role combinations. Tunes HP, mana, move points,
     and damage-received percentages until each combination's fitness converges.
 
@@ -26,7 +26,7 @@ Usage
 
     # Run only one stage:
     python run_balancer.py --pipeline-config configs/pipeline/full-pipeline.json --stage primary-role-baselines
-    python run_balancer.py --pipeline-config configs/pipeline/full-pipeline.json --stage unit-stats
+    python run_balancer.py --pipeline-config configs/pipeline/full-pipeline.json --stage role-combination-stats
     python run_balancer.py --pipeline-config configs/pipeline/full-pipeline.json --stage ability-effects
 
 Pipeline config format (JSON)
@@ -37,7 +37,7 @@ Pipeline config format (JSON)
         "scenario_configs": ["configs/scenario/generated-scenario-eval.json"],
         "balance_config":  "configs/balance/primary-roles-nested.json"
       },
-      "unit_stats": {
+      "role_combination_stats": {
         "ga_config":       "configs/ga/nested-combinations.json",
         "scenario_configs": ["configs/scenario/generated-scenario-eval.json"],
         "balance_config":  "configs/balance/nested-combinations.json"
@@ -63,11 +63,11 @@ from types import SimpleNamespace
 
 import auto_balancer.package as balance_package
 import auto_balancer.runtime as runtime
-from auto_balancer.stages import primary_role_baselines, unit_stats
+from auto_balancer.stages import primary_role_baselines, role_combination_stats
 from auto_balancer.workflows import ability_effects
 
 
-VALID_STAGES = ("primary-role-baselines", "unit-stats", "ability-effects", "all")
+VALID_STAGES = ("primary-role-baselines", "role-combination-stats", "ability-effects", "all")
 
 
 def load_pipeline_config(pipeline_config_path: Path) -> dict:
@@ -125,34 +125,34 @@ def run_stage_primary_role_baselines(
     return output_package_path
 
 
-def run_stage_unit_stats(
+def run_stage_role_combination_stats(
     pipeline_cfg: dict,
     base_dir: Path,
     source_content_path: Path,
     output_package_path: Path,
 ) -> Path:
     print("=" * 60, flush=True)
-    print("STAGE: unit-stats", flush=True)
+    print("STAGE: role-combination-stats", flush=True)
     print("=" * 60, flush=True)
     t0 = time.monotonic()
 
-    stage_cfg = pipeline_cfg.get("unit_stats")
+    stage_cfg = pipeline_cfg.get("role_combination_stats") or pipeline_cfg.get("unit_stats")
     if stage_cfg is None:
-        raise ValueError("Pipeline config missing 'unit_stats' section.")
+        raise ValueError("Pipeline config missing 'role_combination_stats' section.")
 
     args = resolve_stage_args(stage_cfg, base_dir)
-    nested_config = unit_stats.load_balancer_config(args)
-    exit_code = unit_stats.run(
+    nested_config = role_combination_stats.load_balancer_config(args)
+    exit_code = role_combination_stats.run(
         nested_config,
         source_content_path=source_content_path,
         output_package_path=output_package_path,
         persist_results=False,
     )
     if exit_code != 0:
-        raise RuntimeError(f"unit-stats stage exited with code {exit_code}.")
+        raise RuntimeError(f"role-combination-stats stage exited with code {exit_code}.")
 
     elapsed = time.monotonic() - t0
-    print(f"unit-stats stage complete ({elapsed:.0f}s)", flush=True)
+    print(f"role-combination-stats stage complete ({elapsed:.0f}s)", flush=True)
     return output_package_path
 
 
@@ -223,9 +223,9 @@ def run(
             primary_package_path,
             runtime.DEFAULT_GA_CONTENT_DIR,
         )
-    if stage in ("unit-stats", "all"):
-        unit_package_path = resolve_stage_output_path(stage, output_package_path, "unit-stats")
-        run_stage_unit_stats(pipeline_cfg, base_dir, current_content_path, unit_package_path)
+    if stage in ("role-combination-stats", "all"):
+        unit_package_path = resolve_stage_output_path(stage, output_package_path, "role-combination-stats")
+        run_stage_role_combination_stats(pipeline_cfg, base_dir, current_content_path, unit_package_path)
         current_content_path = balance_package.resolve_package_content_path(
             unit_package_path,
             runtime.DEFAULT_GA_CONTENT_DIR,
