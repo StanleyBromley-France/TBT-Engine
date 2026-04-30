@@ -3,6 +3,7 @@
   "candidate_population_size": 12,
   "generation_count": 3,
   "mutation_probability": 0.90,
+  "crossover_probability": 0.45,
   "evaluation_turn_budget": 10,
   "evaluation_repeat_stages": [
     { "total_repeats": 1 }

@@ -35,6 +35,7 @@ class NestedPrimaryRolesGaConfig:
     candidate_population_size: int
     generation_count: int
     mutation_probability: float
+    crossover_probability: float
     evaluation_turn_budget: int
     random_seed_step_per_role: int
     random_seed_step_per_round: int
@@ -50,6 +51,7 @@ class NestedCombinationsGaConfig:
     candidate_population_size: int
     generation_count: int
     mutation_probability: float
+    crossover_probability: float
     evaluation_turn_budget: int
     random_seed_step_per_combination: int
     random_seed_step_per_round: int

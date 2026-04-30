@@ -3,6 +3,7 @@
 from auto_balancer.config_models.ability_effects_config import (
     AbilityEffectsBalanceConfig,
     AbilityEffectsBalancerConfig,
+    AbilityEffectsGaConfig,
 )
 from auto_balancer.config_models.attacker_turn_limit_config import (
     AttackerTurnLimitBalanceConfig,
@@ -21,18 +22,20 @@ from auto_balancer.config_models.secondary_role_balance_config import (
     SecondaryRoleBalanceConfig,
     SecondaryRoleBalancerConfig,
 )
-from auto_balancer.config_models.shared_config import GaConfig, NestedCombinationsGaConfig
+from auto_balancer.config_models.shared_config import GaConfig, NestedCombinationsGaConfig, NestedPrimaryRolesGaConfig
 from auto_balancer.config_models.terrain_distribution_config import TerrainDistributionBalancerConfig
 
 __all__ = [
     "AbilityEffectsBalanceConfig",
     "AbilityEffectsBalancerConfig",
+    "AbilityEffectsGaConfig",
     "AttackerTurnLimitBalancerConfig",
     "AttackerTurnLimitBalanceConfig",
     "GaConfig",
     "NestedCombinationBalanceConfig",
     "NestedCombinationBalancerConfig",
     "NestedCombinationsGaConfig",
+    "NestedPrimaryRolesGaConfig",
     "NestedPrimaryRoleBalancerConfig",
     "PrimaryRoleBalanceConfig",
     "PrimaryRoleBalancerConfig",

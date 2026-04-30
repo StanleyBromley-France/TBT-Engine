@@ -2,7 +2,22 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from auto_balancer.config_models.shared_config import GaConfig, ScenarioConfig
+from auto_balancer.eval.staged import RepeatStage
+from auto_balancer.config_models.shared_config import ScenarioConfig
+
+
+@dataclass(frozen=True)
+class AbilityEffectsGaConfig:
+    ga_random_seed: int
+    candidate_population_size: int
+    generation_count: int
+    mutation_probability: float
+    crossover_probability: float
+    evaluation_turn_budget: int
+    evaluation_repeat_stages: tuple[RepeatStage, ...]
+    evaluation_timeout_seconds: int
+    evaluation_log_mode: str
+    mcts_iteration_budget: int
 
 
 @dataclass(frozen=True)
@@ -60,5 +75,5 @@ class AbilityEffectsBalanceConfig:
 @dataclass(frozen=True)
 class AbilityEffectsBalancerConfig:
     scenario: ScenarioConfig
-    ga: GaConfig
+    ga: AbilityEffectsGaConfig
     balance: AbilityEffectsBalanceConfig

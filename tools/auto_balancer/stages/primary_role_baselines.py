@@ -62,6 +62,8 @@ def build_primary_role_config(
 def validate_nested_config(config: config_models.NestedPrimaryRoleBalancerConfig) -> None:
     if config.balance.optimization_round_count <= 0:
         raise ValueError("Nested primary role balancer optimization_round_count must be positive.")
+    if not 0.0 <= config.ga.crossover_probability <= 1.0:
+        raise ValueError("Nested primary role balancer crossover_probability must be between 0.0 and 1.0.")
     for role_name, balance_section_name in PRIMARY_ROLE_CONFIGS:
         primary_role_balancer.validate_config(build_primary_role_config(config, role_name, balance_section_name))
 

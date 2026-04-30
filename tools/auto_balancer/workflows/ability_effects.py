@@ -373,6 +373,7 @@ class AbilityEffectsWorkflow(CandidateWorkflow[tuple[int, ...], measurements.Abi
         self.population_size = config.ga.candidate_population_size
         self.generation_count = config.ga.generation_count
         self.mutation_probability = config.ga.mutation_probability
+        self.crossover_probability = config.ga.crossover_probability
         self.config = config
         self.content_path = content_path
         self.eval_config = eval_config
@@ -456,6 +457,8 @@ def validate_config(config: config_models.AbilityEffectsBalancerConfig) -> None:
         raise ValueError("Ability effects balancer evaluation_turn_budget must be positive.")
     if config.ga.candidate_population_size <= 0 or config.ga.generation_count < 0:
         raise ValueError("Ability effects balancer population config is invalid.")
+    if not 0.0 <= config.ga.crossover_probability <= 1.0:
+        raise ValueError("Ability effects balancer crossover_probability must be between 0.0 and 1.0.")
     if config.scenario.generated_scenario_count <= 0:
         raise ValueError("Ability effects balancer generated_scenario_count must be positive.")
     eval_api.validate_repeat_stages(config.ga.evaluation_repeat_stages)

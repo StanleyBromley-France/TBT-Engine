@@ -116,6 +116,8 @@ def build_combination_config(
 def validate_nested_config(nested_config: config_models.NestedCombinationBalancerConfig) -> None:
     if nested_config.balance.optimization_round_count <= 0:
         raise ValueError("Nested combination balancer optimization_round_count must be positive.")
+    if not 0.0 <= nested_config.ga.crossover_probability <= 1.0:
+        raise ValueError("Nested combination balancer crossover_probability must be between 0.0 and 1.0.")
     for combo_index, (primary_role, secondary_role, balance_section_name) in enumerate(COMBINATION_CONFIGS):
         combo_config = build_combination_config(
             nested_config,
@@ -235,6 +237,7 @@ class SecondaryFamilyWorkflow(CandidateWorkflow[tuple[int, ...], SecondaryFamily
         content_path: Path,
         eval_config: eval_api.EvalCommandConfig,
         offensive_ability_ids: set[str],
+        crossover_probability: float,
     ):
         first_config = work_items[0].config
         self.creator_name_prefix = f"RoleCombination{secondary_role}Round{round_index + 1}"
@@ -242,6 +245,7 @@ class SecondaryFamilyWorkflow(CandidateWorkflow[tuple[int, ...], SecondaryFamily
         self.population_size = first_config.ga.candidate_population_size
         self.generation_count = first_config.ga.generation_count
         self.mutation_probability = first_config.ga.mutation_probability
+        self.crossover_probability = crossover_probability
         self.secondary_role = secondary_role
         self.work_items = work_items
         self.content_path = content_path
@@ -319,6 +323,7 @@ class SecondaryFamilyWorkflow(CandidateWorkflow[tuple[int, ...], SecondaryFamily
 
 
 def optimize_secondary_family(
+    nested_config: config_models.NestedCombinationBalancerConfig,
     secondary_role: str,
     round_index: int,
     work_items: list[CombinationWorkItem],
@@ -333,6 +338,7 @@ def optimize_secondary_family(
         content_path=content_path,
         eval_config=eval_config,
         offensive_ability_ids=offensive_ability_ids,
+        crossover_probability=nested_config.ga.crossover_probability,
     )
     best_key, best_measurement = run_candidate_workflow(workflow)
     apply_family_candidate(content_path, work_items, best_key)
@@ -397,6 +403,7 @@ def run(
                 before_by_combination.setdefault(key, measurement)
 
             best_family = optimize_secondary_family(
+                nested_config,
                 secondary_role,
                 round_index,
                 work_items,

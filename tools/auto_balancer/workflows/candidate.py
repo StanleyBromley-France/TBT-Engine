@@ -18,6 +18,7 @@ class CandidateWorkflow(ABC, Generic[CandidateT, MeasurementT]):
     population_size: int
     generation_count: int
     mutation_probability: float
+    crossover_probability: float = 0.0
 
     @abstractmethod
     def normalize_individual(self, individual: list[int]) -> CandidateT:
@@ -59,6 +60,7 @@ def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]
     rng = random.Random(workflow.random_seed)
     toolbox = base.Toolbox()
     toolbox.register("select", tools.selTournament, tournsize=3)
+    toolbox.register("mate", tools.cxTwoPoint)
     toolbox.register("mutate", workflow.mutate_individual, rng=rng)
 
     measurement_cache: dict[CandidateT, MeasurementT] = {}
@@ -86,6 +88,14 @@ def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]
 
     for generation in range(1, workflow.generation_count + 1):
         offspring = list(map(toolbox.clone, toolbox.select(population, len(population))))
+        crossover_probability = getattr(workflow, "crossover_probability", 0.0)
+        if crossover_probability > 0.0:
+            for child1, child2 in zip(offspring[::2], offspring[1::2]):
+                if rng.random() <= crossover_probability:
+                    toolbox.mate(child1, child2)
+                    del child1.fitness.values
+                    del child2.fitness.values
+
         for individual in offspring:
             if rng.random() <= workflow.mutation_probability:
                 toolbox.mutate(individual)

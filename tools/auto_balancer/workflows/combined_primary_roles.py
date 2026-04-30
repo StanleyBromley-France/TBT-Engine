@@ -51,6 +51,7 @@ class CombinedPrimaryRoleWorkflow(CandidateWorkflow[CombinedPrimaryCandidate, me
         self.population_size = config.ga.candidate_population_size
         self.generation_count = config.ga.generation_count
         self.mutation_probability = config.ga.mutation_probability
+        self.crossover_probability = config.ga.crossover_probability
         self.config = config
         self.role_specs = role_specs
         self.content_path = content_path

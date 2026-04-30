@@ -3,6 +3,7 @@
   "candidate_population_size": 30,
   "generation_count": 6,
   "mutation_probability": 0.85,
+  "crossover_probability": 0.45,
   "evaluation_turn_budget": 10,
   "random_seed_step_per_role": 101,
   "random_seed_step_per_round": 1000,
