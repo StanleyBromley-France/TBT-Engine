@@ -14,11 +14,9 @@ role-combination-stats
     and damage-received percentages until each combination's fitness converges.
 
 ability-effects
-    Runs the ability effects balancer across all
-    effect component templates. Tunes damage, heal, percent, and flat-modifier
-    values so Tanks deal moderate damage, Healers heal meaningfully, Damage
-    dealers output high damage, Buffers show buff uptime, and Debuffers show
-    debuff uptime.
+    Runs the grouped ability effects balancer. Tunes role/category multipliers
+    for damage, healing, support modifiers, and mana costs so ability changes
+    stay comparable to the grouped searches used by the earlier stages.
 
 Usage
 -----
@@ -64,7 +62,7 @@ from types import SimpleNamespace
 import auto_balancer.package as balance_package
 import auto_balancer.runtime as runtime
 from auto_balancer.stages import primary_role_baselines, role_combination_stats
-from auto_balancer.workflows import ability_effects
+from auto_balancer.workflows import grouped_ability_effects as ability_effects
 
 
 VALID_STAGES = ("primary-role-baselines", "role-combination-stats", "ability-effects", "all")
