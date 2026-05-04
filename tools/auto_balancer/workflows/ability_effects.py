@@ -606,23 +606,21 @@ def build_package_report(
     before: measurements.AbilityEffectsMeasurement,
     after: measurements.AbilityEffectsMeasurement,
 ) -> dict:
-    return {
-        "evidence": reporting.build_evidence_report(
-            {"ability-effects": before},
-            {"ability-effects": after},
-            (
-                ("Fitness", "fitness"),
-                ("AttackerWinRate", "attacker_win_rate"),
-                ("WinRateScore", "win_rate_score"),
-                ("PrimaryRoleScore", "primary_role_score"),
-                ("TradeoffScore", "role_tradeoff_score"),
-                ("DominanceScore", "role_dominance_score"),
-                ("SecondaryRoleScore", "secondary_role_score"),
-                ("RoleCombinationWinRateScore", "role_combination_win_rate_score"),
-                ("DiversityScore", "diversity_score"),
-            ),
-        )["evidence"]
-    }
+    return reporting.build_evidence_report(
+        {"ability-effects": before},
+        {"ability-effects": after},
+        (
+            ("Fitness", "fitness"),
+            ("AttackerWinRate", "attacker_win_rate"),
+            ("WinRateScore", "win_rate_score"),
+            ("PrimaryRoleScore", "primary_role_score"),
+            ("TradeoffScore", "role_tradeoff_score"),
+            ("DominanceScore", "role_dominance_score"),
+            ("SecondaryRoleScore", "secondary_role_score"),
+            ("RoleCombinationWinRateScore", "role_combination_win_rate_score"),
+            ("DiversityScore", "diversity_score"),
+        ),
+    )
 
 
 # ── Logging helpers ───────────────────────────────────────────────────────────

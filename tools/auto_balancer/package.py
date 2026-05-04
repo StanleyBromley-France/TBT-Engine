@@ -200,9 +200,10 @@ def write_markdown_report(path: Path, report: dict[str, Any]) -> None:
     if isinstance(evidence, dict) and evidence:
         for name, values in evidence.items():
             lines.append(f"### {name}")
-            if isinstance(values, dict):
-                for key, value in values.items():
-                    lines.append(f"- {key}: `{format_report_value(value)}`")
+            if isinstance(values, dict) and isinstance(values.get("metrics"), dict):
+                lines.extend(format_metrics_table(values["metrics"]))
+            elif isinstance(values, dict):
+                lines.extend(format_legacy_evidence(values))
             else:
                 lines.append(f"- `{format_report_value(values)}`")
             lines.append("")
@@ -226,3 +227,31 @@ def format_report_value(value: Any) -> str:
     if isinstance(value, float):
         return f"{value:.4f}"
     return str(value)
+
+
+def format_metrics_table(metrics: dict[str, Any]) -> list[str]:
+    lines = [
+        "| Metric | Before | After | Delta | Improved |",
+        "| --- | ---: | ---: | ---: | :---: |",
+    ]
+    for metric_name, values in metrics.items():
+        if not isinstance(values, dict):
+            lines.append(f"| {metric_name} |  | `{format_report_value(values)}` |  |  |")
+            continue
+        improved = values.get("improved", "")
+        lines.append(
+            "| "
+            f"{metric_name} | "
+            f"`{format_report_value(values.get('before', ''))}` | "
+            f"`{format_report_value(values.get('after', ''))}` | "
+            f"`{format_report_value(values.get('delta', ''))}` | "
+            f"`{format_report_value(improved)}` |"
+        )
+    return lines
+
+
+def format_legacy_evidence(values: dict[str, Any]) -> list[str]:
+    return [
+        f"- {key}: `{format_report_value(value)}`"
+        for key, value in values.items()
+    ]

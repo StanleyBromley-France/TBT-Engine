@@ -571,25 +571,23 @@ def build_package_report(
     before: GroupedAbilityEffectsMeasurement,
     after: GroupedAbilityEffectsMeasurement,
 ) -> dict:
-    return {
-        "evidence": reporting.build_evidence_report(
-            {"ability-effects": before},
-            {"ability-effects": after},
-            (
-                ("Fitness", "fitness"),
-                ("AttackerWinRate", "attacker_win_rate"),
-                ("TankDamagePercent", "tank_damage_percent"),
-                ("HealerHealingPercent", "healer_healing_percent"),
-                ("DamageDamagePercent", "damage_damage_percent"),
-                ("BufferModifierPercent", "buffer_modifier_percent"),
-                ("DebufferModifierPercent", "debuffer_modifier_percent"),
-                ("ManaCostPercent", "mana_cost_percent"),
-                ("PrimaryRoleScore", "primary_role_score"),
-                ("SecondaryRoleScore", "secondary_role_score"),
-                ("DiversityScore", "diversity_score"),
-            ),
-        )["evidence"]
-    }
+    return reporting.build_evidence_report(
+        {"ability-effects": before},
+        {"ability-effects": after},
+        (
+            ("Fitness", "fitness"),
+            ("AttackerWinRate", "attacker_win_rate"),
+            ("TankDamagePercent", "tank_damage_percent"),
+            ("HealerHealingPercent", "healer_healing_percent"),
+            ("DamageDamagePercent", "damage_damage_percent"),
+            ("BufferModifierPercent", "buffer_modifier_percent"),
+            ("DebufferModifierPercent", "debuffer_modifier_percent"),
+            ("ManaCostPercent", "mana_cost_percent"),
+            ("PrimaryRoleScore", "primary_role_score"),
+            ("SecondaryRoleScore", "secondary_role_score"),
+            ("DiversityScore", "diversity_score"),
+        ),
+    )
 
 
 def run(

@@ -122,18 +122,21 @@ def ability_effect_fields(measurement: Any, *, detailed: bool) -> list[Field]:
     return fields
 
 
-def build_metric_evidence(before: Any, after: Any, metrics: Iterable[Metric]) -> dict[str, float | bool]:
-    evidence: dict[str, float | bool] = {}
+def build_metric_evidence(before: Any, after: Any, metrics: Iterable[Metric]) -> dict[str, dict[str, float | bool]]:
+    evidence: dict[str, dict[str, float | bool]] = {}
     for label, attr_name in metrics:
         before_value = getattr(before, attr_name)
         after_value = getattr(after, attr_name)
-        evidence[f"before{label}"] = before_value
-        evidence[f"after{label}"] = after_value
-        evidence[f"{label[0].lower()}{label[1:]}Delta"] = after_value - before_value
+        metric_evidence: dict[str, float | bool] = {
+            "before": before_value,
+            "after": after_value,
+            "delta": after_value - before_value,
+        }
         if label == "TurnLimitRate":
-            evidence[f"improved{label}"] = after_value < before_value
+            metric_evidence["improved"] = after_value < before_value
         elif label != "AttackerWinRate":
-            evidence[f"improved{label}"] = after_value > before_value
+            metric_evidence["improved"] = after_value > before_value
+        evidence[label] = metric_evidence
     return evidence
 
 
@@ -142,10 +145,10 @@ def build_evidence_report(
     after_by_name: dict[str, Any],
     metrics: Iterable[Metric],
 ) -> dict:
-    evidence: dict[str, dict[str, float | bool]] = {}
+    evidence: dict[str, dict[str, dict[str, float | bool]]] = {}
     for name, after in after_by_name.items():
         before = before_by_name.get(name)
         if before is None:
             continue
-        evidence[name] = build_metric_evidence(before, after, metrics)
+        evidence[name] = {"metrics": build_metric_evidence(before, after, metrics)}
     return {"evidence": evidence}
