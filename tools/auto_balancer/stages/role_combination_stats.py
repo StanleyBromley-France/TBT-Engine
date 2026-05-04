@@ -419,11 +419,11 @@ def run(
 
     print("nested combination balancing complete", flush=True)
     for primary_role, secondary_role, _ in COMBINATION_CONFIGS:
-        combination_key = f"{primary_role}+{secondary_role}"
-        measurement = best_by_combination.get(combination_key)
+        key = combination_key(primary_role, secondary_role)
+        measurement = best_by_combination.get(key)
         if measurement is None:
             continue
-        reporting.print_record(f"best {combination_key}", reporting.secondary_role_round_fields(measurement))
+        reporting.print_record(f"best {key}", reporting.secondary_role_round_fields(measurement))
 
     if output_package_path is not None:
         balance_package.write_balance_package(
