@@ -1,8 +1,17 @@
 from __future__ import annotations
 
-import copy
 import random
 from dataclasses import dataclass
+
+
+TEAM_PRIMARY_ROLES = ("Tank", "Damage", "Healer")
+ATTACKER_TEAM_ID = 1
+DEFENDER_TEAM_ID = 2
+DEFAULT_TILE_DISTRIBUTION = {
+    "Plain": 0.8,
+    "Mountain": 0.12,
+    "Water": 0.08,
+}
 
 
 @dataclass(frozen=True)
@@ -18,29 +27,25 @@ def generate_scenarios(
     unit_templates: list[dict],
     config: ScenarioGenerationConfig,
 ) -> list[dict]:
-    if not base_game_states:
-        raise ValueError("At least one base game state is required for scenario generation.")
     if config.generated_scenarios_per_run <= 0:
         raise ValueError("Scenario generation generated_scenarios_per_run must be positive.")
     if config.map_width <= 0 or config.map_height <= 0:
         raise ValueError("Scenario generation map dimensions must be positive.")
 
-    unit_template_ids = get_unit_template_ids(unit_templates)
     unit_roles_by_id = get_unit_roles_by_id(unit_templates)
     unit_secondary_roles_by_id = get_unit_secondary_roles_by_id(unit_templates)
     unit_ids_by_role = get_unit_ids_by_role(unit_templates)
+    validate_team_role_coverage(unit_ids_by_role)
     rng = random.Random(config.seed)
+    role_cycler = RoleUnitCycler(unit_ids_by_role, rng)
     generated_scenarios: list[dict] = []
 
     for scenario_index in range(config.generated_scenarios_per_run):
-        base_game_state = rng.choice(base_game_states)
         generated_scenarios.append(
-            create_variant(
-                base_game_state,
-                unit_template_ids,
+            create_scenario(
                 unit_roles_by_id,
                 unit_secondary_roles_by_id,
-                unit_ids_by_role,
+                role_cycler,
                 config,
                 scenario_index,
                 rng,
@@ -48,6 +53,23 @@ def generate_scenarios(
         )
 
     return generated_scenarios
+
+
+class RoleUnitCycler:
+    def __init__(self, unit_ids_by_role: dict[str, list[str]], rng: random.Random):
+        self._unit_ids_by_role = unit_ids_by_role
+        self._rng = rng
+        self._queues: dict[str, list[str]] = {}
+
+    def next_unit_id(self, role: str) -> str:
+        if role not in self._queues or not self._queues[role]:
+            role_unit_ids = list(self._unit_ids_by_role.get(role, []))
+            if not role_unit_ids:
+                raise ValueError(f"Scenario generation could not find units for role {role!r}.")
+            self._rng.shuffle(role_unit_ids)
+            self._queues[role] = role_unit_ids
+
+        return self._queues[role].pop()
 
 
 def get_unit_template_ids(unit_templates: list[dict]) -> list[str]:
@@ -108,46 +130,27 @@ def get_unit_ids_by_role(unit_templates: list[dict]) -> dict[str, list[str]]:
     return unit_ids_by_role
 
 
-def create_variant(
-    base_game_state: dict,
-    unit_template_ids: list[str],
+def validate_team_role_coverage(unit_ids_by_role: dict[str, list[str]]) -> None:
+    missing_roles = [role for role in TEAM_PRIMARY_ROLES if not unit_ids_by_role.get(role)]
+    if missing_roles:
+        raise ValueError(
+            "Scenario generation requires at least one unit for each team role. "
+            f"Missing: {', '.join(missing_roles)}."
+        )
+
+
+def create_scenario(
     unit_roles_by_id: dict[str, str],
     unit_secondary_roles_by_id: dict[str, str],
-    unit_ids_by_role: dict[str, list[str]],
+    role_cycler: RoleUnitCycler,
     generation_config: ScenarioGenerationConfig,
     variant_index: int,
     rng: random.Random,
 ) -> dict:
-    scenario = copy.deepcopy(base_game_state)
-    scenario["id"] = f"{base_game_state['id']}-generated-{variant_index + 1}"
-
-    attacker_team_id = int(base_game_state["attackerTeamId"])
-    defender_team_id = int(base_game_state["defenderTeamId"])
     width = generation_config.map_width
     height = generation_config.map_height
-    scenario["mapGen"]["width"] = width
-    scenario["mapGen"]["height"] = height
-
-    attacker_base_units = get_team_units(base_game_state, attacker_team_id)
-    defender_base_units = get_team_units(base_game_state, defender_team_id)
-
-    attacker_unit_count = len(attacker_base_units)
-    defender_unit_count = len(defender_base_units)
-
-    attacker_unit_ids = choose_role_preserving_unit_ids(
-        attacker_base_units,
-        unit_template_ids,
-        unit_roles_by_id,
-        unit_ids_by_role,
-        rng,
-    )
-    defender_unit_ids = choose_role_preserving_unit_ids(
-        defender_base_units,
-        unit_template_ids,
-        unit_roles_by_id,
-        unit_ids_by_role,
-        rng,
-    )
+    attacker_unit_ids = choose_team_unit_ids(role_cycler)
+    defender_unit_ids = choose_team_unit_ids(role_cycler)
 
     attacker_positions = choose_team_positions(
         width,
@@ -169,56 +172,24 @@ def create_variant(
         reserved_offsets=set(attacker_positions),
     )
 
-    scenario["units"] = build_units(attacker_unit_ids, attacker_team_id, attacker_positions) + build_units(
-        defender_unit_ids,
-        defender_team_id,
-        defender_positions,
-    )
-    return scenario
+    return {
+        "id": f"generated-scenario-{variant_index + 1}",
+        "mapGen": {
+            "width": width,
+            "height": height,
+            "tileDistribution": dict(DEFAULT_TILE_DISTRIBUTION),
+        },
+        "attackerTeamId": ATTACKER_TEAM_ID,
+        "defenderTeamId": DEFENDER_TEAM_ID,
+        "teamToAct": ATTACKER_TEAM_ID,
+        "attackerTurnsTaken": 0,
+        "units": build_units(attacker_unit_ids, ATTACKER_TEAM_ID, attacker_positions)
+        + build_units(defender_unit_ids, DEFENDER_TEAM_ID, defender_positions),
+    }
 
 
-def count_team_units(game_state: dict, team_id: int) -> int:
-    return sum(1 for unit in game_state["units"] if int(unit["teamId"]) == team_id)
-
-
-def get_team_units(game_state: dict, team_id: int) -> list[dict]:
-    return [unit for unit in game_state["units"] if int(unit["teamId"]) == team_id]
-
-
-def choose_unit_ids(unit_template_ids: list[str], unit_count: int, rng: random.Random) -> list[str]:
-    if unit_count <= len(unit_template_ids):
-        return rng.sample(unit_template_ids, unit_count)
-
-    return [rng.choice(unit_template_ids) for _ in range(unit_count)]
-
-
-def choose_role_preserving_unit_ids(
-    base_units: list[dict],
-    unit_template_ids: list[str],
-    unit_roles_by_id: dict[str, str],
-    unit_ids_by_role: dict[str, list[str]],
-    rng: random.Random,
-) -> list[str]:
-    chosen_unit_ids: list[str] = []
-    used_unit_ids: set[str] = set()
-
-    for base_unit in base_units:
-        base_unit_id = base_unit["id"]
-        base_role = unit_roles_by_id.get(base_unit_id)
-        role_candidates = list(unit_ids_by_role.get(base_role, []))
-        available_role_candidates = [candidate for candidate in role_candidates if candidate not in used_unit_ids]
-
-        if available_role_candidates:
-            chosen_unit_id = rng.choice(available_role_candidates)
-        elif role_candidates:
-            chosen_unit_id = rng.choice(role_candidates)
-        else:
-            chosen_unit_id = choose_unit_ids(unit_template_ids, 1, rng)[0]
-
-        chosen_unit_ids.append(chosen_unit_id)
-        used_unit_ids.add(chosen_unit_id)
-
-    return chosen_unit_ids
+def choose_team_unit_ids(role_cycler: RoleUnitCycler) -> list[str]:
+    return [role_cycler.next_unit_id(role) for role in TEAM_PRIMARY_ROLES]
 
 
 def choose_team_positions(
