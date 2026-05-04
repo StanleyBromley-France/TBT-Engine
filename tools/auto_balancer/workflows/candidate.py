@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 import auto_balancer.ga as ga
+import auto_balancer.reporting as reporting
 
 
 CandidateT = TypeVar("CandidateT", bound=tuple[int, ...])
@@ -83,10 +84,12 @@ def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]
 
     individual_type = getattr(creator, individual_name)
     population = workflow.build_initial_population(individual_type, rng)
+    reporting.print_section("initial population")
     ga.evaluate_invalid_individuals(population, toolbox.evaluate)
     hall_of_fame.update(population)
 
     for generation in range(1, workflow.generation_count + 1):
+        reporting.print_section(f"generation {generation}")
         offspring = list(map(toolbox.clone, toolbox.select(population, len(population))))
         crossover_probability = getattr(workflow, "crossover_probability", 0.0)
         if crossover_probability > 0.0:

@@ -1,6 +1,6 @@
 {
   "ga_random_seed": 7291845,
-  "candidate_population_size": 1,
+  "candidate_population_size": 2,
   "generation_count": 2,
   "mutation_probability": 0.85,
   "crossover_probability": 0.45,

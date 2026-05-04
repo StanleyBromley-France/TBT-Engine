@@ -106,8 +106,8 @@ def run(
         content_path,
     )
 
-    reporting.print_banner(
-        "optimizing primary roles together",
+    reporting.print_record(
+        "optimising primary roles",
         [
             reporting.field("population", nested_config.ga.candidate_population_size),
             reporting.field("generations", nested_config.ga.generation_count),

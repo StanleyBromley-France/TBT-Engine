@@ -134,7 +134,7 @@ class CombinedPrimaryRoleWorkflow(CandidateWorkflow[CombinedPrimaryCandidate, me
         print_candidate_measurement(measurement, elapsed_seconds, cached)
 
     def on_generation_best(self, generation: int, measurement: measurements.CombinedPrimaryRoleMeasurement) -> None:
-        reporting.print_section(f"gen-best {generation}", combined_primary_role_fields(measurement))
+        reporting.print_section(f"generation {generation} best", combined_primary_role_fields(measurement))
 
 
 def build_role_specs(
@@ -407,6 +407,7 @@ def print_candidate_measurement(
         [
             reporting.field("elapsed", elapsed_seconds, ".1f"),
             reporting.field("cached", str(cached).lower()),
-            *combined_primary_role_fields(measurement),
+            reporting.field("role-score", measurement.average_primary_role_score, ".4f"),
+            reporting.field("fitness", measurement.fitness, ".4f"),
         ],
     )

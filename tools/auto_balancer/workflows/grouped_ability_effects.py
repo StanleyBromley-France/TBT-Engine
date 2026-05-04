@@ -482,10 +482,10 @@ class GroupedAbilityEffectsWorkflow(CandidateWorkflow[GroupedCandidate, GroupedA
         elapsed_seconds: float,
         cached: bool,
     ) -> None:
-        print_grouped_candidate("candidate", measurement, elapsed_seconds=elapsed_seconds, cached=cached)
+        print_grouped_candidate("candidate", measurement, elapsed_seconds=elapsed_seconds, cached=cached, detailed=False)
 
     def on_generation_best(self, generation: int, measurement: GroupedAbilityEffectsMeasurement) -> None:
-        print_grouped_candidate(f"generation {generation} best", measurement)
+        print_grouped_candidate(f"generation {generation} best", measurement, banner=True)
 
 
 def optimize_grouped_ability_effects(
@@ -524,29 +524,36 @@ def print_grouped_candidate(
     *,
     elapsed_seconds: float | None = None,
     cached: bool | None = None,
+    banner: bool = False,
+    detailed: bool = True,
 ) -> None:
     fields = []
     if elapsed_seconds is not None:
         fields.append(reporting.field("elapsed", f"{elapsed_seconds:.1f}s"))
     if cached is not None:
         fields.append(reporting.field("cached", str(cached).lower()))
-    fields.extend(summary_fields(measurement))
-    reporting.print_record(prefix, fields)
-    for group_name, value in zip(GROUP_NAMES, measurement_as_candidate(measurement), strict=True):
-        reporting.print_record(f"{prefix}-group", [reporting.field("group", group_name), reporting.field("mult", f"{value}%")])
+    fields.extend(summary_fields(measurement, detailed=detailed))
+    if banner:
+        reporting.print_section(prefix, fields)
+    else:
+        reporting.print_record(prefix, fields)
 
 
-def summary_fields(measurement: GroupedAbilityEffectsMeasurement) -> list[reporting.Field]:
-    return [
+def summary_fields(measurement: GroupedAbilityEffectsMeasurement, *, detailed: bool) -> list[reporting.Field]:
+    fields = [
         reporting.field("fitness", measurement.fitness, ".4f"),
         reporting.field("winrate", measurement.attacker_win_rate, ".2%"),
+    ]
+    if detailed:
+        fields.extend([
         reporting.field("tank-dmg", measurement.average_tank_damage_dealt, ".1f"),
         reporting.field("healer-heal", measurement.average_healer_healing_done, ".1f"),
         reporting.field("damage-dmg", measurement.average_damage_damage_dealt, ".1f"),
         reporting.field("buffer-uptime", measurement.average_buffer_buff_uptime, ".2f"),
         reporting.field("debuffer-uptime", measurement.average_debuffer_debuff_uptime, ".2f"),
         reporting.field("diversity", measurement.pct_change_std_dev, ".4f"),
-    ]
+        ])
+    return fields
 
 
 def measurement_as_candidate(measurement: GroupedAbilityEffectsMeasurement) -> GroupedCandidate:
@@ -600,12 +607,13 @@ def run(
     offensive_ability_ids = scenarios.load_offensive_ability_ids(content_path)
     index = build_grouped_index(content_path)
 
-    print(
-        "grouped ability-effects GA: "
-        f"groups={len(GROUP_NAMES)} "
-        f"pop={config.ga.candidate_population_size} "
-        f"gens={config.ga.generation_count}",
-        flush=True,
+    reporting.print_record(
+        "optimising ability effects",
+        [
+            reporting.field("groups", len(GROUP_NAMES)),
+            reporting.field("population", config.ga.candidate_population_size),
+            reporting.field("generations", config.ga.generation_count),
+        ],
     )
 
     before = evaluate_initial_grouped_ability_effects(config, content_path, eval_config, offensive_ability_ids, index)

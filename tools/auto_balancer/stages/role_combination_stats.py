@@ -302,19 +302,18 @@ class SecondaryFamilyWorkflow(CandidateWorkflow[tuple[int, ...], SecondaryFamily
 
     def on_candidate(self, measurement: SecondaryFamilyMeasurement, elapsed_seconds: float, cached: bool) -> None:
         reporting.print_record(
-            "candidate-family",
+            "candidate",
             [
+                reporting.field("elapsed", elapsed_seconds, ".1f"),
+                reporting.field("cached", str(cached).lower()),
                 reporting.field("secondary-role", measurement.secondary_role),
                 reporting.field("fitness", measurement.fitness, ".4f"),
             ],
         )
-        for key, combo_measurement in measurement.measurements_by_combination.items():
-            reporting.print_record(f"candidate {key}", reporting.secondary_role_round_fields(combo_measurement))
-        print(f"candidate-time elapsed={elapsed_seconds:.1f}s cached={str(cached).lower()}", flush=True)
 
     def on_generation_best(self, generation: int, measurement: SecondaryFamilyMeasurement) -> None:
-        reporting.print_record(
-            f"generation {generation} best-family",
+        reporting.print_section(
+            f"generation {generation} best",
             [
                 reporting.field("secondary-role", measurement.secondary_role),
                 reporting.field("fitness", measurement.fitness, ".4f"),
@@ -380,7 +379,7 @@ def run(
             work_items = build_family_work_items(nested_config, content_path, secondary_role, round_index)
             family_keys = [combination_key(item.primary_role, item.secondary_role) for item in work_items]
             print(
-                f"optimizing {secondary_role} family "
+                f"optimising {secondary_role} family "
                 f"(round={round_index + 1}, "
                 f"combinations={','.join(family_keys)}, "
                 f"pop={work_items[0].config.ga.candidate_population_size}, "
@@ -412,10 +411,6 @@ def run(
             )
             for key, measurement in best_family.measurements_by_combination.items():
                 best_by_combination[key] = measurement
-                reporting.print_record(
-                    f"round-best {key}",
-                    reporting.secondary_role_round_fields(measurement),
-                )
 
     print("nested combination balancing complete", flush=True)
     for primary_role, secondary_role, _ in COMBINATION_CONFIGS:
@@ -423,7 +418,13 @@ def run(
         measurement = best_by_combination.get(key)
         if measurement is None:
             continue
-        reporting.print_record(f"best {key}", reporting.secondary_role_round_fields(measurement))
+        reporting.print_record(
+            "best",
+            [
+                reporting.field("combo", key),
+                *reporting.secondary_role_round_fields(measurement),
+            ],
+        )
 
     if output_package_path is not None:
         balance_package.write_balance_package(
