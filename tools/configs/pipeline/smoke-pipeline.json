@@ -1,0 +1,17 @@
+{
+  "primary_role_baselines": {
+    "ga_config": "../ga/smoke-primary-roles.json",
+    "scenario_configs": ["../scenario/smoke-scenario-eval.json"],
+    "balance_config": "../balance/primary-roles-nested.json"
+  },
+  "role_combination_stats": {
+    "ga_config": "../ga/smoke-combinations.json",
+    "scenario_configs": ["../scenario/smoke-scenario-eval.json"],
+    "balance_config": "../balance/nested-combinations.json"
+  },
+  "ability_effects": {
+    "ga_config": "../ga/smoke-ability-effects.json",
+    "scenario_configs": ["../scenario/smoke-scenario-eval.json"],
+    "balance_config": "../balance/ability-effects.json"
+  }
+}
