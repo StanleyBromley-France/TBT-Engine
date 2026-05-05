@@ -1,0 +1,14 @@
+{
+  "ga_random_seed": 6157321,
+  "candidate_population_size": 8,
+  "generation_count": 4,
+  "mutation_probability": 0.90,
+  "crossover_probability": 0.50,
+  "evaluation_turn_budget": 10,
+  "evaluation_repeat_stages": [
+    { "total_repeats": 1 }
+  ],
+  "evaluation_timeout_seconds": 18000,
+  "evaluation_log_mode": "quiet",
+  "mcts_iteration_budget": 64
+}

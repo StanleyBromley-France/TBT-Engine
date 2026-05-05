@@ -1,0 +1,7 @@
+{
+  "full_genome": {
+    "ga_config": "../ga/full-genome.json",
+    "scenario_configs": ["../scenario/full-genome-scenario-eval.json"],
+    "balance_config": "../balance/full-genome.json"
+  }
+}

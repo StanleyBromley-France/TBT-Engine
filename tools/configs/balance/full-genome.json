@@ -1,0 +1,137 @@
+{
+  "genome": {
+    "model": "role_profile_modifiers_plus_ability_multipliers",
+    "unit_stat_profile_modifiers": {
+      "gene_order": [
+        "max_hp_multiplier_percent",
+        "max_mana_points_multiplier_percent",
+        "move_points_additive_delta",
+        "physical_damage_received_additive_delta",
+        "magic_damage_received_additive_delta"
+      ],
+      "profile_order": [
+        "Tank",
+        "Tank+Buffer",
+        "Tank+Debuffer",
+        "Tank+Acrobat",
+        "Healer",
+        "Healer+Buffer",
+        "Healer+Debuffer",
+        "Healer+Acrobat",
+        "Damage",
+        "Damage+Buffer",
+        "Damage+Debuffer",
+        "Damage+Acrobat"
+      ]
+    },
+    "ability_effect_groups": {
+      "group_order": [
+        "tank_damage_percent",
+        "healer_healing_percent",
+        "damage_damage_percent",
+        "buffer_modifier_percent",
+        "debuffer_modifier_percent",
+        "mana_cost_percent"
+      ]
+    }
+  },
+  "search_space": {
+    "unit_stat_profile_modifiers": {
+      "mode": "apply_modifiers_to_each_matching_unit_template",
+      "bounds_by_primary_role": {
+        "Tank": {
+          "max_hp_multiplier_percent": [50, 150],
+          "max_mana_points_multiplier_percent": [50, 150],
+          "move_points_additive_delta": [-2, 5],
+          "physical_damage_received_additive_delta": [-15, 15],
+          "magic_damage_received_additive_delta": [-15, 15]
+        },
+        "Healer": {
+          "max_hp_multiplier_percent": [50, 150],
+          "max_mana_points_multiplier_percent": [50, 150],
+          "move_points_additive_delta": [-2, 5],
+          "physical_damage_received_additive_delta": [-10, 15],
+          "magic_damage_received_additive_delta": [-15, 10]
+        },
+        "Damage": {
+          "max_hp_multiplier_percent": [50, 150],
+          "max_mana_points_multiplier_percent": [50, 150],
+          "move_points_additive_delta": [-2, 5],
+          "physical_damage_received_additive_delta": [-10, 20],
+          "magic_damage_received_additive_delta": [-10, 20]
+        }
+      },
+      "absolute_floors": {
+        "max_hp": 20,
+        "max_mana_points": 10,
+        "move_points": 2,
+        "physical_damage_received_percent": 50,
+        "magic_damage_received_percent": 50
+      },
+      "absolute_ceilings": {
+        "physical_damage_received_percent": 120,
+        "magic_damage_received_percent": 120
+      }
+    },
+    "ability_effect_groups": {
+      "mode": "apply_global_multipliers_to_matching_ability_values",
+      "component_value_multiplier_percent": [50, 150],
+      "modifier_value_multiplier_percent": [50, 150],
+      "mana_cost_multiplier_percent": [50, 150],
+      "floors": {
+        "damage": 4,
+        "heal": 4,
+        "percent_modifier_abs": 5,
+        "flat_modifier_abs": 1,
+        "mana_cost": 2
+      }
+    }
+  },
+  "targets": {
+    "match_flow": {
+      "attacker_win_rate": [0.55, 0.65],
+      "turn_limit_rate": [0.05, 0.15],
+      "average_attacker_turn_count": [7.0, 10.0]
+    },
+    "primary_role_identity": {
+      "tank_survival_rate": [0.30, 0.65],
+      "tank_average_damage_taken": [40.0, 150.0],
+      "tank_average_damage_dealt": [12.0, 55.0],
+      "healer_average_healing_done": [28.0, 115.0],
+      "damage_average_damage_dealt": [50.0, 185.0]
+    },
+    "secondary_role_identity": {
+      "buffer_average_buff_uptime": [2.0, 15.0],
+      "debuffer_average_debuff_uptime": [2.0, 15.0],
+      "all_units_average_tiles_moved_total": [16.0, 34.0],
+      "non_acrobat_average_tiles_moved_total": [15.0, 30.0],
+      "acrobat_average_tiles_moved_total": [20.0, 45.0],
+      "acrobat_to_non_acrobat_move_ratio": [1.3, 1.5]
+    },
+    "role_profile_fairness": {
+      "role_combination_win_rate": [0.40, 0.70],
+      "primary_family_win_rate_spread_max": 0.20,
+      "secondary_family_win_rate_spread_max": 0.20
+    },
+    "change_shape": {
+      "ability_pct_change_std_dev": [0.05, 0.20],
+      "unit_stat_profile_spread_target": [0.05, 0.30]
+    }
+  },
+  "fitness_weights": {
+    "match_flow": 0.25,
+    "primary_role_identity": 0.25,
+    "secondary_role_identity": 0.20,
+    "role_profile_fairness": 0.20,
+    "change_shape": 0.10
+  },
+  "mutation": {
+    "unit_profile_modifier_gene_probability": 0.70,
+    "ability_group_gene_probability": 0.80,
+    "small_step_probability": 0.70,
+    "random_reset_probability": 0.20,
+    "profile_block_mutation_probability": 0.10,
+    "stat_step_divisor": 8,
+    "ability_step_divisor": 8
+  }
+}
