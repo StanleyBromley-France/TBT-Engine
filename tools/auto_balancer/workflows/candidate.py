@@ -47,6 +47,9 @@ class CandidateWorkflow(ABC, Generic[CandidateT, MeasurementT]):
     def on_generation_best(self, generation: int, measurement: MeasurementT) -> None:
         pass
 
+    def on_interrupted_best(self, candidate: CandidateT, measurement: MeasurementT) -> None:
+        pass
+
 
 def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]) -> tuple[CandidateT, MeasurementT]:
     from deap import base, creator, tools
@@ -82,34 +85,51 @@ def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]
 
     toolbox.register("evaluate", evaluate_individual)
 
-    individual_type = getattr(creator, individual_name)
-    population = workflow.build_initial_population(individual_type, rng)
-    reporting.print_section("initial population")
-    ga.evaluate_invalid_individuals(population, toolbox.evaluate)
-    hall_of_fame.update(population)
-
-    for generation in range(1, workflow.generation_count + 1):
-        reporting.print_section(f"generation {generation}")
-        offspring = list(map(toolbox.clone, toolbox.select(population, len(population))))
-        crossover_probability = getattr(workflow, "crossover_probability", 0.0)
-        if crossover_probability > 0.0:
-            for child1, child2 in zip(offspring[::2], offspring[1::2]):
-                if rng.random() <= crossover_probability:
-                    toolbox.mate(child1, child2)
-                    del child1.fitness.values
-                    del child2.fitness.values
-
-        for individual in offspring:
-            if rng.random() <= workflow.mutation_probability:
-                toolbox.mutate(individual)
-                del individual.fitness.values
-
-        ga.evaluate_invalid_individuals(offspring, toolbox.evaluate)
-        population[:] = offspring
+    try:
+        individual_type = getattr(creator, individual_name)
+        population = workflow.build_initial_population(individual_type, rng)
+        reporting.print_section("initial population")
+        ga.evaluate_invalid_individuals(population, toolbox.evaluate)
         hall_of_fame.update(population)
 
-        best_key = workflow.normalize_individual(hall_of_fame[0])
-        workflow.on_generation_best(generation, measurement_cache[best_key])
+        for generation in range(1, workflow.generation_count + 1):
+            reporting.print_section(f"generation {generation}")
+            offspring = list(map(toolbox.clone, toolbox.select(population, len(population))))
+            crossover_probability = getattr(workflow, "crossover_probability", 0.0)
+            if crossover_probability > 0.0:
+                for child1, child2 in zip(offspring[::2], offspring[1::2]):
+                    if rng.random() <= crossover_probability:
+                        toolbox.mate(child1, child2)
+                        del child1.fitness.values
+                        del child2.fitness.values
+
+            for individual in offspring:
+                if rng.random() <= workflow.mutation_probability:
+                    toolbox.mutate(individual)
+                    del individual.fitness.values
+
+            ga.evaluate_invalid_individuals(offspring, toolbox.evaluate)
+            population[:] = offspring
+            hall_of_fame.update(population)
+
+            best_key = workflow.normalize_individual(hall_of_fame[0])
+            workflow.on_generation_best(generation, measurement_cache[best_key])
+    except KeyboardInterrupt:
+        if not measurement_cache:
+            raise
+        best_key, best_measurement = get_best_cached_measurement(workflow, measurement_cache)
+        workflow.on_interrupted_best(best_key, best_measurement)
+        return best_key, best_measurement
 
     best_key = workflow.normalize_individual(hall_of_fame[0])
     return best_key, measurement_cache[best_key]
+
+
+def get_best_cached_measurement(
+    workflow: CandidateWorkflow[CandidateT, MeasurementT],
+    measurement_cache: dict[CandidateT, MeasurementT],
+) -> tuple[CandidateT, MeasurementT]:
+    return max(
+        measurement_cache.items(),
+        key=lambda item: workflow.get_fitness(item[1]),
+    )

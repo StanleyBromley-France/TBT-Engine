@@ -6,7 +6,7 @@
         "secondaryRole":  "Buffer",
         "maxHP":  90,
         "maxManaPoints":  18,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  85,
         "magicDamageReceived":  110,
         "abilityIds":  [
@@ -22,7 +22,7 @@
         "secondaryRole":  "Buffer",
         "maxHP":  89,
         "maxManaPoints":  18,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  85,
         "magicDamageReceived":  110,
         "abilityIds":  [
@@ -38,7 +38,7 @@
         "secondaryRole":  "Buffer",
         "maxHP":  90,
         "maxManaPoints":  18,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  86,
         "magicDamageReceived":  110,
         "abilityIds":  [
@@ -54,7 +54,7 @@
         "secondaryRole":  "Buffer",
         "maxHP":  90,
         "maxManaPoints":  16,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  85,
         "magicDamageReceived":  112,
         "abilityIds":  [
@@ -70,7 +70,7 @@
         "secondaryRole":  "Debuffer",
         "maxHP":  93,
         "maxManaPoints":  16,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  90,
         "magicDamageReceived":  115,
         "abilityIds":  [
@@ -86,7 +86,7 @@
         "secondaryRole":  "Debuffer",
         "maxHP":  93,
         "maxManaPoints":  16,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  90,
         "magicDamageReceived":  115,
         "abilityIds":  [
@@ -102,7 +102,7 @@
         "secondaryRole":  "Debuffer",
         "maxHP":  92,
         "maxManaPoints":  16,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  90,
         "magicDamageReceived":  116,
         "abilityIds":  [
@@ -118,7 +118,7 @@
         "secondaryRole":  "Debuffer",
         "maxHP":  93,
         "maxManaPoints":  14,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  88,
         "magicDamageReceived":  115,
         "abilityIds":  [
@@ -582,7 +582,7 @@
         "secondaryRole":  null,
         "maxHP":  105,
         "maxManaPoints":  14,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  80,
         "magicDamageReceived":  105,
         "abilityIds":  [
@@ -598,7 +598,7 @@
         "secondaryRole":  null,
         "maxHP":  106,
         "maxManaPoints":  14,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  80,
         "magicDamageReceived":  106,
         "abilityIds":  [
@@ -614,7 +614,7 @@
         "secondaryRole":  null,
         "maxHP":  104,
         "maxManaPoints":  14,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  82,
         "magicDamageReceived":  104,
         "abilityIds":  [
@@ -630,7 +630,7 @@
         "secondaryRole":  null,
         "maxHP":  105,
         "maxManaPoints":  12,
-        "movePoints":  3,
+        "movePoints":  4,
         "physicalDamageReceived":  81,
         "magicDamageReceived":  105,
         "abilityIds":  [
