@@ -9,6 +9,11 @@ from auto_balancer.config_models.attacker_turn_limit_config import (
     AttackerTurnLimitBalanceConfig,
     AttackerTurnLimitBalancerConfig,
 )
+from auto_balancer.config_models.full_genome_config import (
+    FullGenomeBalanceConfig,
+    FullGenomeBalancerConfig,
+    FullGenomeGaConfig,
+)
 from auto_balancer.config_models.nested_combination_config import (
     NestedCombinationBalanceConfig,
     NestedCombinationBalancerConfig,
@@ -31,6 +36,9 @@ __all__ = [
     "AbilityEffectsGaConfig",
     "AttackerTurnLimitBalancerConfig",
     "AttackerTurnLimitBalanceConfig",
+    "FullGenomeBalanceConfig",
+    "FullGenomeBalancerConfig",
+    "FullGenomeGaConfig",
     "GaConfig",
     "NestedCombinationBalanceConfig",
     "NestedCombinationBalancerConfig",
