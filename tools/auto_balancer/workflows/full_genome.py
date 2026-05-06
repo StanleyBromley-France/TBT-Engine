@@ -141,13 +141,17 @@ class FullGenomeWorkflow(CandidateWorkflow[FullGenomeCandidate, FullGenomeMeasur
         return measurement.fitness
 
     def on_candidate(self, measurement: FullGenomeMeasurement, elapsed_seconds: float, cached: bool) -> None:
+        fields = [
+            reporting.field("elapsed", elapsed_seconds, ".1f"),
+            reporting.field("cached", str(cached).lower()),
+            *full_genome_summary_fields(measurement, detailed=True),
+        ]
+        if measurement.error_message:
+            fields.append(reporting.field("error", compact_error_message(measurement.error_message)))
+            fields.append(reporting.field("candidate", format_candidate_genes(measurement.candidate)))
         reporting.print_record(
             "candidate",
-            [
-                reporting.field("elapsed", elapsed_seconds, ".1f"),
-                reporting.field("cached", str(cached).lower()),
-                *full_genome_summary_fields(measurement, detailed=True),
-            ],
+            fields,
         )
 
     def on_generation_best(self, generation: int, measurement: FullGenomeMeasurement) -> None:
@@ -539,6 +543,40 @@ def full_genome_summary_fields(measurement: FullGenomeMeasurement, *, detailed: 
             ]
         )
     return fields
+
+
+def compact_error_message(message: str, limit: int = 220) -> str:
+    compacted = compact_cli_error_message(message)
+    return compacted if len(compacted) <= limit else compacted[: limit - 3] + "..."
+
+
+def format_candidate_genes(candidate: FullGenomeCandidate) -> str:
+    return ",".join(str(value) for value in candidate)
+
+
+def compact_cli_error_message(message: str) -> str:
+    stderr = extract_error_section(message, "STDERR:")
+    if stderr:
+        return "cli-stderr=" + stderr
+    stdout = extract_error_section(message, "STDOUT:")
+    if stdout:
+        return "cli-stdout=" + stdout
+    return " ".join(message.split())
+
+
+def extract_error_section(message: str, marker: str) -> str:
+    marker_index = message.find(marker)
+    if marker_index < 0:
+        return ""
+    section = message[marker_index + len(marker) :]
+    next_markers = [
+        index
+        for next_marker in ("\nSTDOUT:", "\nSTDERR:")
+        if (index := section.find(next_marker)) >= 0
+    ]
+    if next_markers:
+        section = section[: min(next_markers)]
+    return " ".join(section.split())
 
 
 def build_package_report(before: FullGenomeMeasurement, after: FullGenomeMeasurement) -> dict:

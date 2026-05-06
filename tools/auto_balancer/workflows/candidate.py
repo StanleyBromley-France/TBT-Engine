@@ -61,6 +61,7 @@ def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]
     if not hasattr(creator, individual_name):
         creator.create(individual_name, list, fitness=getattr(creator, fitness_name))
 
+    random.seed(workflow.random_seed)
     rng = random.Random(workflow.random_seed)
     toolbox = base.Toolbox()
     toolbox.register("select", tools.selTournament, tournsize=3)

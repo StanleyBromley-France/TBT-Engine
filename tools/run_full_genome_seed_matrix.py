@@ -47,6 +47,8 @@ def build_cycle_pairs(ga_seeds: list[int], scenario_seeds: list[int]) -> list[tu
             "The cycle matrix needs the same number of GA and scenario seeds "
             "so both sides get equal representation."
         )
+    if len(ga_seeds) == 1:
+        return [(ga_seeds[0], scenario_seeds[0])]
 
     pairs: list[tuple[int, int]] = []
     for index, scenario_seed in enumerate(scenario_seeds):
@@ -251,8 +253,8 @@ def write_matrix_summary(output_root: Path, rows: list[dict[str, Any]]) -> None:
     lines = [
         "# Full-Genome Seed Matrix",
         "",
-        "| Run | GA Seed | Scenario Seed | Fitness Delta | After Fitness | Win Rate | Turn Limit | Package |",
-        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+        "| Run | GA Seed | Scenario Seed | Fitness Delta | Before Fitness | After Fitness | Win Rate | Turn Limit | Package |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
     for row in rows:
         lines.append(
@@ -261,6 +263,7 @@ def write_matrix_summary(output_root: Path, rows: list[dict[str, Any]]) -> None:
             f"{row.get('gaSeed', '')} | "
             f"{row.get('scenarioSeed', '')} | "
             f"`{format_optional_float(row.get('fitnessDelta'))}` | "
+            f"`{format_optional_float(row.get('fitnessBefore'))}` | "
             f"`{format_optional_float(row.get('fitnessAfter'))}` | "
             f"`{format_optional_percent(row.get('attackerWinRateAfter'))}` | "
             f"`{format_optional_percent(row.get('turnLimitRateAfter'))}` | "
