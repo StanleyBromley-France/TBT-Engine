@@ -2,7 +2,7 @@
   {
     "id": "ability-1",
     "name": "Slash",
-    "category": "MeleeAttack",
+    "category": "Melee",
     "manaCost": 3,
     "targeting": {
       "range": 1,

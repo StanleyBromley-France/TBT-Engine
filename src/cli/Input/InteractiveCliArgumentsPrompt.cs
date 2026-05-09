@@ -54,7 +54,11 @@ public sealed class InteractiveCliArgumentsPrompt
         while (true)
         {
             Console.Write("Command: ");
-            var raw = Console.ReadLine()?.Trim();
+            var line = Console.ReadLine();
+            if (line is null)
+                return Command.Play;
+
+            var raw = line.Trim();
 
             if (CliCommandNames.TryParseInteractive(raw, out var command))
             {

@@ -23,7 +23,7 @@ public sealed class RawCliArgumentsParser
         ArgumentNullException.ThrowIfNull(args);
 
         if (args.Length == 0)
-            throw new InvalidOperationException("A command is required. Use 'play' or 'eval'.");
+            return CliArguments.CreatePlay(CommandDefaults.CreatePlayOptions());
 
         var commandToken = args[0];
         var optionMap = ParseOptions(args.Skip(1).ToArray());

@@ -6,7 +6,7 @@ using Setup.Validation.Primitives;
 
 public static class CommandDefaults
 {
-    private static readonly string ExampleContentPath = Path.Combine(AppContext.BaseDirectory, "content");
+    private static readonly string DefaultContentPath = ResolveDefaultContentPath();
 
     private static readonly string EvalOutputPath = Path.Combine(AppContext.BaseDirectory, "eval-run-result.json");
 
@@ -14,7 +14,7 @@ public static class CommandDefaults
     {
         return new PlayOptions
         {
-            ContentPath = ExampleContentPath,
+            ContentPath = DefaultContentPath,
             GameStateId = "default",
             Seed = 12345,
             MaxTurns = 12,
@@ -29,7 +29,7 @@ public static class CommandDefaults
     {
         return new EvalOptions
         {
-            ContentPath = ExampleContentPath,
+            ContentPath = DefaultContentPath,
             GameStateId = string.Empty,
             Seed = 3867623,
             RepeatCount = 1,
@@ -42,5 +42,20 @@ public static class CommandDefaults
             DefenderMcts = MctsOptions.DefenderDefault,
             EvalRunResultOutput = EvalOutputPath,
         };
+    }
+
+    private static string ResolveDefaultContentPath()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null)
+        {
+            var candidate = Path.Combine(directory.FullName, "content");
+            if (Directory.Exists(candidate))
+                return candidate;
+
+            directory = directory.Parent;
+        }
+
+        return Path.Combine(AppContext.BaseDirectory, "content");
     }
 }

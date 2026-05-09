@@ -26,7 +26,7 @@ public sealed class JsonContentLoaderRequiredFieldsPopulatedTests
         Assert.Single(pack.Templates.Abilities);
         Assert.Equal("ability-1", pack.Templates.Abilities[0].Id);
         Assert.Equal("Slash", pack.Templates.Abilities[0].Name);
-        Assert.Equal("MeleeAttack", pack.Templates.Abilities[0].Category);
+        Assert.Equal("Melee", pack.Templates.Abilities[0].Category);
         Assert.Equal("effect-1", pack.Templates.Abilities[0].EffectTemplateId);
         Assert.Equal("Enemy", pack.Templates.Abilities[0].Targeting.AllowedTarget);
 

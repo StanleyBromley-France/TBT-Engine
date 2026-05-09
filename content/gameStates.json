@@ -1,0 +1,56 @@
+[
+  {
+    "id": "refined-scenario-1",
+    "mapGen": {
+      "width": 6,
+      "height": 4,
+      "tileDistribution": {
+        "Plain": 0.8,
+        "Mountain": 0.12,
+        "Water": 0.08
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      {
+        "id": "unit-tank-one",
+        "teamId": 1,
+        "q": 0,
+        "r": 1
+      },
+      {
+        "id": "unit-healer-buffer-one",
+        "teamId": 1,
+        "q": 1,
+        "r": 2
+      },
+      {
+        "id": "unit-damage-debuffer-one",
+        "teamId": 1,
+        "q": 0,
+        "r": 3
+      },
+      {
+        "id": "unit-tank-debuffer-one",
+        "teamId": 2,
+        "q": 5,
+        "r": -1
+      },
+      {
+        "id": "unit-healer-one",
+        "teamId": 2,
+        "q": 4,
+        "r": 0
+      },
+      {
+        "id": "unit-damage-acrobat-one",
+        "teamId": 2,
+        "q": 5,
+        "r": 1
+      }
+    ]
+  }
+]

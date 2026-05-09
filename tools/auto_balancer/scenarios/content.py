@@ -118,6 +118,20 @@ def update_ability_mana_costs(
     write_json_array(abilities_path, abilities)
 
 
+def update_ability_targeting_ranges(
+    content_path: Path,
+    range_updates: dict[str, int],
+) -> None:
+    abilities_path = content_path / ABILITIES_FILE_NAME
+    abilities = load_json_array(abilities_path)
+    for ability in abilities:
+        ability_id = ability.get("id")
+        targeting = ability.get("targeting")
+        if ability_id in range_updates and isinstance(targeting, dict):
+            targeting["range"] = range_updates[ability_id]
+    write_json_array(abilities_path, abilities)
+
+
 def load_unit_templates(content_path: Path) -> list[dict]:
     return load_json_array(content_path / UNIT_TEMPLATES_FILE_NAME)
 

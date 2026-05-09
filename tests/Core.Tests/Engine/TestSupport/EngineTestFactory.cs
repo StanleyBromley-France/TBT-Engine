@@ -37,7 +37,7 @@ internal static class EngineTestFactory
         return new Ability(
             new AbilityId(id),
             id,
-            AbilityCategory.OffensiveSpell,
+            AbilityCategory.Ranged,
             manaCost,
             new TargetingRules(range, requiresLos, targetType, radius),
             new EffectTemplateId(effectId ?? $"{id}-effect"));

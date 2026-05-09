@@ -1,0 +1,1874 @@
+[
+  {
+    "id": "ability-tank-one-basic-strike",
+    "name": "Tank One Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-one-basic-strike"
+  },
+  {
+    "id": "ability-tank-one-heavy-strike",
+    "name": "Tank One Heavy Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-one-heavy-strike"
+  },
+  {
+    "id": "ability-tank-one-follow-up-strike",
+    "name": "Tank One Follow Up Strike",
+    "category": "Melee",
+    "manaCost": 60,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-one-follow-up-strike"
+  },
+  {
+    "id": "ability-tank-two-basic-strike",
+    "name": "Tank Two Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-two-basic-strike"
+  },
+  {
+    "id": "ability-tank-two-area-strike",
+    "name": "Tank Two Area Strike",
+    "category": "Melee",
+    "manaCost": 40,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-two-area-strike"
+  },
+  {
+    "id": "ability-tank-two-follow-up-strike",
+    "name": "Tank Two Follow Up Strike",
+    "category": "Melee",
+    "manaCost": 70,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-two-follow-up-strike"
+  },
+  {
+    "id": "ability-tank-three-basic-strike",
+    "name": "Tank Three Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-three-basic-strike"
+  },
+  {
+    "id": "ability-tank-three-heavy-strike",
+    "name": "Tank Three Heavy Strike",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-three-heavy-strike"
+  },
+  {
+    "id": "ability-tank-three-follow-up-strike",
+    "name": "Tank Three Follow Up Strike",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-three-follow-up-strike"
+  },
+  {
+    "id": "ability-tank-four-basic-strike",
+    "name": "Tank Four Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-four-basic-strike"
+  },
+  {
+    "id": "ability-tank-four-area-strike",
+    "name": "Tank Four Area Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-four-area-strike"
+  },
+  {
+    "id": "ability-tank-four-follow-up-strike",
+    "name": "Tank Four Follow Up Strike",
+    "category": "Melee",
+    "manaCost": 60,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-four-follow-up-strike"
+  },
+  {
+    "id": "ability-tank-buffer-one-basic-strike",
+    "name": "Tank Buffer One Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-buffer-one-basic-strike"
+  },
+  {
+    "id": "ability-tank-buffer-one-heavy-strike",
+    "name": "Tank Buffer One Heavy Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-buffer-one-heavy-strike"
+  },
+  {
+    "id": "ability-tank-buffer-one-damage-buff",
+    "name": "Tank Buffer One Damage Buff",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-buffer-one-damage-buff"
+  },
+  {
+    "id": "ability-tank-buffer-two-basic-strike",
+    "name": "Tank Buffer Two Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-buffer-two-basic-strike"
+  },
+  {
+    "id": "ability-tank-buffer-two-area-strike",
+    "name": "Tank Buffer Two Area Strike",
+    "category": "Melee",
+    "manaCost": 40,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-buffer-two-area-strike"
+  },
+  {
+    "id": "ability-tank-buffer-two-healing-buff",
+    "name": "Tank Buffer Two Healing Buff",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-buffer-two-healing-buff"
+  },
+  {
+    "id": "ability-tank-buffer-three-basic-strike",
+    "name": "Tank Buffer Three Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-buffer-three-basic-strike"
+  },
+  {
+    "id": "ability-tank-buffer-three-heavy-strike",
+    "name": "Tank Buffer Three Heavy Strike",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-buffer-three-heavy-strike"
+  },
+  {
+    "id": "ability-tank-buffer-three-physical-defense-buff",
+    "name": "Tank Buffer Three Physical Defense Buff",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-buffer-three-physical-defense-buff"
+  },
+  {
+    "id": "ability-tank-buffer-four-basic-strike",
+    "name": "Tank Buffer Four Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-buffer-four-basic-strike"
+  },
+  {
+    "id": "ability-tank-buffer-four-area-strike",
+    "name": "Tank Buffer Four Area Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-buffer-four-area-strike"
+  },
+  {
+    "id": "ability-tank-buffer-four-movement-buff",
+    "name": "Tank Buffer Four Movement Buff",
+    "category": "Ranged",
+    "manaCost": 80,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-buffer-four-movement-buff"
+  },
+  {
+    "id": "ability-tank-debuffer-one-basic-strike",
+    "name": "Tank Debuffer One Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-one-basic-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-one-heavy-strike",
+    "name": "Tank Debuffer One Heavy Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-one-heavy-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-one-damage-debuff",
+    "name": "Tank Debuffer One Damage Debuff",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-one-damage-debuff"
+  },
+  {
+    "id": "ability-tank-debuffer-two-basic-strike",
+    "name": "Tank Debuffer Two Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-two-basic-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-two-area-strike",
+    "name": "Tank Debuffer Two Area Strike",
+    "category": "Melee",
+    "manaCost": 40,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-debuffer-two-area-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-two-physical-defense-debuff",
+    "name": "Tank Debuffer Two Physical Defense Debuff",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-two-physical-defense-debuff"
+  },
+  {
+    "id": "ability-tank-debuffer-three-basic-strike",
+    "name": "Tank Debuffer Three Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-three-basic-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-three-heavy-strike",
+    "name": "Tank Debuffer Three Heavy Strike",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-three-heavy-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-three-healing-received-debuff",
+    "name": "Tank Debuffer Three Healing Received Debuff",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-three-healing-received-debuff"
+  },
+  {
+    "id": "ability-tank-debuffer-four-basic-strike",
+    "name": "Tank Debuffer Four Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-debuffer-four-basic-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-four-area-strike",
+    "name": "Tank Debuffer Four Area Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-debuffer-four-area-strike"
+  },
+  {
+    "id": "ability-tank-debuffer-four-movement-debuff",
+    "name": "Tank Debuffer Four Movement Debuff",
+    "category": "Ranged",
+    "manaCost": 80,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-debuffer-four-movement-debuff"
+  },
+  {
+    "id": "ability-tank-acrobat-one-basic-strike",
+    "name": "Tank Acrobat One Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-one-basic-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-one-heavy-strike",
+    "name": "Tank Acrobat One Heavy Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-one-heavy-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-one-mobile-attack",
+    "name": "Tank Acrobat One Mobile Attack",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-one-mobile-attack"
+  },
+  {
+    "id": "ability-tank-acrobat-two-basic-strike",
+    "name": "Tank Acrobat Two Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-two-basic-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-two-area-strike",
+    "name": "Tank Acrobat Two Area Strike",
+    "category": "Melee",
+    "manaCost": 40,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-acrobat-two-area-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-two-reposition-attack",
+    "name": "Tank Acrobat Two Reposition Attack",
+    "category": "Melee",
+    "manaCost": 60,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-two-reposition-attack"
+  },
+  {
+    "id": "ability-tank-acrobat-three-basic-strike",
+    "name": "Tank Acrobat Three Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-three-basic-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-three-heavy-strike",
+    "name": "Tank Acrobat Three Heavy Strike",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-three-heavy-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-three-mobile-attack",
+    "name": "Tank Acrobat Three Mobile Attack",
+    "category": "Melee",
+    "manaCost": 70,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-three-mobile-attack"
+  },
+  {
+    "id": "ability-tank-acrobat-four-basic-strike",
+    "name": "Tank Acrobat Four Basic Strike",
+    "category": "Melee",
+    "manaCost": 0,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-tank-acrobat-four-basic-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-four-area-strike",
+    "name": "Tank Acrobat Four Area Strike",
+    "category": "Melee",
+    "manaCost": 30,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": false,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-acrobat-four-area-strike"
+  },
+  {
+    "id": "ability-tank-acrobat-four-reposition-attack",
+    "name": "Tank Acrobat Four Reposition Attack",
+    "category": "Melee",
+    "manaCost": 50,
+    "targeting": {
+      "range": 1,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-tank-acrobat-four-reposition-attack"
+  },
+  {
+    "id": "ability-damage-one-basic-shot",
+    "name": "Damage One Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-one-basic-shot"
+  },
+  {
+    "id": "ability-damage-one-heavy-shot",
+    "name": "Damage One Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-one-heavy-shot"
+  },
+  {
+    "id": "ability-damage-one-finishing-shot",
+    "name": "Damage One Finishing Shot",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-one-finishing-shot"
+  },
+  {
+    "id": "ability-damage-two-basic-shot",
+    "name": "Damage Two Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-two-basic-shot"
+  },
+  {
+    "id": "ability-damage-two-area-shot",
+    "name": "Damage Two Area Shot",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-two-area-shot"
+  },
+  {
+    "id": "ability-damage-two-finishing-shot",
+    "name": "Damage Two Finishing Shot",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-two-finishing-shot"
+  },
+  {
+    "id": "ability-damage-three-basic-shot",
+    "name": "Damage Three Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-three-basic-shot"
+  },
+  {
+    "id": "ability-damage-three-heavy-shot",
+    "name": "Damage Three Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-three-heavy-shot"
+  },
+  {
+    "id": "ability-damage-three-finishing-shot",
+    "name": "Damage Three Finishing Shot",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-three-finishing-shot"
+  },
+  {
+    "id": "ability-damage-four-basic-shot",
+    "name": "Damage Four Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-four-basic-shot"
+  },
+  {
+    "id": "ability-damage-four-area-shot",
+    "name": "Damage Four Area Shot",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-four-area-shot"
+  },
+  {
+    "id": "ability-damage-four-finishing-shot",
+    "name": "Damage Four Finishing Shot",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-four-finishing-shot"
+  },
+  {
+    "id": "ability-damage-buffer-one-basic-shot",
+    "name": "Damage Buffer One Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-buffer-one-basic-shot"
+  },
+  {
+    "id": "ability-damage-buffer-one-heavy-shot",
+    "name": "Damage Buffer One Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-buffer-one-heavy-shot"
+  },
+  {
+    "id": "ability-damage-buffer-one-damage-buff",
+    "name": "Damage Buffer One Damage Buff",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-buffer-one-damage-buff"
+  },
+  {
+    "id": "ability-damage-buffer-two-basic-shot",
+    "name": "Damage Buffer Two Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-buffer-two-basic-shot"
+  },
+  {
+    "id": "ability-damage-buffer-two-area-shot",
+    "name": "Damage Buffer Two Area Shot",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-buffer-two-area-shot"
+  },
+  {
+    "id": "ability-damage-buffer-two-healing-buff",
+    "name": "Damage Buffer Two Healing Buff",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-buffer-two-healing-buff"
+  },
+  {
+    "id": "ability-damage-buffer-three-basic-shot",
+    "name": "Damage Buffer Three Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-buffer-three-basic-shot"
+  },
+  {
+    "id": "ability-damage-buffer-three-heavy-shot",
+    "name": "Damage Buffer Three Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-buffer-three-heavy-shot"
+  },
+  {
+    "id": "ability-damage-buffer-three-physical-defense-buff",
+    "name": "Damage Buffer Three Physical Defense Buff",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-buffer-three-physical-defense-buff"
+  },
+  {
+    "id": "ability-damage-buffer-four-basic-shot",
+    "name": "Damage Buffer Four Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-buffer-four-basic-shot"
+  },
+  {
+    "id": "ability-damage-buffer-four-area-shot",
+    "name": "Damage Buffer Four Area Shot",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-buffer-four-area-shot"
+  },
+  {
+    "id": "ability-damage-buffer-four-movement-buff",
+    "name": "Damage Buffer Four Movement Buff",
+    "category": "Ranged",
+    "manaCost": 80,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-buffer-four-movement-buff"
+  },
+  {
+    "id": "ability-damage-debuffer-one-basic-shot",
+    "name": "Damage Debuffer One Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-one-basic-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-one-heavy-shot",
+    "name": "Damage Debuffer One Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-one-heavy-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-one-damage-debuff",
+    "name": "Damage Debuffer One Damage Debuff",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-one-damage-debuff"
+  },
+  {
+    "id": "ability-damage-debuffer-two-basic-shot",
+    "name": "Damage Debuffer Two Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-two-basic-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-two-area-shot",
+    "name": "Damage Debuffer Two Area Shot",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-debuffer-two-area-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-two-physical-defense-debuff",
+    "name": "Damage Debuffer Two Physical Defense Debuff",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-two-physical-defense-debuff"
+  },
+  {
+    "id": "ability-damage-debuffer-three-basic-shot",
+    "name": "Damage Debuffer Three Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-three-basic-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-three-heavy-shot",
+    "name": "Damage Debuffer Three Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-three-heavy-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-three-healing-received-debuff",
+    "name": "Damage Debuffer Three Healing Received Debuff",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-three-healing-received-debuff"
+  },
+  {
+    "id": "ability-damage-debuffer-four-basic-shot",
+    "name": "Damage Debuffer Four Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-debuffer-four-basic-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-four-area-shot",
+    "name": "Damage Debuffer Four Area Shot",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-debuffer-four-area-shot"
+  },
+  {
+    "id": "ability-damage-debuffer-four-movement-debuff",
+    "name": "Damage Debuffer Four Movement Debuff",
+    "category": "Ranged",
+    "manaCost": 80,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-debuffer-four-movement-debuff"
+  },
+  {
+    "id": "ability-damage-acrobat-one-basic-shot",
+    "name": "Damage Acrobat One Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-one-basic-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-one-heavy-shot",
+    "name": "Damage Acrobat One Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-one-heavy-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-one-mobile-attack",
+    "name": "Damage Acrobat One Mobile Attack",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-one-mobile-attack"
+  },
+  {
+    "id": "ability-damage-acrobat-two-basic-shot",
+    "name": "Damage Acrobat Two Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-two-basic-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-two-area-shot",
+    "name": "Damage Acrobat Two Area Shot",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-acrobat-two-area-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-two-reposition-attack",
+    "name": "Damage Acrobat Two Reposition Attack",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-two-reposition-attack"
+  },
+  {
+    "id": "ability-damage-acrobat-three-basic-shot",
+    "name": "Damage Acrobat Three Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-three-basic-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-three-heavy-shot",
+    "name": "Damage Acrobat Three Heavy Shot",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-three-heavy-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-three-mobile-attack",
+    "name": "Damage Acrobat Three Mobile Attack",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-three-mobile-attack"
+  },
+  {
+    "id": "ability-damage-acrobat-four-basic-shot",
+    "name": "Damage Acrobat Four Basic Shot",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-damage-acrobat-four-basic-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-four-area-shot",
+    "name": "Damage Acrobat Four Area Shot",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-acrobat-four-area-shot"
+  },
+  {
+    "id": "ability-damage-acrobat-four-reposition-attack",
+    "name": "Damage Acrobat Four Reposition Attack",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-damage-acrobat-four-reposition-attack"
+  },
+  {
+    "id": "ability-healer-one-basic-bolt",
+    "name": "Healer One Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-one-basic-bolt"
+  },
+  {
+    "id": "ability-healer-one-direct-heal",
+    "name": "Healer One Direct Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-one-direct-heal"
+  },
+  {
+    "id": "ability-healer-one-defensive-bolt",
+    "name": "Healer One Defensive Bolt",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-one-defensive-bolt"
+  },
+  {
+    "id": "ability-healer-two-basic-bolt",
+    "name": "Healer Two Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-two-basic-bolt"
+  },
+  {
+    "id": "ability-healer-two-ongoing-heal",
+    "name": "Healer Two Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-two-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-two-defensive-bolt",
+    "name": "Healer Two Defensive Bolt",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-two-defensive-bolt"
+  },
+  {
+    "id": "ability-healer-three-basic-bolt",
+    "name": "Healer Three Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-three-basic-bolt"
+  },
+  {
+    "id": "ability-healer-three-direct-heal",
+    "name": "Healer Three Direct Heal",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-three-direct-heal"
+  },
+  {
+    "id": "ability-healer-three-defensive-bolt",
+    "name": "Healer Three Defensive Bolt",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-three-defensive-bolt"
+  },
+  {
+    "id": "ability-healer-four-basic-bolt",
+    "name": "Healer Four Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-four-basic-bolt"
+  },
+  {
+    "id": "ability-healer-four-ongoing-heal",
+    "name": "Healer Four Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-four-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-four-defensive-bolt",
+    "name": "Healer Four Defensive Bolt",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-four-defensive-bolt"
+  },
+  {
+    "id": "ability-healer-buffer-one-basic-bolt",
+    "name": "Healer Buffer One Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-one-basic-bolt"
+  },
+  {
+    "id": "ability-healer-buffer-one-direct-heal",
+    "name": "Healer Buffer One Direct Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-one-direct-heal"
+  },
+  {
+    "id": "ability-healer-buffer-one-damage-buff",
+    "name": "Healer Buffer One Damage Buff",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-buffer-one-damage-buff"
+  },
+  {
+    "id": "ability-healer-buffer-two-basic-bolt",
+    "name": "Healer Buffer Two Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-two-basic-bolt"
+  },
+  {
+    "id": "ability-healer-buffer-two-ongoing-heal",
+    "name": "Healer Buffer Two Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-two-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-buffer-two-healing-buff",
+    "name": "Healer Buffer Two Healing Buff",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-buffer-two-healing-buff"
+  },
+  {
+    "id": "ability-healer-buffer-three-basic-bolt",
+    "name": "Healer Buffer Three Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-three-basic-bolt"
+  },
+  {
+    "id": "ability-healer-buffer-three-direct-heal",
+    "name": "Healer Buffer Three Direct Heal",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-three-direct-heal"
+  },
+  {
+    "id": "ability-healer-buffer-three-physical-defense-buff",
+    "name": "Healer Buffer Three Physical Defense Buff",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-buffer-three-physical-defense-buff"
+  },
+  {
+    "id": "ability-healer-buffer-four-basic-bolt",
+    "name": "Healer Buffer Four Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-four-basic-bolt"
+  },
+  {
+    "id": "ability-healer-buffer-four-ongoing-heal",
+    "name": "Healer Buffer Four Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-buffer-four-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-buffer-four-movement-buff",
+    "name": "Healer Buffer Four Movement Buff",
+    "category": "Ranged",
+    "manaCost": 80,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-buffer-four-movement-buff"
+  },
+  {
+    "id": "ability-healer-debuffer-one-basic-bolt",
+    "name": "Healer Debuffer One Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-one-basic-bolt"
+  },
+  {
+    "id": "ability-healer-debuffer-one-direct-heal",
+    "name": "Healer Debuffer One Direct Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-one-direct-heal"
+  },
+  {
+    "id": "ability-healer-debuffer-one-damage-debuff",
+    "name": "Healer Debuffer One Damage Debuff",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-one-damage-debuff"
+  },
+  {
+    "id": "ability-healer-debuffer-two-basic-bolt",
+    "name": "Healer Debuffer Two Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-two-basic-bolt"
+  },
+  {
+    "id": "ability-healer-debuffer-two-ongoing-heal",
+    "name": "Healer Debuffer Two Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-two-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-debuffer-two-physical-defense-debuff",
+    "name": "Healer Debuffer Two Physical Defense Debuff",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-two-physical-defense-debuff"
+  },
+  {
+    "id": "ability-healer-debuffer-three-basic-bolt",
+    "name": "Healer Debuffer Three Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-three-basic-bolt"
+  },
+  {
+    "id": "ability-healer-debuffer-three-direct-heal",
+    "name": "Healer Debuffer Three Direct Heal",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-three-direct-heal"
+  },
+  {
+    "id": "ability-healer-debuffer-three-healing-received-debuff",
+    "name": "Healer Debuffer Three Healing Received Debuff",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-three-healing-received-debuff"
+  },
+  {
+    "id": "ability-healer-debuffer-four-basic-bolt",
+    "name": "Healer Debuffer Four Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-four-basic-bolt"
+  },
+  {
+    "id": "ability-healer-debuffer-four-ongoing-heal",
+    "name": "Healer Debuffer Four Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-debuffer-four-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-debuffer-four-movement-debuff",
+    "name": "Healer Debuffer Four Movement Debuff",
+    "category": "Ranged",
+    "manaCost": 80,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-debuffer-four-movement-debuff"
+  },
+  {
+    "id": "ability-healer-acrobat-one-basic-bolt",
+    "name": "Healer Acrobat One Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-one-basic-bolt"
+  },
+  {
+    "id": "ability-healer-acrobat-one-direct-heal",
+    "name": "Healer Acrobat One Direct Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-one-direct-heal"
+  },
+  {
+    "id": "ability-healer-acrobat-one-mobile-attack",
+    "name": "Healer Acrobat One Mobile Attack",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-one-mobile-attack"
+  },
+  {
+    "id": "ability-healer-acrobat-two-basic-bolt",
+    "name": "Healer Acrobat Two Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-two-basic-bolt"
+  },
+  {
+    "id": "ability-healer-acrobat-two-ongoing-heal",
+    "name": "Healer Acrobat Two Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-two-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-acrobat-two-reposition-attack",
+    "name": "Healer Acrobat Two Reposition Attack",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-two-reposition-attack"
+  },
+  {
+    "id": "ability-healer-acrobat-three-basic-bolt",
+    "name": "Healer Acrobat Three Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-three-basic-bolt"
+  },
+  {
+    "id": "ability-healer-acrobat-three-direct-heal",
+    "name": "Healer Acrobat Three Direct Heal",
+    "category": "Ranged",
+    "manaCost": 60,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-three-direct-heal"
+  },
+  {
+    "id": "ability-healer-acrobat-three-mobile-attack",
+    "name": "Healer Acrobat Three Mobile Attack",
+    "category": "Ranged",
+    "manaCost": 70,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-three-mobile-attack"
+  },
+  {
+    "id": "ability-healer-acrobat-four-basic-bolt",
+    "name": "Healer Acrobat Four Basic Bolt",
+    "category": "Ranged",
+    "manaCost": 0,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-four-basic-bolt"
+  },
+  {
+    "id": "ability-healer-acrobat-four-ongoing-heal",
+    "name": "Healer Acrobat Four Ongoing Heal",
+    "category": "Ranged",
+    "manaCost": 40,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Ally",
+      "radius": 0
+    },
+    "effectTemplateId": "effect-healer-acrobat-four-ongoing-heal"
+  },
+  {
+    "id": "ability-healer-acrobat-four-reposition-attack",
+    "name": "Healer Acrobat Four Reposition Attack",
+    "category": "Ranged",
+    "manaCost": 50,
+    "targeting": {
+      "range": 4,
+      "requiresLineOfSight": true,
+      "allowedTarget": "Enemy",
+      "radius": 1
+    },
+    "effectTemplateId": "effect-healer-acrobat-four-reposition-attack"
+  }
+]

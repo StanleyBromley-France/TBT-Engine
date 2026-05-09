@@ -1,14 +1,12 @@
 ﻿namespace Core.Domain.Abilities;
 
 /// <summary>
-/// Categorizes abilities by their general purpose or behavior
+/// Categorizes abilities by their targeting reach.
 /// </summary>
 public enum AbilityCategory
 {
-    MeleeAttack,
-    RangedAttack,
-    OffensiveSpell,
-    DefensiveSpell,
-    Utility
+    Melee,
+    Ranged,
+    Self
 }
 

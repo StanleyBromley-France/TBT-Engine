@@ -31,7 +31,8 @@
         "damage_damage_percent",
         "buffer_modifier_percent",
         "debuffer_modifier_percent",
-        "mana_cost_percent"
+        "mana_cost_percent",
+        "ranged_range_delta"
       ]
     }
   },
@@ -40,31 +41,74 @@
       "mode": "apply_modifiers_to_each_matching_unit_template",
       "bounds_by_primary_role": {
         "Tank": {
-          "max_hp_multiplier_percent": [50, 150],
-          "max_mana_points_multiplier_percent": [50, 150],
-          "move_points_additive_delta": [-2, 5],
-          "physical_damage_received_additive_delta": [-15, 15],
-          "magic_damage_received_additive_delta": [-15, 15]
+          "max_hp_multiplier_percent": [
+            50,
+            150
+          ],
+          "max_mana_points_multiplier_percent": [
+            50,
+            150
+          ],
+          "move_points_additive_delta": [
+            -1,
+            3
+          ],
+          "physical_damage_received_additive_delta": [
+            -15,
+            15
+          ],
+          "magic_damage_received_additive_delta": [
+            -15,
+            15
+          ]
         },
         "Healer": {
-          "max_hp_multiplier_percent": [50, 150],
-          "max_mana_points_multiplier_percent": [50, 150],
-          "move_points_additive_delta": [-2, 5],
-          "physical_damage_received_additive_delta": [-10, 15],
-          "magic_damage_received_additive_delta": [-15, 10]
+          "max_hp_multiplier_percent": [
+            50,
+            150
+          ],
+          "max_mana_points_multiplier_percent": [
+            50,
+            150
+          ],
+          "move_points_additive_delta": [
+            -1,
+            3
+          ],
+          "physical_damage_received_additive_delta": [
+            -10,
+            15
+          ],
+          "magic_damage_received_additive_delta": [
+            -15,
+            10
+          ]
         },
         "Damage": {
-          "max_hp_multiplier_percent": [50, 150],
-          "max_mana_points_multiplier_percent": [50, 150],
-          "move_points_additive_delta": [-2, 5],
-          "physical_damage_received_additive_delta": [-10, 20],
-          "magic_damage_received_additive_delta": [-10, 20]
+          "max_hp_multiplier_percent": [
+            50,
+            150
+          ],
+          "max_mana_points_multiplier_percent": [
+            50,
+            150
+          ],
+          "move_points_additive_delta": [
+            -1,
+            3
+          ],
+          "physical_damage_received_additive_delta": [
+            -10,
+            20
+          ],
+          "magic_damage_received_additive_delta": [
+            -10,
+            20
+          ]
         }
       },
       "absolute_floors": {
-        "max_hp": 20,
-        "max_mana_points": 10,
-        "move_points": 2,
+        "move_points": 1,
         "physical_damage_received_percent": 50,
         "magic_damage_received_percent": 50
       },
@@ -75,62 +119,124 @@
     },
     "ability_effect_groups": {
       "mode": "apply_global_multipliers_to_matching_ability_values",
-      "component_value_multiplier_percent": [50, 150],
-      "modifier_value_multiplier_percent": [50, 150],
-      "mana_cost_multiplier_percent": [50, 150],
+      "component_value_multiplier_percent": [
+        50,
+        150
+      ],
+      "modifier_value_multiplier_percent": [
+        50,
+        150
+      ],
+      "mana_cost_multiplier_percent": [
+        50,
+        150
+      ],
+      "ranged_range_additive_delta": [
+        -1,
+        1
+      ],
+      "range_floor": 1,
+      "range_ceiling": 5,
       "floors": {
-        "damage": 4,
-        "heal": 4,
-        "percent_modifier_abs": 5,
-        "flat_modifier_abs": 1,
-        "mana_cost": 2
+        "flat_modifier_abs": 1
       }
     }
   },
   "targets": {
     "match_flow": {
-      "attacker_win_rate": [0.55, 0.65],
-      "turn_limit_rate": [0.05, 0.15],
-      "average_attacker_turn_count": [7.0, 10.0]
+      "attacker_win_rate": [
+        0.55,
+        0.65
+      ],
+      "turn_limit_rate": [
+        0.05,
+        0.15
+      ],
+      "average_attacker_turn_count": [
+        7,
+        10
+      ]
     },
     "primary_role_identity": {
-      "tank_survival_rate": [0.30, 0.65],
-      "tank_average_damage_taken": [40.0, 150.0],
-      "tank_average_damage_dealt": [12.0, 55.0],
-      "healer_average_healing_done": [28.0, 115.0],
-      "damage_average_damage_dealt": [50.0, 185.0]
+      "tank_survival_rate": [
+        0.3,
+        0.65
+      ],
+      "tank_damage_taken_to_non_tank_ratio": [
+        1.25,
+        2.5
+      ],
+      "tank_damage_dealt_to_damage_ratio": [
+        0.25,
+        0.75
+      ],
+      "healer_healing_to_average_damage_taken_ratio": [
+        0.25,
+        1.1
+      ],
+      "damage_damage_dealt_to_non_damage_ratio": [
+        1.3,
+        3
+      ]
     },
     "secondary_role_identity": {
-      "buffer_average_buff_uptime": [2.0, 15.0],
-      "debuffer_average_debuff_uptime": [2.0, 15.0],
-      "all_units_average_tiles_moved_total": [16.0, 34.0],
-      "non_acrobat_average_tiles_moved_total": [15.0, 30.0],
-      "acrobat_average_tiles_moved_total": [20.0, 45.0],
-      "acrobat_to_non_acrobat_move_ratio": [1.3, 1.5]
+      "buffer_average_buff_uptime": [
+        2,
+        15
+      ],
+      "debuffer_average_debuff_uptime": [
+        2,
+        15
+      ],
+      "all_units_average_tiles_moved_total": [
+        8,
+        17
+      ],
+      "non_acrobat_average_tiles_moved_total": [
+        7.5,
+        15
+      ],
+      "acrobat_average_tiles_moved_total": [
+        10,
+        22.5
+      ],
+      "acrobat_to_non_acrobat_move_ratio": [
+        1.3,
+        1.5
+      ]
     },
     "role_profile_fairness": {
-      "role_combination_win_rate": [0.40, 0.70],
-      "primary_family_win_rate_spread_max": 0.20,
-      "secondary_family_win_rate_spread_max": 0.20
+      "role_combination_win_rate": [
+        0.4,
+        0.7
+      ],
+      "primary_family_win_rate_spread_max": 0.2,
+      "secondary_family_win_rate_spread_max": 0.2
     },
     "change_shape": {
-      "ability_pct_change_std_dev": [0.05, 0.20],
-      "unit_stat_profile_spread_target": [0.05, 0.30]
+      "ability_pct_change_std_dev": [
+        0.05,
+        0.2
+      ],
+      "unit_stat_profile_spread_target": [
+        0.05,
+        0.3
+      ]
     }
   },
   "fitness_weights": {
     "match_flow": 0.25,
     "primary_role_identity": 0.25,
-    "secondary_role_identity": 0.20,
-    "role_profile_fairness": 0.20,
-    "change_shape": 0.10
+    "secondary_role_identity": 0.2,
+    "role_profile_fairness": 0.2,
+    "change_shape": 0.1
   },
   "mutation": {
-    "unit_profile_modifier_gene_probability": 0.70,
-    "ability_group_gene_probability": 0.80,
-    "small_step_probability": 0.70,
-    "random_reset_probability": 0.20,
-    "profile_block_mutation_probability": 0.10,
+    "unit_profile_modifier_gene_probability": 0.7,
+    "ability_group_gene_probability": 0.8,
+    "small_step_probability": 0.7,
+    "random_reset_probability": 0.2,
+    "profile_block_mutation_probability": 0.1,
     "stat_step_divisor": 8,
     "ability_step_divisor": 8
   }

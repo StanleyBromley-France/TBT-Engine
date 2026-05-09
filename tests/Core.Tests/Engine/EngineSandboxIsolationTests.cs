@@ -27,7 +27,7 @@ public class EngineSandboxIsolationTests
         var ability = new Ability(
             abilityId,
             "Strike",
-            AbilityCategory.OffensiveSpell,
+            AbilityCategory.Ranged,
             cost: 0,
             targeting: new TargetingRules(range: 1, requiresLineOfSight: false, allowedTarget: TargetType.Enemy, radius: 0),
             effect: effectId);
@@ -61,7 +61,7 @@ public class EngineSandboxIsolationTests
         var ability = new Ability(
             abilityId,
             "Strike",
-            AbilityCategory.OffensiveSpell,
+            AbilityCategory.Ranged,
             cost: 0,
             targeting: new TargetingRules(range: 1, requiresLineOfSight: false, allowedTarget: TargetType.Enemy, radius: 0),
             effect: effectId);

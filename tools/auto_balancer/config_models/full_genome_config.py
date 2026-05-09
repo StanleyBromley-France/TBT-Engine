@@ -56,8 +56,6 @@ class UnitStatModifierBoundsByPrimaryRole:
 
 @dataclass(frozen=True)
 class UnitStatModifierFloors:
-    max_hp: int
-    max_mana_points: int
     move_points: int
     physical_damage_received_percent: int
     magic_damage_received_percent: int
@@ -79,11 +77,7 @@ class UnitStatProfileModifiersSearchSpaceConfig:
 
 @dataclass(frozen=True)
 class AbilityEffectGroupFloors:
-    damage: int
-    heal: int
-    percent_modifier_abs: int
     flat_modifier_abs: int
-    mana_cost: int
 
 
 @dataclass(frozen=True)
@@ -92,6 +86,9 @@ class AbilityEffectGroupsSearchSpaceConfig:
     component_value_multiplier_percent: tuple[int, int]
     modifier_value_multiplier_percent: tuple[int, int]
     mana_cost_multiplier_percent: tuple[int, int]
+    ranged_range_additive_delta: tuple[int, int]
+    range_floor: int
+    range_ceiling: int
     floors: AbilityEffectGroupFloors
 
 
@@ -111,10 +108,10 @@ class MatchFlowTargets:
 @dataclass(frozen=True)
 class PrimaryRoleIdentityTargets:
     tank_survival_rate: tuple[float, float]
-    tank_average_damage_taken: tuple[float, float]
-    tank_average_damage_dealt: tuple[float, float]
-    healer_average_healing_done: tuple[float, float]
-    damage_average_damage_dealt: tuple[float, float]
+    tank_damage_taken_to_non_tank_ratio: tuple[float, float]
+    tank_damage_dealt_to_damage_ratio: tuple[float, float]
+    healer_healing_to_average_damage_taken_ratio: tuple[float, float]
+    damage_damage_dealt_to_non_damage_ratio: tuple[float, float]
 
 
 @dataclass(frozen=True)

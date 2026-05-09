@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from auto_balancer.runtime.paths import DEFAULT_GA_CONTENT_DIR, REPO_ROOT
+from auto_balancer.runtime.paths import DEFAULT_CONTENT_DIR, REPO_ROOT
 
 
 def resolve_cli_path(cli_path: Path | None) -> Path:
@@ -33,14 +33,14 @@ def resolve_content_path(content_path: Path | None, cli_path: Path) -> Path:
             raise FileNotFoundError(f"Content directory was not found: {resolved}")
         return resolved
 
-    if DEFAULT_GA_CONTENT_DIR.is_dir():
-        return DEFAULT_GA_CONTENT_DIR
+    if DEFAULT_CONTENT_DIR.is_dir():
+        return DEFAULT_CONTENT_DIR
 
     default_content = cli_path.parent / "content"
     if default_content.is_dir():
         return default_content
 
     raise FileNotFoundError(
-        "Could not find a GA content directory at "
-        f"{DEFAULT_GA_CONTENT_DIR} or a content directory next to the CLI binary at {default_content}."
+        "Could not find a content directory at "
+        f"{DEFAULT_CONTENT_DIR} or a content directory next to the CLI binary at {default_content}."
     )

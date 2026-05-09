@@ -31,7 +31,7 @@ public sealed class TemplateRegistryBuilderTests
         {
             Id = "ability-broken",
             Name = "Broken",
-            Category = "MeleeAttack",
+            Category = "Melee",
             ManaCost = 1,
             Targeting = new TargetingRulesConfig
             {
@@ -122,7 +122,7 @@ public sealed class TemplateRegistryBuilderTests
                 {
                     Id = "ability-1",
                     Name = "Strike",
-                    Category = "MeleeAttack",
+                    Category = "Melee",
                     ManaCost = 2,
                     Targeting = new TargetingRulesConfig
                     {

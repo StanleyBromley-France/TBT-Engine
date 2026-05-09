@@ -4,7 +4,7 @@
 This module treats the genome as modifiers over the authored content:
 
 * five unit-stat modifier genes for each configured unit profile
-* one global multiplier gene for each configured ability-effect group
+* one global multiplier or additive-delta gene for each configured ability group
 """
 from __future__ import annotations
 
@@ -59,6 +59,8 @@ MODIFIER_VALUE_GROUPS = frozenset(
     }
 )
 MANA_COST_GROUP = "mana_cost_percent"
+RANGED_RANGE_GROUP = "ranged_range_delta"
+RANGE_DELTA_GROUPS = frozenset({RANGED_RANGE_GROUP})
 
 
 class FullGenomeWorkflow(CandidateWorkflow[FullGenomeCandidate, FullGenomeMeasurement]):
@@ -183,6 +185,7 @@ def validate_candidate_layout(config: config_models.FullGenomeBalancerConfig) ->
         for group in balance.genome.ability_effect_groups.group_order
         if group not in COMPONENT_VALUE_GROUPS
         and group not in MODIFIER_VALUE_GROUPS
+        and group not in RANGE_DELTA_GROUPS
         and group != MANA_COST_GROUP
     ]
     if unknown_groups:
@@ -210,7 +213,10 @@ def build_neutral_candidate(config: config_models.FullGenomeBalancerConfig) -> F
     for _ in config.balance.genome.unit_stat_profile_modifiers.profile_order:
         unit_genes.extend([100, 100, 0, 0, 0])
 
-    ability_genes = [100 for _ in config.balance.genome.ability_effect_groups.group_order]
+    ability_genes = [
+        0 if group_name in RANGE_DELTA_GROUPS else 100
+        for group_name in config.balance.genome.ability_effect_groups.group_order
+    ]
     return tuple(unit_genes + ability_genes)
 
 
@@ -296,6 +302,8 @@ def normalize_ability_group_multiplier(
         return ga.bounded_integer(multiplier, *search_space.modifier_value_multiplier_percent)
     if group_name == MANA_COST_GROUP:
         return ga.bounded_integer(multiplier, *search_space.mana_cost_multiplier_percent)
+    if group_name in RANGE_DELTA_GROUPS:
+        return ga.bounded_integer(multiplier, *get_range_delta_bounds(search_space, group_name))
     raise ValueError(f"Unknown full-genome ability group: {group_name!r}.")
 
 
@@ -354,6 +362,8 @@ def random_ability_group_multiplier(
         return rng.randint(*search_space.modifier_value_multiplier_percent)
     if group_name == MANA_COST_GROUP:
         return rng.randint(*search_space.mana_cost_multiplier_percent)
+    if group_name in RANGE_DELTA_GROUPS:
+        return rng.randint(*get_range_delta_bounds(search_space, group_name))
     raise ValueError(f"Unknown full-genome ability group: {group_name!r}.")
 
 
@@ -411,7 +421,18 @@ def get_ability_group_bounds(
         return search_space.modifier_value_multiplier_percent
     if group_name == MANA_COST_GROUP:
         return search_space.mana_cost_multiplier_percent
+    if group_name in RANGE_DELTA_GROUPS:
+        return get_range_delta_bounds(search_space, group_name)
     raise ValueError(f"Unknown full-genome ability group: {group_name!r}.")
+
+
+def get_range_delta_bounds(
+    search_space: config_models.AbilityEffectGroupsSearchSpaceConfig,
+    group_name: str,
+) -> tuple[int, int]:
+    if group_name == RANGED_RANGE_GROUP:
+        return search_space.ranged_range_additive_delta
+    raise ValueError(f"Unknown full-genome range group: {group_name!r}.")
 
 
 def optimize_full_genome(
@@ -761,8 +782,18 @@ def compute_primary_role_identity_score(
     targets = config.balance.targets.primary_role_identity
     units = list(summary.units_by_template_id.values())
     tank_units = [unit for unit in units if unit.primary_role == "Tank"]
+    non_tank_units = [unit for unit in units if unit.primary_role != "Tank"]
     healer_units = [unit for unit in units if unit.primary_role == "Healer"]
     damage_units = [unit for unit in units if unit.primary_role == "Damage"]
+    non_damage_units = [unit for unit in units if unit.primary_role != "Damage"]
+
+    tank_damage_taken = safe_mean(tank_units, lambda unit: unit.average_damage_taken)
+    non_tank_damage_taken = safe_mean(non_tank_units, lambda unit: unit.average_damage_taken)
+    tank_damage_dealt = safe_mean(tank_units, lambda unit: unit.average_damage_dealt)
+    healer_healing_done = safe_mean(healer_units, lambda unit: unit.average_healing_done)
+    damage_damage_dealt = safe_mean(damage_units, lambda unit: unit.average_damage_dealt)
+    non_damage_damage_dealt = safe_mean(non_damage_units, lambda unit: unit.average_damage_dealt)
+    all_units_damage_taken = safe_mean(units, lambda unit: unit.average_damage_taken)
 
     role_shape_score = mean(
         [
@@ -774,10 +805,22 @@ def compute_primary_role_identity_score(
     output_band_score = mean(
         [
             ga.compute_target_band_fitness(safe_mean(tank_units, lambda unit: unit.survival_rate), *targets.tank_survival_rate),
-            ga.compute_target_band_fitness(safe_mean(tank_units, lambda unit: unit.average_damage_taken), *targets.tank_average_damage_taken),
-            ga.compute_target_band_fitness(safe_mean(tank_units, lambda unit: unit.average_damage_dealt), *targets.tank_average_damage_dealt),
-            ga.compute_target_band_fitness(safe_mean(healer_units, lambda unit: unit.average_healing_done), *targets.healer_average_healing_done),
-            ga.compute_target_band_fitness(safe_mean(damage_units, lambda unit: unit.average_damage_dealt), *targets.damage_average_damage_dealt),
+            ga.compute_target_band_fitness(
+                safe_ratio(tank_damage_taken, non_tank_damage_taken),
+                *targets.tank_damage_taken_to_non_tank_ratio,
+            ),
+            ga.compute_target_band_fitness(
+                safe_ratio(tank_damage_dealt, damage_damage_dealt),
+                *targets.tank_damage_dealt_to_damage_ratio,
+            ),
+            ga.compute_target_band_fitness(
+                safe_ratio(healer_healing_done, all_units_damage_taken),
+                *targets.healer_healing_to_average_damage_taken_ratio,
+            ),
+            ga.compute_target_band_fitness(
+                safe_ratio(damage_damage_dealt, non_damage_damage_dealt),
+                *targets.damage_damage_dealt_to_non_damage_ratio,
+            ),
         ]
     )
     return (role_shape_score * 0.55) + (output_band_score * 0.45)
@@ -912,6 +955,12 @@ def safe_mean(items: list, selector) -> float:
     return mean(selector(item) for item in items)
 
 
+def safe_ratio(numerator: float, denominator: float) -> float:
+    if denominator <= 0:
+        return 0.0
+    return numerator / denominator
+
+
 def apply_candidate_to_content(
     config: config_models.FullGenomeBalancerConfig,
     content_path: Path,
@@ -982,14 +1031,8 @@ def apply_unit_profile_genes(
     ceilings = config.balance.search_space.unit_stat_profile_modifiers.absolute_ceilings
 
     hp_multiplier, mana_multiplier, move_delta, physical_dr_delta, magic_dr_delta = genes
-    unit_template["maxHP"] = max(
-        floors.max_hp,
-        apply_percent_multiplier(int(unit_template["maxHP"]), hp_multiplier),
-    )
-    unit_template["maxManaPoints"] = max(
-        floors.max_mana_points,
-        apply_percent_multiplier(int(unit_template["maxManaPoints"]), mana_multiplier),
-    )
+    unit_template["maxHP"] = apply_percent_multiplier(int(unit_template["maxHP"]), hp_multiplier)
+    unit_template["maxManaPoints"] = apply_percent_multiplier(int(unit_template["maxManaPoints"]), mana_multiplier)
     unit_template["movePoints"] = max(
         floors.move_points,
         int(unit_template["movePoints"]) + move_delta,
@@ -1019,12 +1062,58 @@ def apply_ability_group_multipliers_to_content(
 
     ability_config_adapter = build_grouped_ability_config_adapter(config)
     grouped_candidate = build_grouped_ability_candidate(ability_multipliers)
-    return grouped_ability_effects.apply_candidate_to_content(
+    pct_changes = grouped_ability_effects.apply_candidate_to_content(
         content_path,
         index,
         ability_config_adapter,
         grouped_candidate,
     )
+    pct_changes.extend(
+        apply_ability_range_deltas_to_content(
+            config,
+            content_path,
+            ability_multipliers,
+            baseline_abilities=index.abilities,
+        )
+    )
+    return pct_changes
+
+
+def apply_ability_range_deltas_to_content(
+    config: config_models.FullGenomeBalancerConfig,
+    content_path: Path,
+    ability_multipliers: AbilityGroupMultiplierMap,
+    *,
+    baseline_abilities: list[dict],
+) -> list[float]:
+    search_space = config.balance.search_space.ability_effect_groups
+    range_updates: dict[str, int] = {}
+    pct_changes: list[float] = []
+
+    for ability in baseline_abilities:
+        ability_id = ability.get("id")
+        targeting = ability.get("targeting")
+        if not isinstance(ability_id, str) or not isinstance(targeting, dict):
+            continue
+
+        category = ability.get("category")
+        baseline_range = int(targeting.get("range", 0))
+        if category in {"Melee", "Self"}:
+            updated_range = 1
+        elif category == "Ranged":
+            updated_range = baseline_range + ability_multipliers.get(RANGED_RANGE_GROUP, 0)
+        else:
+            continue
+
+        if category == "Ranged":
+            updated_range = clamp_int(updated_range, search_space.range_floor, search_space.range_ceiling)
+
+        range_updates[ability_id] = updated_range
+        if updated_range != baseline_range:
+            pct_changes.append(grouped_ability_effects.fractional_change(baseline_range, updated_range))
+
+    scenarios.update_ability_targeting_ranges(content_path, range_updates)
+    return pct_changes
 
 
 def build_grouped_ability_candidate(
@@ -1046,11 +1135,11 @@ def build_grouped_ability_config_adapter(
     floors = config.balance.search_space.ability_effect_groups.floors
     return SimpleNamespace(
         balance=SimpleNamespace(
-            damage_floor=floors.damage,
-            heal_floor=floors.heal,
-            percent_mod_floor=floors.percent_modifier_abs,
+            damage_floor=0,
+            heal_floor=0,
+            percent_mod_floor=0,
             flat_mod_floor=floors.flat_modifier_abs,
-            mana_cost_floor=floors.mana_cost,
+            mana_cost_floor=0,
         )
     )
 
