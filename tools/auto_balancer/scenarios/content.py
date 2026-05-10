@@ -1,11 +1,20 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import tempfile
+import time
 from pathlib import Path
+from typing import Callable, TypeVar
 
 from auto_balancer.scenarios.generator import ScenarioGenerationConfig, generate_scenarios
 
+
+FileResultT = TypeVar("FileResultT")
+
+FILE_RETRY_COUNT = 5
+FILE_RETRY_DELAY_SECONDS = 0.05
 
 GAME_STATES_FILE_NAME = "gameStates.json"
 UNIT_TEMPLATES_FILE_NAME = "unitTemplates.json"
@@ -44,8 +53,11 @@ def load_json_array(path: Path) -> list[dict]:
 
 
 def load_json(path: Path) -> object:
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+    def read() -> object:
+        with path.open("r", encoding="utf-8") as handle:
+            return json.load(handle)
+
+    return with_file_retry(read)
 
 
 def write_json_array(path: Path, payload: list[dict]) -> None:
@@ -53,9 +65,44 @@ def write_json_array(path: Path, payload: list[dict]) -> None:
 
 
 def write_json(path: Path, payload: object) -> None:
-    with path.open("w", encoding="utf-8") as handle:
-        json.dump(payload, handle, indent=2)
-        handle.write("\n")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_name = ""
+    try:
+        with tempfile.NamedTemporaryFile(
+            "w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            temp_name = handle.name
+            json.dump(payload, handle, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+
+        temp_path = Path(temp_name)
+        with_file_retry(lambda: os.replace(temp_path, path))
+    finally:
+        if temp_name:
+            temp_path = Path(temp_name)
+            if temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except OSError:
+                    pass
+
+
+def with_file_retry(operation: Callable[[], FileResultT]) -> FileResultT:
+    for attempt in range(FILE_RETRY_COUNT):
+        try:
+            return operation()
+        except OSError:
+            if attempt == FILE_RETRY_COUNT - 1:
+                raise
+            time.sleep(FILE_RETRY_DELAY_SECONDS * (attempt + 1))
+    raise RuntimeError("unreachable file retry state")
 
 
 def copy_base_content_files(source_content_path: Path, generated_content_path: Path) -> None:

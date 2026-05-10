@@ -120,7 +120,7 @@ public class EffectComponentCoverageTests
 
         component.OnTick(context, effect);
 
-        Assert.Equal(11, unit.Resources.HP);
+        Assert.Equal(10, unit.Resources.HP);
     }
 
     [Fact]

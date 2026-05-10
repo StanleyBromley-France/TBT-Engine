@@ -8,8 +8,13 @@ using Core.Undo.Steps.Units;
 public sealed class UnitsMutator : IUnitsMutator
 {
     private readonly IGameMutationAccess _ctx;
+    private readonly GameMutationContext _context;
 
-    public UnitsMutator(GameMutationContext ctx) => _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
+    public UnitsMutator(GameMutationContext ctx)
+    {
+        _context = ctx ?? throw new ArgumentNullException(nameof(ctx));
+        _ctx = ctx;
+    }
 
     public void ChangeHp(UnitInstanceId unitId, int delta)
     {
@@ -21,16 +26,34 @@ public sealed class UnitsMutator : IUnitsMutator
         var wasHexOccupiedBeforeChange = state.OccupiedHexes.Contains(affectedHex);
 
         var wasAlive = unit.IsAlive;
-        unit.Resources.HP += delta;
+        unit.Resources.HP = delta > 0
+            ? Math.Min(unit.Resources.HP + delta, unit.DerivedStats.MaxHP)
+            : unit.Resources.HP + delta;
         var isAlive = unit.IsAlive;
 
         // Keep occupancy in sync when HP change crosses alive/dead boundary.
         if (wasAlive && !isAlive)
+        {
             state.OccupiedHexes.Remove(unit.Position);
+            RemoveActiveEffects(unitId);
+        }
         else if (!wasAlive && isAlive)
+        {
             state.OccupiedHexes.Add(unit.Position);
+        }
 
         _ctx.GetUndo().AddStep(new HpChangeUndo(unitId, beforeHp, affectedHex, wasHexOccupiedBeforeChange));
+    }
+
+    private void RemoveActiveEffects(UnitInstanceId unitId)
+    {
+        var state = _ctx.GetState();
+
+        if (!state.ActiveEffects.TryGetValue(unitId, out var effectsById))
+            return;
+
+        foreach (var effectId in effectsById.Keys.ToList())
+            _context.Effects.RemoveEffect(unitId, effectId);
     }
 
     public void ChangeMana(UnitInstanceId unitId, int delta)

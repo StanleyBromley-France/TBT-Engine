@@ -70,7 +70,7 @@ public class EffectManagerTests
         // Assert
         Assert.Equal(1, factory.CreateCallCount);
         Assert.True(state.ActiveEffects[target.Id].ContainsKey(new EffectInstanceId(100)));
-        Assert.Equal(8, target.Resources.HP); // +3 heal then -5 damage
+        Assert.Equal(5, target.Resources.HP); // +3 heal clamps at max HP, then -5 damage
         Assert.Equal(expectedDerived, target.DerivedStats);
         Assert.Single(derivedStats.ComputeCalls);
         Assert.Equal(target.Id, derivedStats.ComputeCalls[0]);
@@ -189,14 +189,14 @@ public class EffectManagerTests
         manager.ApplyOrStackEffect(context, state, request);
         Assert.Equal(10, target.Resources.HP);
 
-        // First tick applies +2 heal and -5 damage, then decrements to 1 remaining tick
+        // First tick applies +2 heal clamped at max HP and -5 damage, then decrements to 1 remaining tick
         manager.TickAll(context, state);
-        Assert.True(target.Resources.HP == 7);
+        Assert.Equal(5, target.Resources.HP);
         Assert.Equal(1, state.ActiveEffects[target.Id][effectId].RemainingTicks);
 
         // Second tick applies again and expires/removes effect
         manager.TickAll(context, state);
-        Assert.Equal(4, target.Resources.HP);
+        Assert.Equal(2, target.Resources.HP);
         Assert.False(state.ActiveEffects.ContainsKey(target.Id));
     }
 

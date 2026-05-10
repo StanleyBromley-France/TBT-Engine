@@ -99,6 +99,12 @@ internal sealed class EffectManager : IEffectManager
             {
                 foreach (var effect in effectsById.Values.ToList())
                 {
+                    if (!state.ActiveEffects.TryGetValue(targetId, out var currentEffectsById) ||
+                        !currentEffectsById.ContainsKey(effect.Id))
+                    {
+                        continue;
+                    }
+
                     if (effect is not IEffectInstanceExecution executable)
                     {
                         throw new InvalidOperationException(
