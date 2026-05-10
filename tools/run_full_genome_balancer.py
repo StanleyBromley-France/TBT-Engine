@@ -36,6 +36,16 @@ def default_output_package_path(config: config_models.FullGenomeBalancerConfig) 
     return DEFAULT_OUTPUT_ROOT / seed_pair / stamp
 
 
+def default_resume_output_package_path(resume_package_path: Path) -> Path:
+    resume_package_path = resume_package_path.resolve()
+    index = 1
+    while True:
+        candidate = resume_package_path / f"continued-{index}"
+        if not candidate.exists():
+            return candidate
+        index += 1
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the standalone full-genome balancer.")
     parser.add_argument("--ga-config", type=Path, default=None, help="Path to full-genome GA config JSON.")
@@ -54,6 +64,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--input-package", type=Path, default=None, help="Optional balance package/content input.")
     parser.add_argument("--output-package", type=Path, default=None, help="Where to write the output balance package.")
+    parser.add_argument(
+        "--resume-package",
+        type=Path,
+        default=None,
+        help="Optional previous full-genome package to resume from. Adds this config's generation count.",
+    )
     parser.add_argument("--persist-results", action="store_true", help="Write tuned content back to the input content directory.")
     parser.add_argument(
         "--seed-matrix",
@@ -102,16 +118,23 @@ def parse_args() -> argparse.Namespace:
 
 def run_single(args: argparse.Namespace) -> int:
     config = load_config(args)
-    input_content_path = balance_package.resolve_package_content_path(
-        args.input_package,
-        runtime.DEFAULT_GA_CONTENT_DIR,
+    input_content_path = (
+        None
+        if args.input_package is None
+        else balance_package.resolve_package_content_path(args.input_package, runtime.DEFAULT_GA_CONTENT_DIR)
     )
-    output_package_path = args.output_package if args.output_package is not None else default_output_package_path(config)
+    if args.output_package is not None:
+        output_package_path = args.output_package
+    elif args.resume_package is not None:
+        output_package_path = default_resume_output_package_path(args.resume_package)
+    else:
+        output_package_path = default_output_package_path(config)
     return full_genome.run(
         config,
         source_content_path=input_content_path,
         output_package_path=output_package_path,
         persist_results=args.persist_results,
+        resume_package_path=args.resume_package,
     )
 
 

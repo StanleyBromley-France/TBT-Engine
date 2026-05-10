@@ -9,7 +9,9 @@ This module treats the genome as modifiers over the authored content:
 from __future__ import annotations
 
 import random
+import shutil
 import statistics
+from dataclasses import asdict
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -87,6 +89,34 @@ class FullGenomeWorkflow(CandidateWorkflow[FullGenomeCandidate, FullGenomeMeasur
         self.grouped_ability_index = grouped_ability_index
         self.neutral_candidate = build_neutral_candidate(config)
         self.interrupted = False
+
+    def measurement_to_checkpoint(self, measurement: FullGenomeMeasurement) -> object:
+        return asdict(measurement)
+
+    def measurement_from_checkpoint(self, payload: object) -> FullGenomeMeasurement:
+        if not isinstance(payload, dict):
+            raise ValueError("Full-genome checkpoint measurement payload must be an object.")
+        return FullGenomeMeasurement(
+            candidate=tuple(int(value) for value in payload["candidate"]),
+            unit_profile_modifiers={
+                str(profile_name): tuple(int(value) for value in values)
+                for profile_name, values in payload["unit_profile_modifiers"].items()
+            },
+            ability_group_multipliers={
+                str(group_name): int(value)
+                for group_name, value in payload["ability_group_multipliers"].items()
+            },
+            attacker_win_rate=float(payload["attacker_win_rate"]),
+            turn_limit_rate=float(payload["turn_limit_rate"]),
+            average_attacker_turn_count=float(payload["average_attacker_turn_count"]),
+            match_flow_score=float(payload["match_flow_score"]),
+            primary_role_identity_score=float(payload["primary_role_identity_score"]),
+            secondary_role_identity_score=float(payload["secondary_role_identity_score"]),
+            role_profile_fairness_score=float(payload["role_profile_fairness_score"]),
+            change_shape_score=float(payload["change_shape_score"]),
+            fitness=float(payload["fitness"]),
+            error_message=payload["error_message"],
+        )
 
     def normalize_individual(self, individual: list[int]) -> FullGenomeCandidate:
         return normalize_candidate(self.config, tuple(int(value) for value in individual))
@@ -442,6 +472,9 @@ def optimize_full_genome(
     offensive_ability_ids: set[str],
     baseline_unit_templates: list[dict],
     grouped_ability_index: grouped_ability_effects.GroupedAbilityIndex,
+    *,
+    checkpoint_path: Path | None = None,
+    resume_checkpoint_path: Path | None = None,
 ) -> tuple[FullGenomeMeasurement, bool]:
     workflow = FullGenomeWorkflow(
         config,
@@ -451,6 +484,8 @@ def optimize_full_genome(
         baseline_unit_templates,
         grouped_ability_index,
     )
+    workflow.checkpoint_path = checkpoint_path
+    workflow.resume_checkpoint_path = resume_checkpoint_path
     best_key, best_measurement = run_candidate_workflow(workflow)
     apply_candidate_to_content(
         config,
@@ -468,11 +503,12 @@ def run(
     source_content_path: Path | None = None,
     output_package_path: Path | None = None,
     persist_results: bool = False,
+    resume_package_path: Path | None = None,
 ) -> int:
     runtime.ensure_deap_available()
     validate_config(config)
 
-    content_source = runtime.DEFAULT_GA_CONTENT_DIR if source_content_path is None else source_content_path
+    content_source = resolve_resume_content_source(resume_package_path, source_content_path)
     content_path = prepare_eval_content(config, content_source)
     eval_config = build_eval_config(config, content_path)
     offensive_ability_ids = scenarios.load_offensive_ability_ids(content_path)
@@ -493,6 +529,8 @@ def run(
 
     try:
         before = evaluate_current_content(config, content_path, eval_config, offensive_ability_ids)
+        checkpoint_path = build_checkpoint_sidecar_path(output_package_path)
+        resume_checkpoint_path = build_resume_checkpoint_path(resume_package_path)
         best, interrupted = optimize_full_genome(
             config,
             content_path,
@@ -500,6 +538,8 @@ def run(
             offensive_ability_ids,
             baseline_unit_templates,
             grouped_ability_index,
+            checkpoint_path=checkpoint_path,
+            resume_checkpoint_path=resume_checkpoint_path,
         )
     except KeyboardInterrupt:
         print("interrupted; no completed candidate report was available", flush=True)
@@ -516,6 +556,8 @@ def run(
             build_package_report(before, best),
             changed_files=("unitTemplates.json", "effectComponentTemplates.json", "abilities.json"),
         )
+        if checkpoint_path is not None and checkpoint_path.is_file():
+            shutil.copy2(checkpoint_path, output_package_path / "ga-checkpoint.json")
         print(f"package={output_package_path}", flush=True)
 
     if persist_results:
@@ -526,6 +568,37 @@ def run(
 
     print(f"content={content_path}", flush=True)
     return 130 if interrupted else 0
+
+
+def resolve_resume_content_source(resume_package_path: Path | None, source_content_path: Path | None) -> Path:
+    if source_content_path is not None:
+        return source_content_path
+    if resume_package_path is None:
+        return runtime.DEFAULT_GA_CONTENT_DIR
+
+    report_path = resume_package_path / "report.json"
+    if not report_path.is_file():
+        raise FileNotFoundError(f"Resume package did not contain report.json: {report_path}")
+    report = balance_package.load_json(report_path)
+    input_content = report.get("inputContent")
+    if not isinstance(input_content, str) or not input_content:
+        raise ValueError(f"Resume package report did not contain inputContent: {report_path}")
+    return Path(input_content)
+
+
+def build_checkpoint_sidecar_path(output_package_path: Path | None) -> Path | None:
+    if output_package_path is None:
+        return None
+    return output_package_path.parent / f"{output_package_path.name}.ga-checkpoint.json"
+
+
+def build_resume_checkpoint_path(resume_package_path: Path | None) -> Path | None:
+    if resume_package_path is None:
+        return None
+    checkpoint_path = resume_package_path / "ga-checkpoint.json"
+    if not checkpoint_path.is_file():
+        raise FileNotFoundError(f"Resume package did not contain ga-checkpoint.json: {checkpoint_path}")
+    return checkpoint_path
 
 
 def validate_config(config: config_models.FullGenomeBalancerConfig) -> None:
