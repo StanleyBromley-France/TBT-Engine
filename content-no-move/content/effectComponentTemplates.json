@@ -1,0 +1,890 @@
+[
+  {
+    "id": "component-tank-one-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-one-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 105,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-one-follow-up-strike-damage",
+    "type": "InstantDamage",
+    "damage": 140,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-two-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-two-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-two-follow-up-strike-damage",
+    "type": "InstantDamage",
+    "damage": 155,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-three-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-three-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-three-follow-up-strike-damage",
+    "type": "InstantDamage",
+    "damage": 140,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-four-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-four-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-four-follow-up-strike-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-one-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-one-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 105,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-one-damage-buff-damagedealt",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 50
+  },
+  {
+    "id": "component-tank-buffer-two-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-two-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-two-healing-buff-healingdealt",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingDealt",
+    "percent": 50
+  },
+  {
+    "id": "component-tank-buffer-three-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-three-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-three-physical-defense-buff-physicaldamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-tank-buffer-four-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-four-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-buffer-four-magic-defense-buff-magicdamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-tank-debuffer-one-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-one-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 105,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-one-damage-debuff-damagedealt",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": -50
+  },
+  {
+    "id": "component-tank-debuffer-two-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-two-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-two-physical-defense-debuff-physicaldamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 50
+  },
+  {
+    "id": "component-tank-debuffer-three-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-three-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-three-healing-received-debuff-healingreceived",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-tank-debuffer-four-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-four-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-debuffer-four-magic-defense-debuff-magicdamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": 50
+  },
+  {
+    "id": "component-tank-acrobat-one-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-one-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 105,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-one-mobile-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 60,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-two-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 40,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-two-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-two-reposition-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 68,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-three-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-three-heavy-strike-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-three-mobile-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 75,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-four-basic-strike-damage",
+    "type": "InstantDamage",
+    "damage": 45,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-four-area-strike-damage",
+    "type": "InstantDamage",
+    "damage": 100,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-tank-acrobat-four-reposition-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 58,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-one-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-one-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 140,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-one-finishing-shot-damage",
+    "type": "DamageOverTime",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-two-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-two-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-two-finishing-shot-damage",
+    "type": "DamageOverTime",
+    "damage": 60,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-three-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-three-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 170,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-three-finishing-shot-damage",
+    "type": "DamageOverTime",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-four-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-four-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 165,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-four-finishing-shot-damage",
+    "type": "DamageOverTime",
+    "damage": 54,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-one-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-one-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 140,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-one-damage-buff-damagedealt",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 50
+  },
+  {
+    "id": "component-damage-buffer-two-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-two-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-two-healing-buff-healingdealt",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingDealt",
+    "percent": 50
+  },
+  {
+    "id": "component-damage-buffer-three-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-three-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 170,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-three-physical-defense-buff-physicaldamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-damage-buffer-four-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-four-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 165,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-buffer-four-magic-defense-buff-magicdamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-damage-debuffer-one-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-one-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 140,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-one-damage-debuff-damagedealt",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": -50
+  },
+  {
+    "id": "component-damage-debuffer-two-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-two-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-two-physical-defense-debuff-physicaldamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 50
+  },
+  {
+    "id": "component-damage-debuffer-three-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-three-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 170,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-three-healing-received-debuff-healingreceived",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-damage-debuffer-four-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-four-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 165,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-debuffer-four-magic-defense-debuff-magicdamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": 50
+  },
+  {
+    "id": "component-damage-acrobat-one-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-one-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 140,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-one-mobile-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 72,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-two-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 50,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-two-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 135,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-two-reposition-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 80,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-three-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-three-heavy-shot-damage",
+    "type": "InstantDamage",
+    "damage": 170,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-three-mobile-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 88,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-four-basic-shot-damage",
+    "type": "InstantDamage",
+    "damage": 55,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-four-area-shot-damage",
+    "type": "InstantDamage",
+    "damage": 165,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-damage-acrobat-four-reposition-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 70,
+    "damageType": "Physical"
+  },
+  {
+    "id": "component-healer-one-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-one-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 26
+  },
+  {
+    "id": "component-healer-one-defensive-bolt-damage",
+    "type": "DamageOverTime",
+    "damage": 62,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-two-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-two-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-two-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 6
+  },
+  {
+    "id": "component-healer-two-defensive-bolt-damage",
+    "type": "DamageOverTime",
+    "damage": 70,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-three-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-three-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 32
+  },
+  {
+    "id": "component-healer-three-defensive-bolt-damage",
+    "type": "DamageOverTime",
+    "damage": 62,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-four-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-four-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-four-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 8
+  },
+  {
+    "id": "component-healer-four-defensive-bolt-damage",
+    "type": "DamageOverTime",
+    "damage": 60,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-buffer-one-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-buffer-one-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 26
+  },
+  {
+    "id": "component-healer-buffer-one-damage-buff-damagedealt",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": 50
+  },
+  {
+    "id": "component-healer-buffer-two-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-buffer-two-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-buffer-two-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 6
+  },
+  {
+    "id": "component-healer-buffer-two-healing-buff-healingdealt",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingDealt",
+    "percent": 50
+  },
+  {
+    "id": "component-healer-buffer-three-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-buffer-three-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 32
+  },
+  {
+    "id": "component-healer-buffer-three-physical-defense-buff-physicaldamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-healer-buffer-four-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-buffer-four-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-buffer-four-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 8
+  },
+  {
+    "id": "component-healer-buffer-four-magic-defense-buff-magicdamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-healer-debuffer-one-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-debuffer-one-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 26
+  },
+  {
+    "id": "component-healer-debuffer-one-damage-debuff-damagedealt",
+    "type": "PercentAttributeModifier",
+    "stat": "DamageDealt",
+    "percent": -50
+  },
+  {
+    "id": "component-healer-debuffer-two-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-debuffer-two-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-debuffer-two-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 6
+  },
+  {
+    "id": "component-healer-debuffer-two-physical-defense-debuff-physicaldamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "PhysicalDamageReceived",
+    "percent": 50
+  },
+  {
+    "id": "component-healer-debuffer-three-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-debuffer-three-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 32
+  },
+  {
+    "id": "component-healer-debuffer-three-healing-received-debuff-healingreceived",
+    "type": "PercentAttributeModifier",
+    "stat": "HealingReceived",
+    "percent": -50
+  },
+  {
+    "id": "component-healer-debuffer-four-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-debuffer-four-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-debuffer-four-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 8
+  },
+  {
+    "id": "component-healer-debuffer-four-magic-defense-debuff-magicdamagereceived",
+    "type": "PercentAttributeModifier",
+    "stat": "MagicDamageReceived",
+    "percent": 50
+  },
+  {
+    "id": "component-healer-acrobat-one-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-one-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 26
+  },
+  {
+    "id": "component-healer-acrobat-one-mobile-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 52,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-two-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 30,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-two-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-acrobat-two-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 6
+  },
+  {
+    "id": "component-healer-acrobat-two-reposition-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 60,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-three-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-three-direct-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 32
+  },
+  {
+    "id": "component-healer-acrobat-three-mobile-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 68,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-four-basic-bolt-damage",
+    "type": "InstantDamage",
+    "damage": 35,
+    "damageType": "Magical"
+  },
+  {
+    "id": "component-healer-acrobat-four-ongoing-heal-instant-heal",
+    "type": "InstantHeal",
+    "heal": 29
+  },
+  {
+    "id": "component-healer-acrobat-four-ongoing-heal-over-time-heal",
+    "type": "HealOverTime",
+    "heal": 8
+  },
+  {
+    "id": "component-healer-acrobat-four-reposition-attack-damage",
+    "type": "DamageOverTime",
+    "damage": 50,
+    "damageType": "Magical"
+  }
+]

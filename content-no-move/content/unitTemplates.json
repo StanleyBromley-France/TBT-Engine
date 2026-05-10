@@ -1,0 +1,578 @@
+[
+  {
+    "id": "unit-tank-one",
+    "name": "Tank One",
+    "primaryRole": "Tank",
+    "secondaryRole": null,
+    "maxHP": 1040,
+    "maxManaPoints": 180,
+    "movePoints": 0,
+    "physicalDamageReceived": 82,
+    "magicDamageReceived": 106,
+    "abilityIds": [
+      "ability-tank-one-basic-strike",
+      "ability-tank-one-heavy-strike",
+      "ability-tank-one-follow-up-strike"
+    ]
+  },
+  {
+    "id": "unit-tank-two",
+    "name": "Tank Two",
+    "primaryRole": "Tank",
+    "secondaryRole": null,
+    "maxHP": 1050,
+    "maxManaPoints": 200,
+    "movePoints": 0,
+    "physicalDamageReceived": 82,
+    "magicDamageReceived": 107,
+    "abilityIds": [
+      "ability-tank-two-basic-strike",
+      "ability-tank-two-area-strike",
+      "ability-tank-two-follow-up-strike"
+    ]
+  },
+  {
+    "id": "unit-tank-three",
+    "name": "Tank Three",
+    "primaryRole": "Tank",
+    "secondaryRole": null,
+    "maxHP": 1060,
+    "maxManaPoints": 180,
+    "movePoints": 0,
+    "physicalDamageReceived": 83,
+    "magicDamageReceived": 106,
+    "abilityIds": [
+      "ability-tank-three-basic-strike",
+      "ability-tank-three-heavy-strike",
+      "ability-tank-three-follow-up-strike"
+    ]
+  },
+  {
+    "id": "unit-tank-four",
+    "name": "Tank Four",
+    "primaryRole": "Tank",
+    "secondaryRole": null,
+    "maxHP": 1040,
+    "maxManaPoints": 200,
+    "movePoints": 0,
+    "physicalDamageReceived": 82,
+    "magicDamageReceived": 106,
+    "abilityIds": [
+      "ability-tank-four-basic-strike",
+      "ability-tank-four-area-strike",
+      "ability-tank-four-follow-up-strike"
+    ]
+  },
+  {
+    "id": "unit-tank-buffer-one",
+    "name": "Tank Buffer One",
+    "primaryRole": "Tank",
+    "secondaryRole": "Buffer",
+    "maxHP": 1040,
+    "maxManaPoints": 220,
+    "movePoints": 0,
+    "physicalDamageReceived": 82,
+    "magicDamageReceived": 106,
+    "abilityIds": [
+      "ability-tank-buffer-one-basic-strike",
+      "ability-tank-buffer-one-heavy-strike",
+      "ability-tank-buffer-one-damage-buff"
+    ]
+  },
+  {
+    "id": "unit-tank-buffer-two",
+    "name": "Tank Buffer Two",
+    "primaryRole": "Tank",
+    "secondaryRole": "Buffer",
+    "maxHP": 1050,
+    "maxManaPoints": 240,
+    "movePoints": 0,
+    "physicalDamageReceived": 82,
+    "magicDamageReceived": 107,
+    "abilityIds": [
+      "ability-tank-buffer-two-basic-strike",
+      "ability-tank-buffer-two-area-strike",
+      "ability-tank-buffer-two-healing-buff"
+    ]
+  },
+  {
+    "id": "unit-tank-buffer-three",
+    "name": "Tank Buffer Three",
+    "primaryRole": "Tank",
+    "secondaryRole": "Buffer",
+    "maxHP": 1060,
+    "maxManaPoints": 220,
+    "movePoints": 0,
+    "physicalDamageReceived": 83,
+    "magicDamageReceived": 106,
+    "abilityIds": [
+      "ability-tank-buffer-three-basic-strike",
+      "ability-tank-buffer-three-heavy-strike",
+      "ability-tank-buffer-three-physical-defense-buff"
+    ]
+  },
+  {
+    "id": "unit-tank-buffer-four",
+    "name": "Tank Buffer Four",
+    "primaryRole": "Tank",
+    "secondaryRole": "Buffer",
+    "maxHP": 1040,
+    "maxManaPoints": 240,
+    "movePoints": 0,
+    "physicalDamageReceived": 82,
+    "magicDamageReceived": 106,
+    "abilityIds": [
+      "ability-tank-buffer-four-basic-strike",
+      "ability-tank-buffer-four-area-strike",
+      "ability-tank-buffer-four-magic-defense-buff"
+    ]
+  },
+  {
+    "id": "unit-tank-debuffer-one",
+    "name": "Tank Debuffer One",
+    "primaryRole": "Tank",
+    "secondaryRole": "Debuffer",
+    "maxHP": 1060,
+    "maxManaPoints": 200,
+    "movePoints": 0,
+    "physicalDamageReceived": 84,
+    "magicDamageReceived": 107,
+    "abilityIds": [
+      "ability-tank-debuffer-one-basic-strike",
+      "ability-tank-debuffer-one-heavy-strike",
+      "ability-tank-debuffer-one-damage-debuff"
+    ]
+  },
+  {
+    "id": "unit-tank-debuffer-two",
+    "name": "Tank Debuffer Two",
+    "primaryRole": "Tank",
+    "secondaryRole": "Debuffer",
+    "maxHP": 1070,
+    "maxManaPoints": 220,
+    "movePoints": 0,
+    "physicalDamageReceived": 84,
+    "magicDamageReceived": 108,
+    "abilityIds": [
+      "ability-tank-debuffer-two-basic-strike",
+      "ability-tank-debuffer-two-area-strike",
+      "ability-tank-debuffer-two-physical-defense-debuff"
+    ]
+  },
+  {
+    "id": "unit-tank-debuffer-three",
+    "name": "Tank Debuffer Three",
+    "primaryRole": "Tank",
+    "secondaryRole": "Debuffer",
+    "maxHP": 1080,
+    "maxManaPoints": 200,
+    "movePoints": 0,
+    "physicalDamageReceived": 85,
+    "magicDamageReceived": 107,
+    "abilityIds": [
+      "ability-tank-debuffer-three-basic-strike",
+      "ability-tank-debuffer-three-heavy-strike",
+      "ability-tank-debuffer-three-healing-received-debuff"
+    ]
+  },
+  {
+    "id": "unit-tank-debuffer-four",
+    "name": "Tank Debuffer Four",
+    "primaryRole": "Tank",
+    "secondaryRole": "Debuffer",
+    "maxHP": 1060,
+    "maxManaPoints": 220,
+    "movePoints": 0,
+    "physicalDamageReceived": 84,
+    "magicDamageReceived": 107,
+    "abilityIds": [
+      "ability-tank-debuffer-four-basic-strike",
+      "ability-tank-debuffer-four-area-strike",
+      "ability-tank-debuffer-four-magic-defense-debuff"
+    ]
+  },
+  {
+    "id": "unit-damage-one",
+    "name": "Damage One",
+    "primaryRole": "Damage",
+    "secondaryRole": null,
+    "maxHP": 580,
+    "maxManaPoints": 240,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 96,
+    "abilityIds": [
+      "ability-damage-one-basic-shot",
+      "ability-damage-one-heavy-shot",
+      "ability-damage-one-finishing-shot"
+    ]
+  },
+  {
+    "id": "unit-damage-two",
+    "name": "Damage Two",
+    "primaryRole": "Damage",
+    "secondaryRole": null,
+    "maxHP": 590,
+    "maxManaPoints": 260,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 97,
+    "abilityIds": [
+      "ability-damage-two-basic-shot",
+      "ability-damage-two-area-shot",
+      "ability-damage-two-finishing-shot"
+    ]
+  },
+  {
+    "id": "unit-damage-three",
+    "name": "Damage Three",
+    "primaryRole": "Damage",
+    "secondaryRole": null,
+    "maxHP": 600,
+    "maxManaPoints": 240,
+    "movePoints": 0,
+    "physicalDamageReceived": 101,
+    "magicDamageReceived": 96,
+    "abilityIds": [
+      "ability-damage-three-basic-shot",
+      "ability-damage-three-heavy-shot",
+      "ability-damage-three-finishing-shot"
+    ]
+  },
+  {
+    "id": "unit-damage-four",
+    "name": "Damage Four",
+    "primaryRole": "Damage",
+    "secondaryRole": null,
+    "maxHP": 580,
+    "maxManaPoints": 260,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 96,
+    "abilityIds": [
+      "ability-damage-four-basic-shot",
+      "ability-damage-four-area-shot",
+      "ability-damage-four-finishing-shot"
+    ]
+  },
+  {
+    "id": "unit-damage-buffer-one",
+    "name": "Damage Buffer One",
+    "primaryRole": "Damage",
+    "secondaryRole": "Buffer",
+    "maxHP": 580,
+    "maxManaPoints": 280,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 96,
+    "abilityIds": [
+      "ability-damage-buffer-one-basic-shot",
+      "ability-damage-buffer-one-heavy-shot",
+      "ability-damage-buffer-one-damage-buff"
+    ]
+  },
+  {
+    "id": "unit-damage-buffer-two",
+    "name": "Damage Buffer Two",
+    "primaryRole": "Damage",
+    "secondaryRole": "Buffer",
+    "maxHP": 590,
+    "maxManaPoints": 300,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 97,
+    "abilityIds": [
+      "ability-damage-buffer-two-basic-shot",
+      "ability-damage-buffer-two-area-shot",
+      "ability-damage-buffer-two-healing-buff"
+    ]
+  },
+  {
+    "id": "unit-damage-buffer-three",
+    "name": "Damage Buffer Three",
+    "primaryRole": "Damage",
+    "secondaryRole": "Buffer",
+    "maxHP": 600,
+    "maxManaPoints": 280,
+    "movePoints": 0,
+    "physicalDamageReceived": 101,
+    "magicDamageReceived": 96,
+    "abilityIds": [
+      "ability-damage-buffer-three-basic-shot",
+      "ability-damage-buffer-three-heavy-shot",
+      "ability-damage-buffer-three-physical-defense-buff"
+    ]
+  },
+  {
+    "id": "unit-damage-buffer-four",
+    "name": "Damage Buffer Four",
+    "primaryRole": "Damage",
+    "secondaryRole": "Buffer",
+    "maxHP": 580,
+    "maxManaPoints": 300,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 96,
+    "abilityIds": [
+      "ability-damage-buffer-four-basic-shot",
+      "ability-damage-buffer-four-area-shot",
+      "ability-damage-buffer-four-magic-defense-buff"
+    ]
+  },
+  {
+    "id": "unit-damage-debuffer-one",
+    "name": "Damage Debuffer One",
+    "primaryRole": "Damage",
+    "secondaryRole": "Debuffer",
+    "maxHP": 600,
+    "maxManaPoints": 260,
+    "movePoints": 0,
+    "physicalDamageReceived": 102,
+    "magicDamageReceived": 97,
+    "abilityIds": [
+      "ability-damage-debuffer-one-basic-shot",
+      "ability-damage-debuffer-one-heavy-shot",
+      "ability-damage-debuffer-one-damage-debuff"
+    ]
+  },
+  {
+    "id": "unit-damage-debuffer-two",
+    "name": "Damage Debuffer Two",
+    "primaryRole": "Damage",
+    "secondaryRole": "Debuffer",
+    "maxHP": 610,
+    "maxManaPoints": 280,
+    "movePoints": 0,
+    "physicalDamageReceived": 102,
+    "magicDamageReceived": 98,
+    "abilityIds": [
+      "ability-damage-debuffer-two-basic-shot",
+      "ability-damage-debuffer-two-area-shot",
+      "ability-damage-debuffer-two-physical-defense-debuff"
+    ]
+  },
+  {
+    "id": "unit-damage-debuffer-three",
+    "name": "Damage Debuffer Three",
+    "primaryRole": "Damage",
+    "secondaryRole": "Debuffer",
+    "maxHP": 620,
+    "maxManaPoints": 260,
+    "movePoints": 0,
+    "physicalDamageReceived": 103,
+    "magicDamageReceived": 97,
+    "abilityIds": [
+      "ability-damage-debuffer-three-basic-shot",
+      "ability-damage-debuffer-three-heavy-shot",
+      "ability-damage-debuffer-three-healing-received-debuff"
+    ]
+  },
+  {
+    "id": "unit-damage-debuffer-four",
+    "name": "Damage Debuffer Four",
+    "primaryRole": "Damage",
+    "secondaryRole": "Debuffer",
+    "maxHP": 600,
+    "maxManaPoints": 280,
+    "movePoints": 0,
+    "physicalDamageReceived": 102,
+    "magicDamageReceived": 97,
+    "abilityIds": [
+      "ability-damage-debuffer-four-basic-shot",
+      "ability-damage-debuffer-four-area-shot",
+      "ability-damage-debuffer-four-magic-defense-debuff"
+    ]
+  },
+  {
+    "id": "unit-healer-one",
+    "name": "Healer One",
+    "primaryRole": "Healer",
+    "secondaryRole": null,
+    "maxHP": 600,
+    "maxManaPoints": 320,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 90,
+    "abilityIds": [
+      "ability-healer-one-basic-bolt",
+      "ability-healer-one-direct-heal",
+      "ability-healer-one-defensive-bolt"
+    ]
+  },
+  {
+    "id": "unit-healer-two",
+    "name": "Healer Two",
+    "primaryRole": "Healer",
+    "secondaryRole": null,
+    "maxHP": 610,
+    "maxManaPoints": 340,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 91,
+    "abilityIds": [
+      "ability-healer-two-basic-bolt",
+      "ability-healer-two-ongoing-heal",
+      "ability-healer-two-defensive-bolt"
+    ]
+  },
+  {
+    "id": "unit-healer-three",
+    "name": "Healer Three",
+    "primaryRole": "Healer",
+    "secondaryRole": null,
+    "maxHP": 620,
+    "maxManaPoints": 320,
+    "movePoints": 0,
+    "physicalDamageReceived": 101,
+    "magicDamageReceived": 90,
+    "abilityIds": [
+      "ability-healer-three-basic-bolt",
+      "ability-healer-three-direct-heal",
+      "ability-healer-three-defensive-bolt"
+    ]
+  },
+  {
+    "id": "unit-healer-four",
+    "name": "Healer Four",
+    "primaryRole": "Healer",
+    "secondaryRole": null,
+    "maxHP": 600,
+    "maxManaPoints": 340,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 90,
+    "abilityIds": [
+      "ability-healer-four-basic-bolt",
+      "ability-healer-four-ongoing-heal",
+      "ability-healer-four-defensive-bolt"
+    ]
+  },
+  {
+    "id": "unit-healer-buffer-one",
+    "name": "Healer Buffer One",
+    "primaryRole": "Healer",
+    "secondaryRole": "Buffer",
+    "maxHP": 600,
+    "maxManaPoints": 360,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 90,
+    "abilityIds": [
+      "ability-healer-buffer-one-basic-bolt",
+      "ability-healer-buffer-one-direct-heal",
+      "ability-healer-buffer-one-damage-buff"
+    ]
+  },
+  {
+    "id": "unit-healer-buffer-two",
+    "name": "Healer Buffer Two",
+    "primaryRole": "Healer",
+    "secondaryRole": "Buffer",
+    "maxHP": 610,
+    "maxManaPoints": 380,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 91,
+    "abilityIds": [
+      "ability-healer-buffer-two-basic-bolt",
+      "ability-healer-buffer-two-ongoing-heal",
+      "ability-healer-buffer-two-healing-buff"
+    ]
+  },
+  {
+    "id": "unit-healer-buffer-three",
+    "name": "Healer Buffer Three",
+    "primaryRole": "Healer",
+    "secondaryRole": "Buffer",
+    "maxHP": 620,
+    "maxManaPoints": 360,
+    "movePoints": 0,
+    "physicalDamageReceived": 101,
+    "magicDamageReceived": 90,
+    "abilityIds": [
+      "ability-healer-buffer-three-basic-bolt",
+      "ability-healer-buffer-three-direct-heal",
+      "ability-healer-buffer-three-physical-defense-buff"
+    ]
+  },
+  {
+    "id": "unit-healer-buffer-four",
+    "name": "Healer Buffer Four",
+    "primaryRole": "Healer",
+    "secondaryRole": "Buffer",
+    "maxHP": 600,
+    "maxManaPoints": 380,
+    "movePoints": 0,
+    "physicalDamageReceived": 100,
+    "magicDamageReceived": 90,
+    "abilityIds": [
+      "ability-healer-buffer-four-basic-bolt",
+      "ability-healer-buffer-four-ongoing-heal",
+      "ability-healer-buffer-four-magic-defense-buff"
+    ]
+  },
+  {
+    "id": "unit-healer-debuffer-one",
+    "name": "Healer Debuffer One",
+    "primaryRole": "Healer",
+    "secondaryRole": "Debuffer",
+    "maxHP": 620,
+    "maxManaPoints": 340,
+    "movePoints": 0,
+    "physicalDamageReceived": 102,
+    "magicDamageReceived": 91,
+    "abilityIds": [
+      "ability-healer-debuffer-one-basic-bolt",
+      "ability-healer-debuffer-one-direct-heal",
+      "ability-healer-debuffer-one-damage-debuff"
+    ]
+  },
+  {
+    "id": "unit-healer-debuffer-two",
+    "name": "Healer Debuffer Two",
+    "primaryRole": "Healer",
+    "secondaryRole": "Debuffer",
+    "maxHP": 630,
+    "maxManaPoints": 360,
+    "movePoints": 0,
+    "physicalDamageReceived": 102,
+    "magicDamageReceived": 92,
+    "abilityIds": [
+      "ability-healer-debuffer-two-basic-bolt",
+      "ability-healer-debuffer-two-ongoing-heal",
+      "ability-healer-debuffer-two-physical-defense-debuff"
+    ]
+  },
+  {
+    "id": "unit-healer-debuffer-three",
+    "name": "Healer Debuffer Three",
+    "primaryRole": "Healer",
+    "secondaryRole": "Debuffer",
+    "maxHP": 640,
+    "maxManaPoints": 340,
+    "movePoints": 0,
+    "physicalDamageReceived": 103,
+    "magicDamageReceived": 91,
+    "abilityIds": [
+      "ability-healer-debuffer-three-basic-bolt",
+      "ability-healer-debuffer-three-direct-heal",
+      "ability-healer-debuffer-three-healing-received-debuff"
+    ]
+  },
+  {
+    "id": "unit-healer-debuffer-four",
+    "name": "Healer Debuffer Four",
+    "primaryRole": "Healer",
+    "secondaryRole": "Debuffer",
+    "maxHP": 620,
+    "maxManaPoints": 360,
+    "movePoints": 0,
+    "physicalDamageReceived": 102,
+    "magicDamageReceived": 91,
+    "abilityIds": [
+      "ability-healer-debuffer-four-basic-bolt",
+      "ability-healer-debuffer-four-ongoing-heal",
+      "ability-healer-debuffer-four-magic-defense-debuff"
+    ]
+  }
+]

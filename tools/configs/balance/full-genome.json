@@ -42,68 +42,68 @@
       "bounds_by_primary_role": {
         "Tank": {
           "max_hp_multiplier_percent": [
-            50,
-            150
+            75,
+            130
           ],
           "max_mana_points_multiplier_percent": [
-            50,
-            150
+            75,
+            130
           ],
           "move_points_additive_delta": [
-            -1,
-            3
+            0,
+            2
           ],
           "physical_damage_received_additive_delta": [
-            -15,
-            15
+            -8,
+            12
           ],
           "magic_damage_received_additive_delta": [
-            -15,
-            15
+            -8,
+            12
           ]
         },
         "Healer": {
           "max_hp_multiplier_percent": [
-            50,
-            150
+            75,
+            130
           ],
           "max_mana_points_multiplier_percent": [
-            50,
-            150
+            75,
+            130
           ],
           "move_points_additive_delta": [
-            -1,
-            3
+            0,
+            2
           ],
           "physical_damage_received_additive_delta": [
-            -10,
-            15
+            -8,
+            12
           ],
           "magic_damage_received_additive_delta": [
-            -15,
-            10
+            -8,
+            12
           ]
         },
         "Damage": {
           "max_hp_multiplier_percent": [
-            50,
-            150
+            75,
+            130
           ],
           "max_mana_points_multiplier_percent": [
-            50,
-            150
+            75,
+            130
           ],
           "move_points_additive_delta": [
-            -1,
-            3
+            0,
+            2
           ],
           "physical_damage_received_additive_delta": [
-            -10,
-            20
+            -8,
+            12
           ],
           "magic_damage_received_additive_delta": [
-            -10,
-            20
+            -8,
+            12
           ]
         }
       },
@@ -120,16 +120,16 @@
     "ability_effect_groups": {
       "mode": "apply_global_multipliers_to_matching_ability_values",
       "component_value_multiplier_percent": [
-        50,
-        150
+        70,
+        130
       ],
       "modifier_value_multiplier_percent": [
-        50,
-        150
+        70,
+        130
       ],
       "mana_cost_multiplier_percent": [
-        50,
-        150
+        70,
+        130
       ],
       "ranged_range_additive_delta": [
         -1,
@@ -225,11 +225,16 @@
     }
   },
   "fitness_weights": {
-    "match_flow": 0.25,
-    "primary_role_identity": 0.25,
-    "secondary_role_identity": 0.2,
-    "role_profile_fairness": 0.2,
+    "match_flow": 0.2,
+    "primary_role_identity": 0.3,
+    "secondary_role_identity": 0.25,
+    "role_profile_fairness": 0.15,
     "change_shape": 0.1
+  },
+  "floor_penalties": {
+    "primary_role_identity_minimum": -3.0,
+    "secondary_role_identity_minimum": -3.0,
+    "penalty_multiplier": 0.5
   },
   "mutation": {
     "unit_profile_modifier_gene_probability": 0.7,

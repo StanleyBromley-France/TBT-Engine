@@ -1,0 +1,1450 @@
+[
+  {
+    "id": "effect-tank-one-basic-strike",
+    "name": "Tank One Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-one-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-one-heavy-strike",
+    "name": "Tank One Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-one-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-one-follow-up-strike",
+    "name": "Tank One Follow Up Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-one-follow-up-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-two-basic-strike",
+    "name": "Tank Two Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-two-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-two-area-strike",
+    "name": "Tank Two Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-two-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-two-follow-up-strike",
+    "name": "Tank Two Follow Up Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-two-follow-up-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-three-basic-strike",
+    "name": "Tank Three Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-three-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-three-heavy-strike",
+    "name": "Tank Three Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-three-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-three-follow-up-strike",
+    "name": "Tank Three Follow Up Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-three-follow-up-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-four-basic-strike",
+    "name": "Tank Four Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-four-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-four-area-strike",
+    "name": "Tank Four Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-four-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-four-follow-up-strike",
+    "name": "Tank Four Follow Up Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-four-follow-up-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-one-basic-strike",
+    "name": "Tank Buffer One Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-one-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-one-heavy-strike",
+    "name": "Tank Buffer One Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-one-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-one-damage-buff",
+    "name": "Tank Buffer One Damage Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-one-damage-buff-damagedealt"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-two-basic-strike",
+    "name": "Tank Buffer Two Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-two-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-two-area-strike",
+    "name": "Tank Buffer Two Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-two-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-two-healing-buff",
+    "name": "Tank Buffer Two Healing Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-two-healing-buff-healingdealt"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-three-basic-strike",
+    "name": "Tank Buffer Three Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-three-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-three-heavy-strike",
+    "name": "Tank Buffer Three Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-three-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-three-physical-defense-buff",
+    "name": "Tank Buffer Three Physical Defense Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-three-physical-defense-buff-physicaldamagereceived"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-four-basic-strike",
+    "name": "Tank Buffer Four Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-four-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-four-area-strike",
+    "name": "Tank Buffer Four Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-four-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-buffer-four-magic-defense-buff",
+    "name": "Tank Buffer Four Magic Defense Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-buffer-four-magic-defense-buff-magicdamagereceived"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-one-basic-strike",
+    "name": "Tank Debuffer One Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-one-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-one-heavy-strike",
+    "name": "Tank Debuffer One Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-one-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-one-damage-debuff",
+    "name": "Tank Debuffer One Damage Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-one-damage-debuff-damagedealt"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-two-basic-strike",
+    "name": "Tank Debuffer Two Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-two-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-two-area-strike",
+    "name": "Tank Debuffer Two Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-two-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-two-physical-defense-debuff",
+    "name": "Tank Debuffer Two Physical Defense Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-two-physical-defense-debuff-physicaldamagereceived"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-three-basic-strike",
+    "name": "Tank Debuffer Three Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-three-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-three-heavy-strike",
+    "name": "Tank Debuffer Three Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-three-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-three-healing-received-debuff",
+    "name": "Tank Debuffer Three Healing Received Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-three-healing-received-debuff-healingreceived"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-four-basic-strike",
+    "name": "Tank Debuffer Four Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-four-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-four-area-strike",
+    "name": "Tank Debuffer Four Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-four-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-debuffer-four-magic-defense-debuff",
+    "name": "Tank Debuffer Four Magic Defense Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-debuffer-four-magic-defense-debuff-magicdamagereceived"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-one-basic-strike",
+    "name": "Tank Acrobat One Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-one-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-one-heavy-strike",
+    "name": "Tank Acrobat One Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-one-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-one-mobile-attack",
+    "name": "Tank Acrobat One Mobile Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-one-mobile-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-two-basic-strike",
+    "name": "Tank Acrobat Two Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-two-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-two-area-strike",
+    "name": "Tank Acrobat Two Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-two-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-two-reposition-attack",
+    "name": "Tank Acrobat Two Reposition Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-two-reposition-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-three-basic-strike",
+    "name": "Tank Acrobat Three Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-three-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-three-heavy-strike",
+    "name": "Tank Acrobat Three Heavy Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-three-heavy-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-three-mobile-attack",
+    "name": "Tank Acrobat Three Mobile Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-three-mobile-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-four-basic-strike",
+    "name": "Tank Acrobat Four Basic Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-four-basic-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-four-area-strike",
+    "name": "Tank Acrobat Four Area Strike Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-four-area-strike-damage"
+    ]
+  },
+  {
+    "id": "effect-tank-acrobat-four-reposition-attack",
+    "name": "Tank Acrobat Four Reposition Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-tank-acrobat-four-reposition-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-one-basic-shot",
+    "name": "Damage One Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-one-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-one-heavy-shot",
+    "name": "Damage One Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-one-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-one-finishing-shot",
+    "name": "Damage One Finishing Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-damage-one-finishing-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-two-basic-shot",
+    "name": "Damage Two Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-two-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-two-area-shot",
+    "name": "Damage Two Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-two-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-two-finishing-shot",
+    "name": "Damage Two Finishing Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-damage-two-finishing-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-three-basic-shot",
+    "name": "Damage Three Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-three-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-three-heavy-shot",
+    "name": "Damage Three Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-three-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-three-finishing-shot",
+    "name": "Damage Three Finishing Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-damage-three-finishing-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-four-basic-shot",
+    "name": "Damage Four Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-four-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-four-area-shot",
+    "name": "Damage Four Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-four-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-four-finishing-shot",
+    "name": "Damage Four Finishing Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-damage-four-finishing-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-one-basic-shot",
+    "name": "Damage Buffer One Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-one-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-one-heavy-shot",
+    "name": "Damage Buffer One Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-one-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-one-damage-buff",
+    "name": "Damage Buffer One Damage Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-one-damage-buff-damagedealt"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-two-basic-shot",
+    "name": "Damage Buffer Two Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-two-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-two-area-shot",
+    "name": "Damage Buffer Two Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-two-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-two-healing-buff",
+    "name": "Damage Buffer Two Healing Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-two-healing-buff-healingdealt"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-three-basic-shot",
+    "name": "Damage Buffer Three Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-three-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-three-heavy-shot",
+    "name": "Damage Buffer Three Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-three-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-three-physical-defense-buff",
+    "name": "Damage Buffer Three Physical Defense Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-three-physical-defense-buff-physicaldamagereceived"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-four-basic-shot",
+    "name": "Damage Buffer Four Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-four-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-four-area-shot",
+    "name": "Damage Buffer Four Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-four-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-buffer-four-magic-defense-buff",
+    "name": "Damage Buffer Four Magic Defense Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-buffer-four-magic-defense-buff-magicdamagereceived"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-one-basic-shot",
+    "name": "Damage Debuffer One Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-one-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-one-heavy-shot",
+    "name": "Damage Debuffer One Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-one-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-one-damage-debuff",
+    "name": "Damage Debuffer One Damage Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-one-damage-debuff-damagedealt"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-two-basic-shot",
+    "name": "Damage Debuffer Two Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-two-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-two-area-shot",
+    "name": "Damage Debuffer Two Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-two-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-two-physical-defense-debuff",
+    "name": "Damage Debuffer Two Physical Defense Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-two-physical-defense-debuff-physicaldamagereceived"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-three-basic-shot",
+    "name": "Damage Debuffer Three Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-three-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-three-heavy-shot",
+    "name": "Damage Debuffer Three Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-three-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-three-healing-received-debuff",
+    "name": "Damage Debuffer Three Healing Received Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-three-healing-received-debuff-healingreceived"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-four-basic-shot",
+    "name": "Damage Debuffer Four Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-four-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-four-area-shot",
+    "name": "Damage Debuffer Four Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-four-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-debuffer-four-magic-defense-debuff",
+    "name": "Damage Debuffer Four Magic Defense Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-debuffer-four-magic-defense-debuff-magicdamagereceived"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-one-basic-shot",
+    "name": "Damage Acrobat One Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-one-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-one-heavy-shot",
+    "name": "Damage Acrobat One Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-one-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-one-mobile-attack",
+    "name": "Damage Acrobat One Mobile Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-one-mobile-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-two-basic-shot",
+    "name": "Damage Acrobat Two Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-two-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-two-area-shot",
+    "name": "Damage Acrobat Two Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-two-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-two-reposition-attack",
+    "name": "Damage Acrobat Two Reposition Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-two-reposition-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-three-basic-shot",
+    "name": "Damage Acrobat Three Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-three-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-three-heavy-shot",
+    "name": "Damage Acrobat Three Heavy Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-three-heavy-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-three-mobile-attack",
+    "name": "Damage Acrobat Three Mobile Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-three-mobile-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-four-basic-shot",
+    "name": "Damage Acrobat Four Basic Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-four-basic-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-four-area-shot",
+    "name": "Damage Acrobat Four Area Shot Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-four-area-shot-damage"
+    ]
+  },
+  {
+    "id": "effect-damage-acrobat-four-reposition-attack",
+    "name": "Damage Acrobat Four Reposition Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-damage-acrobat-four-reposition-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-one-basic-bolt",
+    "name": "Healer One Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-one-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-one-direct-heal",
+    "name": "Healer One Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-one-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-one-defensive-bolt",
+    "name": "Healer One Defensive Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-one-defensive-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-two-basic-bolt",
+    "name": "Healer Two Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-two-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-two-ongoing-heal",
+    "name": "Healer Two Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-two-ongoing-heal-instant-heal",
+      "component-healer-two-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-two-defensive-bolt",
+    "name": "Healer Two Defensive Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-two-defensive-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-three-basic-bolt",
+    "name": "Healer Three Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-three-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-three-direct-heal",
+    "name": "Healer Three Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-three-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-three-defensive-bolt",
+    "name": "Healer Three Defensive Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-three-defensive-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-four-basic-bolt",
+    "name": "Healer Four Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-four-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-four-ongoing-heal",
+    "name": "Healer Four Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-four-ongoing-heal-instant-heal",
+      "component-healer-four-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-four-defensive-bolt",
+    "name": "Healer Four Defensive Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-four-defensive-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-one-basic-bolt",
+    "name": "Healer Buffer One Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-one-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-one-direct-heal",
+    "name": "Healer Buffer One Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-one-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-one-damage-buff",
+    "name": "Healer Buffer One Damage Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-one-damage-buff-damagedealt"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-two-basic-bolt",
+    "name": "Healer Buffer Two Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-two-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-two-ongoing-heal",
+    "name": "Healer Buffer Two Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-buffer-two-ongoing-heal-instant-heal",
+      "component-healer-buffer-two-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-two-healing-buff",
+    "name": "Healer Buffer Two Healing Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-two-healing-buff-healingdealt"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-three-basic-bolt",
+    "name": "Healer Buffer Three Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-three-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-three-direct-heal",
+    "name": "Healer Buffer Three Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-three-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-three-physical-defense-buff",
+    "name": "Healer Buffer Three Physical Defense Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-three-physical-defense-buff-physicaldamagereceived"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-four-basic-bolt",
+    "name": "Healer Buffer Four Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-four-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-four-ongoing-heal",
+    "name": "Healer Buffer Four Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-buffer-four-ongoing-heal-instant-heal",
+      "component-healer-buffer-four-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-buffer-four-magic-defense-buff",
+    "name": "Healer Buffer Four Magic Defense Buff Effect",
+    "isHarmful": false,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-buffer-four-magic-defense-buff-magicdamagereceived"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-one-basic-bolt",
+    "name": "Healer Debuffer One Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-one-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-one-direct-heal",
+    "name": "Healer Debuffer One Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-one-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-one-damage-debuff",
+    "name": "Healer Debuffer One Damage Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-one-damage-debuff-damagedealt"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-two-basic-bolt",
+    "name": "Healer Debuffer Two Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-two-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-two-ongoing-heal",
+    "name": "Healer Debuffer Two Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-debuffer-two-ongoing-heal-instant-heal",
+      "component-healer-debuffer-two-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-two-physical-defense-debuff",
+    "name": "Healer Debuffer Two Physical Defense Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 4,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-two-physical-defense-debuff-physicaldamagereceived"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-three-basic-bolt",
+    "name": "Healer Debuffer Three Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-three-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-three-direct-heal",
+    "name": "Healer Debuffer Three Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-three-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-three-healing-received-debuff",
+    "name": "Healer Debuffer Three Healing Received Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-three-healing-received-debuff-healingreceived"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-four-basic-bolt",
+    "name": "Healer Debuffer Four Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-four-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-four-ongoing-heal",
+    "name": "Healer Debuffer Four Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-debuffer-four-ongoing-heal-instant-heal",
+      "component-healer-debuffer-four-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-debuffer-four-magic-defense-debuff",
+    "name": "Healer Debuffer Four Magic Defense Debuff Effect",
+    "isHarmful": true,
+    "totalTicks": 6,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-debuffer-four-magic-defense-debuff-magicdamagereceived"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-one-basic-bolt",
+    "name": "Healer Acrobat One Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-one-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-one-direct-heal",
+    "name": "Healer Acrobat One Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-one-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-one-mobile-attack",
+    "name": "Healer Acrobat One Mobile Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-one-mobile-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-two-basic-bolt",
+    "name": "Healer Acrobat Two Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-two-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-two-ongoing-heal",
+    "name": "Healer Acrobat Two Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-acrobat-two-ongoing-heal-instant-heal",
+      "component-healer-acrobat-two-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-two-reposition-attack",
+    "name": "Healer Acrobat Two Reposition Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-two-reposition-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-three-basic-bolt",
+    "name": "Healer Acrobat Three Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-three-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-three-direct-heal",
+    "name": "Healer Acrobat Three Direct Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-three-direct-heal-instant-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-three-mobile-attack",
+    "name": "Healer Acrobat Three Mobile Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-three-mobile-attack-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-four-basic-bolt",
+    "name": "Healer Acrobat Four Basic Bolt Effect",
+    "isHarmful": true,
+    "totalTicks": 1,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-four-basic-bolt-damage"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-four-ongoing-heal",
+    "name": "Healer Acrobat Four Ongoing Heal Effect",
+    "isHarmful": false,
+    "totalTicks": 3,
+    "maxStacks": 2,
+    "componentTemplateIds": [
+      "component-healer-acrobat-four-ongoing-heal-instant-heal",
+      "component-healer-acrobat-four-ongoing-heal-over-time-heal"
+    ]
+  },
+  {
+    "id": "effect-healer-acrobat-four-reposition-attack",
+    "name": "Healer Acrobat Four Reposition Attack Effect",
+    "isHarmful": true,
+    "totalTicks": 2,
+    "maxStacks": 1,
+    "componentTemplateIds": [
+      "component-healer-acrobat-four-reposition-attack-damage"
+    ]
+  }
+]

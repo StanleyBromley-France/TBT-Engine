@@ -1,0 +1,178 @@
+[
+  {
+    "id": "no-move-scenario-1",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-one",        "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-one",      "teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-one",      "teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-debuffer-one",  "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-buffer-one",  "teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-debuffer-one","teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-2",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-buffer-one",   "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-debuffer-one","teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-two",         "teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-two",           "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-two",         "teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-buffer-one",  "teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-3",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-debuffer-two", "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-buffer-two", "teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-debuffer-two","teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-buffer-two",   "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-debuffer-two","teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-buffer-two", "teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-4",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-three",         "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-buffer-three","teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-buffer-three","teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-debuffer-three","teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-three",       "teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-three",       "teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-5",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-buffer-three",   "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-debuffer-three","teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-debuffer-three","teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-four",            "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-four",          "teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-four",          "teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-6",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-four",           "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-buffer-four",  "teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-buffer-four",  "teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-debuffer-four",  "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-debuffer-four","teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-debuffer-four","teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-7",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-debuffer-one",  "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-one",         "teamId": 1, "q": 0, "r": 1 },
+      { "id": "unit-damage-buffer-two",  "teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-buffer-three",  "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-debuffer-two","teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-one",         "teamId": 2, "q": 4, "r": 2 }
+    ]
+  },
+  {
+    "id": "no-move-scenario-8",
+    "mapGen": {
+      "width": 5,
+      "height": 3,
+      "tileDistribution": {
+        "Plain": 1.0
+      }
+    },
+    "attackerTeamId": 1,
+    "defenderTeamId": 2,
+    "teamToAct": 1,
+    "attackerTurnsTaken": 0,
+    "units": [
+      { "id": "unit-tank-buffer-four",   "teamId": 1, "q": 0, "r": 0 },
+      { "id": "unit-healer-debuffer-three","teamId": 1,"q": 0, "r": 1 },
+      { "id": "unit-damage-three",        "teamId": 1, "q": 0, "r": 2 },
+      { "id": "unit-tank-three",          "teamId": 2, "q": 4, "r": 0 },
+      { "id": "unit-healer-buffer-two",   "teamId": 2, "q": 4, "r": 1 },
+      { "id": "unit-damage-debuffer-three","teamId": 2,"q": 4, "r": 2 }
+    ]
+  }
+]
