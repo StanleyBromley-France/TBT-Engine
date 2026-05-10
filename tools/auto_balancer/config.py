@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import fields, is_dataclass
 from pathlib import Path
-from typing import Any, TypeVar, get_origin, get_type_hints
+from typing import Any, TypeVar, get_args, get_origin, get_type_hints
 
 from auto_balancer.eval.staged import RepeatStage
 
@@ -154,13 +154,17 @@ def normalize_tuple_fields(config_type: type[ConfigT], values: dict[str, Any]) -
         if is_dataclass(field_type) and isinstance(raw_value, dict):
             normalized_values[field_name] = instantiate_dataclass(field_type, raw_value, field_name)
             continue
-        if is_tuple_type(field_type) and isinstance(raw_value, list):
+        if (is_tuple_type(field_type) or is_optional_tuple_type(field_type)) and isinstance(raw_value, list):
             normalized_values[field_name] = tuple(normalized_values[field_name])
     return normalized_values
 
 
 def is_tuple_type(field_type: object) -> bool:
     return get_origin(field_type) is tuple
+
+
+def is_optional_tuple_type(field_type: object) -> bool:
+    return any(is_tuple_type(arg) for arg in get_args(field_type))
 
 
 def get_dataclass_field_names(config_type: object) -> set[str]:

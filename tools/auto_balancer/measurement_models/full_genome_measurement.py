@@ -20,7 +20,16 @@ class FullGenomeMeasurement:
 
     match_flow_score: float
     primary_role_identity_score: float
+    primary_tank_score: float
+    primary_damage_score: float
+    primary_healer_score: float
     secondary_role_identity_score: float
+    secondary_buffer_score: float
+    secondary_debuffer_score: float
+    secondary_all_units_move_score: float | None
+    secondary_non_acrobat_move_score: float | None
+    secondary_acrobat_move_score: float | None
+    secondary_acrobat_ratio_score: float | None
     role_profile_fairness_score: float
     change_shape_score: float
 

@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 from typing import Callable, TypeVar
 
+from auto_balancer.runtime.paths import GENERATED_CONTENT_DIR, REPO_ROOT
 from auto_balancer.scenarios.generator import ScenarioGenerationConfig, generate_scenarios
 
 
@@ -119,11 +120,30 @@ def build_generated_content_path(
     scenario_generation_seed: int,
     generated_scenarios_per_run: int,
 ) -> Path:
+    source_label = build_generated_content_source_label(source_content_path)
     return (
-        source_content_path
+        GENERATED_CONTENT_DIR
+        / source_label
         / f"scenario-seed-{scenario_generation_seed}"
         / f"set-size-{generated_scenarios_per_run}"
     )
+
+
+def build_generated_content_source_label(source_content_path: Path) -> str:
+    resolved_source = source_content_path.resolve()
+    try:
+        relative_source = resolved_source.relative_to(REPO_ROOT)
+    except ValueError:
+        relative_source = Path(resolved_source.name)
+
+    if relative_source.name == "content" and relative_source.parent != Path("."):
+        relative_source = relative_source.parent
+
+    return "__".join(sanitize_path_part(part) for part in relative_source.parts if part)
+
+
+def sanitize_path_part(value: str) -> str:
+    return "".join(character if character.isalnum() or character in ("-", "_") else "_" for character in value)
 
 
 def update_tile_distribution_for_game_states(

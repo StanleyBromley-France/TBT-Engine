@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from auto_balancer.config_models.shared_config import ScenarioConfig
 from auto_balancer.eval.staged import RepeatStage
 
+TargetBand = tuple[float, float]
+
 
 @dataclass(frozen=True)
 class FullGenomeGaConfig:
@@ -100,41 +102,41 @@ class FullGenomeSearchSpaceConfig:
 
 @dataclass(frozen=True)
 class MatchFlowTargets:
-    attacker_win_rate: tuple[float, float]
-    turn_limit_rate: tuple[float, float]
-    average_attacker_turn_count: tuple[float, float]
+    attacker_win_rate: TargetBand
+    turn_limit_rate: TargetBand
+    average_attacker_turn_count: TargetBand
 
 
 @dataclass(frozen=True)
 class PrimaryRoleIdentityTargets:
-    tank_survival_rate: tuple[float, float]
-    tank_damage_taken_to_non_tank_ratio: tuple[float, float]
-    tank_damage_dealt_to_damage_ratio: tuple[float, float]
-    healer_healing_to_average_damage_taken_ratio: tuple[float, float]
-    damage_damage_dealt_to_non_damage_ratio: tuple[float, float]
+    tank_survival_rate: TargetBand
+    tank_damage_taken_to_non_tank_ratio: TargetBand
+    tank_damage_dealt_to_damage_ratio: TargetBand
+    healer_healing_to_average_damage_taken_ratio: TargetBand
+    damage_damage_dealt_to_non_damage_ratio: TargetBand
 
 
 @dataclass(frozen=True)
 class SecondaryRoleIdentityTargets:
-    buffer_average_buff_uptime: tuple[float, float]
-    debuffer_average_debuff_uptime: tuple[float, float]
-    all_units_average_tiles_moved_total: tuple[float, float]
-    non_acrobat_average_tiles_moved_total: tuple[float, float]
-    acrobat_average_tiles_moved_total: tuple[float, float]
-    acrobat_to_non_acrobat_move_ratio: tuple[float, float]
+    buffer_average_buff_uptime: TargetBand | None
+    debuffer_average_debuff_uptime: TargetBand | None
+    all_units_average_tiles_moved_total: TargetBand | None
+    non_acrobat_average_tiles_moved_total: TargetBand | None
+    acrobat_average_tiles_moved_total: TargetBand | None
+    acrobat_to_non_acrobat_move_ratio: TargetBand | None
 
 
 @dataclass(frozen=True)
 class RoleProfileFairnessTargets:
-    role_combination_win_rate: tuple[float, float]
+    role_combination_win_rate: TargetBand
     primary_family_win_rate_spread_max: float
     secondary_family_win_rate_spread_max: float
 
 
 @dataclass(frozen=True)
 class ChangeShapeTargets:
-    ability_pct_change_std_dev: tuple[float, float]
-    unit_stat_profile_spread_target: tuple[float, float]
+    ability_pct_change_std_dev: TargetBand
+    unit_stat_profile_spread_target: TargetBand
 
 
 @dataclass(frozen=True)
@@ -156,6 +158,13 @@ class FullGenomeFitnessWeightsConfig:
 
 
 @dataclass(frozen=True)
+class FullGenomeFloorPenaltiesConfig:
+    primary_role_identity_minimum: float
+    secondary_role_identity_minimum: float
+    penalty_multiplier: float
+
+
+@dataclass(frozen=True)
 class FullGenomeMutationConfig:
     unit_profile_modifier_gene_probability: float
     ability_group_gene_probability: float
@@ -172,6 +181,7 @@ class FullGenomeBalanceConfig:
     search_space: FullGenomeSearchSpaceConfig
     targets: FullGenomeTargetsConfig
     fitness_weights: FullGenomeFitnessWeightsConfig
+    floor_penalties: FullGenomeFloorPenaltiesConfig
     mutation: FullGenomeMutationConfig
 
 

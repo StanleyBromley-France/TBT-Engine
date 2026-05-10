@@ -96,6 +96,11 @@ class FullGenomeWorkflow(CandidateWorkflow[FullGenomeCandidate, FullGenomeMeasur
     def measurement_from_checkpoint(self, payload: object) -> FullGenomeMeasurement:
         if not isinstance(payload, dict):
             raise ValueError("Full-genome checkpoint measurement payload must be an object.")
+
+        def optional_float(key: str) -> float | None:
+            value = payload.get(key)
+            return None if value is None else float(value)
+
         return FullGenomeMeasurement(
             candidate=tuple(int(value) for value in payload["candidate"]),
             unit_profile_modifiers={
@@ -111,7 +116,16 @@ class FullGenomeWorkflow(CandidateWorkflow[FullGenomeCandidate, FullGenomeMeasur
             average_attacker_turn_count=float(payload["average_attacker_turn_count"]),
             match_flow_score=float(payload["match_flow_score"]),
             primary_role_identity_score=float(payload["primary_role_identity_score"]),
+            primary_tank_score=float(payload.get("primary_tank_score", payload["primary_role_identity_score"])),
+            primary_damage_score=float(payload.get("primary_damage_score", payload["primary_role_identity_score"])),
+            primary_healer_score=float(payload.get("primary_healer_score", payload["primary_role_identity_score"])),
             secondary_role_identity_score=float(payload["secondary_role_identity_score"]),
+            secondary_buffer_score=float(payload.get("secondary_buffer_score", payload["secondary_role_identity_score"])),
+            secondary_debuffer_score=float(payload.get("secondary_debuffer_score", payload["secondary_role_identity_score"])),
+            secondary_all_units_move_score=optional_float("secondary_all_units_move_score"),
+            secondary_non_acrobat_move_score=optional_float("secondary_non_acrobat_move_score"),
+            secondary_acrobat_move_score=optional_float("secondary_acrobat_move_score"),
+            secondary_acrobat_ratio_score=optional_float("secondary_acrobat_ratio_score"),
             role_profile_fairness_score=float(payload["role_profile_fairness_score"]),
             change_shape_score=float(payload["change_shape_score"]),
             fitness=float(payload["fitness"]),
@@ -617,6 +631,8 @@ def validate_config(config: config_models.FullGenomeBalancerConfig) -> None:
     weight_sum = sum(config.balance.fitness_weights.__dict__.values())
     if abs(weight_sum - 1.0) > 1e-6:
         raise ValueError(f"Full-genome fitness weights must sum to 1.0, got {weight_sum:.6f}.")
+    if config.balance.floor_penalties.penalty_multiplier < 0.0:
+        raise ValueError("Full-genome floor penalty multiplier must be zero or greater.")
 
 
 def full_genome_summary_fields(measurement: FullGenomeMeasurement, *, detailed: bool) -> list[reporting.Field]:
@@ -631,11 +647,35 @@ def full_genome_summary_fields(measurement: FullGenomeMeasurement, *, detailed: 
             [
                 reporting.field("match", measurement.match_flow_score, ".4f"),
                 reporting.field("primary", measurement.primary_role_identity_score, ".4f"),
+                reporting.field("tank", measurement.primary_tank_score, ".4f"),
+                reporting.field("damage", measurement.primary_damage_score, ".4f"),
+                reporting.field("healer", measurement.primary_healer_score, ".4f"),
                 reporting.field("secondary", measurement.secondary_role_identity_score, ".4f"),
+                reporting.field("buffer", measurement.secondary_buffer_score, ".4f"),
+                reporting.field("debuffer", measurement.secondary_debuffer_score, ".4f"),
+            ]
+        )
+        fields.extend(optional_full_genome_summary_fields(measurement))
+        fields.extend(
+            [
                 reporting.field("fairness", measurement.role_profile_fairness_score, ".4f"),
                 reporting.field("change-shape", measurement.change_shape_score, ".4f"),
             ]
         )
+    return fields
+
+
+def optional_full_genome_summary_fields(measurement: FullGenomeMeasurement) -> list[reporting.Field]:
+    fields: list[reporting.Field] = []
+    optional_fields = [
+        ("all-move", measurement.secondary_all_units_move_score),
+        ("non-acrobat", measurement.secondary_non_acrobat_move_score),
+        ("acrobat", measurement.secondary_acrobat_move_score),
+        ("acrobat-ratio", measurement.secondary_acrobat_ratio_score),
+    ]
+    for name, value in optional_fields:
+        if value is not None:
+            fields.append(reporting.field(name, value, ".4f"))
     return fields
 
 
@@ -677,18 +717,42 @@ def build_package_report(before: FullGenomeMeasurement, after: FullGenomeMeasure
     return reporting.build_evidence_report(
         {"full-genome": before},
         {"full-genome": after},
-        (
+        full_genome_report_metrics(before, after),
+    )
+
+
+def full_genome_report_metrics(
+    before: FullGenomeMeasurement,
+    after: FullGenomeMeasurement,
+) -> tuple[reporting.Metric, ...]:
+    metrics: list[reporting.Metric] = [
             ("Fitness", "fitness"),
             ("AttackerWinRate", "attacker_win_rate"),
             ("TurnLimitRate", "turn_limit_rate"),
             ("AverageAttackerTurns", "average_attacker_turn_count"),
             ("MatchFlowScore", "match_flow_score"),
             ("PrimaryRoleIdentityScore", "primary_role_identity_score"),
+            ("PrimaryTankScore", "primary_tank_score"),
+            ("PrimaryDamageScore", "primary_damage_score"),
+            ("PrimaryHealerScore", "primary_healer_score"),
             ("SecondaryRoleIdentityScore", "secondary_role_identity_score"),
+            ("SecondaryBufferScore", "secondary_buffer_score"),
+            ("SecondaryDebufferScore", "secondary_debuffer_score"),
             ("RoleProfileFairnessScore", "role_profile_fairness_score"),
             ("ChangeShapeScore", "change_shape_score"),
-        ),
+    ]
+    optional_metrics: list[reporting.Metric] = [
+        ("SecondaryAllUnitsMoveScore", "secondary_all_units_move_score"),
+        ("SecondaryNonAcrobatMoveScore", "secondary_non_acrobat_move_score"),
+        ("SecondaryAcrobatMoveScore", "secondary_acrobat_move_score"),
+        ("SecondaryAcrobatRatioScore", "secondary_acrobat_ratio_score"),
+    ]
+    metrics.extend(
+        metric
+        for metric in optional_metrics
+        if getattr(before, metric[1]) is not None or getattr(after, metric[1]) is not None
     )
+    return tuple(metrics)
 
 
 def prepare_eval_content(
@@ -777,18 +841,26 @@ def build_measurement(
     turn_limit_rate = detailed.turn_limit_count / detailed.total_runs if detailed.total_runs > 0 else 1.0
 
     match_flow_score = compute_match_flow_score(config, attacker_win_rate, turn_limit_rate, detailed.average_attacker_turn_count)
-    primary_role_identity_score = compute_primary_role_identity_score(config, summary)
-    secondary_role_identity_score = compute_secondary_role_identity_score(config, summary)
+    primary_role_scores = compute_primary_role_identity_scores(config, summary)
+    secondary_role_scores = compute_secondary_role_identity_scores(config, summary)
+    primary_role_identity_score = primary_role_scores["primary"]
+    secondary_role_identity_score = secondary_role_scores["secondary"]
     role_profile_fairness_score = compute_role_profile_fairness_score(config, summary)
     change_shape_score = compute_change_shape_score(config, unit_modifiers, pct_changes)
 
     weights = config.balance.fitness_weights
-    fitness = (
+    weighted_fitness = (
         match_flow_score * weights.match_flow
         + primary_role_identity_score * weights.primary_role_identity
         + secondary_role_identity_score * weights.secondary_role_identity
         + role_profile_fairness_score * weights.role_profile_fairness
         + change_shape_score * weights.change_shape
+    )
+    fitness = apply_floor_penalties(
+        weighted_fitness,
+        primary_role_identity_score,
+        secondary_role_identity_score,
+        config.balance.floor_penalties,
     )
 
     return FullGenomeMeasurement(
@@ -800,7 +872,16 @@ def build_measurement(
         average_attacker_turn_count=detailed.average_attacker_turn_count,
         match_flow_score=match_flow_score,
         primary_role_identity_score=primary_role_identity_score,
+        primary_tank_score=primary_role_scores["tank"],
+        primary_damage_score=primary_role_scores["damage"],
+        primary_healer_score=primary_role_scores["healer"],
         secondary_role_identity_score=secondary_role_identity_score,
+        secondary_buffer_score=secondary_role_scores["buffer"],
+        secondary_debuffer_score=secondary_role_scores["debuffer"],
+        secondary_all_units_move_score=secondary_role_scores["all_units_move"],
+        secondary_non_acrobat_move_score=secondary_role_scores["non_acrobat_move"],
+        secondary_acrobat_move_score=secondary_role_scores["acrobat_move"],
+        secondary_acrobat_ratio_score=secondary_role_scores["acrobat_ratio"],
         role_profile_fairness_score=role_profile_fairness_score,
         change_shape_score=change_shape_score,
         fitness=fitness,
@@ -824,7 +905,16 @@ def build_error_measurement(
         average_attacker_turn_count=float(config.ga.evaluation_turn_budget),
         match_flow_score=-10.0,
         primary_role_identity_score=-10.0,
+        primary_tank_score=-10.0,
+        primary_damage_score=-10.0,
+        primary_healer_score=-10.0,
         secondary_role_identity_score=-10.0,
+        secondary_buffer_score=-10.0,
+        secondary_debuffer_score=-10.0,
+        secondary_all_units_move_score=None,
+        secondary_non_acrobat_move_score=None,
+        secondary_acrobat_move_score=None,
+        secondary_acrobat_ratio_score=None,
         role_profile_fairness_score=-10.0,
         change_shape_score=-10.0,
         fitness=-10.0,
@@ -848,10 +938,38 @@ def compute_match_flow_score(
     )
 
 
+def apply_floor_penalties(
+    weighted_fitness: float,
+    primary_role_identity_score: float,
+    secondary_role_identity_score: float,
+    floor_penalties: config_models.FullGenomeFloorPenaltiesConfig,
+) -> float:
+    return weighted_fitness - compute_floor_penalty(
+        primary_role_identity_score,
+        floor_penalties.primary_role_identity_minimum,
+        floor_penalties.penalty_multiplier,
+    ) - compute_floor_penalty(
+        secondary_role_identity_score,
+        floor_penalties.secondary_role_identity_minimum,
+        floor_penalties.penalty_multiplier,
+    )
+
+
+def compute_floor_penalty(score: float, minimum: float, multiplier: float) -> float:
+    return max(0.0, minimum - score) * multiplier
+
+
 def compute_primary_role_identity_score(
     config: config_models.FullGenomeBalancerConfig,
     summary: eval_api.EvalRoleAlignmentSummary,
 ) -> float:
+    return compute_primary_role_identity_scores(config, summary)["primary"]
+
+
+def compute_primary_role_identity_scores(
+    config: config_models.FullGenomeBalancerConfig,
+    summary: eval_api.EvalRoleAlignmentSummary,
+) -> dict[str, float]:
     targets = config.balance.targets.primary_role_identity
     units = list(summary.units_by_template_id.values())
     tank_units = [unit for unit in units if unit.primary_role == "Tank"]
@@ -868,13 +986,10 @@ def compute_primary_role_identity_score(
     non_damage_damage_dealt = safe_mean(non_damage_units, lambda unit: unit.average_damage_dealt)
     all_units_damage_taken = safe_mean(units, lambda unit: unit.average_damage_taken)
 
-    role_shape_score = mean(
-        [
-            compute_primary_role_score("Tank", summary),
-            compute_primary_role_score("Healer", summary),
-            compute_primary_role_score("Damage", summary),
-        ]
-    )
+    tank_score = compute_primary_role_score("Tank", summary)
+    healer_score = compute_primary_role_score("Healer", summary)
+    damage_score = compute_primary_role_score("Damage", summary)
+    role_shape_score = mean([tank_score, healer_score, damage_score])
     output_band_score = mean(
         [
             ga.compute_target_band_fitness(safe_mean(tank_units, lambda unit: unit.survival_rate), *targets.tank_survival_rate),
@@ -896,13 +1011,25 @@ def compute_primary_role_identity_score(
             ),
         ]
     )
-    return (role_shape_score * 0.55) + (output_band_score * 0.45)
+    return {
+        "primary": (role_shape_score * 0.55) + (output_band_score * 0.45),
+        "tank": tank_score,
+        "damage": damage_score,
+        "healer": healer_score,
+    }
 
 
 def compute_secondary_role_identity_score(
     config: config_models.FullGenomeBalancerConfig,
     summary: eval_api.EvalRoleAlignmentSummary,
 ) -> float:
+    return compute_secondary_role_identity_scores(config, summary)["secondary"]
+
+
+def compute_secondary_role_identity_scores(
+    config: config_models.FullGenomeBalancerConfig,
+    summary: eval_api.EvalRoleAlignmentSummary,
+) -> dict[str, float | None]:
     targets = config.balance.targets.secondary_role_identity
     units = list(summary.units_by_template_id.values())
     buffer_units = [unit for unit in units if unit.secondary_role == "Buffer"]
@@ -915,34 +1042,58 @@ def compute_secondary_role_identity_score(
     non_acrobat_tiles_moved = safe_mean(non_acrobat_units, lambda unit: unit.average_tiles_moved_total)
     acrobat_move_ratio = acrobat_tiles_moved / non_acrobat_tiles_moved if non_acrobat_tiles_moved > 0 else 0.0
 
-    return mean(
-        [
-            ga.compute_target_band_fitness(
-                safe_mean(buffer_units, lambda unit: unit.average_buff_uptime_granted),
-                *targets.buffer_average_buff_uptime,
-            ),
-            ga.compute_target_band_fitness(
-                safe_mean(debuffer_units, lambda unit: unit.average_debuff_uptime_granted),
-                *targets.debuffer_average_debuff_uptime,
-            ),
-            ga.compute_target_band_fitness(
-                all_units_tiles_moved,
-                *targets.all_units_average_tiles_moved_total,
-            ),
-            ga.compute_target_band_fitness(
-                non_acrobat_tiles_moved,
-                *targets.non_acrobat_average_tiles_moved_total,
-            ),
-            ga.compute_target_band_fitness(
-                acrobat_tiles_moved,
-                *targets.acrobat_average_tiles_moved_total,
-            ),
-            ga.compute_target_band_fitness(
-                acrobat_move_ratio,
-                *targets.acrobat_to_non_acrobat_move_ratio,
-            ),
-        ]
+    buffer_score = compute_optional_target_band_fitness(
+        appearance_weighted_mean(buffer_units, lambda unit: unit.average_buff_uptime_granted),
+        targets.buffer_average_buff_uptime,
     )
+    debuffer_score = compute_optional_target_band_fitness(
+        appearance_weighted_mean(debuffer_units, lambda unit: unit.average_debuff_uptime_granted),
+        targets.debuffer_average_debuff_uptime,
+    )
+    all_units_move_score = compute_optional_target_band_fitness(
+        all_units_tiles_moved,
+        targets.all_units_average_tiles_moved_total,
+    )
+    non_acrobat_move_score = compute_optional_target_band_fitness(
+        non_acrobat_tiles_moved,
+        targets.non_acrobat_average_tiles_moved_total,
+    )
+    acrobat_move_score = compute_optional_target_band_fitness(
+        acrobat_tiles_moved,
+        targets.acrobat_average_tiles_moved_total,
+    )
+    acrobat_ratio_score = compute_optional_target_band_fitness(
+        acrobat_move_ratio,
+        targets.acrobat_to_non_acrobat_move_ratio,
+    )
+    scores = [
+        buffer_score,
+        debuffer_score,
+        all_units_move_score,
+        non_acrobat_move_score,
+        acrobat_move_score,
+        acrobat_ratio_score,
+    ]
+    enabled_scores = [score for score in scores if score is not None]
+    secondary_score = mean(enabled_scores) if enabled_scores else -10.0
+    return {
+        "secondary": secondary_score,
+        "buffer": buffer_score if buffer_score is not None else secondary_score,
+        "debuffer": debuffer_score if debuffer_score is not None else secondary_score,
+        "all_units_move": all_units_move_score,
+        "non_acrobat_move": non_acrobat_move_score,
+        "acrobat_move": acrobat_move_score,
+        "acrobat_ratio": acrobat_ratio_score,
+    }
+
+
+def compute_optional_target_band_fitness(
+    observed_value: float,
+    target_band: config_models.TargetBand | None,
+) -> float | None:
+    if target_band is None:
+        return None
+    return ga.compute_target_band_fitness(observed_value, *target_band)
 
 
 def compute_role_profile_fairness_score(
@@ -1026,6 +1177,13 @@ def safe_mean(items: list, selector) -> float:
     if not items:
         return 0.0
     return mean(selector(item) for item in items)
+
+
+def appearance_weighted_mean(items: list, selector) -> float:
+    total_appearances = sum(max(0, int(getattr(item, "appearances", 0))) for item in items)
+    if total_appearances <= 0:
+        return 0.0
+    return sum(selector(item) * max(0, int(getattr(item, "appearances", 0))) for item in items) / total_appearances
 
 
 def safe_ratio(numerator: float, denominator: float) -> float:

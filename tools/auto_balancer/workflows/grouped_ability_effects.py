@@ -266,6 +266,7 @@ def build_component_updates(
     elif component_type == "PercentAttributeModifier" and "percent" in baseline_fields:
         multiplier = support_modifier_multiplier(context, candidate)
         updated = apply_signed_multiplier(baseline_fields["percent"], multiplier, config.balance.percent_mod_floor)
+        updated = clamp_int(updated, -100, 100)
         updates["percent"] = updated
         pct_changes.append(fractional_change(baseline_fields["percent"], updated))
     elif component_type == "FlatAttributeModifier" and "amount" in baseline_fields:
