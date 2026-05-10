@@ -50,6 +50,10 @@ internal sealed class ActionValidator : IActionValidator
         if (issuer.Resources.ActionPoints <= 0)
             return false;
 
+        // Unit may only move once per turn
+        //if (issuer.Resources.MovePoints < issuer.DerivedStats.MaxMovePoints)
+        //    return false;
+
         if (state.OccupiedHexes.Contains(action.TargetHex)) return false;
 
         return _pathfinder.IsMoveValid(state.Map, issuer.Position, action.TargetHex, issuer.Resources.MovePoints);

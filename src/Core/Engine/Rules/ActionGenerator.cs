@@ -69,7 +69,7 @@ internal class ActionGenerator : IActionGenerator
 
     private IEnumerable<ActionChoice> GenerateMoveActions(IReadOnlyGameState state, IReadOnlyUnitInstance unit)
     {
-        var reachable = _pathfinder.GetReachable(state.Map, unit.Position, unit.DerivedStats.MaxMovePoints);
+        var reachable = _pathfinder.GetReachable(state.Map, unit.Position, unit.Resources.MovePoints);
 
         foreach (var kvp in reachable)
         {
