@@ -43,6 +43,9 @@ coverage*.info
 
 ## Generated / temporary files
 Generated\ Files/
+scratch/
+content/**/scenario-seed-*/
+content-no-move/**/scenario-seed-*/
 *.ilk
 *.meta
 *.obj

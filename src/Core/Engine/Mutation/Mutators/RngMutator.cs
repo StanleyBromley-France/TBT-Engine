@@ -8,7 +8,7 @@ public sealed class RngMutator : IRngMutator
     private readonly IGameMutationAccess _ctx;
     private readonly DeterministicRng _rng;
 
-    public RngMutator(GameMutationContext ctx, DeterministicRng rng = null)
+    public RngMutator(GameMutationContext ctx, DeterministicRng? rng = null)
     {
         _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
         _rng = rng ?? new DeterministicRng();
