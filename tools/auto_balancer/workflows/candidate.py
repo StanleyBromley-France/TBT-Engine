@@ -9,6 +9,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Generic, TypeVar
 
+from deap import base, creator, tools
+
 import auto_balancer.ga as ga
 import auto_balancer.reporting as reporting
 
@@ -64,8 +66,6 @@ class CandidateWorkflow(ABC, Generic[CandidateT, MeasurementT]):
 
 
 def run_candidate_workflow(workflow: CandidateWorkflow[CandidateT, MeasurementT]) -> tuple[CandidateT, MeasurementT]:
-    from deap import base, creator, tools
-
     fitness_name = f"{workflow.creator_name_prefix}FitnessMax"
     individual_name = f"{workflow.creator_name_prefix}Individual"
     if not hasattr(creator, fitness_name):

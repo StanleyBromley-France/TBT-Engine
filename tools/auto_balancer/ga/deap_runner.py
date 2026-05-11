@@ -4,6 +4,8 @@ import random
 from dataclasses import dataclass
 from typing import Callable, TypeVar
 
+from deap import base, creator, tools
+
 from auto_balancer.ga.integer import evaluate_invalid_individuals, make_integer_initial_population
 
 
@@ -29,8 +31,6 @@ def run_integer_ga(
     on_candidate: Callable[[MeasurementT], None] | None = None,
     on_generation_best: Callable[[int, MeasurementT], None] | None = None,
 ) -> MeasurementT:
-    from deap import base, creator, tools
-
     if not hasattr(creator, "FitnessMax"):
         creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     if not hasattr(creator, "Individual"):
