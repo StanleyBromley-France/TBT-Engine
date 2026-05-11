@@ -58,6 +58,7 @@ def build_role_alignment_eval_config(config: object, content_path: Path) -> eval
         timeout_seconds=config.ga.evaluation_timeout_seconds,
         log_mode=config.ga.evaluation_log_mode,
         mcts_iteration_budget=config.ga.mcts_iteration_budget,
+        parallelism=getattr(config.ga, "evaluation_parallelism", None),
     )
 
 

@@ -26,6 +26,7 @@ def create_eval_config(
     timeout_seconds: int,
     log_mode: str = "quiet",
     mcts_iteration_budget: int | None = None,
+    parallelism: int | None = None,
 ) -> EvalCommandConfig:
     resolved_cli_path = resolve_cli_path(cli_path)
     resolved_content_path = resolve_content_path(content_path, resolved_cli_path)
@@ -40,6 +41,7 @@ def create_eval_config(
         timeout_seconds=timeout_seconds,
         log_mode=log_mode,
         mcts_iteration_budget=mcts_iteration_budget,
+        parallelism=parallelism,
     )
 
 

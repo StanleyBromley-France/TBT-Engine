@@ -15,6 +15,7 @@ class EvalCommandConfig:
     timeout_seconds: int
     log_mode: str = "quiet"
     mcts_iteration_budget: int | None = None
+    parallelism: int | None = None
 
     def with_repeat_count(self, repeat_count: int) -> EvalCommandConfig:
         return EvalCommandConfig(
@@ -27,4 +28,5 @@ class EvalCommandConfig:
             timeout_seconds=self.timeout_seconds,
             log_mode=self.log_mode,
             mcts_iteration_budget=self.mcts_iteration_budget,
+            parallelism=self.parallelism,
         )

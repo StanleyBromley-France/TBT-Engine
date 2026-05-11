@@ -45,6 +45,9 @@ def execute_eval_command(config: EvalCommandConfig, turn_budget: int, output_pat
             ]
         )
 
+    if config.parallelism is not None:
+        command.extend(["--parallelism", str(config.parallelism)])
+
     try:
         if config.log_mode in {"normal", "verbose"}:
             completed = subprocess.run(

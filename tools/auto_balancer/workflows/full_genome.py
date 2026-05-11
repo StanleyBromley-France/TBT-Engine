@@ -11,7 +11,7 @@ from __future__ import annotations
 import random
 import shutil
 import statistics
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -518,6 +518,7 @@ def run(
     output_package_path: Path | None = None,
     persist_results: bool = False,
     resume_package_path: Path | None = None,
+    parallelism: int | None = None,
 ) -> int:
     runtime.ensure_deap_available()
     validate_config(config)
@@ -525,6 +526,8 @@ def run(
     content_source = resolve_resume_content_source(resume_package_path, source_content_path)
     content_path = prepare_eval_content(config, content_source)
     eval_config = build_eval_config(config, content_path)
+    if parallelism is not None:
+        eval_config = replace(eval_config, parallelism=parallelism)
     offensive_ability_ids = scenarios.load_offensive_ability_ids(content_path)
     baseline_unit_templates = scenario_content.load_unit_templates(content_path)
     grouped_ability_index = grouped_ability_effects.build_grouped_index(content_path)

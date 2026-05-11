@@ -63,6 +63,7 @@ def parse_args() -> argparse.Namespace:
         help="Path to full-genome balance config JSON.",
     )
     parser.add_argument("--input-package", type=Path, default=None, help="Optional balance package/content input.")
+    parser.add_argument("--parallelism", type=int, default=None, help="Max parallel simulations passed to the CLI evaluator.")
     parser.add_argument("--output-package", type=Path, default=None, help="Where to write the output balance package.")
     parser.add_argument(
         "--resume-package",
@@ -135,6 +136,7 @@ def run_single(args: argparse.Namespace) -> int:
         output_package_path=output_package_path,
         persist_results=args.persist_results,
         resume_package_path=args.resume_package,
+        parallelism=args.parallelism,
     )
 
 
