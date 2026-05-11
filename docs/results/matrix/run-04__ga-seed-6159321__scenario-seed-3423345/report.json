@@ -1,0 +1,112 @@
+{
+  "evidence": {
+    "full-genome": {
+      "metrics": {
+        "Fitness": {
+          "before": -0.3344354495593231,
+          "after": 0.23986703506865725,
+          "delta": 0.5743024846279803,
+          "improved": true
+        },
+        "AttackerWinRate": {
+          "before": 0.3888888888888889,
+          "after": 0.4444444444444444,
+          "delta": 0.055555555555555525
+        },
+        "TurnLimitRate": {
+          "before": 0.3888888888888889,
+          "after": 0.3333333333333333,
+          "delta": -0.05555555555555558,
+          "improved": true
+        },
+        "AverageAttackerTurns": {
+          "before": 7.055555555555555,
+          "after": 8.222222222222221,
+          "delta": 1.166666666666666,
+          "improved": true
+        },
+        "MatchFlowScore": {
+          "before": -0.514814814814815,
+          "after": 0.05925925925925898,
+          "delta": 0.574074074074074,
+          "improved": true
+        },
+        "PrimaryRoleIdentityScore": {
+          "before": -0.06915343822645613,
+          "after": -0.08985629895979902,
+          "delta": -0.02070286073334289,
+          "improved": false
+        },
+        "PrimaryTankScore": {
+          "before": 0.14396008405552668,
+          "after": 0.20528637368972708,
+          "delta": 0.06132628963420039,
+          "improved": true
+        },
+        "PrimaryDamageScore": {
+          "before": 0.35938578110346536,
+          "after": 0.45097892753633084,
+          "delta": 0.09159314643286548,
+          "improved": true
+        },
+        "PrimaryHealerScore": {
+          "before": 0.07132618530099266,
+          "after": 0.051654954944640064,
+          "delta": -0.019671230356352598,
+          "improved": false
+        },
+        "SecondaryRoleIdentityScore": {
+          "before": -0.8888888888888891,
+          "after": 0.7777777777777781,
+          "delta": 1.6666666666666672,
+          "improved": true
+        },
+        "SecondaryBufferScore": {
+          "before": -1.1111111111111112,
+          "after": 0.666666666666667,
+          "delta": 1.7777777777777781,
+          "improved": true
+        },
+        "SecondaryDebufferScore": {
+          "before": -0.666666666666667,
+          "after": 0.8888888888888893,
+          "delta": 1.5555555555555562,
+          "improved": true
+        },
+        "RoleProfileFairnessScore": {
+          "before": 0.43703703703703695,
+          "after": 0.5024691358024691,
+          "delta": 0.06543209876543216,
+          "improved": true
+        },
+        "ChangeShapeScore": {
+          "before": 0.65,
+          "after": 0.9607239262453815,
+          "delta": 0.3107239262453815,
+          "improved": true
+        }
+      }
+    }
+  },
+  "stage": "full-genome",
+  "createdUtc": "2026-05-11T10:55:20.651227+00:00",
+  "inputContent": "content-no-move\\content",
+  "outputContent": "C:\\Users\\Stan\\Documents\\Uni\\New Comp3000\\test\\TBT-Engine\\scratch\\generated-content\\content-no-move\\scenario-seed-3423345\\set-size-18",
+  "diffSummary": {
+    "unitTemplates.json": {
+      "changedEntries": 36
+    },
+    "abilities.json": {
+      "changedEntries": 96
+    },
+    "effectTemplates.json": {
+      "changedEntries": 0
+    },
+    "effectComponentTemplates.json": {
+      "changedEntries": 98
+    },
+    "gameStates.json": {
+      "changedEntries": 0
+    }
+  }
+}

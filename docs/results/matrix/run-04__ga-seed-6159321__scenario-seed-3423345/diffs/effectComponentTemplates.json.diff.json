@@ -1,0 +1,590 @@
+{
+  "component-damage-buffer-four-area-shot-damage": {
+    "damage": {
+      "before": 165,
+      "after": 132
+    }
+  },
+  "component-damage-buffer-four-basic-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-buffer-four-magic-defense-buff-magicdamagereceived": {
+    "percent": {
+      "before": -50,
+      "after": -56
+    }
+  },
+  "component-damage-buffer-one-basic-shot-damage": {
+    "damage": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "component-damage-buffer-one-damage-buff-damagedealt": {
+    "percent": {
+      "before": 50,
+      "after": 56
+    }
+  },
+  "component-damage-buffer-one-heavy-shot-damage": {
+    "damage": {
+      "before": 140,
+      "after": 112
+    }
+  },
+  "component-damage-buffer-three-basic-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-buffer-three-heavy-shot-damage": {
+    "damage": {
+      "before": 170,
+      "after": 136
+    }
+  },
+  "component-damage-buffer-three-physical-defense-buff-physicaldamagereceived": {
+    "percent": {
+      "before": -50,
+      "after": -56
+    }
+  },
+  "component-damage-buffer-two-area-shot-damage": {
+    "damage": {
+      "before": 135,
+      "after": 108
+    }
+  },
+  "component-damage-buffer-two-basic-shot-damage": {
+    "damage": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "component-damage-buffer-two-healing-buff-healingdealt": {
+    "percent": {
+      "before": 50,
+      "after": 56
+    }
+  },
+  "component-damage-debuffer-four-area-shot-damage": {
+    "damage": {
+      "before": 165,
+      "after": 132
+    }
+  },
+  "component-damage-debuffer-four-basic-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-debuffer-four-magic-defense-debuff-magicdamagereceived": {
+    "percent": {
+      "before": 50,
+      "after": 58
+    }
+  },
+  "component-damage-debuffer-one-basic-shot-damage": {
+    "damage": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "component-damage-debuffer-one-damage-debuff-damagedealt": {
+    "percent": {
+      "before": -50,
+      "after": -58
+    }
+  },
+  "component-damage-debuffer-one-heavy-shot-damage": {
+    "damage": {
+      "before": 140,
+      "after": 112
+    }
+  },
+  "component-damage-debuffer-three-basic-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-debuffer-three-healing-received-debuff-healingreceived": {
+    "percent": {
+      "before": -50,
+      "after": -58
+    }
+  },
+  "component-damage-debuffer-three-heavy-shot-damage": {
+    "damage": {
+      "before": 170,
+      "after": 136
+    }
+  },
+  "component-damage-debuffer-two-area-shot-damage": {
+    "damage": {
+      "before": 135,
+      "after": 108
+    }
+  },
+  "component-damage-debuffer-two-basic-shot-damage": {
+    "damage": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "component-damage-debuffer-two-physical-defense-debuff-physicaldamagereceived": {
+    "percent": {
+      "before": 50,
+      "after": 58
+    }
+  },
+  "component-damage-four-area-shot-damage": {
+    "damage": {
+      "before": 165,
+      "after": 132
+    }
+  },
+  "component-damage-four-basic-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-four-finishing-shot-damage": {
+    "damage": {
+      "before": 54,
+      "after": 43
+    }
+  },
+  "component-damage-one-basic-shot-damage": {
+    "damage": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "component-damage-one-finishing-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-one-heavy-shot-damage": {
+    "damage": {
+      "before": 140,
+      "after": 112
+    }
+  },
+  "component-damage-three-basic-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-three-finishing-shot-damage": {
+    "damage": {
+      "before": 55,
+      "after": 44
+    }
+  },
+  "component-damage-three-heavy-shot-damage": {
+    "damage": {
+      "before": 170,
+      "after": 136
+    }
+  },
+  "component-damage-two-area-shot-damage": {
+    "damage": {
+      "before": 135,
+      "after": 108
+    }
+  },
+  "component-damage-two-basic-shot-damage": {
+    "damage": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "component-damage-two-finishing-shot-damage": {
+    "damage": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "component-healer-buffer-four-magic-defense-buff-magicdamagereceived": {
+    "percent": {
+      "before": -50,
+      "after": -56
+    }
+  },
+  "component-healer-buffer-four-ongoing-heal-instant-heal": {
+    "heal": {
+      "before": 29,
+      "after": 23
+    }
+  },
+  "component-healer-buffer-four-ongoing-heal-over-time-heal": {
+    "heal": {
+      "before": 8,
+      "after": 6
+    }
+  },
+  "component-healer-buffer-one-damage-buff-damagedealt": {
+    "percent": {
+      "before": 50,
+      "after": 56
+    }
+  },
+  "component-healer-buffer-one-direct-heal-instant-heal": {
+    "heal": {
+      "before": 26,
+      "after": 21
+    }
+  },
+  "component-healer-buffer-three-direct-heal-instant-heal": {
+    "heal": {
+      "before": 32,
+      "after": 25
+    }
+  },
+  "component-healer-buffer-three-physical-defense-buff-physicaldamagereceived": {
+    "percent": {
+      "before": -50,
+      "after": -56
+    }
+  },
+  "component-healer-buffer-two-healing-buff-healingdealt": {
+    "percent": {
+      "before": 50,
+      "after": 56
+    }
+  },
+  "component-healer-buffer-two-ongoing-heal-instant-heal": {
+    "heal": {
+      "before": 29,
+      "after": 23
+    }
+  },
+  "component-healer-buffer-two-ongoing-heal-over-time-heal": {
+    "heal": {
+      "before": 6,
+      "after": 5
+    }
+  },
+  "component-healer-debuffer-four-magic-defense-debuff-magicdamagereceived": {
+    "percent": {
+      "before": 50,
+      "after": 58
+    }
+  },
+  "component-healer-debuffer-four-ongoing-heal-instant-heal": {
+    "heal": {
+      "before": 29,
+      "after": 23
+    }
+  },
+  "component-healer-debuffer-four-ongoing-heal-over-time-heal": {
+    "heal": {
+      "before": 8,
+      "after": 6
+    }
+  },
+  "component-healer-debuffer-one-damage-debuff-damagedealt": {
+    "percent": {
+      "before": -50,
+      "after": -58
+    }
+  },
+  "component-healer-debuffer-one-direct-heal-instant-heal": {
+    "heal": {
+      "before": 26,
+      "after": 21
+    }
+  },
+  "component-healer-debuffer-three-direct-heal-instant-heal": {
+    "heal": {
+      "before": 32,
+      "after": 25
+    }
+  },
+  "component-healer-debuffer-three-healing-received-debuff-healingreceived": {
+    "percent": {
+      "before": -50,
+      "after": -58
+    }
+  },
+  "component-healer-debuffer-two-ongoing-heal-instant-heal": {
+    "heal": {
+      "before": 29,
+      "after": 23
+    }
+  },
+  "component-healer-debuffer-two-ongoing-heal-over-time-heal": {
+    "heal": {
+      "before": 6,
+      "after": 5
+    }
+  },
+  "component-healer-debuffer-two-physical-defense-debuff-physicaldamagereceived": {
+    "percent": {
+      "before": 50,
+      "after": 58
+    }
+  },
+  "component-healer-four-ongoing-heal-instant-heal": {
+    "heal": {
+      "before": 29,
+      "after": 23
+    }
+  },
+  "component-healer-four-ongoing-heal-over-time-heal": {
+    "heal": {
+      "before": 8,
+      "after": 6
+    }
+  },
+  "component-healer-one-direct-heal-instant-heal": {
+    "heal": {
+      "before": 26,
+      "after": 21
+    }
+  },
+  "component-healer-three-direct-heal-instant-heal": {
+    "heal": {
+      "before": 32,
+      "after": 25
+    }
+  },
+  "component-healer-two-ongoing-heal-instant-heal": {
+    "heal": {
+      "before": 29,
+      "after": 23
+    }
+  },
+  "component-healer-two-ongoing-heal-over-time-heal": {
+    "heal": {
+      "before": 6,
+      "after": 5
+    }
+  },
+  "component-tank-buffer-four-area-strike-damage": {
+    "damage": {
+      "before": 100,
+      "after": 88
+    }
+  },
+  "component-tank-buffer-four-basic-strike-damage": {
+    "damage": {
+      "before": 45,
+      "after": 40
+    }
+  },
+  "component-tank-buffer-four-magic-defense-buff-magicdamagereceived": {
+    "percent": {
+      "before": -50,
+      "after": -56
+    }
+  },
+  "component-tank-buffer-one-basic-strike-damage": {
+    "damage": {
+      "before": 40,
+      "after": 35
+    }
+  },
+  "component-tank-buffer-one-damage-buff-damagedealt": {
+    "percent": {
+      "before": 50,
+      "after": 56
+    }
+  },
+  "component-tank-buffer-one-heavy-strike-damage": {
+    "damage": {
+      "before": 105,
+      "after": 92
+    }
+  },
+  "component-tank-buffer-three-basic-strike-damage": {
+    "damage": {
+      "before": 45,
+      "after": 40
+    }
+  },
+  "component-tank-buffer-three-heavy-strike-damage": {
+    "damage": {
+      "before": 135,
+      "after": 119
+    }
+  },
+  "component-tank-buffer-three-physical-defense-buff-physicaldamagereceived": {
+    "percent": {
+      "before": -50,
+      "after": -56
+    }
+  },
+  "component-tank-buffer-two-area-strike-damage": {
+    "damage": {
+      "before": 100,
+      "after": 88
+    }
+  },
+  "component-tank-buffer-two-basic-strike-damage": {
+    "damage": {
+      "before": 40,
+      "after": 35
+    }
+  },
+  "component-tank-buffer-two-healing-buff-healingdealt": {
+    "percent": {
+      "before": 50,
+      "after": 56
+    }
+  },
+  "component-tank-debuffer-four-area-strike-damage": {
+    "damage": {
+      "before": 100,
+      "after": 88
+    }
+  },
+  "component-tank-debuffer-four-basic-strike-damage": {
+    "damage": {
+      "before": 45,
+      "after": 40
+    }
+  },
+  "component-tank-debuffer-four-magic-defense-debuff-magicdamagereceived": {
+    "percent": {
+      "before": 50,
+      "after": 58
+    }
+  },
+  "component-tank-debuffer-one-basic-strike-damage": {
+    "damage": {
+      "before": 40,
+      "after": 35
+    }
+  },
+  "component-tank-debuffer-one-damage-debuff-damagedealt": {
+    "percent": {
+      "before": -50,
+      "after": -58
+    }
+  },
+  "component-tank-debuffer-one-heavy-strike-damage": {
+    "damage": {
+      "before": 105,
+      "after": 92
+    }
+  },
+  "component-tank-debuffer-three-basic-strike-damage": {
+    "damage": {
+      "before": 45,
+      "after": 40
+    }
+  },
+  "component-tank-debuffer-three-healing-received-debuff-healingreceived": {
+    "percent": {
+      "before": -50,
+      "after": -58
+    }
+  },
+  "component-tank-debuffer-three-heavy-strike-damage": {
+    "damage": {
+      "before": 135,
+      "after": 119
+    }
+  },
+  "component-tank-debuffer-two-area-strike-damage": {
+    "damage": {
+      "before": 100,
+      "after": 88
+    }
+  },
+  "component-tank-debuffer-two-basic-strike-damage": {
+    "damage": {
+      "before": 40,
+      "after": 35
+    }
+  },
+  "component-tank-debuffer-two-physical-defense-debuff-physicaldamagereceived": {
+    "percent": {
+      "before": 50,
+      "after": 58
+    }
+  },
+  "component-tank-four-area-strike-damage": {
+    "damage": {
+      "before": 100,
+      "after": 88
+    }
+  },
+  "component-tank-four-basic-strike-damage": {
+    "damage": {
+      "before": 45,
+      "after": 40
+    }
+  },
+  "component-tank-four-follow-up-strike-damage": {
+    "damage": {
+      "before": 135,
+      "after": 119
+    }
+  },
+  "component-tank-one-basic-strike-damage": {
+    "damage": {
+      "before": 40,
+      "after": 35
+    }
+  },
+  "component-tank-one-follow-up-strike-damage": {
+    "damage": {
+      "before": 140,
+      "after": 123
+    }
+  },
+  "component-tank-one-heavy-strike-damage": {
+    "damage": {
+      "before": 105,
+      "after": 92
+    }
+  },
+  "component-tank-three-basic-strike-damage": {
+    "damage": {
+      "before": 45,
+      "after": 40
+    }
+  },
+  "component-tank-three-follow-up-strike-damage": {
+    "damage": {
+      "before": 140,
+      "after": 123
+    }
+  },
+  "component-tank-three-heavy-strike-damage": {
+    "damage": {
+      "before": 135,
+      "after": 119
+    }
+  },
+  "component-tank-two-area-strike-damage": {
+    "damage": {
+      "before": 100,
+      "after": 88
+    }
+  },
+  "component-tank-two-basic-strike-damage": {
+    "damage": {
+      "before": 40,
+      "after": 35
+    }
+  },
+  "component-tank-two-follow-up-strike-damage": {
+    "damage": {
+      "before": 155,
+      "after": 136
+    }
+  }
+}

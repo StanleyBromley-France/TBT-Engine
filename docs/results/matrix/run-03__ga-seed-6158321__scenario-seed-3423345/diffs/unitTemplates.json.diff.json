@@ -1,0 +1,634 @@
+{
+  "unit-damage-buffer-four": {
+    "magicDamageReceived": {
+      "before": 96,
+      "after": 102
+    },
+    "maxHP": {
+      "before": 580,
+      "after": 481
+    },
+    "maxManaPoints": {
+      "before": 300,
+      "after": 273
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 107
+    }
+  },
+  "unit-damage-buffer-one": {
+    "magicDamageReceived": {
+      "before": 96,
+      "after": 102
+    },
+    "maxHP": {
+      "before": 580,
+      "after": 481
+    },
+    "maxManaPoints": {
+      "before": 280,
+      "after": 255
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 107
+    }
+  },
+  "unit-damage-buffer-three": {
+    "magicDamageReceived": {
+      "before": 96,
+      "after": 102
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 498
+    },
+    "maxManaPoints": {
+      "before": 280,
+      "after": 255
+    },
+    "physicalDamageReceived": {
+      "before": 101,
+      "after": 108
+    }
+  },
+  "unit-damage-buffer-two": {
+    "magicDamageReceived": {
+      "before": 97,
+      "after": 103
+    },
+    "maxHP": {
+      "before": 590,
+      "after": 490
+    },
+    "maxManaPoints": {
+      "before": 300,
+      "after": 273
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 107
+    }
+  },
+  "unit-damage-debuffer-four": {
+    "magicDamageReceived": {
+      "before": 97,
+      "after": 108
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 564
+    },
+    "maxManaPoints": {
+      "before": 280,
+      "after": 333
+    },
+    "physicalDamageReceived": {
+      "before": 102,
+      "after": 95
+    }
+  },
+  "unit-damage-debuffer-one": {
+    "magicDamageReceived": {
+      "before": 97,
+      "after": 108
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 564
+    },
+    "maxManaPoints": {
+      "before": 260,
+      "after": 309
+    },
+    "physicalDamageReceived": {
+      "before": 102,
+      "after": 95
+    }
+  },
+  "unit-damage-debuffer-three": {
+    "magicDamageReceived": {
+      "before": 97,
+      "after": 108
+    },
+    "maxHP": {
+      "before": 620,
+      "after": 583
+    },
+    "maxManaPoints": {
+      "before": 260,
+      "after": 309
+    },
+    "physicalDamageReceived": {
+      "before": 103,
+      "after": 96
+    }
+  },
+  "unit-damage-debuffer-two": {
+    "magicDamageReceived": {
+      "before": 98,
+      "after": 109
+    },
+    "maxHP": {
+      "before": 610,
+      "after": 573
+    },
+    "maxManaPoints": {
+      "before": 280,
+      "after": 333
+    },
+    "physicalDamageReceived": {
+      "before": 102,
+      "after": 95
+    }
+  },
+  "unit-damage-four": {
+    "magicDamageReceived": {
+      "before": 96,
+      "after": 95
+    },
+    "maxHP": {
+      "before": 580,
+      "after": 679
+    },
+    "maxManaPoints": {
+      "before": 260,
+      "after": 208
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 106
+    }
+  },
+  "unit-damage-one": {
+    "magicDamageReceived": {
+      "before": 96,
+      "after": 95
+    },
+    "maxHP": {
+      "before": 580,
+      "after": 679
+    },
+    "maxManaPoints": {
+      "before": 240,
+      "after": 192
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 106
+    }
+  },
+  "unit-damage-three": {
+    "magicDamageReceived": {
+      "before": 96,
+      "after": 95
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 702
+    },
+    "maxManaPoints": {
+      "before": 240,
+      "after": 192
+    },
+    "physicalDamageReceived": {
+      "before": 101,
+      "after": 107
+    }
+  },
+  "unit-damage-two": {
+    "magicDamageReceived": {
+      "before": 97,
+      "after": 96
+    },
+    "maxHP": {
+      "before": 590,
+      "after": 690
+    },
+    "maxManaPoints": {
+      "before": 260,
+      "after": 208
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 106
+    }
+  },
+  "unit-healer-buffer-four": {
+    "magicDamageReceived": {
+      "before": 90,
+      "after": 100
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 630
+    },
+    "maxManaPoints": {
+      "before": 380,
+      "after": 300
+    }
+  },
+  "unit-healer-buffer-one": {
+    "magicDamageReceived": {
+      "before": 90,
+      "after": 100
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 630
+    },
+    "maxManaPoints": {
+      "before": 360,
+      "after": 284
+    }
+  },
+  "unit-healer-buffer-three": {
+    "magicDamageReceived": {
+      "before": 90,
+      "after": 100
+    },
+    "maxHP": {
+      "before": 620,
+      "after": 651
+    },
+    "maxManaPoints": {
+      "before": 360,
+      "after": 284
+    }
+  },
+  "unit-healer-buffer-two": {
+    "magicDamageReceived": {
+      "before": 91,
+      "after": 101
+    },
+    "maxHP": {
+      "before": 610,
+      "after": 640
+    },
+    "maxManaPoints": {
+      "before": 380,
+      "after": 300
+    }
+  },
+  "unit-healer-debuffer-four": {
+    "magicDamageReceived": {
+      "before": 91,
+      "after": 89
+    },
+    "maxHP": {
+      "before": 620,
+      "after": 595
+    },
+    "maxManaPoints": {
+      "before": 360,
+      "after": 414
+    },
+    "physicalDamageReceived": {
+      "before": 102,
+      "after": 112
+    }
+  },
+  "unit-healer-debuffer-one": {
+    "magicDamageReceived": {
+      "before": 91,
+      "after": 89
+    },
+    "maxHP": {
+      "before": 620,
+      "after": 595
+    },
+    "maxManaPoints": {
+      "before": 340,
+      "after": 391
+    },
+    "physicalDamageReceived": {
+      "before": 102,
+      "after": 112
+    }
+  },
+  "unit-healer-debuffer-three": {
+    "magicDamageReceived": {
+      "before": 91,
+      "after": 89
+    },
+    "maxHP": {
+      "before": 640,
+      "after": 614
+    },
+    "maxManaPoints": {
+      "before": 340,
+      "after": 391
+    },
+    "physicalDamageReceived": {
+      "before": 103,
+      "after": 113
+    }
+  },
+  "unit-healer-debuffer-two": {
+    "magicDamageReceived": {
+      "before": 92,
+      "after": 90
+    },
+    "maxHP": {
+      "before": 630,
+      "after": 605
+    },
+    "maxManaPoints": {
+      "before": 360,
+      "after": 414
+    },
+    "physicalDamageReceived": {
+      "before": 102,
+      "after": 112
+    }
+  },
+  "unit-healer-four": {
+    "magicDamageReceived": {
+      "before": 90,
+      "after": 98
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 450
+    },
+    "maxManaPoints": {
+      "before": 340,
+      "after": 360
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 95
+    }
+  },
+  "unit-healer-one": {
+    "magicDamageReceived": {
+      "before": 90,
+      "after": 98
+    },
+    "maxHP": {
+      "before": 600,
+      "after": 450
+    },
+    "maxManaPoints": {
+      "before": 320,
+      "after": 339
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 95
+    }
+  },
+  "unit-healer-three": {
+    "magicDamageReceived": {
+      "before": 90,
+      "after": 98
+    },
+    "maxHP": {
+      "before": 620,
+      "after": 465
+    },
+    "maxManaPoints": {
+      "before": 320,
+      "after": 339
+    },
+    "physicalDamageReceived": {
+      "before": 101,
+      "after": 96
+    }
+  },
+  "unit-healer-two": {
+    "magicDamageReceived": {
+      "before": 91,
+      "after": 99
+    },
+    "maxHP": {
+      "before": 610,
+      "after": 458
+    },
+    "maxManaPoints": {
+      "before": 340,
+      "after": 360
+    },
+    "physicalDamageReceived": {
+      "before": 100,
+      "after": 95
+    }
+  },
+  "unit-tank-buffer-four": {
+    "magicDamageReceived": {
+      "before": 106,
+      "after": 99
+    },
+    "maxHP": {
+      "before": 1040,
+      "after": 780
+    },
+    "maxManaPoints": {
+      "before": 240,
+      "after": 192
+    },
+    "physicalDamageReceived": {
+      "before": 82,
+      "after": 93
+    }
+  },
+  "unit-tank-buffer-one": {
+    "magicDamageReceived": {
+      "before": 106,
+      "after": 99
+    },
+    "maxHP": {
+      "before": 1040,
+      "after": 780
+    },
+    "maxManaPoints": {
+      "before": 220,
+      "after": 176
+    },
+    "physicalDamageReceived": {
+      "before": 82,
+      "after": 93
+    }
+  },
+  "unit-tank-buffer-three": {
+    "magicDamageReceived": {
+      "before": 106,
+      "after": 99
+    },
+    "maxHP": {
+      "before": 1060,
+      "after": 795
+    },
+    "maxManaPoints": {
+      "before": 220,
+      "after": 176
+    },
+    "physicalDamageReceived": {
+      "before": 83,
+      "after": 94
+    }
+  },
+  "unit-tank-buffer-two": {
+    "magicDamageReceived": {
+      "before": 107,
+      "after": 100
+    },
+    "maxHP": {
+      "before": 1050,
+      "after": 788
+    },
+    "maxManaPoints": {
+      "before": 240,
+      "after": 192
+    },
+    "physicalDamageReceived": {
+      "before": 82,
+      "after": 93
+    }
+  },
+  "unit-tank-debuffer-four": {
+    "magicDamageReceived": {
+      "before": 107,
+      "after": 116
+    },
+    "maxHP": {
+      "before": 1060,
+      "after": 1378
+    },
+    "maxManaPoints": {
+      "before": 220,
+      "after": 235
+    },
+    "physicalDamageReceived": {
+      "before": 84,
+      "after": 79
+    }
+  },
+  "unit-tank-debuffer-one": {
+    "magicDamageReceived": {
+      "before": 107,
+      "after": 116
+    },
+    "maxHP": {
+      "before": 1060,
+      "after": 1378
+    },
+    "maxManaPoints": {
+      "before": 200,
+      "after": 214
+    },
+    "physicalDamageReceived": {
+      "before": 84,
+      "after": 79
+    }
+  },
+  "unit-tank-debuffer-three": {
+    "magicDamageReceived": {
+      "before": 107,
+      "after": 116
+    },
+    "maxHP": {
+      "before": 1080,
+      "after": 1404
+    },
+    "maxManaPoints": {
+      "before": 200,
+      "after": 214
+    },
+    "physicalDamageReceived": {
+      "before": 85,
+      "after": 80
+    }
+  },
+  "unit-tank-debuffer-two": {
+    "magicDamageReceived": {
+      "before": 108,
+      "after": 117
+    },
+    "maxHP": {
+      "before": 1070,
+      "after": 1391
+    },
+    "maxManaPoints": {
+      "before": 220,
+      "after": 235
+    },
+    "physicalDamageReceived": {
+      "before": 84,
+      "after": 79
+    }
+  },
+  "unit-tank-four": {
+    "magicDamageReceived": {
+      "before": 106,
+      "after": 115
+    },
+    "maxHP": {
+      "before": 1040,
+      "after": 998
+    },
+    "maxManaPoints": {
+      "before": 200,
+      "after": 232
+    },
+    "physicalDamageReceived": {
+      "before": 82,
+      "after": 86
+    }
+  },
+  "unit-tank-one": {
+    "magicDamageReceived": {
+      "before": 106,
+      "after": 115
+    },
+    "maxHP": {
+      "before": 1040,
+      "after": 998
+    },
+    "maxManaPoints": {
+      "before": 180,
+      "after": 209
+    },
+    "physicalDamageReceived": {
+      "before": 82,
+      "after": 86
+    }
+  },
+  "unit-tank-three": {
+    "magicDamageReceived": {
+      "before": 106,
+      "after": 115
+    },
+    "maxHP": {
+      "before": 1060,
+      "after": 1018
+    },
+    "maxManaPoints": {
+      "before": 180,
+      "after": 209
+    },
+    "physicalDamageReceived": {
+      "before": 83,
+      "after": 87
+    }
+  },
+  "unit-tank-two": {
+    "magicDamageReceived": {
+      "before": 107,
+      "after": 116
+    },
+    "maxHP": {
+      "before": 1050,
+      "after": 1008
+    },
+    "maxManaPoints": {
+      "before": 200,
+      "after": 232
+    },
+    "physicalDamageReceived": {
+      "before": 82,
+      "after": 86
+    }
+  }
+}

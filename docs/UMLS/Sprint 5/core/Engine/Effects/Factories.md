@@ -1,0 +1,83 @@
+# Factories
+
+```mermaid
+%%{init: {'themeVariables': { 'fontSize': '9px' }}}%%
+classDiagram
+  direction LR
+
+  %% ------------------------------------------------------------
+  %% Factories
+  %% ------------------------------------------------------------
+  namespace Core.Engine.Effects.Factories{
+    class EffectInstanceFactory{
+      +Create(request) EffectInstance
+    }
+
+    class EffectInstanceIdFactory{
+      +Create() EffectInstanceId
+    }
+  }
+
+  namespace Core.Engine.Effects.Components.Factories{
+    class EffectComponentInstanceFactory{
+      +Create(template, state, effect) EffectComponentInstance
+    }
+
+    class EffectComponentInstanceIdFactory{
+      +Create() EffectComponentInstanceId
+    }
+  }
+
+  %% ------------------------------------------------------------
+  %% Calculators
+  %% ------------------------------------------------------------
+  
+  namespace Core.Engine.Effects.Calculators{
+    class IDamageCalculator {
+      <<interface>>
+      +Compute(state, effect, baseDamage, damageType) int
+    }
+
+    class DamageCalculator {
+      +Compute(state, effect, baseDamage, damageType) int
+    }
+
+    class IHealingCalculator {
+      <<interface>>
+      +Compute(state, effect, baseHeal) int
+    }
+
+    class HealingCalculator {
+      +Compute(state, effect, baseHeal) int
+    }
+  }
+  
+  %% ------------------------------------------------------------
+  %% Referenced Stubs
+  %% ------------------------------------------------------------
+
+  namespace Core.Engine.Effects {
+    class EffectManager
+  }
+
+  %% ------------------------------------------------------------
+  %% Relationships
+  %% ------------------------------------------------------------
+
+  IDamageCalculator <|.. DamageCalculator
+  IHealingCalculator <|.. HealingCalculator
+
+  %% EffectManager retains the effect instance factory
+  EffectManager *-- EffectInstanceFactory
+
+  %% EffectInstanceFactory retains its sub-factories
+  EffectInstanceFactory *-- EffectInstanceIdFactory
+  EffectInstanceFactory *-- EffectComponentInstanceFactory
+
+  %% Component factory retains its id factory + calculators (snapshot-at-construction)
+  EffectComponentInstanceFactory *-- EffectComponentInstanceIdFactory
+  EffectComponentInstanceFactory *-- IDamageCalculator
+  EffectComponentInstanceFactory *-- IHealingCalculator
+
+
+```

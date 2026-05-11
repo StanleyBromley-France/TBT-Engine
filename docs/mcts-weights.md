@@ -29,8 +29,13 @@ score =
   + elapsedAttackerTurns * ElapsedAttackerTurnsWeight
 ```
 
-For terminal states, `WinScore` dominates the heuristic terms so that wins and losses outweigh small positional differences.
-
+Terminal states are scored separately:
+```text
+win  =  WinScore + allyHp + allyAliveCount * AllyUnitWeight
+loss = -WinScore - enemyHp - enemyAliveCount * EnemyUnitWeight
+draw =  0
+```
+WinScore is intentionally much larger than the normal heuristic terms, so actual wins and losses dominate smaller positional differences. The extra HP and unit-count terms only provide a small material tie-break between terminal outcomes.
 ## What each weight means
 
 ### Unit count
@@ -117,7 +122,7 @@ Important nuance:
 
 ### Turn-pressure terms
 
-These are specific to scenarios where attacker turn count matters.
+These terms are based on the shared attacker turn counter. They are most useful in scenarios with an attacker turn limit, where finishing quickly or surviving longer changes the strategic pressure.
 
 `RemainingAttackerTurnsWeight`
 
@@ -230,6 +235,5 @@ When actions are equal on score, the search prefers:
 1. `UseAbilityAction`
 2. `MoveAction`
 3. `SkipActiveUnitAction`
-4. `ChangeActiveUnitAction`
 
 This promotes forward progress and reduces low-value oscillation when heuristic values tie.

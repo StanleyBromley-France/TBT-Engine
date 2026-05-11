@@ -1,0 +1,9 @@
+{
+  "scenario_generation_random_seed": 7654321,
+  "evaluation_random_seed": 1928374,
+  "map_width_tiles": 5,
+  "map_height_tiles": 3,
+  "game_state_id": "",
+  "validation_mode": "Strict",
+  "generated_scenario_count": 18
+}

@@ -1,0 +1,578 @@
+{
+  "ability-damage-acrobat-four-area-shot": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-damage-acrobat-four-reposition-attack": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-acrobat-one-heavy-shot": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-damage-acrobat-one-mobile-attack": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-acrobat-three-heavy-shot": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-acrobat-three-mobile-attack": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-damage-acrobat-two-area-shot": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-acrobat-two-reposition-attack": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-buffer-four-area-shot": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-damage-buffer-four-magic-defense-buff": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-damage-buffer-one-damage-buff": {
+    "manaCost": {
+      "before": 25,
+      "after": 20
+    }
+  },
+  "ability-damage-buffer-one-heavy-shot": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-damage-buffer-three-heavy-shot": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-buffer-three-physical-defense-buff": {
+    "manaCost": {
+      "before": 35,
+      "after": 28
+    }
+  },
+  "ability-damage-buffer-two-area-shot": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-buffer-two-healing-buff": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-damage-debuffer-four-area-shot": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-damage-debuffer-four-magic-defense-debuff": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-damage-debuffer-one-damage-debuff": {
+    "manaCost": {
+      "before": 25,
+      "after": 20
+    }
+  },
+  "ability-damage-debuffer-one-heavy-shot": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-damage-debuffer-three-healing-received-debuff": {
+    "manaCost": {
+      "before": 35,
+      "after": 28
+    }
+  },
+  "ability-damage-debuffer-three-heavy-shot": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-debuffer-two-area-shot": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-debuffer-two-physical-defense-debuff": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-damage-four-area-shot": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-damage-four-finishing-shot": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-one-finishing-shot": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-one-heavy-shot": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-damage-three-finishing-shot": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-three-heavy-shot": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-damage-two-area-shot": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-damage-two-finishing-shot": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-healer-acrobat-four-ongoing-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-acrobat-four-reposition-attack": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-healer-acrobat-one-direct-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-acrobat-one-mobile-attack": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-healer-acrobat-three-direct-heal": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-acrobat-three-mobile-attack": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-healer-acrobat-two-ongoing-heal": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-healer-acrobat-two-reposition-attack": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-buffer-four-magic-defense-buff": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-buffer-four-ongoing-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-buffer-one-damage-buff": {
+    "manaCost": {
+      "before": 25,
+      "after": 20
+    }
+  },
+  "ability-healer-buffer-one-direct-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-buffer-three-direct-heal": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-buffer-three-physical-defense-buff": {
+    "manaCost": {
+      "before": 35,
+      "after": 28
+    }
+  },
+  "ability-healer-buffer-two-healing-buff": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-healer-buffer-two-ongoing-heal": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-healer-debuffer-four-magic-defense-debuff": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-debuffer-four-ongoing-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-debuffer-one-damage-debuff": {
+    "manaCost": {
+      "before": 25,
+      "after": 20
+    }
+  },
+  "ability-healer-debuffer-one-direct-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-debuffer-three-direct-heal": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-debuffer-three-healing-received-debuff": {
+    "manaCost": {
+      "before": 35,
+      "after": 28
+    }
+  },
+  "ability-healer-debuffer-two-ongoing-heal": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-healer-debuffer-two-physical-defense-debuff": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-healer-four-defensive-bolt": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-four-ongoing-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-one-defensive-bolt": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-one-direct-heal": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-healer-three-defensive-bolt": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-healer-three-direct-heal": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-healer-two-defensive-bolt": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-healer-two-ongoing-heal": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-acrobat-four-area-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-acrobat-four-reposition-attack": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-acrobat-one-heavy-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-acrobat-one-mobile-attack": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-acrobat-three-heavy-strike": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-acrobat-three-mobile-attack": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  },
+  "ability-tank-acrobat-two-area-strike": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-tank-acrobat-two-reposition-attack": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-tank-buffer-four-area-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-buffer-four-magic-defense-buff": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-tank-buffer-one-damage-buff": {
+    "manaCost": {
+      "before": 25,
+      "after": 20
+    }
+  },
+  "ability-tank-buffer-one-heavy-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-buffer-three-heavy-strike": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-buffer-three-physical-defense-buff": {
+    "manaCost": {
+      "before": 35,
+      "after": 28
+    }
+  },
+  "ability-tank-buffer-two-area-strike": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-tank-buffer-two-healing-buff": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-debuffer-four-area-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-debuffer-four-magic-defense-debuff": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-tank-debuffer-one-damage-debuff": {
+    "manaCost": {
+      "before": 25,
+      "after": 20
+    }
+  },
+  "ability-tank-debuffer-one-heavy-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-debuffer-three-healing-received-debuff": {
+    "manaCost": {
+      "before": 35,
+      "after": 28
+    }
+  },
+  "ability-tank-debuffer-three-heavy-strike": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-debuffer-two-area-strike": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-tank-debuffer-two-physical-defense-debuff": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-four-area-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-four-follow-up-strike": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-tank-one-follow-up-strike": {
+    "manaCost": {
+      "before": 60,
+      "after": 48
+    }
+  },
+  "ability-tank-one-heavy-strike": {
+    "manaCost": {
+      "before": 30,
+      "after": 24
+    }
+  },
+  "ability-tank-three-follow-up-strike": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-three-heavy-strike": {
+    "manaCost": {
+      "before": 50,
+      "after": 40
+    }
+  },
+  "ability-tank-two-area-strike": {
+    "manaCost": {
+      "before": 40,
+      "after": 32
+    }
+  },
+  "ability-tank-two-follow-up-strike": {
+    "manaCost": {
+      "before": 70,
+      "after": 56
+    }
+  }
+}
