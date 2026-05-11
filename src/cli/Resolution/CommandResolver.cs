@@ -12,7 +12,6 @@ public sealed class CommandResolver : ICommandResolver
 
         return arguments.Command switch
         {
-            Command.Play => new PlayCommand(arguments.PlayOptions ?? throw MissingOptions(nameof(arguments.PlayOptions))),
             Command.Eval => new EvalCommand(arguments.EvalOptions ?? throw MissingOptions(nameof(arguments.EvalOptions))),
             _ => throw new InvalidOperationException($"Unsupported command '{arguments.Command}'.")
         };

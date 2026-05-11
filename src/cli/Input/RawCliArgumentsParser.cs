@@ -23,15 +23,10 @@ public sealed class RawCliArgumentsParser
         ArgumentNullException.ThrowIfNull(args);
 
         if (args.Length == 0)
-            return CliArguments.CreatePlay(CommandDefaults.CreatePlayOptions());
+            return CliArguments.CreateEval(CommandDefaults.CreateEvalOptions());
 
         var commandToken = args[0];
         var optionMap = ParseOptions(args.Skip(1).ToArray());
-
-        if (CliCommandNames.Is(commandToken, CliCommandNames.Play))
-        {
-            return ParsePlay(optionMap);
-        }
 
         if (CliCommandNames.Is(commandToken, CliCommandNames.Eval))
         {
@@ -39,26 +34,6 @@ public sealed class RawCliArgumentsParser
         }
 
         throw new InvalidOperationException($"Unknown command '{commandToken}'.");
-    }
-
-    private static CliArguments ParsePlay(IReadOnlyDictionary<string, string> options)
-    {
-        var defaults = CommandDefaults.CreatePlayOptions()
-                    ?? throw new InvalidOperationException("Default play options are unavailable.");
-        var maxTurns = GetInt(options, "max-turns", defaults.MaxTurns);
-        EnsureLegacySideTurnOptionsAreNotUsed(options);
-
-        return CliArguments.CreatePlay(new PlayOptions
-        {
-            ContentPath = GetString(options, "content", defaults.ContentPath),
-            ValidationMode = GetEnum(options, "validation", defaults.ValidationMode),
-            GameStateId = GetString(options, "game-state", defaults.GameStateId),
-            Seed = GetInt(options, "seed", defaults.Seed),
-            MaxTurns = maxTurns,
-            Mode = GetEnum(options, "mode", defaults.Mode),
-            AttackerMcts = BuildMctsOptions(options, "attacker", defaults.AttackerMcts, maxTurns),
-            DefenderMcts = BuildMctsOptions(options, "defender", defaults.DefenderMcts, maxTurns),
-        });
     }
 
     private static CliArguments ParseEval(IReadOnlyDictionary<string, string> options)

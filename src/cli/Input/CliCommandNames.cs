@@ -4,13 +4,11 @@ using Cli.Args.Commands;
 
 public static class CliCommandNames
 {
-    public const string Play = "play";
     public const string Eval = "eval";
 
     public static IReadOnlyList<CommandPromptChoice> PromptChoices { get; } =
     [
-        new(Command.Play, "1", Play),
-        new(Command.Eval, "2", Eval)
+        new(Command.Eval, "1", Eval)
     ];
 
     public static IReadOnlyList<string> InteractiveTokens { get; } =

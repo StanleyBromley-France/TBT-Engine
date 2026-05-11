@@ -1,7 +1,6 @@
 namespace Cli.Input;
 
 using Cli.Args.Defaults;
-using Cli.Args.Commands;
 using Cli.Args.Models;
 using Cli.Args.Options;
 
@@ -9,14 +8,7 @@ public sealed class InteractiveCliArgumentsPrompt
 {
     public CliArguments Prompt()
     {
-        var command = PromptCommand();
-
-        return command switch
-        {
-            Command.Play => CliArguments.CreatePlay(CommandDefaults.CreatePlayOptions()),
-            Command.Eval => CliArguments.CreateEval(PromptEvalOptions()),
-            _ => throw new InvalidOperationException($"Unsupported command '{command}'.")
-        };
+        return CliArguments.CreateEval(PromptEvalOptions());
     }
 
     private static EvalOptions PromptEvalOptions()
@@ -41,32 +33,6 @@ public sealed class InteractiveCliArgumentsPrompt
             DefenderMcts = defaults.DefenderMcts,
             EvalRunResultOutput = defaults.EvalRunResultOutput,
         };
-    }
-
-    private static Command PromptCommand()
-    {
-        Console.WriteLine("Select command:");
-        foreach (var choice in CliCommandNames.PromptChoices)
-        {
-            Console.WriteLine($"  {choice.Number}. {choice.DisplayName}");
-        }
-
-        while (true)
-        {
-            Console.Write("Command: ");
-            var line = Console.ReadLine();
-            if (line is null)
-                return Command.Play;
-
-            var raw = line.Trim();
-
-            if (CliCommandNames.TryParseInteractive(raw, out var command))
-            {
-                return command;
-            }
-
-            Console.WriteLine($"Enter one of: {string.Join(", ", CliCommandNames.InteractiveTokens)}.");
-        }
     }
 
     private static int PromptPositiveInt(string label, int defaultValue)
