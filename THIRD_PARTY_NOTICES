@@ -1,0 +1,22 @@
+This project includes third-party software. Their licences and notices are listed below.
+
+--------------------------------------------------------------------------------
+
+DEAP (Distributed Evolutionary Algorithms in Python)
+Version: 1.4.3
+Source: https://github.com/DEAP/deap
+Licence: GNU Lesser General Public License v3 (LGPL-3.0)
+
+DEAP is vendored at tools/dependences/deap-1.4.3/. Its full licence text is
+included at tools/dependences/deap-1.4.3/LICENSE.txt.
+
+DEAP is used in this project to provide genetic algorithm primitives including
+tournament selection, two-point crossover, fitness tracking, and a hall of fame.
+The DEAP source is unmodified and used as a library. Users may replace the
+vendored copy with a modified version of DEAP that is interface-compatible with
+version 1.4.3.
+
+Copyright (c) 2012, DEAP Project
+All rights reserved.
+
+--------------------------------------------------------------------------------

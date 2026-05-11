@@ -52,6 +52,8 @@ The repository is organised around the C# simulation engine, the JSON content it
 
 The Python balancing pipeline uses [DEAP](https://deap.readthedocs.io/) (Distributed Evolutionary Algorithms in Python) to provide the core genetic algorithm mechanics: tournament selection, two-point crossover, fitness tracking, and a hall of fame. DEAP is vendored at `tools/dependences/deap-1.4.3/` so the project is self-contained. The project wraps DEAP in its own `CandidateWorkflow` abstraction, which handles checkpointing, evaluation caching, and the generation loop. For a full breakdown of which DEAP components are used and how they fit into the balancer, see [DEAP Usage](docs/deap-usage.md).
 
+DEAP is licenced under the GNU Lesser General Public License v3 (LGPL-3.0). Its licence is included at `tools/dependences/deap-1.4.3/LICENSE.txt`. See [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES) for the full third-party notice.
+
 ## Requirements
 
 This project uses both C# and Python components. The C# projects provide the turn-based tactics engine, simulation runner, CLI, and tests. The Python tools provide the automated balancing pipeline.
