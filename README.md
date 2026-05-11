@@ -153,3 +153,7 @@ Completed balancer runs were conducted using the no-movement content variant. Th
 - [DEAP usage](docs/deap-usage.md)
 - [Balancer results: no-movement runs](docs/results/no-movement-runs.md)
 - [Staged balancer (Outdated)](docs/pipeline-balancer.md)
+
+## License
+
+This project is released under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) licence. You are free to use, modify, and distribute it for any purpose, including commercially, as long as appropriate credit is given. See [LICENSE](LICENSE) for details.
