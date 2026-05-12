@@ -2,9 +2,19 @@
 """Run the full-genome balancer as a standalone tool."""
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Insert the vendored DEAP copy before any auto_balancer imports so that the
+# top-level `from deap import ...` statements in those modules always resolve
+# to the vendored version, regardless of what is installed system-wide.
+_TOOLS_DIR = Path(__file__).resolve().parent
+_DEAP_VENDOR = _TOOLS_DIR / "dependences" / "deap-1.4.3"
+if _DEAP_VENDOR.is_dir():
+    sys.path.insert(0, str(_DEAP_VENDOR))
+
 import argparse
 from datetime import datetime
-from pathlib import Path
 from types import SimpleNamespace
 
 import auto_balancer.config_models as config_models

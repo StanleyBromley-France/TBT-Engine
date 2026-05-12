@@ -13,7 +13,6 @@ DEAP is used in two places:
 - `tools/auto_balancer/ga/deap_runner.py` — a legacy single-integer GA runner used by older (now outdated) workflows.
 - `tools/auto_balancer/workflows/candidate.py` — the `run_candidate_workflow` function that drives the full-genome balancer.
 
-
 ## Which DEAP Components Are Used
 
 | Component | Purpose |
