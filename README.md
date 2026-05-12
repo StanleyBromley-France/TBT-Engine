@@ -58,6 +58,7 @@ DEAP is licenced under the GNU Lesser General Public License v3 (LGPL-3.0). Its 
 
 This project uses both C# and Python components. The C# projects provide the turn-based tactics engine, simulation runner, CLI, and tests. The Python tools provide the automated balancing pipeline.
 
+* **Windows is required.** The project has only been developed and tested on Windows.
 * .NET SDK 9.0 is required to build and run the full solution, including the test projects.
 * Python 3 is required for the balancing tools in tools/.
 * Python package requirements are listed in tools/requirements.txt.
